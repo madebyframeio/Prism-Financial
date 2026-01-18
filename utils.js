@@ -81,16 +81,14 @@ const utils = {
             data.forEach(row => dbConfig[row.key] = row.value);
         }
 
-        // Cache-First Merge Strategy:
+        // Global Sync Strategy:
         // 1. Defaults
-        // 2. DB (Remote Truth) - Apply first
-        // 3. Cache (Local Truth) - Apply LAST to overwrite stale DB with fresh local changes
-        const cached = utils.getBrandingCache();
+        // 2. Cache (Local Fallback)
+        // 3. DB (Global Truth) - Apply LAST to ensure all users see the same latest data
 
-        // If the cache seems "empty" (just defaults), maybe trust DB more?
-        // But if cache has specific keys, trust them.
-        // Simplest Robust Approach: Trust Local Cache as ultimate truth for this session.
-        const final = { ...utils.brandingDefaults, ...dbConfig, ...cached };
+        // If DB is empty/failed (dbConfig has no keys), we naturally fall back to Cache.
+        const cached = utils.getBrandingCache();
+        const final = { ...utils.brandingDefaults, ...cached, ...dbConfig };
 
         localStorage.setItem('branding', JSON.stringify(final));
         utils.applyBranding();
