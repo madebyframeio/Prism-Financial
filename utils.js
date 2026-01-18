@@ -22,7 +22,7 @@ const utils = {
 
     // --- System Branding ---
     brandingDefaults: {
-        bankName: 'NovaBank',
+        bankName: 'Seb Bank',
         primaryColor: '#0033cc'
     },
 
@@ -219,7 +219,7 @@ const utils = {
 
     logout: () => {
         sessionStorage.removeItem('currentUser');
-        window.location.href = 'index.html';
+        window.location.href = 'login.html';
     },
 
     // --- Data Formatting ---

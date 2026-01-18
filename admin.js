@@ -1,6 +1,6 @@
 const currentUser = utils.getCurrentUser();
 if (!currentUser || currentUser.role !== 'admin') {
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
 }
 
 // UI Elements
@@ -265,7 +265,7 @@ function closeModal(modalId) {
 
 function logout() {
     utils.setCurrentUser(null);
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
 }
 
 // Start

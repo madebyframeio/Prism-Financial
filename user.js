@@ -1,7 +1,7 @@
 // Check authentication
 const currentUser = utils.getCurrentUser();
 if (!currentUser || currentUser.role === 'admin') {
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
 }
 
 const welcomeMsg = document.getElementById('welcome-msg');
@@ -105,7 +105,7 @@ withdrawalForm.addEventListener('submit', (e) => {
 
 function logout() {
     utils.setCurrentUser(null);
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
 }
 
 // Start
