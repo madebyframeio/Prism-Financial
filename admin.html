@@ -86,6 +86,8 @@
                     Base</button>
                 <button onclick="switchView('transactions')" id="btn-transactions"
                     class="tab-btn px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all whitespace-nowrap">Transactions</button>
+                <button onclick="switchView('settings')" id="btn-settings"
+                    class="tab-btn px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all whitespace-nowrap">Settings</button>
             </nav>
         </div>
         <button onclick="logout()"
@@ -275,6 +277,59 @@
                 </div>
             </div>
 
+            <!-- Admin Settings View -->
+            <div id="view-settings" class="hidden">
+                <div class="max-w-2xl mx-auto">
+                    <h2 class="text-2xl font-bold uppercase tracking-tighter mb-6">Admin Configuration</h2>
+                    <div class="bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)]">
+                        <div class="flex items-center gap-4 mb-8 border-b-2 border-slate-100 pb-6">
+                            <div
+                                class="w-16 h-16 bg-slate-900 text-white flex items-center justify-center rounded-full">
+                                <span class="material-symbols-outlined text-3xl">manage_accounts</span>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold uppercase tracking-widest text-slate-900">My Credentials
+                                </h3>
+                                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Update your access
+                                    details</p>
+                            </div>
+                        </div>
+
+                        <form id="admin-settings-form">
+                            <div class="mb-6">
+                                <label
+                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">My
+                                    Display Name</label>
+                                <input type="text" id="admin-name" required
+                                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
+                            </div>
+                            <div class="mb-6">
+                                <label
+                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">My
+                                    Username</label>
+                                <input type="text" id="admin-username" required
+                                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
+                            </div>
+                            <div class="mb-6">
+                                <label
+                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">My
+                                    Password</label>
+                                <input type="text" id="admin-password" required
+                                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
+                                <p class="text-[10px] text-slate-400 mt-2 font-mono">* Visible for admin purposes</p>
+                            </div>
+
+                            <div class="flex justify-end gap-4 pt-4 border-t-2 border-slate-100">
+                                <button type="submit"
+                                    class="px-8 py-3 bg-slate-900 text-white font-bold uppercase tracking-widest text-xs hover:bg-primary transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
@@ -345,12 +400,18 @@
                         class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:outline-none focus:border-slate-900"
                         value="1234">
                 </div>
-                <div class="mb-6">
+                <div class="mb-6" id="balance-field-container">
                     <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Initial
                         Balance</label>
                     <input type="number" id="new-user-balance"
                         class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-mono font-bold text-slate-900 focus:outline-none focus:border-slate-900"
                         value="0">
+                </div>
+                <div class="mb-6 flex items-center gap-2">
+                    <input type="checkbox" id="new-user-admin"
+                        class="w-4 h-4 text-slate-900 border-2 border-slate-200 focus:ring-0">
+                    <label for="new-user-admin" class="text-xs font-bold uppercase tracking-widest text-slate-900">Grant
+                        Admin Privileges</label>
                 </div>
                 <div class="flex gap-4">
                     <button type="button" onclick="closeModal('create-user-modal')"
@@ -451,6 +512,7 @@
             document.getElementById('view-users').classList.add('hidden');
             document.getElementById('view-transactions').classList.add('hidden');
             document.getElementById('view-profile').classList.add('hidden');
+            document.getElementById('view-settings').classList.add('hidden');
 
             // Handle Profile view separately as it's not a main tab
             if (viewName === 'profile') {
@@ -464,10 +526,61 @@
             if (viewName === 'users') {
                 activeUserFilter = null;
                 await renderUsers();
-            } else {
+            } else if (viewName === 'transactions') {
                 await renderTransactions();
+            } else if (viewName === 'settings') {
+                await loadAdminSettings();
             }
         }
+
+        async function loadAdminSettings() {
+            try {
+                const sessionUser = utils.getCurrentUser();
+                if (!sessionUser || !sessionUser.id) {
+                    // Handle fallback admin
+                    document.getElementById('admin-settings-form').innerHTML = `
+                        <div class="p-4 bg-amber-50 border-2 border-amber-100 text-amber-800">
+                            <h4 class="font-bold uppercase tracking-widest mb-2">Restricted Access</h4>
+                            <p class="text-sm">You are logged in as the temporary Root Admin (fallback). This account exists only in code and cannot be modified.</p>
+                            <p class="text-sm mt-2"><strong>Tip:</strong> Create a new User with "Admin Privileges" enabled, then log in with that account to manage settings.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const adminData = await utils.getUserData(sessionUser.id);
+                if (adminData) {
+                    document.getElementById('admin-name').value = adminData.name;
+                    document.getElementById('admin-username').value = adminData.username;
+                    document.getElementById('admin-password').value = adminData.password;
+                }
+            } catch (e) {
+                console.error("Failed to load admin settings", e);
+                showMessage("Error", "Could not load admin profile");
+            }
+        }
+
+        document.getElementById('admin-settings-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const sessionUser = utils.getCurrentUser();
+            if (!sessionUser) return;
+
+            const name = document.getElementById('admin-name').value;
+            const username = document.getElementById('admin-username').value;
+            const password = document.getElementById('admin-password').value;
+
+            try {
+                await utils.updateUser(sessionUser.id, {
+                    name,
+                    username,
+                    password
+                });
+                showMessage("Success", "Admin Credentials Updated. Please re-login on next visit.");
+            } catch (err) {
+                console.error(err);
+                showMessage("Error", "Update Failed: " + err.message, true);
+            }
+        });
 
         async function renderUsers() {
             const tbody = document.getElementById('users-table-body');
@@ -759,7 +872,20 @@
         function openCreateUserModal() {
             document.getElementById('create-user-modal').classList.remove('hidden');
             document.getElementById('create-user-modal').classList.add('flex');
+            // Reset Admin Toggle
+            document.getElementById('new-user-admin').checked = false;
+            document.getElementById('balance-field-container').classList.remove('hidden');
         }
+
+        document.getElementById('new-user-admin').addEventListener('change', function () {
+            const balanceContainer = document.getElementById('balance-field-container');
+            if (this.checked) {
+                balanceContainer.classList.add('hidden');
+                document.getElementById('new-user-balance').value = 0;
+            } else {
+                balanceContainer.classList.remove('hidden');
+            }
+        });
 
         document.getElementById('create-user-form').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -768,6 +894,7 @@
             const password = document.getElementById('new-user-password').value;
             const pin = document.getElementById('new-user-pin').value || '1234';
             const balance = parseFloat(document.getElementById('new-user-balance').value);
+            const isAdmin = document.getElementById('new-user-admin').checked;
 
             try {
                 // Check if username exists (Supabase unique constraint will also catch this)
@@ -778,7 +905,7 @@
                     password,
                     pin,
                     balance,
-                    is_admin: false
+                    is_admin: isAdmin
                 });
 
                 closeModal('create-user-modal');
@@ -864,8 +991,19 @@
             try {
                 await utils.createTransaction(uid, amount, type, 'Manual Entry', 'completed');
                 closeModal('add-transaction-modal');
-                renderTransactions();
                 showMessage('Success', 'Manual Entry Posted');
+
+                // Refresh Logic: Check which view is active
+                if (currentUserProfileId && !document.getElementById('view-profile').classList.contains('hidden')) {
+                    // Refresh User Profile
+                    loadUserProfile(currentUserProfileId);
+                } else if (!document.getElementById('view-transactions').classList.contains('hidden')) {
+                    // Refresh Global Ledger
+                    renderTransactions();
+                } else if (!document.getElementById('view-users').classList.contains('hidden')) {
+                    // Refresh User List (for balance update)
+                    renderUsers();
+                }
             } catch (e) {
                 console.error(e);
                 showMessage('Error', 'Failed to post transaction', true);

@@ -41,7 +41,7 @@ const utils = {
 
     logout: () => {
         sessionStorage.removeItem('currentUser');
-        window.location.href = 'index.html';
+        window.location.href = '/';
     },
 
     // --- Data Formatting ---
