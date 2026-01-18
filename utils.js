@@ -23,7 +23,8 @@ const utils = {
     // --- System Branding ---
     brandingDefaults: {
         bankName: 'Seb Bank',
-        primaryColor: '#0033cc'
+        primaryColor: '#0033cc',
+        metaUrl: 'meta.png'
     },
 
     saveBranding: async (settings) => {
