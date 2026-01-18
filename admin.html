@@ -69,28 +69,32 @@
 <body class="min-h-screen flex flex-col">
     <!-- Navbar -->
     <header
-        class="bg-white border-b-2 border-slate-900 px-8 py-4 sticky top-0 z-50 flex justify-between items-center shadow-sm">
-        <div class="flex items-center gap-4">
-            <div class="bg-slate-900 p-1 text-white">
-                <span class="material-symbols-outlined block">admin_panel_settings</span>
+        class="bg-white border-b-2 border-slate-900 px-4 md:px-8 py-4 sticky top-0 z-50 flex flex-col md:flex-row justify-between items-center shadow-sm gap-4">
+        <div class="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
+            <div class="flex items-center gap-4">
+                <div class="bg-slate-900 p-1 text-white">
+                    <span class="material-symbols-outlined block">admin_panel_settings</span>
+                </div>
+                <h1 class="text-xl font-bold uppercase tracking-tighter italic">Nexus Admin</h1>
             </div>
-            <h1 class="text-xl font-bold uppercase tracking-tighter italic">Nexus Admin</h1>
-            <div class="h-6 w-px bg-slate-200 mx-2"></div>
-            <nav class="flex gap-2">
+
+            <div class="hidden md:block h-6 w-px bg-slate-200 mx-2"></div>
+
+            <nav class="flex gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 justify-center">
                 <button onclick="switchView('users')" id="btn-users"
-                    class="tab-btn active px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all">User
+                    class="tab-btn active px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all whitespace-nowrap">User
                     Base</button>
                 <button onclick="switchView('transactions')" id="btn-transactions"
-                    class="tab-btn px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all">Transactions</button>
+                    class="tab-btn px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all whitespace-nowrap">Transactions</button>
             </nav>
         </div>
         <button onclick="logout()"
-            class="text-slate-400 hover:text-slate-900 flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
+            class="text-slate-400 hover:text-slate-900 flex items-center gap-2 text-xs font-bold uppercase tracking-widest absolute md:static top-4 right-4">
             Logout <span class="material-symbols-outlined text-sm">logout</span>
         </button>
     </header>
 
-    <main class="flex-1 p-8 overflow-y-auto">
+    <main class="flex-1 p-4 md:p-8 overflow-y-auto">
         <div class="max-w-7xl mx-auto">
 
             <!-- Users View -->
@@ -102,8 +106,8 @@
                         + New Account
                     </button>
                 </div>
-                <div class="border-2 border-slate-900 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)]">
-                    <table class="w-full admin-table text-left border-collapse">
+                <div class="border-2 border-slate-900 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)] overflow-x-auto">
+                    <table class="w-full admin-table text-left border-collapse min-w-[600px]">
                         <thead>
                             <tr>
                                 <th>Account Name</th>
@@ -214,8 +218,8 @@
                                     <span class="material-symbols-outlined text-sm">add_circle</span> Add Entry
                                 </button>
                             </div>
-                            <div class="max-h-64 overflow-y-auto">
-                                <table class="w-full admin-table text-left border-collapse">
+                            <div class="max-h-64 overflow-y-auto overflow-x-auto">
+                                <table class="w-full admin-table text-left border-collapse min-w-[500px]">
                                     <thead>
                                         <tr>
                                             <th class="py-2 text-[10px] uppercase text-slate-400">Date</th>
@@ -252,8 +256,8 @@
                         + Manual Entry
                     </button>
                 </div>
-                <div class="border-2 border-slate-900 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)]">
-                    <table class="w-full admin-table text-left border-collapse">
+                <div class="border-2 border-slate-900 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)] overflow-x-auto">
+                    <table class="w-full admin-table text-left border-collapse min-w-[800px]">
                         <thead>
                             <tr>
                                 <th>Timestamp</th>
