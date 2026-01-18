@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>NovaBank | Corporate Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0033cc",
+                        "secondary": "#0f172a",
+                        "accent": "#2563eb",
+                        "surface": "#ffffff",
+                        "background": "#ffffff",
+                        "header": "#ffffff",
+                    },
+                    fontFamily: {
+                        "sans": ["'Space Grotesk'", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "none": "0px",
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                    },
+                },
+            },
+        }
+    </script>
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            @apply bg-background text-slate-900;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+        }
+        * {
+            border-radius: 0 !important;
+        }
+        .high-contrast-table thead th {
+            @apply bg-slate-900 text-white uppercase tracking-wider text-[11px] font-bold py-4 px-6;
+        }
+        .high-contrast-table tbody td {
+            @apply border-b border-slate-200 py-4 px-6 text-sm;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <!-- Print Styles -->
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #receipt-modal,
+            #receipt-modal * {
+                visibility: visible;
+            }
+
+            #receipt-modal {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: none;
+                z-index: 9999;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+
+    <!-- Receipt Modal -->
+    <div id="receipt-modal"
+        class="hidden fixed inset-0 bg-slate-900/95 items-center justify-center p-4 z-[100] backdrop-blur-sm">
+        <div
+            class="bg-white w-full max-w-md p-8 border-4 border-slate-900 shadow-[20px_20px_0px_0px_rgba(255,255,255,0.2)] relative">
+            <!-- Close Button -->
+            <button onclick="closeReceipt()"
+                class="absolute -top-4 -right-4 bg-rose-600 text-white p-2 border-2 border-slate-900 hover:bg-rose-700 transition-colors no-print shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+
+            <!-- Receipt Content -->
+            <div class="text-center border-b-4 border-slate-900 pb-6 mb-6">
+                <div class="inline-flex items-center justify-center w-12 h-12 bg-slate-900 text-white mb-4">
+                    <span class="material-symbols-outlined">receipt_long</span>
+                </div>
+                <h2 class="text-2xl font-black uppercase italic tracking-tighter">Transaction Receipt</h2>
+                <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400 mt-2">NovaBank Global Finance
+                </p>
+            </div>
+
+            <div class="space-y-4 font-mono text-sm">
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                    <span class="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Reference ID</span>
+                    <span id="r-id" class="font-bold text-slate-900">#00000000</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                    <span class="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Date</span>
+                    <span id="r-date" class="font-bold text-slate-900">JAN 01, 2026</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                    <span class="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Type</span>
+                    <span id="r-type" class="font-bold text-slate-900 uppercase">TRANSFER</span>
+                </div>
+                <div class="flex justify-between border-b border-slate-200 pb-2">
+                    <span class="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Status</span>
+                    <span id="r-status" class="font-bold text-slate-900 uppercase">COMPLETED</span>
+                </div>
+                <div class="flex justify-between items-end pt-4">
+                    <span class="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-1">Total
+                        Amount</span>
+                    <span id="r-amount" class="text-3xl font-black tracking-tighter text-slate-900">$0.00</span>
+                </div>
+            </div>
+
+            <div class="mt-8 pt-6 border-t-4 border-slate-900 text-center">
+                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-6">Thank you for banking with
+                    us.</p>
+                <button onclick="window.print()"
+                    class="w-full py-4 bg-slate-900 text-white font-bold uppercase tracking-widest text-xs hover:bg-primary transition-all flex items-center justify-center gap-2 no-print group">
+                    <span class="material-symbols-outlined group-hover:scale-110 transition-transform">print</span>
+                    Print Receipt
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="relative flex flex-col w-full min-h-screen">
+        <header
+            class="flex items-center justify-between px-6 lg:px-12 py-6 bg-header border-b-2 border-slate-900 sticky top-0 z-50">
+            <div class="flex items-center gap-4">
+                <div class="bg-primary p-2 text-white">
+                    <span class="material-symbols-outlined block text-2xl">account_balance</span>
+                </div>
+                <div>
+                    <h1
+                        class="text-slate-900 text-xl lg:text-2xl font-bold tracking-tighter uppercase italic leading-none">
+                        NovaBank</h1>
+                    <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 leading-none mt-1">Global
+                        Finance</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex flex-col items-end">
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Welcome</span>
+                    <span id="user-name-display" class="text-sm font-bold text-slate-900">LOADING...</span>
+                </div>
+                <!-- Profile/Logout Dropdown Trigger -->
+                <button onclick="logout()"
+                    class="group h-10 w-10 bg-slate-900 flex items-center justify-center text-white hover:bg-primary transition-colors"
+                    title="Logout">
+                    <span class="material-symbols-outlined">logout</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 max-w-7xl w-full mx-auto py-12 px-6 lg:px-12">
+            <!-- Balance Card -->
+            <div
+                class="w-full bg-primary text-white p-8 lg:p-16 mb-8 border-l-8 border-slate-900 shadow-[20px_20px_0px_0px_rgba(15,23,42,0.05)]">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-blue-200 text-xs font-bold uppercase tracking-[0.3em] mb-6">Total Available
+                            Balance</p>
+                        <h2 id="balance-display" class="text-5xl lg:text-7xl font-bold tracking-tighter">$0.00</h2>
+                        <div class="mt-8 flex flex-wrap items-center gap-4 text-blue-200">
+                            <div class="flex items-center gap-2">
+                                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                                <span class="text-[10px] uppercase font-bold tracking-widest">Live Corporate Feed</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden md:block text-right">
+                        <span class="material-symbols-outlined text-8xl opacity-20">grid_view</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
+                <button
+                    class="flex items-center justify-center gap-4 h-24 bg-slate-50 border-2 border-slate-200 text-slate-400 text-lg font-bold uppercase tracking-widest cursor-not-allowed hover:bg-slate-100 transition-all opacity-60"
+                    title="Deposit requires branch visit">
+                    <span class="material-symbols-outlined">move_to_inbox</span>
+                    Deposit
+                </button>
+                <a href="wire.html"
+                    class="flex items-center justify-center gap-4 h-24 bg-slate-900 text-white text-lg font-bold uppercase tracking-widest hover:bg-primary transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]">
+                    <span class="material-symbols-outlined">send</span>
+                    Wire Transfer
+                </a>
+            </div>
+
+            <!-- Transactions -->
+            <div class="mb-12">
+                <div
+                    class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 border-b-4 border-slate-900 pb-4 gap-4">
+                    <h3 class="text-2xl font-bold uppercase tracking-tighter">Transaction Ledger</h3>
+                    <div class="flex gap-2">
+                        <button
+                            class="px-4 py-2 border-2 border-slate-900 font-bold text-xs uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all">Download
+                            Report</button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full high-contrast-table text-left border-collapse">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Type</th>
+                                <th class="text-right">Amount</th>
+                                <th class="text-center">Receipt</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tx-table-body">
+                            <!-- Populated JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-auto py-12 px-6 lg:px-12 border-t-2 border-slate-100 bg-slate-50">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex items-center gap-2 grayscale opacity-50">
+                    <div class="bg-slate-900 p-1 text-white">
+                        <span class="material-symbols-outlined block text-xl">account_balance</span>
+                    </div>
+                    <h2 class="text-slate-900 text-lg font-bold tracking-tighter uppercase italic">NovaBank</h2>
+                </div>
+                <p class="text-slate-400 text-[10px] uppercase tracking-[0.3em] font-bold text-center md:text-right">
+                    © 2024 NOVABANK. INSURED. SECURE.
+                </p>
+                <div class="flex gap-8 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                    <a class="hover:text-primary transition-colors" href="#">Legal</a>
+                    <a class="hover:text-primary transition-colors" href="#">Privacy</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="utils.js"></script>
+    <script>
+        const currentUser = utils.getCurrentUser();
+        if (!currentUser) window.location.href = 'index.html';
+
+        utils.init();
+
+        // Async Load Data
+        async function loadDashboard() {
+            try {
+                // Refetch fresh user data
+                const user = await utils.getUserData(currentUser.id);
+                if (!user) {
+                    utils.logout();
+                    return;
+                }
+
+                // Update UI
+                document.getElementById('user-name-display').textContent = `Welcome, ${user.name}`;
+                document.getElementById('balance-display').textContent = utils.formatCurrency(user.balance);
+
+                // Load Transactions
+                const transactions = await utils.getTransactions(currentUser.id);
+                window.currentTransactions = transactions; // Store for access
+                renderHistory(transactions);
+
+            } catch (err) {
+                console.error("Failed to load dashboard", err);
+            }
+        }
+
+        function renderHistory(transactions) {
+            const tbody = document.getElementById('tx-table-body');
+            tbody.innerHTML = '';
+
+            if (transactions.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-slate-400 font-bold uppercase tracking-widest">No transaction records found</td></tr>`;
+                return;
+            }
+
+            transactions.forEach((t, index) => {
+                const tr = document.createElement('tr');
+                const isCredit = t.type === 'credit';
+                const date = new Date(t.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+
+                // Styling based on status
+                let statusBadge = '';
+                if (t.status === 'pending') {
+                    statusBadge = `<span class="bg-amber-100 text-amber-800 px-3 py-1 text-[10px] font-bold uppercase tracking-widest border border-amber-200 break-keep whitespace-nowrap">Pending Auth</span>`;
+                } else if (t.status === 'rejected') {
+                    statusBadge = `<span class="bg-slate-200 text-slate-600 px-3 py-1 text-[10px] font-bold uppercase tracking-widest border border-slate-300 line-through">Voided</span>`;
+                } else {
+                    statusBadge = isCredit
+                        ? `<span class="bg-emerald-100 text-emerald-800 px-3 py-1 text-[10px] font-bold uppercase tracking-widest border border-emerald-200">Received</span>`
+                        : `<span class="bg-blue-100 text-blue-800 px-3 py-1 text-[10px] font-bold uppercase tracking-widest border border-blue-200">Sent</span>`;
+                }
+
+                // Amount Color
+                const amountClass = isCredit ? 'text-emerald-600' : 'text-slate-900';
+                const amountPrefix = isCredit ? '+' : '-';
+
+                tr.innerHTML = `
+                    <td class="font-bold whitespace-nowrap">${date}</td>
+                    <td>${statusBadge}</td>
+                    <td><span class="text-[10px] font-bold uppercase tracking-widest px-2 py-1 ${getDetailedStatusClass(t.status)}">${t.status}</span></td>
+                    <td class="text-right font-bold ${amountClass}">${amountPrefix}${utils.formatCurrency(t.amount)}</td>
+                    <td class="text-center">
+                         <button onclick="openReceipt(${index})" class="h-8 w-8 bg-slate-100 text-slate-900 border border-slate-200 hover:bg-slate-900 hover:text-white flex items-center justify-center transition-colors mx-auto" title="View Receipt">
+                            <span class="material-symbols-outlined text-[16px]">receipt</span>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function getDetailedStatusClass(status) {
+            if (status === 'completed') return 'text-emerald-600';
+            if (status === 'pending') return 'text-amber-600';
+            return 'text-rose-600';
+        }
+
+        function logout() {
+            utils.logout();
+        }
+
+        function openReceipt(index) {
+            const t = window.currentTransactions[index];
+            if (!t) return;
+
+            document.getElementById('r-id').textContent = '#' + t.id.slice(0, 8).toUpperCase();
+            document.getElementById('r-date').textContent = new Date(t.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+            document.getElementById('r-type').textContent = t.type.toUpperCase();
+            document.getElementById('r-status').textContent = t.status.toUpperCase();
+            document.getElementById('r-amount').textContent = utils.formatCurrency(t.amount);
+
+            // Adjust amount color
+            const isCredit = t.type === 'credit';
+            const amountEl = document.getElementById('r-amount');
+            amountEl.className = `text-3xl font-black tracking-tighter ${isCredit ? 'text-emerald-600' : 'text-slate-900'}`;
+            amountEl.textContent = (isCredit ? '+' : '-') + utils.formatCurrency(t.amount);
+
+            document.getElementById('receipt-modal').classList.remove('hidden');
+            document.getElementById('receipt-modal').classList.add('flex');
+        }
+
+        function closeReceipt() {
+            document.getElementById('receipt-modal').classList.add('hidden');
+            document.getElementById('receipt-modal').classList.remove('flex');
+        }
+
+        loadDashboard();
+    </script>
+</body>
+
+</html>

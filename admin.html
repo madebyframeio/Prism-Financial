@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Nexus Corporate | Admin Console</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { "primary": "#0033cc" },
+                    fontFamily: { "sans": ["'Space Grotesk'", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+        }
+
+        * {
+            border-radius: 0 !important;
+        }
+
+        .admin-table thead th {
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #64748b;
+            padding: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+            background: #fff;
+        }
+
+        .admin-table tbody td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+            background: #fff;
+        }
+
+        .admin-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tab-btn.active {
+            background: #0f172a;
+            color: #fff;
+            border-color: #0f172a;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <!-- Navbar -->
+    <header
+        class="bg-white border-b-2 border-slate-900 px-8 py-4 sticky top-0 z-50 flex justify-between items-center shadow-sm">
+        <div class="flex items-center gap-4">
+            <div class="bg-slate-900 p-1 text-white">
+                <span class="material-symbols-outlined block">admin_panel_settings</span>
+            </div>
+            <h1 class="text-xl font-bold uppercase tracking-tighter italic">Nexus Admin</h1>
+            <div class="h-6 w-px bg-slate-200 mx-2"></div>
+            <nav class="flex gap-2">
+                <button onclick="switchView('users')" id="btn-users"
+                    class="tab-btn active px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all">User
+                    Base</button>
+                <button onclick="switchView('transactions')" id="btn-transactions"
+                    class="tab-btn px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all">Transactions</button>
+            </nav>
+        </div>
+        <button onclick="logout()"
+            class="text-slate-400 hover:text-slate-900 flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
+            Logout <span class="material-symbols-outlined text-sm">logout</span>
+        </button>
+    </header>
+
+    <main class="flex-1 p-8 overflow-y-auto">
+        <div class="max-w-7xl mx-auto">
+
+            <!-- Users View -->
+            <div id="view-users" class="block">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold uppercase tracking-tighter">Registered Accounts</h2>
+                    <button onclick="openCreateUserModal()"
+                        class="bg-slate-900 text-white px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-primary transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
+                        + New Account
+                    </button>
+                </div>
+                <div class="border-2 border-slate-900 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)]">
+                    <table class="w-full admin-table text-left border-collapse">
+                        <thead>
+                            <tr>
+                                <th>Account Name</th>
+                                <th>Username / ID</th>
+                                <th>Current Balance</th>
+                                <th class="text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- JS Populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- User Profile Detail View -->
+            <div id="view-profile" class="hidden">
+                <div class="mb-6 flex items-center gap-4">
+                    <button onclick="switchView('users')"
+                        class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors">
+                        <span class="material-symbols-outlined">arrow_back</span> Back to List
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Profile Card -->
+                    <div class="lg:col-span-1">
+                        <div
+                            class="bg-white border-2 border-slate-900 p-6 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.2)]">
+                            <div
+                                class="w-20 h-20 bg-primary text-white flex items-center justify-center rounded-full border-4 border-slate-900 mb-6 mx-auto">
+                                <span class="material-symbols-outlined text-4xl">person</span>
+                            </div>
+                            <h2 id="profile-name-display"
+                                class="text-xl font-bold uppercase text-center mb-1 text-slate-900">User Name</h2>
+                            <p id="profile-id-display" class="text-xs font-mono text-center text-slate-400 mb-6">ID:
+                                U123456</p>
+
+                            <div class="border-t-2 border-slate-100 pt-6 mb-6">
+                                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Current
+                                    Balance</p>
+                                <h3 id="profile-balance-display"
+                                    class="text-3xl font-bold text-primary tracking-tighter">$0.00</h3>
+                            </div>
+
+                            <button onclick="deleteUser()"
+                                class="w-full py-3 border-2 border-rose-200 text-rose-600 font-bold uppercase tracking-widest text-xs hover:bg-rose-50 hover:border-rose-400 transition-all">
+                                Terminate Account
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Edit Details & History -->
+                    <div class="lg:col-span-2">
+                        <div
+                            class="bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)] mb-8">
+                            <h3
+                                class="text-lg font-bold uppercase tracking-widest mb-6 border-b-2 border-slate-100 pb-2">
+                                Account Controls</h3>
+                            <form id="edit-profile-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <input type="hidden" id="edit-profile-id">
+                                <div>
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Full
+                                        Name</label>
+                                    <input type="text" id="edit-profile-name"
+                                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Username</label>
+                                    <input type="text" id="edit-profile-username"
+                                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Password
+                                        (Reset)</label>
+                                    <input type="text" id="edit-profile-password"
+                                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">PIN</label>
+                                    <input type="text" id="edit-profile-pin" maxlength="4"
+                                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
+                                </div>
+                                <div class="flex items-end gap-3">
+                                    <button type="submit"
+                                        class="flex-1 h-[50px] bg-slate-900 text-white font-bold uppercase tracking-widest text-xs hover:bg-primary transition-all">
+                                        Update Credentials
+                                    </button>
+                                    <button type="button" onclick="openEditBalance(currentUserProfileId)"
+                                        class="h-[50px] px-6 border-2 border-slate-900 text-slate-900 font-bold uppercase tracking-widest text-xs hover:bg-slate-50 transition-all flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-lg">account_balance_wallet</span>
+                                        Balance
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div
+                            class="bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)]">
+                            <div class="flex justify-between items-center mb-6 border-b-2 border-slate-100 pb-2">
+                                <h3 class="text-lg font-bold uppercase tracking-widest">Recent Activity</h3>
+                                <button onclick="showAddTransactionModal(currentUserProfileId)"
+                                    class="text-xs font-bold uppercase tracking-widest text-primary hover:text-blue-800 flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-sm">add_circle</span> Add Entry
+                                </button>
+                            </div>
+                            <div class="max-h-64 overflow-y-auto">
+                                <table class="w-full admin-table text-left border-collapse">
+                                    <thead>
+                                        <tr>
+                                            <th class="py-2 text-[10px] uppercase text-slate-400">Date</th>
+                                            <th class="py-2 text-[10px] uppercase text-slate-400">Type</th>
+                                            <th class="py-2 text-[10px] uppercase text-slate-400 text-right">Amount</th>
+                                            <th class="py-2 text-[10px] uppercase text-slate-400 text-center">ACTION
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="profile-history-body">
+                                        <!-- Populated via JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transactions View -->
+            <div id="view-transactions" class="hidden">
+                <div class="flex justify-between items-center mb-6 gap-4">
+                    <div class="flex items-center gap-4">
+                        <h2 class="text-2xl font-bold uppercase tracking-tighter">Global Ledger</h2>
+                        <span id="filter-display"
+                            class="hidden bg-yellow-100 text-yellow-800 border border-yellow-200 px-3 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+                            Filtered View
+                            <button onclick="clearFilter()" class="hover:text-red-600"><span
+                                    class="material-symbols-outlined text-sm">close</span></button>
+                        </span>
+                    </div>
+                    <button onclick="showAddTransactionModal()"
+                        class="bg-primary text-white px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-blue-800 transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        + Manual Entry
+                    </button>
+                </div>
+                <div class="border-2 border-slate-900 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)]">
+                    <table class="w-full admin-table text-left border-collapse">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>User</th>
+                                <th>Type</th>
+                                <th class="text-right">Amount</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactions-table-body">
+                            <!-- JS Populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Edit Transaction Modal -->
+    <div id="edit-transaction-modal"
+        class="hidden fixed inset-0 bg-slate-900/90 items-center justify-center p-6 z-[60]">
+        <div class="bg-white max-w-md w-full p-8 border-4 border-slate-200">
+            <h3 class="text-2xl font-bold uppercase tracking-tighter mb-6 text-slate-900 italic">Edit Transaction</h3>
+            <form id="edit-transaction-form">
+                <input type="hidden" id="edit-tx-id">
+                <input type="hidden" id="edit-tx-desc">
+                <!-- Hidden to preserve param structure if needed, or just default -->
+                <!-- Removed Description Input -->
+                <div class="mb-6">
+                    <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Amount</label>
+                    <input type="number" id="edit-tx-amount" step="0.01"
+                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-mono font-bold text-slate-900 focus:outline-none focus:border-slate-900"
+                        required>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Status</label>
+                    <select id="edit-tx-status"
+                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:outline-none focus:border-slate-900">
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                        <option value="rejected">Rejected / Voided</option>
+                    </select>
+                </div>
+                <div class="flex gap-4">
+                    <button type="button" onclick="closeModal('edit-transaction-modal')"
+                        class="flex-1 py-4 border-2 border-slate-200 font-bold uppercase tracking-widest text-xs hover:bg-slate-50 hover:border-slate-300">Cancel</button>
+                    <button type="submit"
+                        class="flex-1 py-4 bg-slate-900 text-white font-bold uppercase tracking-widest text-xs hover:bg-primary transition-colors">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Create User Modal -->
+    <div id="create-user-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
+        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onclick="closeModal('create-user-modal')"></div>
+        <div
+            class="relative bg-white border-4 border-slate-900 p-8 w-full max-w-md shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
+            <h3 class="text-xl font-bold uppercase tracking-widest mb-6">Create New Account</h3>
+            <form id="create-user-form">
+                <div class="mb-4">
+                    <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Full
+                        Name</label>
+                    <input type="text" id="new-user-name" required
+                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Username /
+                        Login ID</label>
+                    <input type="text" id="new-user-username" required
+                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
+                </div>
+                <div class="mb-4">
+                    <label
+                        class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Password</label>
+                    <input type="text" id="new-user-password"
+                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:outline-none focus:border-slate-900"
+                        required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">PIN
+                        (4-Digit)</label>
+                    <input type="text" id="new-user-pin" maxlength="4"
+                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:outline-none focus:border-slate-900"
+                        value="1234">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Initial
+                        Balance</label>
+                    <input type="number" id="new-user-balance"
+                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-mono font-bold text-slate-900 focus:outline-none focus:border-slate-900"
+                        value="0">
+                </div>
+                <div class="flex gap-4">
+                    <button type="button" onclick="closeModal('create-user-modal')"
+                        class="flex-1 py-3 border-2 border-slate-200 font-bold uppercase tracking-widest text-xs hover:border-slate-900">Cancel</button>
+                    <button type="submit"
+                        class="flex-1 py-3 bg-primary text-white font-bold uppercase tracking-widest text-xs hover:bg-blue-800">Create
+                        Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Balance -->
+    <div id="edit-balance-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
+        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onclick="closeModal('edit-balance-modal')"></div>
+        <div
+            class="relative bg-white border-4 border-slate-900 p-8 w-full max-w-md shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
+            <h3 class="text-xl font-bold uppercase tracking-widest mb-6">Manage Balance</h3>
+            <input type="hidden" id="edit-user-id">
+            <div class="mb-6">
+                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Set New
+                    Balance</label>
+                <input type="number" id="new-balance-input"
+                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0"
+                    step="0.01">
+            </div>
+            <div class="flex gap-4">
+                <button onclick="closeModal('edit-balance-modal')"
+                    class="flex-1 py-3 border-2 border-slate-200 font-bold uppercase tracking-widest text-xs hover:border-slate-900">Cancel</button>
+                <button onclick="saveBalance()"
+                    class="flex-1 py-3 bg-primary text-white font-bold uppercase tracking-widest text-xs hover:bg-blue-800">Confirm
+                    Update</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Transaction -->
+    <div id="add-transaction-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
+        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onclick="closeModal('add-transaction-modal')">
+        </div>
+        <div
+            class="relative bg-white border-4 border-slate-900 p-8 w-full max-w-lg shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
+            <h3 class="text-xl font-bold uppercase tracking-widest mb-6">Manual Ledger Entry</h3>
+
+            <div class="mb-4">
+                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Target
+                    Account</label>
+                <select id="t-user-select"
+                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0"></select>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label
+                        class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Direction</label>
+                    <select id="t-type"
+                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
+                        <option value="credit">Credit (Inbound)</option>
+                        <option value="debit">Debit (Outbound)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Assets</label>
+                    <input type="number" id="t-amount" placeholder="0.00"
+                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
+                </div>
+            </div>
+
+            <!-- Removed Ledger Note Input -->
+
+            <div class="flex gap-4">
+                <button onclick="closeModal('add-transaction-modal')"
+                    class="flex-1 py-3 border-2 border-slate-200 font-bold uppercase tracking-widest text-xs hover:border-slate-900">Cancel</button>
+                <button onclick="createTransaction()"
+                    class="flex-1 py-3 bg-primary text-white font-bold uppercase tracking-widest text-xs hover:bg-blue-800">Post
+                    Entry</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-6 right-6 z-[200] flex flex-col gap-4 pointer-events-none"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="utils.js"></script>
+    <script>
+        utils.init();
+
+        // Override Admin Logic for new UI classes
+        let activeUserFilter = null;
+        let currentUserProfileId = null;
+
+        async function switchView(viewName) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active', 'bg-slate-900', 'text-white', 'border-slate-900'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.add('border-slate-200')); // reset default
+
+            document.getElementById('view-users').classList.add('hidden');
+            document.getElementById('view-transactions').classList.add('hidden');
+            document.getElementById('view-profile').classList.add('hidden');
+
+            // Handle Profile view separately as it's not a main tab
+            if (viewName === 'profile') {
+                document.getElementById('view-profile').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById(`btn-${viewName}`).classList.add('active');
+            document.getElementById(`view-${viewName}`).classList.remove('hidden');
+
+            if (viewName === 'users') {
+                activeUserFilter = null;
+                await renderUsers();
+            } else {
+                await renderTransactions();
+            }
+        }
+
+        async function renderUsers() {
+            const tbody = document.getElementById('users-table-body');
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4">Loading Users...</td></tr>';
+
+            try {
+                const users = await utils.getAllUsers();
+                tbody.innerHTML = '';
+
+                users.forEach(user => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class="font-bold text-slate-900 text-lg">${user.name.toUpperCase()}</td>
+                        <td class="font-mono text-xs text-slate-500">${user.username}</td>
+                        <td class="font-bold text-lg text-primary">${utils.formatCurrency(user.balance)}</td>
+                        <td class="text-right">
+                            <div class="flex justify-end gap-2">
+                                <button onclick="loadUserProfile('${user.id}')" class="bg-slate-900 text-white text-[10px] font-bold uppercase tracking-widest border-2 border-slate-900 px-3 py-1 hover:bg-primary hover:border-primary transition-all">
+                                    View Profile
+                                </button>
+                                <button onclick="openEditBalance('${user.id}')" class="text-[10px] font-bold uppercase tracking-widest border-2 border-slate-200 px-3 py-1 hover:border-slate-900 hover:bg-slate-900 hover:text-white transition-all">
+                                    Balance
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-rose-600">Failed to load users</td></tr>';
+                console.error(err);
+            }
+        }
+
+        async function renderTransactions() {
+            const tbody = document.getElementById('transactions-table-body');
+            const filterDisplay = document.getElementById('filter-display');
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center py-4">Loading Ledger...</td></tr>';
+
+            try {
+                let all = await utils.getAllTransactions();
+                tbody.innerHTML = '';
+
+                // Apply Filter (Client Side for now)
+                if (activeUserFilter) {
+                    all = all.filter(t => t.user_id === activeUserFilter);
+                    filterDisplay.classList.remove('hidden');
+                } else {
+                    filterDisplay.classList.add('hidden');
+                }
+
+                if (all.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400 font-bold uppercase tracking-widest">No matching records found</td></tr>`;
+                    return;
+                }
+
+                all.forEach(t => {
+                    const tr = document.createElement('tr');
+                    const isCredit = t.type === 'credit';
+
+                    // Actions
+                    let actions = '';
+                    if (t.status === 'pending') {
+                        actions = `
+                            <div class="flex gap-2 justify-end">
+                                <button onclick="resolveTransaction('${t.user_id}', '${t.id}', 'approve')" class="h-8 w-8 bg-emerald-100 text-emerald-600 border border-emerald-200 hover:bg-emerald-200 flex items-center justify-center" title="Approve">
+                                    <span class="material-symbols-outlined text-sm">check</span>
+                                </button>
+                                <button onclick="resolveTransaction('${t.user_id}', '${t.id}', 'reject')" class="h-8 w-8 bg-rose-100 text-rose-600 border border-rose-200 hover:bg-rose-200 flex items-center justify-center" title="Reject">
+                                    <span class="material-symbols-outlined text-sm">close</span>
+                                </button>
+                                <button onclick="openEditTransaction('${t.id}', '${t.amount}', '${t.status}')" class="h-8 w-8 bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 flex items-center justify-center" title="Edit">
+                                    <span class="material-symbols-outlined text-sm">edit</span>
+                                </button>
+                                <button onclick="confirmDeleteTransaction('${t.id}')" class="h-8 w-8 bg-slate-100 text-slate-600 border border-slate-200 hover:bg-rose-100 hover:text-rose-600 hover:border-rose-200 flex items-center justify-center" title="Delete">
+                                    <span class="material-symbols-outlined text-sm">delete</span>
+                                </button>
+                            </div>
+                        `;
+                    } else {
+                        actions = `
+                            <div class="flex gap-2 justify-end">
+                                <button onclick="openEditTransaction('${t.id}', '${t.amount}', '${t.status}')" class="h-8 w-8 bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 flex items-center justify-center" title="Edit Details">
+                                    <span class="material-symbols-outlined text-sm">edit</span>
+                                </button>
+                                <button onclick="confirmDeleteTransaction('${t.id}')" class="h-8 w-8 bg-slate-100 text-slate-600 border border-slate-200 hover:bg-rose-100 hover:text-rose-600 hover:border-rose-200 flex items-center justify-center" title="Delete">
+                                    <span class="material-symbols-outlined text-sm">delete</span>
+                                </button>
+                            </div>
+                        `;
+                    }
+
+                    let statusBadge = '';
+                    if (t.status === 'pending') statusBadge = '<span class="bg-amber-100 text-amber-700 px-2 py-1 text-[9px] font-bold uppercase tracking-widest border border-amber-200">Pending Review</span>';
+                    else if (t.status === 'completed') statusBadge = '<span class="bg-emerald-50 text-emerald-600 px-2 py-1 text-[9px] font-bold uppercase tracking-widest border border-emerald-100">Posted</span>';
+                    else statusBadge = '<span class="bg-slate-100 text-slate-500 px-2 py-1 text-[9px] font-bold uppercase tracking-widest border border-slate-200 line-through">Voided</span>';
+
+                    tr.innerHTML = `
+                        <td class="uppercase text-xs font-bold text-slate-400 whitespace-nowrap">${new Date(t.created_at).toLocaleString()}</td>
+                        <td class="font-bold text-xs">${t.userName}</td>
+                        <td class="text-xs uppercase font-bold tracking-widest ${isCredit ? 'text-emerald-600' : 'text-slate-600'}">${t.type}</td>
+                        <td class="text-right font-bold ${isCredit ? 'text-emerald-600' : 'text-slate-900'}">${isCredit ? '+' : '-'}${utils.formatCurrency(t.amount)}</td>
+                        <td class="text-center">${statusBadge}</td>
+                        <td class="text-center">${actions}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // --- Profile View Logic ---
+        async function loadUserProfile(uid) {
+            try {
+                const user = await utils.getUserData(uid);
+                if (!user) return;
+
+                currentUserProfileId = uid;
+
+                // Header Data
+                document.getElementById('profile-name-display').textContent = user.name;
+                document.getElementById('profile-id-display').textContent = `ID: ${user.username}`;
+                document.getElementById('profile-balance-display').textContent = utils.formatCurrency(user.balance);
+
+                // Form Data
+                document.getElementById('edit-profile-id').value = user.id;
+                document.getElementById('edit-profile-name').value = user.name;
+                document.getElementById('edit-profile-username').value = user.username;
+                document.getElementById('edit-profile-password').value = user.password;
+                document.getElementById('edit-profile-pin').value = user.pin || ''; // Load PIN
+
+                // Load history asynchronously
+                const transactions = await utils.getTransactions(uid);
+                const tbody = document.getElementById('profile-history-body');
+                tbody.innerHTML = '';
+
+                if (transactions.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-slate-400 text-xs uppercase">No activity recorded</td></tr>`;
+                } else {
+                    transactions.forEach(t => {
+                        const tr = document.createElement('tr');
+                        tr.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors group';
+                        const isCredit = t.type === 'credit';
+
+                        // Profile view actions
+                        const actions = `
+                            <div class="flex items-center justify-center gap-2">
+                                <button type="button" onclick="openEditTransaction('${t.id}', '${t.amount}', '${t.status}')" class="h-8 w-8 bg-white border border-slate-200 text-slate-400 hover:text-primary hover:border-primary flex items-center justify-center transition-colors shadow-sm" title="Edit">
+                                    <span class="material-symbols-outlined text-[16px]">edit</span>
+                                </button>
+                                <button type="button" onclick="confirmDeleteTransaction('${t.id}')" class="h-8 w-8 bg-white border border-slate-200 text-slate-400 hover:text-rose-600 hover:border-rose-600 flex items-center justify-center transition-colors shadow-sm" title="Delete">
+                                    <span class="material-symbols-outlined text-[16px]">delete</span>
+                                </button>
+                            </div>
+                        `;
+
+                        tr.innerHTML = `
+                            <td class="text-[10px] font-mono text-slate-400 py-4 px-2">${new Date(t.created_at).toLocaleDateString()}</td>
+                            <td class="text-xs font-bold uppercase py-4 px-2">${t.type}</td>
+                            <td class="text-right text-xs font-bold py-4 px-2 ${isCredit ? 'text-emerald-600' : 'text-slate-900'}">${isCredit ? '+' : '-'}${utils.formatCurrency(t.amount)}</td>
+                            <td class="py-4 px-2 text-center">${actions}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+
+                switchView('profile');
+            } catch (err) {
+                console.error("Profile Load Error:", err);
+                showMessage('Connection Failed', `Error: ${err.message || 'Unknown details'}`, true);
+            }
+        }
+
+        document.getElementById('edit-profile-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const uid = document.getElementById('edit-profile-id').value;
+            const newName = document.getElementById('edit-profile-name').value;
+            const newUsername = document.getElementById('edit-profile-username').value;
+            const newPassword = document.getElementById('edit-profile-password').value;
+            const newPin = document.getElementById('edit-profile-pin').value;
+
+            try {
+                await utils.updateUser(uid, {
+                    name: newName,
+                    username: newUsername,
+                    password: newPassword,
+                    pin: newPin
+                });
+                showMessage('Success', 'User Profile Updated Successfully');
+                loadUserProfile(uid);
+            } catch (err) {
+                showMessage('Update Failed', 'Username might be already taken', true);
+                console.error(err);
+            }
+        });
+
+        // --- Transaction Editing ---
+        function openEditTransaction(id, amount, status) {
+            document.getElementById('edit-tx-id').value = id;
+            // document.getElementById('edit-tx-desc').value = desc;
+            document.getElementById('edit-tx-amount').value = amount;
+            document.getElementById('edit-tx-status').value = status;
+
+            document.getElementById('edit-transaction-modal').classList.remove('hidden');
+            document.getElementById('edit-transaction-modal').classList.add('flex');
+        }
+
+        document.getElementById('edit-transaction-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('edit-tx-id').value;
+            // const desc = document.getElementById('edit-tx-desc').value;
+            const amount = parseFloat(document.getElementById('edit-tx-amount').value);
+            const status = document.getElementById('edit-tx-status').value;
+
+            try {
+                await utils.updateTransaction(id, {
+                    // description: desc,
+                    amount: amount,
+                    status: status
+                });
+                showMessage('Success', 'Transaction Record Updated');
+                closeModal('edit-transaction-modal');
+                renderTransactions();
+                // If in profile view, refresh it
+                if (!document.getElementById('view-profile').classList.contains('hidden')) {
+                    loadUserProfile(currentUserProfileId);
+                }
+            } catch (err) {
+                console.error(err);
+                showMessage('Error', 'Failed to update transaction', true);
+            }
+        });
+
+        async function confirmDeleteTransaction(txId) {
+            if (confirm('Are you sure? This will reverse the balance impact.')) {
+                try {
+                    await utils.deleteTransaction(txId);
+                    showMessage('Success', 'Transaction Deleted & Balance Reserved');
+
+                    // Refresh
+                    renderTransactions();
+                    if (currentUserProfileId && !document.getElementById('view-profile').classList.contains('hidden')) {
+                        loadUserProfile(currentUserProfileId);
+                    }
+                } catch (e) {
+                    console.error(e);
+                    showMessage('Error', 'Failed to delete transaction', true);
+                }
+            }
+        }
+
+        async function deleteUser() {
+            if (confirm('Are you sure you want to PERMANENTLY delete this user?')) {
+                try {
+                    await utils.deleteUser(currentUserProfileId);
+                    switchView('users');
+                    showMessage('Account Deleted', 'User has been permanently removed');
+                } catch (err) {
+                    console.error(err);
+                    showMessage('Error', 'Failed to delete user', true);
+                }
+            }
+        }
+
+        // --- Existing Functions ---
+        function viewUserHistory(uid) {
+            activeUserFilter = uid;
+
+            // Reset visual tabs manually for now
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active', 'bg-slate-900', 'text-white', 'border-slate-900'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.add('border-slate-200'));
+            document.getElementById('btn-transactions').classList.add('active');
+
+            document.getElementById('view-users').classList.add('hidden');
+            document.getElementById('view-profile').classList.add('hidden');
+            document.getElementById('view-transactions').classList.remove('hidden');
+
+            renderTransactions(); // This will pick up activeUserFilter
+        }
+
+        function clearFilter() {
+            activeUserFilter = null;
+            renderTransactions();
+        }
+
+        // --- New User Logic ---
+        function openCreateUserModal() {
+            document.getElementById('create-user-modal').classList.remove('hidden');
+            document.getElementById('create-user-modal').classList.add('flex');
+        }
+
+        document.getElementById('create-user-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('new-user-name').value;
+            const username = document.getElementById('new-user-username').value;
+            const password = document.getElementById('new-user-password').value;
+            const pin = document.getElementById('new-user-pin').value || '1234';
+            const balance = parseFloat(document.getElementById('new-user-balance').value);
+
+            try {
+                // Check if username exists (Supabase unique constraint will also catch this)
+
+                await utils.createUser({
+                    name,
+                    username,
+                    password,
+                    pin,
+                    balance,
+                    is_admin: false
+                });
+
+                closeModal('create-user-modal');
+                renderUsers();
+                showMessage('Success', 'New Account Created Successfully');
+            } catch (err) {
+                console.error(err);
+                showMessage('Creation Failed', `Error: ${err.message || 'Unknown Error'}`, true);
+            }
+        });
+
+        async function resolveTransaction(userId, txId, action) {
+            const status = action === 'approve' ? 'completed' : 'rejected';
+            try {
+                await utils.updateTransactionStatus(txId, status);
+
+                // Refresh views
+                renderTransactions();
+                // If filtering by user, we might want to refresh users list too to show balance update?
+                // For now just refresh the ledger.
+                showMessage('Success', `Transaction ${action === 'approve' ? 'Approved' : 'Rejected'}`);
+            } catch (err) {
+                console.error(err);
+                showMessage('Error', 'Failed to update status', true);
+            }
+        }
+
+        // Modals
+        async function openEditBalance(uid) {
+            try {
+                const user = await utils.getUserData(uid);
+                document.getElementById('edit-user-id').value = uid;
+                document.getElementById('new-balance-input').value = user.balance;
+                document.getElementById('edit-balance-modal').classList.remove('hidden');
+                document.getElementById('edit-balance-modal').classList.add('flex');
+            } catch (e) { console.error(e); }
+        }
+
+        async function saveBalance() {
+            const uid = document.getElementById('edit-user-id').value;
+            const newBal = document.getElementById('new-balance-input').value;
+            try {
+                await utils.updateUser(uid, { balance: parseFloat(newBal) });
+                closeModal('edit-balance-modal');
+                if (!document.getElementById('view-profile').classList.contains('hidden')) {
+                    loadUserProfile(uid);
+                } else {
+                    renderUsers();
+                }
+                showMessage('Success', 'Balance Updated');
+            } catch (e) {
+                console.error(e);
+                showMessage('Error', 'Failed to update balance', true);
+            }
+        }
+
+        function showAddTransactionModal(preSelectUid = null) {
+            const select = document.getElementById('t-user-select');
+            select.innerHTML = '<option>Loading...</option>';
+            document.getElementById('add-transaction-modal').classList.remove('hidden');
+            document.getElementById('add-transaction-modal').classList.add('flex');
+
+            // Async load users
+            utils.getAllUsers().then(users => {
+                select.innerHTML = '';
+                users.forEach(u => {
+                    select.innerHTML += `<option value="${u.id}">${u.name}</option>`;
+                });
+
+                // Handle Pre-selection
+                if (preSelectUid) {
+                    select.value = preSelectUid;
+                }
+            });
+        }
+
+        async function createTransaction() {
+            const uid = document.getElementById('t-user-select').value;
+            const type = document.getElementById('t-type').value;
+            const amount = parseFloat(document.getElementById('t-amount').value);
+            // const desc = document.getElementById('t-desc').value;
+
+            try {
+                await utils.createTransaction(uid, amount, type, 'Manual Entry', 'completed');
+                closeModal('add-transaction-modal');
+                renderTransactions();
+                showMessage('Success', 'Manual Entry Posted');
+            } catch (e) {
+                console.error(e);
+                showMessage('Error', 'Failed to post transaction', true);
+            }
+        }
+
+
+
+        function showMessage(title, text, isError = false) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+
+            // Tailwind Classes
+            const bgClass = isError ? 'bg-rose-900 border-rose-500 text-white' : 'bg-slate-900 border-slate-700 text-white';
+            const icon = isError ? 'error' : 'check_circle';
+
+            toast.className = `pointer-events-auto w-80 p-4 border-l-4 shadow-xl transform transition-all duration-500 translate-x-full opacity-0 flex items-start gap-3 ${bgClass}`;
+
+            toast.innerHTML = `
+                <span class="material-symbols-outlined mt-0.5">${icon}</span>
+                <div>
+                    <h4 class="font-bold uppercase tracking-wider text-xs mb-1">${title}</h4>
+                    <p class="text-xs font-mono opacity-90">${text}</p>
+                </div>
+            `;
+
+            container.appendChild(toast);
+
+            // Animate In
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-x-full', 'opacity-0');
+            });
+
+            // Remove after delay
+            setTimeout(() => {
+                toast.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => toast.remove(), 500); // Wait for transition
+            }, 3000);
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id).classList.remove('flex');
+        }
+
+        function logout() {
+            utils.logout();
+        }
+
+        // Init
+        renderUsers();
+    </script>
+</body>
+
+</html>
