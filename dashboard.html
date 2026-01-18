@@ -177,28 +177,91 @@
         </header>
 
         <main class="flex-1 max-w-7xl w-full mx-auto py-12 px-6 lg:px-12">
-            <!-- Balance Card -->
-            <div
-                class="w-full bg-primary text-white p-8 lg:p-16 mb-8 border-l-8 border-slate-900 shadow-[20px_20px_0px_0px_rgba(15,23,42,0.05)]">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-blue-200 text-xs font-bold uppercase tracking-[0.3em] mb-6">Total Available
-                            Balance</p>
-                        <h2 id="balance-display" class="text-5xl lg:text-7xl font-bold tracking-tighter">$0.00</h2>
-                        <div class="mt-8 flex flex-wrap items-center gap-4 text-blue-200">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                                <span class="text-[10px] uppercase font-bold tracking-widest">Live Corporate Feed</span>
-                            </div>
+            <!-- Account Overview Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Main Balance -->
+                <div
+                    class="w-full bg-primary text-white p-8 lg:p-12 border-l-8 border-slate-900 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.05)] relative overflow-hidden">
+                    <div class="relative z-10">
+                        <p class="text-blue-200 text-xs font-bold uppercase tracking-[0.3em] mb-4">Current Account</p>
+                        <h2 id="balance-display" class="text-4xl lg:text-6xl font-bold tracking-tighter mb-4">$0.00</h2>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                            <span class="text-[10px] uppercase font-bold tracking-widest text-blue-200">Active</span>
                         </div>
                     </div>
-                    <div class="hidden md:block text-right">
-                        <span class="material-symbols-outlined text-8xl opacity-20">grid_view</span>
+                    <span
+                        class="material-symbols-outlined absolute -bottom-4 -right-4 text-9xl text-white opacity-10">account_balance_wallet</span>
+                </div>
+
+                <!-- Savings (Locked) -->
+                <div
+                    class="w-full bg-slate-900 text-white p-8 lg:p-12 border-l-8 border-slate-400 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.05)] relative overflow-hidden">
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-4">
+                            <p class="text-slate-400 text-xs font-bold uppercase tracking-[0.3em]">Savings Vault</p>
+                            <span
+                                class="bg-amber-500 text-slate-900 px-2 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">lock</span> Locked
+                            </span>
+                        </div>
+                        <h2 id="savings-display" class="text-4xl lg:text-6xl font-bold tracking-tighter mb-6">$0.00</h2>
+                        <a href="officer.html"
+                            class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-500 hover:text-amber-400 border-b-2 border-amber-500 pb-1">
+                            Request Unlock <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </a>
+                    </div>
+                    <span
+                        class="material-symbols-outlined absolute -bottom-4 -right-4 text-9xl text-slate-700 opacity-20">lock_clock</span>
+                </div>
+            </div>
+
+            <!-- Investment Section -->
+            <div
+                class="mb-16 bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.05)] relative">
+                <div
+                    class="absolute top-0 left-0 bg-slate-900 text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest">
+                    Investment Portfolio
+                </div>
+                <div class="flex flex-col lg:flex-row gap-12 mt-8">
+                    <!-- Investment Balance & Withdraw -->
+                    <div class="lg:w-1/3 border-b-2 lg:border-b-0 lg:border-r-2 border-slate-100 pb-8 lg:pb-0 lg:pr-12">
+                        <p class="text-slate-400 text-xs font-bold uppercase tracking-[0.3em] mb-2">Total Assets</p>
+                        <h2 id="investment-display"
+                            class="text-4xl lg:text-5xl font-bold tracking-tighter text-slate-900 mb-8">$0.00</h2>
+
+                        <a href="investment-withdraw.html"
+                            class="block w-full py-4 bg-slate-900 text-white text-center font-bold uppercase tracking-widest text-xs hover:bg-primary transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none">
+                            <span class="material-symbols-outlined align-middle mr-1 text-sm">payments</span> Liquidate
+                            Assets
+                        </a>
+                        <p class="text-[10px] text-slate-400 mt-4 text-center leading-relaxed">
+                            Withdrawals are subject to T+2 settlement period and security verification.
+                        </p>
+                    </div>
+
+                    <!-- Investment History (Mini) -->
+                    <div class="lg:w-2/3">
+                        <h3
+                            class="text-sm font-bold uppercase tracking-widest text-slate-900 mb-6 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-base">history</span> Recent Activity
+                        </h3>
+                        <!-- We reuse the transaction table logic but filter for investment in future if needed, for now showing main tx or we can create a specific list -->
+                        <div class="overflow-hidden">
+                            <table class="w-full text-left border-collapse">
+                                <tbody id="inv-history-body">
+                                    <tr>
+                                        <td class="py-4 text-xs font-bold uppercase text-slate-400 tracking-widest">No
+                                            recent investment activity</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Actions -->
+            <!-- Quick Actions -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
                 <button
                     class="flex items-center justify-center gap-4 h-24 bg-slate-50 border-2 border-slate-200 text-slate-400 text-lg font-bold uppercase tracking-widest cursor-not-allowed hover:bg-slate-100 transition-all opacity-60"
@@ -213,7 +276,7 @@
                 </a>
             </div>
 
-            <!-- Transactions -->
+            <!-- Main Ledger -->
             <div class="mb-12">
                 <div
                     class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 border-b-4 border-slate-900 pb-4 gap-4">
@@ -224,6 +287,7 @@
                             Report</button>
                     </div>
                 </div>
+                <!-- ... existing table ... -->
                 <div class="overflow-x-auto">
                     <table class="w-full high-contrast-table text-left border-collapse">
                         <thead>
@@ -283,16 +347,53 @@
 
                 // Update UI
                 document.getElementById('user-name-display').textContent = `Welcome, ${user.name}`;
-                document.getElementById('balance-display').textContent = utils.formatCurrency(user.balance);
+                document.getElementById('balance-display').textContent = utils.formatCurrency(user.balance || 0);
+
+                // Savings & Investment
+                document.getElementById('savings-display').textContent = utils.formatCurrency(user.savings_balance || 0);
+                document.getElementById('investment-display').textContent = utils.formatCurrency(user.investment_balance || 0);
 
                 // Load Transactions
                 const transactions = await utils.getTransactions(currentUser.id);
                 window.currentTransactions = transactions; // Store for access
                 renderHistory(transactions);
 
+                // Render Investment History (Filter for investment types via Description tag)
+                const invTransactions = transactions.filter(t => t.description && (t.description.includes('[INV_WITHDRAWAL]') || t.description.includes('[INV_DEPOSIT]')));
+                renderInvestmentHistory(invTransactions);
+
             } catch (err) {
                 console.error("Failed to load dashboard", err);
             }
+        }
+
+        function renderInvestmentHistory(transactions) {
+            const tbody = document.getElementById('inv-history-body');
+            tbody.innerHTML = '';
+
+            if (transactions.length === 0) {
+                tbody.innerHTML = `<tr><td class="py-4 text-xs font-bold uppercase text-slate-400 tracking-widest">No recent investment activity</td></tr>`;
+                return;
+            }
+
+            transactions.slice(0, 5).forEach(t => { // Show max 5
+                const tr = document.createElement('tr');
+                const date = new Date(t.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                const isCredit = t.type === 'investment_deposit'; // Future proofing
+
+                tr.className = 'border-b border-slate-50 last:border-0';
+                tr.innerHTML = `
+                    <td class="py-3 text-[10px] font-bold text-slate-500 uppercase">${date}</td>
+                    <td class="py-3 text-xs font-bold text-slate-900">${t.description}</td>
+                    <td class="py-3 text-right text-xs font-bold ${isCredit ? 'text-emerald-600' : 'text-slate-900'}">
+                        ${isCredit ? '+' : '-'}${utils.formatCurrency(t.amount)}
+                    </td>
+                    <td class="py-3 text-right">
+                         <span class="text-[9px] font-bold uppercase tracking-widest px-2 py-1 ${getDetailedStatusClass(t.status)} border border-slate-100">${t.status}</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
         }
 
         function renderHistory(transactions) {

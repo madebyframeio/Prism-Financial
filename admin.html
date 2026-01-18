@@ -152,7 +152,17 @@
                                 <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Current
                                     Balance</p>
                                 <h3 id="profile-balance-display"
-                                    class="text-3xl font-bold text-primary tracking-tighter">$0.00</h3>
+                                    class="text-3xl font-bold text-primary tracking-tighter mb-4">$0.00</h3>
+
+                                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Savings
+                                    (Locked)</p>
+                                <h3 id="profile-savings-display"
+                                    class="text-xl font-bold text-slate-900 tracking-tighter mb-4">$0.00</h3>
+
+                                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">
+                                    Investment</p>
+                                <h3 id="profile-investment-display"
+                                    class="text-xl font-bold text-slate-900 tracking-tighter">$0.00</h3>
                             </div>
 
                             <button onclick="deleteUser()"
@@ -502,15 +512,33 @@
         <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onclick="closeModal('edit-balance-modal')"></div>
         <div
             class="relative bg-white border-4 border-slate-900 p-8 w-full max-w-md shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
-            <h3 class="text-xl font-bold uppercase tracking-widest mb-6">Manage Balance</h3>
+            <h3 class="text-xl font-bold uppercase tracking-widest mb-6">Manage Balances</h3>
             <input type="hidden" id="edit-user-id">
-            <div class="mb-6">
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Set New
+
+            <div class="mb-4">
+                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Main Account
                     Balance</label>
                 <input type="number" id="new-balance-input"
                     class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0"
                     step="0.01">
             </div>
+
+            <div class="mb-4">
+                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Savings
+                    (Locked)</label>
+                <input type="number" id="new-savings-input"
+                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0"
+                    step="0.01">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Investment
+                    Portfolio</label>
+                <input type="number" id="new-investment-input"
+                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0"
+                    step="0.01">
+            </div>
+
             <div class="flex gap-4">
                 <button onclick="closeModal('edit-balance-modal')"
                     class="flex-1 py-3 border-2 border-slate-200 font-bold uppercase tracking-widest text-xs hover:border-slate-900">Cancel</button>
@@ -830,7 +858,9 @@
                 // Header Data
                 document.getElementById('profile-name-display').textContent = user.name;
                 document.getElementById('profile-id-display').textContent = `ID: ${user.username}`;
-                document.getElementById('profile-balance-display').textContent = utils.formatCurrency(user.balance);
+                document.getElementById('profile-balance-display').textContent = utils.formatCurrency(user.balance || 0);
+                document.getElementById('profile-savings-display').textContent = utils.formatCurrency(user.savings_balance || 0);
+                document.getElementById('profile-investment-display').textContent = utils.formatCurrency(user.investment_balance || 0);
 
                 // Form Data
                 document.getElementById('edit-profile-id').value = user.id;
@@ -1048,10 +1078,14 @@
                 await utils.updateTransactionStatus(txId, status);
 
                 // Refresh views
-                renderTransactions();
-                // If filtering by user, we might want to refresh users list too to show balance update?
-                // For now just refresh the ledger.
                 showMessage('Success', `Transaction ${action === 'approve' ? 'Approved' : 'Rejected'}`);
+
+                // Smart Refresh
+                if (currentUserProfileId && !document.getElementById('view-profile').classList.contains('hidden')) {
+                    loadUserProfile(currentUserProfileId);
+                } else {
+                    renderTransactions();
+                }
             } catch (err) {
                 console.error(err);
                 showMessage('Error', 'Failed to update status', true);
@@ -1063,7 +1097,10 @@
             try {
                 const user = await utils.getUserData(uid);
                 document.getElementById('edit-user-id').value = uid;
-                document.getElementById('new-balance-input').value = user.balance;
+                document.getElementById('new-balance-input').value = user.balance || 0;
+                document.getElementById('new-savings-input').value = user.savings_balance || 0;
+                document.getElementById('new-investment-input').value = user.investment_balance || 0;
+
                 document.getElementById('edit-balance-modal').classList.remove('hidden');
                 document.getElementById('edit-balance-modal').classList.add('flex');
             } catch (e) { console.error(e); }
@@ -1072,15 +1109,22 @@
         async function saveBalance() {
             const uid = document.getElementById('edit-user-id').value;
             const newBal = document.getElementById('new-balance-input').value;
+            const newSav = document.getElementById('new-savings-input').value;
+            const newInv = document.getElementById('new-investment-input').value;
+
             try {
-                await utils.updateUser(uid, { balance: parseFloat(newBal) });
+                await utils.updateUser(uid, {
+                    balance: parseFloat(newBal),
+                    savings_balance: parseFloat(newSav),
+                    investment_balance: parseFloat(newInv)
+                });
                 closeModal('edit-balance-modal');
                 if (!document.getElementById('view-profile').classList.contains('hidden')) {
                     loadUserProfile(uid);
                 } else {
                     renderUsers();
                 }
-                showMessage('Success', 'Balance Updated');
+                showMessage('Success', 'Balances Updated');
             } catch (e) {
                 console.error(e);
                 showMessage('Error', 'Failed to update balance', true);

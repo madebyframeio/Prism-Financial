@@ -235,14 +235,43 @@ const utils = {
 
     // --- Async Data Access ---
 
-    // Get full user data (with balance)
+    // Get full user data (with balance and extra balances from settings)
     getUserData: async (userId) => {
-        const { data, error } = await supabaseClient
+        // Parallel Fetch for Performance
+        const userPromise = supabaseClient
             .from('users')
             .select('*')
             .eq('id', userId)
             .single();
-        return data;
+
+        const keys = [`u_${userId}_sav`, `u_${userId}_inv`, `u_${userId}_sav_locked`];
+        const settingsPromise = supabaseClient
+            .from('settings')
+            .select('*')
+            .in('key', keys);
+
+        const [userResult, settingsResult] = await Promise.all([userPromise, settingsPromise]);
+
+        const user = userResult.data;
+        const userError = userResult.error;
+        const settings = settingsResult.data;
+
+        if (userError || !user) return null;
+
+        // 3. Merge
+        user.savings_balance = 0;
+        user.investment_balance = 0;
+        user.is_savings_locked = true;
+
+        if (settings) {
+            settings.forEach(item => {
+                if (item.key === `u_${userId}_sav`) user.savings_balance = parseFloat(item.value);
+                if (item.key === `u_${userId}_inv`) user.investment_balance = parseFloat(item.value);
+                if (item.key === `u_${userId}_sav_locked`) user.is_savings_locked = item.value === 'true';
+            });
+        }
+
+        return user;
     },
 
     verifyPin: async (userId, pin) => {
@@ -268,36 +297,55 @@ const utils = {
 
     // Create a transaction
     createTransaction: async (userId, amount, type, description, status = 'completed') => {
+        // DB Constraint Workaround: Map custom types to 'debit'/'credit'
+        let dbType = type;
+        let dbDesc = description;
+
+        if (type === 'investment_withdrawal') {
+            dbType = 'debit'; // Logic is handled below, DB sees debit
+            dbDesc = '[INV_WITHDRAWAL] ' + description;
+        } else if (type === 'investment_deposit') {
+            dbType = 'credit';
+            dbDesc = '[INV_DEPOSIT] ' + description;
+        }
+
         // 1. Insert Transaction
         const { error: txError } = await supabaseClient
             .from('transactions')
             .insert({
                 user_id: userId,
                 amount: amount,
-                type: type,
-                description: description || 'TRANSACTION',
+                type: dbType,
+                description: dbDesc || 'TRANSACTION',
                 status: status
             });
 
         if (txError) throw txError;
 
-        // 2. Update User Balance (only if completed/approved)
+        // 2. Update Balances (Router Logic)
+        const user = await utils.getUserData(userId);
+
+        // A. Standard Debit/Credit (Main Balance)
         if (type === 'debit' || (type === 'credit' && status === 'completed')) {
-            const user = await utils.getUserData(userId);
             let newBalance = Number(user.balance);
-
-            // If creating a DEBIT (Wire), we deduct immediately even if pending (funds reserved)
-            // If creating a CREDIT (Deposit), we only add if completed.
-
             if (type === 'debit') newBalance -= amount;
-            else if (type === 'credit') newBalance += amount;
+            else newBalance += amount;
 
-            const { error: balError } = await supabaseClient
-                .from('users')
-                .update({ balance: newBalance })
-                .eq('id', userId);
+            await utils.updateUser(userId, { balance: newBalance });
+        }
 
-            if (balError) throw balError;
+        // B. Investment Withdrawal (Inv Balance)
+        else if (type === 'investment_withdrawal') {
+            // Deduct from investment balance (KV Store)
+            let newInv = Number(user.investment_balance || 0);
+            newInv -= amount;
+            await utils.updateUser(userId, { investment_balance: newInv });
+        }
+        // C. Investment Deposit (Inv Balance)
+        else if (type === 'investment_deposit') {
+            let newInv = Number(user.investment_balance || 0);
+            newInv += amount;
+            await utils.updateUser(userId, { investment_balance: newInv });
         }
     },
 
@@ -437,8 +485,45 @@ const utils = {
     },
 
     updateUser: async (id, updates) => {
-        const { error } = await supabaseClient.from('users').update(updates).eq('id', id);
-        if (error) throw error;
+        // Split updates into Core (DB) and Extra (Settings KV)
+        const coreFields = ['name', 'username', 'password', 'pin', 'balance', 'is_admin'];
+        const coreUpdates = {};
+        const settingsUpserts = [];
+
+        Object.keys(updates).forEach(key => {
+            if (coreFields.includes(key)) {
+                coreUpdates[key] = updates[key];
+            } else {
+                // Map to settings keys
+                let settingKey = null;
+                if (key === 'savings_balance') settingKey = `u_${id}_sav`;
+                if (key === 'investment_balance') settingKey = `u_${id}_inv`;
+                if (key === 'is_savings_locked') settingKey = `u_${id}_sav_locked`;
+
+                if (settingKey) {
+                    settingsUpserts.push({ key: settingKey, value: String(updates[key]) });
+                }
+            }
+        });
+
+        // Parallel Execution
+        const promises = [];
+
+        // 1. Update Core
+        if (Object.keys(coreUpdates).length > 0) {
+            promises.push(
+                supabaseClient.from('users').update(coreUpdates).eq('id', id).then(({ error }) => { if (error) throw error; })
+            );
+        }
+
+        // 2. Update Settings
+        if (settingsUpserts.length > 0) {
+            promises.push(
+                supabaseClient.from('settings').upsert(settingsUpserts, { onConflict: 'key' }).then(({ error }) => { if (error) throw error; })
+            );
+        }
+
+        await Promise.all(promises);
     },
 
     deleteUser: async (id) => {
