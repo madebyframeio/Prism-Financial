@@ -150,12 +150,12 @@
         <header
             class="flex items-center justify-between px-6 lg:px-12 py-6 bg-header border-b-2 border-slate-900 sticky top-0 z-50">
             <div class="flex items-center gap-4">
-                <div class="bg-primary p-2 text-white">
+                <div class="brand-logo-container bg-primary p-2 text-white">
                     <span class="material-symbols-outlined block text-2xl">account_balance</span>
                 </div>
                 <div>
                     <h1
-                        class="text-slate-900 text-xl lg:text-2xl font-bold tracking-tighter uppercase italic leading-none">
+                        class="text-slate-900 text-xl lg:text-2xl font-bold tracking-tighter uppercase italic leading-none brand-text">
                         NovaBank</h1>
                     <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-slate-400 leading-none mt-1">Global
                         Finance</p>
@@ -246,10 +246,11 @@
         <footer class="mt-auto py-12 px-6 lg:px-12 border-t-2 border-slate-100 bg-slate-50">
             <div class="flex flex-col md:flex-row justify-between items-center gap-8">
                 <div class="flex items-center gap-2 grayscale opacity-50">
-                    <div class="bg-slate-900 p-1 text-white">
+                    <div class="brand-logo-container bg-slate-900 p-1 text-white">
                         <span class="material-symbols-outlined block text-xl">account_balance</span>
                     </div>
-                    <h2 class="text-slate-900 text-lg font-bold tracking-tighter uppercase italic">NovaBank</h2>
+                    <h2 class="text-slate-900 text-lg font-bold tracking-tighter uppercase italic brand-text">NovaBank
+                    </h2>
                 </div>
                 <p class="text-slate-400 text-[10px] uppercase tracking-[0.3em] font-bold text-center md:text-right">
                     © 2024 NOVABANK. INSURED. SECURE.
@@ -266,7 +267,7 @@
     <script src="utils.js"></script>
     <script>
         const currentUser = utils.getCurrentUser();
-        if (!currentUser) window.location.href = '/';
+        if (!currentUser) window.location.href = 'index.html';
 
         utils.init();
 
