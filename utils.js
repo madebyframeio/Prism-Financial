@@ -22,8 +22,8 @@ const utils = {
 
     // --- System Branding ---
     brandingDefaults: {
-        bankName: 'Seb Bank',
-        primaryColor: '#0033cc',
+        bankName: 'Orion',
+        primaryColor: '#002855', // Deep Navy Blue
         metaUrl: 'meta.png'
     },
 

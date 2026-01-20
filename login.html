@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>NovaBank | Secure Access</title>
+    <title>Orion | Secure Access</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
         rel="stylesheet" />
@@ -15,7 +15,7 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { "primary": "#0033cc" },
+                    colors: { "primary": "#002855" },
                     fontFamily: { "sans": ["'Space Grotesk'", "sans-serif"] },
                 },
             },
@@ -51,7 +51,7 @@
                 <span class="material-symbols-outlined block text-3xl">account_balance</span>
             </div>
             <div>
-                <h1 class="text-3xl font-bold uppercase tracking-tighter italic leading-none brand-text">NovaBank</h1>
+                <h1 class="text-3xl font-bold uppercase tracking-tighter italic leading-none brand-text">Orion</h1>
                 <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-slate-400 leading-none mt-1">Global Finance
                 </h2>
             </div>
@@ -90,7 +90,7 @@
 
         <div class="mt-8 pt-6 border-t-2 border-slate-100 text-center">
             <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                Protected by <span class="brand-text">NovaBank</span> SecureGuard™
+                Protected by <span class="brand-text">Orion</span> Secure Access
             </p>
 
         </div>
@@ -153,21 +153,7 @@
         }
 
         // --- Security Protection ---
-        // Disable Right Click
-        document.addEventListener('contextmenu', event => event.preventDefault());
-
-        // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
-        document.onkeydown = function (e) {
-            if (e.keyCode == 123) { // F12
-                return false;
-            }
-            if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) {
-                return false;
-            }
-            if (e.ctrlKey && (e.keyCode == 'U'.charCodeAt(0) || e.keyCode == 'S'.charCodeAt(0))) {
-                return false;
-            }
-        }
+        // (Cleaned for Orion Standard Compliance)
     </script>
 </body>
 
