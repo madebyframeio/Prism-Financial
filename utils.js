@@ -22,7 +22,7 @@ const utils = {
 
     // --- System Branding ---
     brandingDefaults: {
-        bankName: 'Orion',
+        bankName: 'KreditLithua',
         primaryColor: '#002855', // Deep Navy Blue
         metaUrl: 'meta.png'
     },
