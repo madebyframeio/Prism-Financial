@@ -9,7 +9,9 @@ const utils = {
     init: () => {
         if (window.supabase) {
             const { createClient } = window.supabase;
+            // Initialize local and attach to object for global access
             supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+            utils.supabase = supabaseClient;
             console.log('Supabase Connected');
         } else {
             console.error('Supabase SDK not loaded');

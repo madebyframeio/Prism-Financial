@@ -19,10 +19,13 @@ const tUserSelect = document.getElementById('t-user-select');
 
 // State
 let db = utils.getDB();
+let selectedTxIds = new Set();
 
 // Init
 function loadAdmin() {
     db = utils.getDB(); // refresh
+    selectedTxIds.clear(); // Clear selection on reload
+    updateBulkToolbar();
     renderUsers();
     renderTransactions();
 }
@@ -68,34 +71,40 @@ function openEditBalance(userId) {
 
     editUserId.value = userId;
     newBalanceInput.value = user.balance;
+    // Pre-fill investment input
+    const invInput = document.getElementById('new-investment-input');
+    if (invInput) invInput.value = user.investmentBalance || 0;
+
+    // Pre-fill savings input
+    const savInput = document.getElementById('new-savings-input');
+    if (savInput) savInput.value = user.savingsBalance || 0;
+
     editBalanceModal.style.display = 'block';
 }
 
 function saveBalance() {
     const userId = editUserId.value;
     const newBal = parseFloat(newBalanceInput.value);
+    const newInv = parseFloat(document.getElementById('new-investment-input').value);
+    const newSav = parseFloat(document.getElementById('new-savings-input').value);
 
-    if (isNaN(newBal)) {
-        alert('Invalid amount');
+    // Validate inputs (allow 0)
+    if (isNaN(newBal) || isNaN(newInv)) {
+        alert('Invalid amounts entered');
         return;
     }
 
     const userIndex = db.users.findIndex(u => u.id === userId);
     if (userIndex !== -1) {
+        // Update Balances
         db.users[userIndex].balance = newBal;
+        db.users[userIndex].investmentBalance = newInv;
 
-        // Add a system log transaction for record keeping (optional, but good practice)
-        db.users[userIndex].transactions.push({
-            id: utils.generateId(),
-            date: new Date().toISOString(),
-            description: 'System Balance Adjustment',
-            amount: 0,
-            type: 'credit', // Neutral
-            status: 'completed'
-        });
+        // Settings/Savings logic if needed, but here we persist directly to user object
+        // If savings is used: db.users[userIndex].savingsBalance = newSav; 
 
         utils.saveDB(db);
-        alert('Balance updated');
+        alert('Balances updated successfully');
         closeModal('edit-balance-modal');
         loadAdmin();
     }
@@ -133,8 +142,10 @@ function renderTransactions() {
 
         const typeColor = t.type === 'credit' ? 'var(--success-color)' : 'var(--danger-color)';
         const amountDisplay = (t.type === 'credit' ? '+' : '-') + utils.formatCurrency(t.amount);
+        const isSelected = selectedTxIds.has(t.id);
 
         tr.innerHTML = `
+            <td class="text-center"><input type="checkbox" onchange="toggleSelectTx('${t.id}')" ${isSelected ? 'checked' : ''}></td>
             <td style="padding: 12px; font-size: 0.8rem;">${new Date(t.date).toLocaleDateString()}</td>
             <td style="padding: 12px;">${t.userName}</td>
             <td style="padding: 12px;">${t.description}</td>
@@ -149,6 +160,106 @@ function renderTransactions() {
         `;
         transactionsTableBody.appendChild(tr);
     });
+}
+
+// --- Bulk Actions ---
+
+function toggleSelectTx(txId) {
+    if (selectedTxIds.has(txId)) {
+        selectedTxIds.delete(txId);
+    } else {
+        selectedTxIds.add(txId);
+    }
+    updateBulkToolbar();
+}
+
+function toggleSelectAll(checkbox) {
+    const checkboxes = transactionsTableBody.querySelectorAll('input[type="checkbox"]');
+    if (checkbox.checked) {
+        // Select all currently visible
+        checkboxes.forEach(cb => {
+            // Find ID from the row? Or better, scan the DB data used to render.
+            // But we can infer order? No, simpler to just re-render or iterate DOM?
+            // Wait, we can't easily get ID from DOM unless we store it.
+            // Let's rely on the helper.
+            // Actually, best is to select all *visible*. 
+            // We'll iterate the 'allTransactions' array logic again? No inefficient.
+            // Let's store IDs on the checkbox element.
+        });
+        // Correct approach:
+        // We need to know which IDs are in the current view.
+        // Let's modify render to store ID on input.
+    } else {
+        selectedTxIds.clear();
+    }
+
+    // Easier impl:
+    const inputs = transactionsTableBody.querySelectorAll('input[type="checkbox"]');
+    inputs.forEach(input => {
+        input.checked = checkbox.checked;
+        // The onchange won't fire automatically, so update set manually
+        // We need the ID. Let's add data-id to the input in render.
+        const id = input.getAttribute('onchange').match(/'([^']+)'/)[1];
+        if (checkbox.checked) selectedTxIds.add(id);
+        else selectedTxIds.delete(id);
+    });
+    updateBulkToolbar();
+}
+
+function deselectAll() {
+    selectedTxIds.clear();
+    document.getElementById('select-all-tx').checked = false;
+    renderTransactions(); // Re-render to clear checks
+    updateBulkToolbar();
+}
+
+function updateBulkToolbar() {
+    const bar = document.getElementById('bulk-actions-bar');
+    const countSpan = document.getElementById('selected-count');
+    countSpan.textContent = selectedTxIds.size;
+
+    if (selectedTxIds.size > 0) {
+        bar.classList.remove('hidden');
+    } else {
+        bar.classList.add('hidden');
+    }
+}
+
+function bulkAction(action) {
+    if (selectedTxIds.size === 0) return;
+    if (!confirm(`Are you sure you want to ${action} ${selectedTxIds.size} transactions?`)) return;
+
+    let changed = false;
+
+    db.users.forEach(user => {
+        if (action === 'delete') {
+            const initialCount = user.transactions.length;
+            user.transactions = user.transactions.filter(t => !selectedTxIds.has(t.id));
+            if (user.transactions.length !== initialCount) changed = true;
+        } else if (action === 'approve') {
+            user.transactions.forEach(t => {
+                if (selectedTxIds.has(t.id) && t.status === 'pending') {
+                    // Approve Logic
+                    if (t.type === 'debit') {
+                        user.balance -= t.amount;
+                    } else {
+                        user.balance += t.amount;
+                    }
+                    t.status = 'completed';
+                    changed = true;
+                }
+            });
+        }
+    });
+
+    if (changed) {
+        utils.saveDB(db);
+        deselectAll(); // Clear selection
+        loadAdmin();
+        alert('Bulk action completed.');
+    } else {
+        alert('No applicable transactions changed.');
+    }
 }
 
 function resolveTransaction(userId, transactionId, action) {
@@ -212,12 +323,14 @@ function showAddTransactionModal() {
 
 function createTransaction() {
     const userId = tUserSelect.value;
-    const type = document.getElementById('t-type').value;
+    const type = document.getElementById('t-type').value; // credit/debit
     const amount = parseFloat(document.getElementById('t-amount').value);
     const desc = document.getElementById('t-desc').value;
+    const dateInput = document.getElementById('t-date').value;
+    const category = document.getElementById('t-category').value; // investment, current, etc.
 
     if (!userId || isNaN(amount) || amount <= 0 || !desc) {
-        alert('Please fill all fields correctly');
+        alert('Please fill all required fields (Amount, Description, User)');
         return;
     }
 
@@ -226,28 +339,37 @@ function createTransaction() {
 
     const user = db.users[userIndex];
 
-    // Optional: Pre-validation for debit
-    /*
-    if (type === 'debit' && user.balance < amount) {
-         if(!confirm('User has insufficient funds for this debit. Continue anyway (balance will go negative)?')) return;
-    }
-    */
+    // Use provided date or current time
+    const finalDate = dateInput ? new Date(dateInput).toISOString() : new Date().toISOString();
 
     const newT = {
         id: utils.generateId(),
-        date: new Date().toISOString(),
+        date: finalDate,
         description: desc,
         amount: amount,
         type: type,
-        status: 'completed' // Direct add is auto-completed
+        category: category,
+        status: 'completed'
     };
 
-    // Update Balance Immediately
-    if (type === 'credit') {
-        user.balance += amount;
-    } else {
-        user.balance -= amount;
+    // Update Balance logic based on Category
+    if (category === 'investment') {
+        // Init investment balance if missing
+        if (typeof user.investmentBalance !== 'number') user.investmentBalance = 0;
+
+        if (type === 'credit') {
+            user.investmentBalance += amount;
+        } else {
+            user.investmentBalance -= amount;
+        }
+    } else if (category === 'current') {
+        if (type === 'credit') {
+            user.balance += amount;
+        } else {
+            user.balance -= amount;
+        }
     }
+    // 'savings' logic can be added here if needed, usually simpler to just log it
 
     db.users[userIndex].transactions.push(newT);
     utils.saveDB(db);

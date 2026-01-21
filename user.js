@@ -10,57 +10,87 @@ const transactionList = document.getElementById('transaction-list');
 const withdrawalForm = document.getElementById('withdrawal-form');
 
 // Initial Load
-function loadDashboard() {
-    const db = utils.getDB();
-    const user = db.users.find(u => u.id === currentUser.id);
+// Initial Load
+async function loadDashboard() {
+    try {
+        // Fetch fresh user data including balance
+        const user = await utils.getUserData(currentUser.id);
 
-    // Safety check if user detected in session but not in DB (e.g. DB cleared)
-    if (!user) {
-        logout();
-        return;
+        if (!user) {
+            utils.logout();
+            return;
+        }
+
+        // Fetch fresh transactions
+        const transactions = await utils.getTransactions(currentUser.id);
+
+        // Update UI
+        welcomeMsg.textContent = `Welcome, ${user.name}`;
+        balanceDisplay.textContent = utils.formatCurrency(user.balance);
+
+        // Determine which set of transactions to render
+        // Since getTransactions returns flat array, we just pass it
+        // renderTransactions filter logic will handle the rest
+        renderTransactions(transactions);
+
+    } catch (e) {
+        console.error('Failed to load dashboard:', e);
+        // Fallback or Logout?
+        // utils.logout();
     }
-
-    // Update UI
-    welcomeMsg.textContent = `Welcome, ${user.name}`;
-    balanceDisplay.textContent = utils.formatCurrency(user.balance);
-
-    renderTransactions(user.transactions);
 }
 
 function renderTransactions(transactions) {
-    transactionList.innerHTML = '';
+    const listBody = document.getElementById('inv-history-body');
+    if (!listBody) {
+        console.error('Debug: inv-history-body not found');
+        return;
+    }
+
+    listBody.innerHTML = '';
+
+    console.log('Debug: Raw Transactions', transactions);
+
+    if (!transactions || transactions.length === 0) {
+        listBody.innerHTML = '<tr><td colspan="4" class="py-4 text-xs font-bold uppercase text-slate-400 tracking-widest text-center">No recent investment activity</td></tr>';
+        return;
+    }
+
+    // Filter for Investment Only
+    const investmentTx = transactions.filter(t =>
+        t.category === 'investment' ||
+        (t.description && t.description.includes('[INVESTMENT]')) ||
+        t.type === 'investment_deposit' ||
+        t.type === 'investment_withdrawal'
+    );
+
+    console.log('Debug: Filtered Investment Tx', investmentTx);
 
     // Sort by date desc
-    const sorted = [...transactions].sort((a, b) => new Date(b.date) - new Date(a.date));
+    const sorted = [...investmentTx].sort((a, b) => new Date(b.created_at || b.date) - new Date(a.created_at || a.date));
 
     if (sorted.length === 0) {
-        transactionList.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 20px;">No transactions found.</p>';
+        listBody.innerHTML = '<tr><td colspan="4" class="py-4 text-xs font-bold uppercase text-slate-400 tracking-widest text-center">No recent investment activity</td></tr>';
         return;
     }
 
     sorted.forEach(t => {
-        const li = document.createElement('li');
-        li.className = 'transaction-item';
-
-        const date = new Date(t.date).toLocaleDateString();
-        const isCredit = t.type === 'credit';
+        const date = new Date(t.created_at || t.date).toLocaleDateString();
+        const isCredit = t.type === 'credit' || t.type === 'investment_deposit';
         const sign = isCredit ? '+' : '-';
-        const colorClass = isCredit ? 'amount-credit' : 'amount-debit';
-        const statusHtml = t.status === 'pending'
-            ? '<span class="status-pending" style="display: block; font-size: 0.8rem;">Pending</span>'
-            : '';
+        const colorClass = isCredit ? 'text-green-500' : 'text-rose-500';
 
-        li.innerHTML = `
-            <div>
-                <div style="font-weight: 500;">${t.description}</div>
-                <div style="font-size: 0.8rem; color: var(--text-muted);">${date}</div>
-            </div>
-            <div style="text-align: right;">
-                <div class="${colorClass}" style="font-weight: 600;">${sign}${utils.formatCurrency(t.amount)}</div>
-                ${statusHtml}
-            </div>
+        // Clean description tag for display
+        const displayDesc = t.description ? t.description.replace('[INVESTMENT]', '').trim() : 'Investment Transaction';
+
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors';
+        tr.innerHTML = `
+            <td class="py-3 text-sm font-bold text-slate-900">${displayDesc}</td>
+            <td class="py-3 text-xs text-slate-500 text-right">${date}</td>
+            <td class="py-3 text-sm font-bold text-right ${colorClass}">${sign}${utils.formatCurrency(t.amount)}</td>
         `;
-        transactionList.appendChild(li);
+        listBody.appendChild(tr);
     });
 }
 
