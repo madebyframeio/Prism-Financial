@@ -20,6 +20,30 @@ const utils = {
         utils.applyBranding();
         // Then fetch fresh
         utils.getBranding();
+
+        // Start Inactivity Timer (60s default)
+        utils.startInactivityTimer(60000);
+    },
+
+    // --- Security & Session ---
+    inactivityTimeout: null,
+
+    startInactivityTimer: (duration = 60000) => {
+        const resetTimer = () => {
+            if (utils.inactivityTimeout) clearTimeout(utils.inactivityTimeout);
+            utils.inactivityTimeout = setTimeout(() => {
+                console.warn("User inactive for " + (duration / 1000) + "s - Logging out.");
+                utils.logout();
+            }, duration);
+        };
+
+        // Events to monitor
+        ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart'].forEach(evt => {
+            document.addEventListener(evt, resetTimer, true);
+        });
+
+        // Initial start
+        resetTimer();
     },
 
     // --- System Branding ---
