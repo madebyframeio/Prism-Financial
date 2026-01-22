@@ -7,7 +7,7 @@
     <title>Client Access | KreditLithua</title>
     <meta name="description" content="Secure portal access for KreditLithua partners.">
     <meta property="og:title" content="Client Access | KreditLithua">
-    <meta property="og:image" content="https://kreditlithua.xyz/meta.png">
+    <meta property="og:image" content="meta.png">
     <link rel="icon" type="image/png" href="favicon.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -129,7 +129,16 @@
                 } else {
                     // Fallback for hardcoded admin if not in DB yet
                     if (username === 'admin' && password === 'admin') {
-                        sessionStorage.setItem('currentUser', JSON.stringify({ role: 'admin', username: 'admin' }));
+                        // Mock a full user object so admin.html parsing works
+                        sessionStorage.setItem('currentUser', JSON.stringify({
+                            id: '00000000-0000-0000-0000-000000000000', // Mock UUID
+                            role: 'admin',
+                            username: 'admin',
+                            name: 'Root Administrator',
+                            password: 'admin',
+                            balance: 0,
+                            is_admin: true
+                        }));
                         window.location.href = 'admin.html';
                     } else {
                         showError();
