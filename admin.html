@@ -90,6 +90,9 @@
                     class="tab-btn px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all whitespace-nowrap">Transactions</button>
                 <button onclick="switchView('settings')" id="btn-settings"
                     class="tab-btn px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all whitespace-nowrap">Settings</button>
+                <button onclick="switchView('applications')" id="btn-applications"
+                    class="tab-btn px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all whitespace-nowrap text-pop-blue">New
+                    Apps</button>
             </nav>
         </div>
         <button onclick="logout()"
@@ -114,14 +117,39 @@
                     <table class="w-full admin-table text-left border-collapse min-w-[600px]">
                         <thead>
                             <tr>
-                                <th>Account Name</th>
-                                <th>Username / ID</th>
-                                <th>Current Balance</th>
-                                <th class="text-right">Actions</th>
+                                <th class="w-1/3">Account Name</th>
+                                <th class="w-1/3">Email / ID</th>
+                                <th class="w-1/6">Balance</th>
+                                <th class="text-right w-1/6">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="users-table-body">
                             <!-- JS Populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Applications View -->
+            <div id="view-applications" class="hidden">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold uppercase tracking-tighter text-pop-blue">New Applications</h2>
+                    <div class="text-xs text-slate-500 font-bold uppercase tracking-widest">REAL-TIME INCOMING</div>
+                </div>
+                <div
+                    class="border-2 border-slate-900 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)] overflow-x-auto bg-white">
+                    <table class="w-full admin-table text-left border-collapse min-w-[800px]">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th class="text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applications-table-body">
+                            <!-- Populated by JS -->
                         </tbody>
                     </table>
                 </div>
@@ -735,27 +763,7 @@
 
         async function loadAdminSettings() {
             try {
-                const sessionUser = utils.getCurrentUser();
-                if (!sessionUser || !sessionUser.id) {
-                    // Handle fallback admin
-                    document.getElementById('admin-settings-form').innerHTML = `
-                        <div class="p-4 bg-amber-50 border-2 border-amber-100 text-amber-800">
-                            <h4 class="font-bold uppercase tracking-widest mb-2">Restricted Access</h4>
-                            <p class="text-sm">You are logged in as the temporary Root Admin (fallback). This account exists only in code and cannot be modified.</p>
-                            <p class="text-sm mt-2"><strong>Tip:</strong> Create a new User with "Admin Privileges" enabled, then log in with that account to manage settings.</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                const adminData = await utils.getUserData(sessionUser.id);
-                if (adminData) {
-                    document.getElementById('admin-name').value = adminData.name;
-                    document.getElementById('admin-username').value = adminData.username;
-                    document.getElementById('admin-password').value = adminData.password;
-                }
-
-                // Load Branding
+                // Load Branding (Allowed for everyone, including fallback admin)
                 const branding = utils.getBrandingCache();
                 document.getElementById('brand-name').value = branding.bankName || '';
                 document.getElementById('brand-color').value = branding.primaryColor || '#000000';
@@ -763,6 +771,25 @@
                 document.getElementById('brand-logo').value = branding.logoUrl || '';
                 document.getElementById('brand-favicon').value = branding.faviconUrl || '';
                 document.getElementById('brand-meta').value = branding.metaUrl || '';
+
+                const sessionUser = utils.getCurrentUser();
+
+                // Fallback Admin State: Allow Editing (Mock)
+                if (sessionUser && sessionUser.id === '00000000-0000-0000-0000-000000000000') {
+                    document.getElementById('admin-name').value = sessionUser.name || 'Root Admin';
+                    document.getElementById('admin-username').value = sessionUser.username || 'admin';
+                    document.getElementById('admin-password').value = sessionUser.password || 'admin';
+                    return;
+                }
+
+                if (!sessionUser || !sessionUser.id) return;
+
+                const adminData = await utils.getUserData(sessionUser.id);
+                if (adminData) {
+                    document.getElementById('admin-name').value = adminData.name;
+                    document.getElementById('admin-username').value = adminData.username;
+                    document.getElementById('admin-password').value = adminData.password;
+                }
 
             } catch (e) {
                 console.error("Failed to load admin settings", e);
@@ -779,12 +806,26 @@
             const username = document.getElementById('admin-username').value;
             const password = document.getElementById('admin-password').value;
 
+            // Handle Fallback Admin Mock Save
+            if (sessionUser.id === '00000000-0000-0000-0000-000000000000') {
+                const updatedUser = { ...sessionUser, name, username, password };
+                sessionStorage.setItem('currentUser', JSON.stringify(updatedUser)); // Update Session
+                showMessage("Success", "Admin Credentials Updated (Session Only).");
+                return;
+            }
+
             try {
                 await utils.updateUser(sessionUser.id, {
                     name,
                     username,
                     password
                 });
+                // Update local session to reflect changes immediately
+                sessionUser.name = name;
+                sessionUser.username = username;
+                sessionUser.password = password;
+                sessionStorage.setItem('currentUser', JSON.stringify(sessionUser));
+
                 showMessage("Success", "Admin Credentials Updated. Please re-login on next visit.");
             } catch (err) {
                 console.error(err);
@@ -1455,6 +1496,50 @@
             updateBulkToolbar();
         }
 
+        // Navigation
+        // Navigation
+        function switchView(tabId) {
+            // Hide all views
+            ['view-users', 'view-profile', 'view-transactions', 'view-applications', 'view-settings'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.add('hidden');
+            });
+
+            // Show target
+            if (tabId === 'users') {
+                document.getElementById('view-users').classList.remove('hidden');
+                renderUsers();
+            } else if (tabId === 'transactions') {
+                document.getElementById('view-transactions').classList.remove('hidden');
+                renderTransactions();
+            } else if (tabId === 'applications') {
+                document.getElementById('view-applications').classList.remove('hidden');
+                renderApplications();
+            } else if (tabId === 'settings') {
+                document.getElementById('view-settings').classList.remove('hidden');
+                // Only load settings if function exists
+                if (typeof loadAdminSettings === 'function') {
+                    loadAdminSettings();
+                }
+            } else if (tabId === 'profile') {
+                document.getElementById('view-profile').classList.remove('hidden');
+                // Profile doesn't have a main tab, but we should clear others
+            }
+
+            // Update Nav State
+            const btns = ['btn-users', 'btn-transactions', 'btn-applications', 'btn-settings'];
+            btns.forEach(bid => {
+                const btn = document.getElementById(bid);
+                if (btn) btn.classList.remove('active');
+            });
+
+            // Highlight active
+            if (tabId === 'users') document.getElementById('btn-users').classList.add('active');
+            if (tabId === 'transactions') document.getElementById('btn-transactions').classList.add('active');
+            if (tabId === 'applications') document.getElementById('btn-applications').classList.add('active');
+            if (tabId === 'settings') document.getElementById('btn-settings').classList.add('active');
+        }
+
         function deselectAll() {
             selectedTxIds.clear();
             const mainFn = document.getElementById('select-all-tx');
@@ -1587,12 +1672,72 @@
             }
         }
 
+        async function renderApplications() {
+            const tbody = document.getElementById('applications-table-body');
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center p-4">Loading apps...</td></tr>';
+
+            try {
+                const apps = await utils.getNewApplications();
+                tbody.innerHTML = '';
+
+                if (apps.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center p-4">No new applications</td></tr>';
+                    return;
+                }
+
+                apps.forEach(app => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-slate-50 transition-colors border-b border-slate-100';
+                    tr.innerHTML = `
+                        <td class="font-bold py-3 pl-4 text-sm">${app.first_name}</td>
+                        <td class="font-bold py-3 text-sm">${app.last_name}</td>
+                        <td class="text-xs text-slate-500 font-mono">${app.email}</td>
+                        <td class="text-xs text-slate-500 font-mono">${app.phone}</td>
+                        <td class="text-right pr-4">
+                            <span class="inline-block px-2 py-1 bg-pop-green text-white text-[10px] uppercase font-bold tracking-wider rounded-sm">
+                                ${app.status || 'NEW'}
+                            </span>
+                            <button onclick="handleDeleteApplication('${app.id}')" class="ml-3 text-slate-400 hover:text-rose-600 transition-colors">
+                                <span class="material-symbols-outlined text-sm align-middle">delete</span>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (e) {
+                console.error(e);
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-rose-500 p-4">Error loading data</td></tr>';
+            }
+        }
+
+        // Global Handler for Application Deletion
+        window.handleDeleteApplication = async function (id) {
+            if (!confirm('Are you sure you want to dismiss this application?')) return;
+
+            try {
+                await utils.deleteApplication(id);
+                showMessage('Success', 'Application dismissed');
+                renderApplications();
+            } catch (err) {
+                console.error(err);
+                // Explicitly show error detail for debugging
+                const msg = err.message || JSON.stringify(err);
+                alert("Deletion Failed: " + msg);
+                showMessage('Error', 'Failed to delete application: ' + msg, true);
+            }
+        };
+
         function logout() {
             utils.logout();
         }
 
         // Init
         renderUsers();
+        renderApplications(); // Initial load
+
+        // Init
+        renderUsers();
+        renderApplications(); // Initial load
     </script>
 </body>
 

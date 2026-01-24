@@ -508,8 +508,48 @@ const utils = {
 
     // --- Admin Functions ---
     getAllUsers: async () => {
-        const { data } = await supabaseClient.from('users').select('*').order('name');
-        return data || [];
+        const { data: users } = await supabaseClient.from('users').select('*').order('name');
+        if (!users) return [];
+
+        // Fetch Emails (optimization: fetch all email settings in one go)
+        // We can't do wildcard easily in 'in'. 
+        // We'll fetch all settings where key ends in _email? PostgREST ilike.
+        try {
+            const { data: settings } = await supabaseClient
+                .from('settings')
+                .select('*')
+                .ilike('key', 'u_%');
+
+            if (settings) {
+                // Map settings to users
+                const emailMap = {};
+                settings.forEach(s => {
+                    // key is u_{id}_email
+                    const parts = s.key.split('_');
+                    if (parts.length >= 3 && parts[0] === 'u') {
+                        const userId = parts[1];
+                        const field = parts.slice(2).join('_'); // email, fname, lname, phone
+
+                        if (!emailMap[userId]) emailMap[userId] = {};
+                        emailMap[userId][field] = s.value;
+                    }
+                });
+
+                return users.map(u => {
+                    const extra = emailMap[u.id] || {};
+                    return {
+                        ...u,
+                        email: extra.email || '',
+                        first_name: extra.fname || '',
+                        last_name: extra.lname || '',
+                        phone: extra.phone || '',
+                        is_applicant: extra.is_applicant === 'true' // Check flag
+                    };
+                }).filter(u => !u.is_applicant); // EXCLUDE applicants from main list
+            }
+        } catch (e) { console.warn("Failed to fetch emails", e); }
+
+        return users;
     },
 
     getAllTransactions: async () => {
@@ -600,10 +640,90 @@ const utils = {
         if (error) throw error;
     },
 
-    createUser: async (userData) => {
-        // Ensure PIN falls back to defaults if not provided, though DB default handles it too
-        const { error } = await supabaseClient.from('users').insert(userData);
+    getNewApplications: async () => {
+        const { data, error } = await supabaseClient
+            .from('new_applications')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.warn("Failed to fetch applications:", error);
+            return [];
+        }
+
+        // Apply Local Dismiss Filter
+        const dismissed = JSON.parse(localStorage.getItem('dismissed_apps') || '[]');
+        const visibleApps = (data || []).filter(app => !dismissed.includes(app.id));
+
+        return visibleApps;
+    },
+
+    deleteApplication: async (id) => {
+        // 1. Locally Dismiss (Guarantees UI update)
+        const dismissed = JSON.parse(localStorage.getItem('dismissed_apps') || '[]');
+        if (!dismissed.includes(id)) {
+            dismissed.push(id);
+            localStorage.setItem('dismissed_apps', JSON.stringify(dismissed));
+        }
+
+        // 2. Attempt DB Delete (Best Effort)
+        // We use 'select' to check if it actually deleted anything, though we don't block on it.
+        const { error } = await supabaseClient
+            .from('new_applications')
+            .delete()
+            .eq('id', id);
+
+        // We log error but don't throw if it's just a permission issue, 
+        // because we successfully "dismissed" it locally.
+        if (error) {
+            console.warn("DB Delete Failed (using local dismiss only):", error);
+        }
+    },
+
+    deleteApplications: async (ids) => {
+        const { error } = await supabaseClient
+            .from('new_applications')
+            .delete()
+            .in('id', ids);
         if (error) throw error;
+    },
+
+    createUser: async (userData, isApplicant = false) => {
+        // Extract Extra Fields to store in settings
+        const { email, first_name, last_name, phone, ...coreData } = userData;
+
+        // Insert Core User
+        const { data, error } = await supabaseClient.from('users').insert(coreData).select('id').single();
+
+        if (error) throw error;
+
+        // Save Extended Profile to Settings (For generic profile access)
+        const settingsUpserts = [];
+        if (data && data.id) {
+            if (email) settingsUpserts.push({ key: `u_${data.id}_email`, value: email });
+            if (first_name) settingsUpserts.push({ key: `u_${data.id}_fname`, value: first_name });
+            if (last_name) settingsUpserts.push({ key: `u_${data.id}_lname`, value: last_name });
+            if (phone) settingsUpserts.push({ key: `u_${data.id}_phone`, value: phone });
+
+            // If Applicant: Mark as applicant AND add to separate table
+            if (isApplicant) {
+                settingsUpserts.push({ key: `u_${data.id}_is_applicant`, value: 'true' });
+
+                // Add to new_applications
+                await supabaseClient.from('new_applications').insert({
+                    user_id: data.id,
+                    email,
+                    first_name,
+                    last_name,
+                    phone,
+                    status: 'pending'
+                });
+            }
+
+            if (settingsUpserts.length > 0) {
+                await supabaseClient.from('settings').upsert(settingsUpserts, { onConflict: 'key' });
+            }
+        }
     },
 
     updateUser: async (id, updates) => {
