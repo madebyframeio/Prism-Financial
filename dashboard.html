@@ -160,8 +160,7 @@
             </div>
 
             <div class="flex items-center gap-6">
-                <div class="hidden md:flex flex-col items-end">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Welcome</span>
+                <div class="flex flex-col items-end">
                     <span id="user-name-display" class="text-sm font-bold text-slate-900">LOADING...</span>
                 </div>
                 <!-- Profile/Logout Dropdown Trigger -->
@@ -174,6 +173,10 @@
         </header>
 
         <main class="flex-1 max-w-7xl w-full mx-auto py-12 px-6 lg:px-12">
+            <!-- Market Ticker -->
+
+
+            <!-- Account Overview Grid -->
             <!-- Account Overview Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                 <!-- Main Balance -->
@@ -211,7 +214,11 @@
                     <span
                         class="material-symbols-outlined absolute -bottom-4 -right-4 text-9xl text-slate-700 opacity-20">lock_clock</span>
                 </div>
+
+
             </div>
+
+
 
             <!-- Investment Section -->
             <div
@@ -266,10 +273,6 @@
                     <span class="material-symbols-outlined">move_to_inbox</span>
                     Deposit
                 </button>
-                <a href="wire.html"
-                    class="flex items-center justify-center gap-4 h-24 bg-slate-900 text-white text-lg font-bold uppercase tracking-widest hover:bg-primary transition-all shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]">
-                    <span class="material-symbols-outlined">send</span>
-                    Wire Transfer
                 </a>
             </div>
 
@@ -345,7 +348,10 @@
                 }
 
                 // Update UI
-                document.getElementById('user-name-display').textContent = `Welcome, ${user.name}`;
+                document.getElementById('user-name-display').textContent = `${user.name}`;
+                if (document.getElementById('card-holder-name')) {
+                    document.getElementById('card-holder-name').textContent = user.name;
+                }
                 document.getElementById('balance-display').textContent = utils.formatCurrency(user.balance || 0);
 
                 // Savings & Investment
