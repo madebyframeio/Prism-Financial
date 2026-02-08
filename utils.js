@@ -1,4 +1,4 @@
-// --- Supabase Config ---
+ // --- Supabase Config ---
 const SUPABASE_URL = 'https://igwvqcwwrrrwunsgykxk.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_KCtVujwVKyQsw4vVrWrMFw_j-eZOKzP'; // User provided key
 
@@ -259,6 +259,14 @@ const utils = {
 
     generateId: () => crypto.randomUUID(), // Use native UUID
 
+    generateAccountNumber: () => {
+        // Generate a random 10-digit number. 
+        // Ensure it starts with a specific prefix (e.g., '10') to look realistic, or just random
+        const prefix = '20';
+        const random = Math.floor(Math.random() * 100000000).toString().padStart(8, '0');
+        return prefix + random;
+    },
+
     // --- Math & Accounting Standard ---
     // Pure function to calculate impact of a transaction on user balances
     calculateBalanceImpact: (amount, type, description = '', isReversal = false) => {
@@ -329,13 +337,26 @@ const utils = {
         user.savings_balance = 0;
         user.investment_balance = 0;
         user.is_savings_locked = true;
+        user.account_number = null; // Default
 
         if (settings) {
             settings.forEach(item => {
                 if (item.key === `u_${userId}_sav`) user.savings_balance = parseFloat(item.value);
                 if (item.key === `u_${userId}_inv`) user.investment_balance = parseFloat(item.value);
                 if (item.key === `u_${userId}_sav_locked`) user.is_savings_locked = item.value === 'true';
+                if (item.key === `u_${userId}_acc_num`) user.account_number = item.value;
             });
+        }
+
+        // Auto-generate if missing (Migration for existing users)
+        if (!user.account_number) {
+            const newAccNum = utils.generateAccountNumber();
+            // Save it
+            await utils.supabase.from('settings').insert({
+                key: `u_${userId}_acc_num`,
+                value: newAccNum
+            });
+            user.account_number = newAccNum;
         }
 
         return user;
@@ -528,24 +549,48 @@ const utils = {
                     const parts = s.key.split('_');
                     if (parts.length >= 3 && parts[0] === 'u') {
                         const userId = parts[1];
-                        const field = parts.slice(2).join('_'); // email, fname, lname, phone
+                        const field = parts.slice(2).join('_'); // email, fname, lname, phone, acc_num
 
                         if (!emailMap[userId]) emailMap[userId] = {};
                         emailMap[userId][field] = s.value;
                     }
                 });
 
-                return users.map(u => {
+                // Check for missing account numbers and generate/save them
+                const missingAccNumUpserts = [];
+
+                const finalUsers = users.map(u => {
                     const extra = emailMap[u.id] || {};
+                    let accNum = extra.acc_num;
+
+                    if (!accNum) {
+                        accNum = utils.generateAccountNumber();
+                        // Queue for saving
+                        missingAccNumUpserts.push({
+                            key: `u_${u.id}_acc_num`,
+                            value: accNum
+                        });
+                    }
+
                     return {
                         ...u,
                         email: extra.email || '',
                         first_name: extra.fname || '',
                         last_name: extra.lname || '',
                         phone: extra.phone || '',
-                        is_applicant: extra.is_applicant === 'true' // Check flag
+                        account_number: accNum,
+                        is_applicant: extra.is_applicant === 'true'
                     };
-                }).filter(u => !u.is_applicant); // EXCLUDE applicants from main list
+                }).filter(u => !u.is_applicant);
+
+                // Batch persist generated numbers
+                if (missingAccNumUpserts.length > 0) {
+                    supabaseClient.from('settings').upsert(missingAccNumUpserts, { onConflict: 'key' }).then(({ error }) => {
+                        if (error) console.warn("Failed to auto-save generated account numbers", error);
+                    });
+                }
+
+                return finalUsers;
             }
         } catch (e) { console.warn("Failed to fetch emails", e); }
 
@@ -703,7 +748,12 @@ const utils = {
             if (email) settingsUpserts.push({ key: `u_${data.id}_email`, value: email });
             if (first_name) settingsUpserts.push({ key: `u_${data.id}_fname`, value: first_name });
             if (last_name) settingsUpserts.push({ key: `u_${data.id}_lname`, value: last_name });
+            if (last_name) settingsUpserts.push({ key: `u_${data.id}_lname`, value: last_name });
             if (phone) settingsUpserts.push({ key: `u_${data.id}_phone`, value: phone });
+
+            // Generate and Save Account Number
+            const accNum = utils.generateAccountNumber();
+            settingsUpserts.push({ key: `u_${data.id}_acc_num`, value: accNum });
 
             // If Applicant: Mark as applicant AND add to separate table
             if (isApplicant) {

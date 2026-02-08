@@ -42,10 +42,10 @@
             },
         }
     </script>
-    <style type="text/tailwindcss">
-        body {
+</head>script>
+<style type="text/tailwindcss">
+    body {
             font-family: 'Space Grotesk', sans-serif;
-            @apply bg-background text-slate-900;
         }
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
@@ -53,16 +53,10 @@
         * {
             border-radius: 0 !important;
         }
-        .high-contrast-table thead th {
-            @apply bg-slate-900 text-white uppercase tracking-wider text-[11px] font-bold py-4 px-6;
-        }
-        .high-contrast-table tbody td {
-            @apply border-b border-slate-200 py-4 px-6 text-sm;
-        }
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col bg-background text-slate-900">
     <!-- Print Styles -->
     <style>
         @media print {
@@ -183,7 +177,12 @@
                 <div
                     class="w-full bg-primary text-white p-8 lg:p-12 border-l-8 border-slate-900 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.05)] relative overflow-hidden">
                     <div class="relative z-10">
-                        <p class="text-blue-200 text-xs font-bold uppercase tracking-[0.3em] mb-4">Current Account</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <p class="text-blue-200 text-xs font-bold uppercase tracking-[0.3em]">Current Account</p>
+                            <p id="acc-num-display"
+                                class="text-white/80 text-[10px] font-mono tracking-widest bg-white/10 px-2 py-1 rounded">
+                                20XXXXXXXX</p>
+                        </div>
                         <h2 id="balance-display" class="text-4xl lg:text-6xl font-bold tracking-tighter mb-4">$0.00</h2>
                         <div class="flex items-center gap-2">
                             <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
@@ -353,6 +352,9 @@
                     document.getElementById('card-holder-name').textContent = user.name;
                 }
                 document.getElementById('balance-display').textContent = utils.formatCurrency(user.balance || 0);
+                if (document.getElementById('acc-num-display')) {
+                    document.getElementById('acc-num-display').textContent = `ACC. No: ${user.account_number || '---'}`;
+                }
 
                 // Savings & Investment
                 document.getElementById('savings-display').textContent = utils.formatCurrency(user.savings_balance || 0);
