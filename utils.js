@@ -1,6 +1,6 @@
- // --- Supabase Config ---
-const SUPABASE_URL = 'https://igwvqcwwrrrwunsgykxk.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_KCtVujwVKyQsw4vVrWrMFw_j-eZOKzP'; // User provided key
+// --- Supabase Config ---
+const SUPABASE_URL = 'https://fmhjbyxljorruczvpajx.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtaGpieXhsam9ycnVjenZwYWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1OTY2ODgsImV4cCI6MjA4NjE3MjY4OH0.Ktc6plrX4dlcEX4ndPD9KImhNWgco1AHAN4AS1E2MGU'; // User provided key
 
 // Initialize Client (Relies on CDN script being loaded in HTML)
 let supabaseClient = null;
@@ -48,8 +48,8 @@ const utils = {
 
     // --- System Branding ---
     brandingDefaults: {
-        bankName: 'KreditLithua',
-        primaryColor: '#002855', // Deep Navy Blue
+        bankName: 'Prism Financial',
+        primaryColor: '#1e293b', // Slate 800 - Professional
         metaUrl: 'meta.png'
     },
 

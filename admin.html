@@ -4,155 +4,145 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>KreditLithua | Admin Console</title>
-    <meta name="description" content="Corporate administration console for KreditLithua partners.">
-    <meta property="og:title" content="KreditLithua | Admin Console">
-    <meta property="og:image" content="https://kreditlithua.xyz/meta.png">
-    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Prism | Admin Console</title>
+    <meta name="description" content="Corporate administration console for Prism partners.">
+    <meta property="og:title" content="Prism | Admin Console">
+    <meta property="og:image" content="meta.png">
+    <link rel="icon" type="image/png" href="logo.png">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: { "primary": "#002855" },
-                    fontFamily: { "sans": ["'Space Grotesk'", "sans-serif"] },
-                },
-            },
-        }
-    </script>
-    <style>
+    <script src="theme.js"></script>
+    <style type="text/tailwindcss">
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: #f8fafc;
-            color: #0f172a;
+            font-family: 'Inter', sans-serif;
+            @apply bg-slate-50 text-secondary antialiased;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Urbanist', sans-serif;
         }
 
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
         }
 
-        * {
-            border-radius: 0 !important;
-        }
-
         .admin-table thead th {
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: #64748b;
-            padding: 1rem;
-            border-bottom: 2px solid #e2e8f0;
-            background: #fff;
+            @apply text-xs font-semibold uppercase tracking-wider text-slate-500 py-3 px-4 border-b border-slate-200 bg-slate-50 text-left;
         }
 
         .admin-table tbody td {
-            padding: 1rem;
-            border-bottom: 1px solid #e2e8f0;
-            font-size: 0.9rem;
-            background: #fff;
+            @apply py-3 px-4 border-b border-slate-100 text-sm bg-white;
         }
 
-        .admin-table tr:last-child td {
-            border-bottom: none;
+        .tab-btn {
+            @apply px-4 py-2 text-sm font-medium text-slate-500 border-b-2 border-transparent hover:text-slate-700 hover:border-slate-300 transition-colors;
         }
 
         .tab-btn.active {
-            background: #0f172a;
-            color: #fff;
-            border-color: #0f172a;
+            @apply text-primary border-primary;
         }
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col bg-slate-50">
     <!-- Navbar -->
     <header
-        class="bg-white border-b-2 border-slate-900 px-4 md:px-8 py-4 sticky top-0 z-50 flex flex-col md:flex-row justify-between items-center shadow-sm gap-4">
-        <div class="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
-            <div class="flex items-center gap-4">
-                <img src="logo.png" alt="KreditLithua Admin" class="h-8 w-auto object-contain">
+        class="bg-white border-b border-slate-200 px-6 py-4 sticky top-0 z-50 flex flex-col md:flex-row justify-between items-center shadow-sm gap-4">
+        <div class="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto">
+            <div class="flex items-center gap-3">
+                <img src="logo.png" alt="Prism Admin Logo" class="h-8 w-auto">
+                <span class="text-lg font-bold tracking-tight text-primary font-serif">Prism Admin</span>
             </div>
 
-            <div class="hidden md:block h-6 w-px bg-slate-200 mx-2"></div>
+            <div class="hidden md:block h-6 w-px bg-slate-200"></div>
 
-            <nav class="flex gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 justify-center">
-                <button onclick="switchView('users')" id="btn-users"
-                    class="tab-btn active px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all whitespace-nowrap">User
-                    Base</button>
-                <button onclick="switchView('transactions')" id="btn-transactions"
-                    class="tab-btn px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all whitespace-nowrap">Transactions</button>
-                <button onclick="switchView('settings')" id="btn-settings"
-                    class="tab-btn px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all whitespace-nowrap">Settings</button>
-                <button onclick="switchView('applications')" id="btn-applications"
-                    class="tab-btn px-4 py-2 border border-slate-200 text-xs font-bold uppercase tracking-widest hover:border-slate-900 transition-all whitespace-nowrap text-pop-blue">New
-                    Apps</button>
+            <nav class="flex gap-1 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 justify-center">
+                <button onclick="switchView('users')" id="btn-users" class="tab-btn active">
+                    User Base
+                </button>
+                <button onclick="switchView('transactions')" id="btn-transactions" class="tab-btn">
+                    Transactions
+                </button>
+                <button onclick="switchView('settings')" id="btn-settings" class="tab-btn">
+                    Settings
+                </button>
+                <button onclick="switchView('applications')" id="btn-applications" class="tab-btn">
+                    New Apps
+                </button>
             </nav>
         </div>
         <button onclick="logout()"
-            class="text-slate-400 hover:text-slate-900 flex items-center gap-2 text-xs font-bold uppercase tracking-widest absolute md:static top-4 right-4">
+            class="text-slate-500 hover:text-primary flex items-center gap-2 text-xs font-semibold uppercase tracking-wider transition-colors">
             Logout <span class="material-symbols-outlined text-sm">logout</span>
         </button>
     </header>
 
-    <main class="flex-1 p-4 md:p-8 overflow-y-auto">
+    <main class="flex-1 p-6 md:p-8 overflow-y-auto">
         <div class="max-w-7xl mx-auto">
 
             <!-- Users View -->
             <div id="view-users" class="block">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold uppercase tracking-tighter">Registered Accounts</h2>
+                    <h2 class="text-2xl font-bold font-serif text-primary">Registered Accounts</h2>
                     <button onclick="openCreateUserModal()"
-                        class="bg-slate-900 text-white px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-primary transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
+                        class="bg-primary text-white px-6 py-3 font-medium uppercase tracking-wider text-xs hover:bg-slate-800 transition-all rounded shadow-sm">
                         + New Account
                     </button>
                 </div>
-                <div class="border-2 border-slate-900 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)] overflow-x-auto">
-                    <table class="w-full admin-table text-left border-collapse min-w-[600px]">
-                        <thead>
-                            <tr>
-                                <th class="w-1/4">Account Name</th>
-                                <th class="w-1/6">Acc. No.</th>
-                                <th class="w-1/4">Username / ID</th>
-                                <th class="w-1/6">Balance</th>
-                                <th class="text-right w-1/6">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="users-table-body">
-                            <!-- JS Populated -->
-                        </tbody>
-                    </table>
+                <div class="bg-white border border-slate-200 shadow-sm rounded overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full admin-table text-left border-collapse min-w-[600px]">
+                            <thead>
+                                <tr>
+                                    <th class="w-1/4">Account Name</th>
+                                    <th class="w-1/6">Acc. No.</th>
+                                    <th class="w-1/4">Username / ID</th>
+                                    <th class="w-1/6">Balance</th>
+                                    <th class="text-right w-1/6">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table-body">
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
             <!-- Applications View -->
             <div id="view-applications" class="hidden">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold uppercase tracking-tighter text-pop-blue">New Applications</h2>
-                    <div class="text-xs text-slate-500 font-bold uppercase tracking-widest">REAL-TIME INCOMING</div>
+                    <h2 class="text-2xl font-bold font-serif text-primary">New Applications</h2>
+                    <div class="text-xs text-slate-500 font-semibold uppercase tracking-wider flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live Feed
+                    </div>
                 </div>
-                <div
-                    class="border-2 border-slate-900 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)] overflow-x-auto bg-white">
-                    <table class="w-full admin-table text-left border-collapse min-w-[800px]">
-                        <thead>
-                            <tr>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th class="text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="applications-table-body">
-                            <!-- Populated by JS -->
-                        </tbody>
-                    </table>
+                <div class="bg-white border border-slate-200 shadow-sm rounded overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full admin-table text-left border-collapse min-w-[800px]">
+                            <thead>
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="applications-table-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -160,7 +150,7 @@
             <div id="view-profile" class="hidden">
                 <div class="mb-6 flex items-center gap-4">
                     <button onclick="switchView('users')"
-                        class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors">
+                        class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-500 hover:text-slate-800 transition-colors">
                         <span class="material-symbols-outlined">arrow_back</span> Back to List
                     </button>
                 </div>
@@ -168,39 +158,39 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <!-- Profile Card -->
                     <div class="lg:col-span-1">
-                        <div
-                            class="bg-white border-2 border-slate-900 p-6 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.2)]">
+                        <div class="bg-white border border-slate-200 p-6 rounded shadow-sm">
                             <div
-                                class="w-20 h-20 bg-primary text-white flex items-center justify-center rounded-full border-4 border-slate-900 mb-6 mx-auto">
+                                class="w-20 h-20 bg-primary text-white flex items-center justify-center rounded-full mb-6 mx-auto shadow-sm">
                                 <span class="material-symbols-outlined text-4xl">person</span>
                             </div>
                             <h2 id="profile-name-display"
-                                class="text-xl font-bold uppercase text-center mb-1 text-slate-900">User Name</h2>
+                                class="text-xl font-bold uppercase text-center mb-1 text-slate-800 font-serif">User Name
+                            </h2>
                             <p id="profile-id-display" class="text-xs font-mono text-center text-slate-400 mb-2">ID:
                                 U123456</p>
                             <p id="profile-acc-num-display"
-                                class="text-sm font-mono font-bold text-center text-slate-700 mb-6 bg-slate-100 py-1 rounded">
+                                class="text-xs font-mono font-medium text-center text-slate-700 mb-6 bg-slate-100 py-1.5 rounded-sm mx-auto max-w-[200px]">
                                 20XXXXXXXX</p>
 
-                            <div class="border-t-2 border-slate-100 pt-6 mb-6">
-                                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Current
-                                    Balance</p>
+                            <div class="border-t border-slate-100 pt-6 mb-6">
+                                <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
+                                    Current Balance</p>
                                 <h3 id="profile-balance-display"
-                                    class="text-3xl font-bold text-primary tracking-tighter mb-4">$0.00</h3>
+                                    class="text-3xl font-bold text-primary tracking-tight mb-4 font-serif">$0.00</h3>
 
-                                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Savings
-                                    (Fixed Term)</p>
+                                <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
+                                    Savings (Fixed Term)</p>
                                 <h3 id="profile-savings-display"
-                                    class="text-xl font-bold text-slate-900 tracking-tighter mb-4">$0.00</h3>
+                                    class="text-xl font-bold text-slate-800 tracking-tight mb-4">$0.00</h3>
 
-                                <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">
+                                <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
                                     Investment</p>
                                 <h3 id="profile-investment-display"
-                                    class="text-xl font-bold text-slate-900 tracking-tighter">$0.00</h3>
+                                    class="text-xl font-bold text-slate-800 tracking-tight">$0.00</h3>
                             </div>
 
                             <button onclick="deleteUser()"
-                                class="w-full py-3 border-2 border-rose-200 text-rose-600 font-bold uppercase tracking-widest text-xs hover:bg-rose-50 hover:border-rose-400 transition-all">
+                                class="w-full py-3 border border-rose-200 text-rose-600 font-medium uppercase tracking-wider text-xs hover:bg-rose-50 transition-all rounded-sm">
                                 Terminate Account
                             </button>
                         </div>
@@ -208,46 +198,45 @@
 
                     <!-- Edit Details & History -->
                     <div class="lg:col-span-2">
-                        <div
-                            class="bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)] mb-8">
+                        <div class="bg-white border border-slate-200 p-8 rounded shadow-sm mb-8">
                             <h3
-                                class="text-lg font-bold uppercase tracking-widest mb-6 border-b-2 border-slate-100 pb-2">
+                                class="text-lg font-bold font-serif uppercase tracking-wider mb-6 border-b border-slate-100 pb-2 text-primary">
                                 Account Controls</h3>
                             <form id="edit-profile-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <input type="hidden" id="edit-profile-id">
                                 <div>
                                     <label
-                                        class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Full
+                                        class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Full
                                         Name</label>
                                     <input type="text" id="edit-profile-name"
-                                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
+                                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
                                 </div>
                                 <div>
                                     <label
-                                        class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Username</label>
+                                        class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Username</label>
                                     <input type="text" id="edit-profile-username"
-                                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
+                                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
                                 </div>
                                 <div>
                                     <label
-                                        class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Password
+                                        class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Password
                                         (Reset)</label>
                                     <input type="text" id="edit-profile-password"
-                                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
+                                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
                                 </div>
                                 <div>
                                     <label
-                                        class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">PIN</label>
+                                        class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">PIN</label>
                                     <input type="text" id="edit-profile-pin" maxlength="4"
-                                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
+                                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
                                 </div>
                                 <div class="flex items-end gap-3">
                                     <button type="submit"
-                                        class="flex-1 h-[50px] bg-slate-900 text-white font-bold uppercase tracking-widest text-xs hover:bg-primary transition-all">
+                                        class="flex-1 h-[50px] bg-primary text-white font-medium uppercase tracking-wider text-xs hover:bg-slate-800 transition-all rounded-sm shadow-sm">
                                         Update Credentials
                                     </button>
                                     <button type="button" onclick="openEditBalance(currentUserProfileId)"
-                                        class="h-[50px] px-6 border-2 border-slate-900 text-slate-900 font-bold uppercase tracking-widest text-xs hover:bg-slate-50 transition-all flex items-center gap-2">
+                                        class="h-[50px] px-6 border border-slate-300 text-slate-700 font-medium uppercase tracking-wider text-xs hover:bg-slate-50 transition-all flex items-center gap-2 rounded-sm">
                                         <span class="material-symbols-outlined text-lg">account_balance_wallet</span>
                                         Balance
                                     </button>
@@ -255,12 +244,12 @@
                             </form>
                         </div>
 
-                        <div
-                            class="bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)]">
-                            <div class="flex justify-between items-center mb-6 border-b-2 border-slate-100 pb-2">
-                                <h3 class="text-lg font-bold uppercase tracking-widest">Recent Activity</h3>
+                        <div class="bg-white border border-slate-200 p-8 rounded shadow-sm">
+                            <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-2">
+                                <h3 class="text-lg font-bold font-serif uppercase tracking-wider text-primary">Recent
+                                    Activity</h3>
                                 <button onclick="showAddTransactionModal(currentUserProfileId)"
-                                    class="text-xs font-bold uppercase tracking-widest text-primary hover:text-blue-800 flex items-center gap-1">
+                                    class="text-xs font-bold uppercase tracking-wider text-accent hover:text-accent-dark flex items-center gap-1 transition-colors">
                                     <span class="material-symbols-outlined text-sm">add_circle</span> Add Entry
                                 </button>
                             </div>
@@ -292,159 +281,159 @@
             <div id="view-transactions" class="hidden">
                 <div class="flex justify-between items-center mb-6 gap-4">
                     <div class="flex items-center gap-4">
-                        <h2 class="text-2xl font-bold uppercase tracking-tighter">Global Ledger</h2>
+                        <h2 class="text-2xl font-bold font-serif text-primary">Global Ledger</h2>
                         <span id="filter-display"
-                            class="hidden bg-yellow-100 text-yellow-800 border border-yellow-200 px-3 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+                            class="hidden bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider flex items-center gap-2 rounded-full">
                             Filtered View
-                            <button onclick="clearFilter()" class="hover:text-red-600"><span
-                                    class="material-symbols-outlined text-sm">close</span></button>
+                            <button onclick="clearFilter()" class="hover:text-red-600 block"><span
+                                    class="material-symbols-outlined text-sm pt-0.5">close</span></button>
                         </span>
                     </div>
                     <button onclick="showAddTransactionModal()"
-                        class="bg-primary text-white px-6 py-3 font-bold uppercase tracking-widest text-xs hover:bg-blue-800 transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        class="bg-primary text-white px-6 py-3 font-medium uppercase tracking-wider text-xs hover:bg-slate-800 transition-all rounded shadow-sm">
                         + Manual Entry
                     </button>
                 </div>
 
-                <div class="border-2 border-slate-900 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)] overflow-x-auto">
-                    <table class="w-full admin-table text-left border-collapse min-w-[800px]">
-                        <thead>
-                            <tr>
-                                <th class="w-[40px] text-center"><input type="checkbox" id="select-all-tx"
-                                        onchange="toggleSelectAll(this)"></th>
-                                <th>Timestamp</th>
-                                <th>User</th>
-                                <th>Type</th>
-                                <th class="text-right">Amount</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="transactions-table-body">
-                            <!-- JS Populated -->
-                        </tbody>
-                    </table>
+                <div class="bg-white border border-slate-200 shadow-sm rounded overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full admin-table text-left border-collapse min-w-[800px]">
+                            <thead>
+                                <tr>
+                                    <th class="w-[40px] text-center"><input type="checkbox" id="select-all-tx"
+                                            onchange="toggleSelectAll(this)"></th>
+                                    <th>Timestamp</th>
+                                    <th>User</th>
+                                    <th>Type</th>
+                                    <th class="text-right">Amount</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactions-table-body">
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
             <!-- Admin Settings View -->
             <div id="view-settings" class="hidden">
-                <div class="max-w-2xl mx-auto">
-                    <h2 class="text-2xl font-bold uppercase tracking-tighter mb-6">Admin Configuration</h2>
-                    <div class="bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)]">
-                        <div class="flex items-center gap-4 mb-8 border-b-2 border-slate-100 pb-6">
+                <div class="max-w-3xl mx-auto">
+                    <h2 class="text-2xl font-bold font-serif text-primary mb-6">Admin Configuration</h2>
+                    <div class="bg-white border border-slate-200 p-8 rounded shadow-sm mb-8">
+                        <div class="flex items-center gap-4 mb-8 border-b border-slate-100 pb-6">
                             <div
-                                class="w-16 h-16 bg-slate-900 text-white flex items-center justify-center rounded-full">
-                                <span class="material-symbols-outlined text-3xl">manage_accounts</span>
+                                class="w-14 h-14 bg-slate-800 text-white flex items-center justify-center rounded-full shadow-sm">
+                                <span class="material-symbols-outlined text-2xl">manage_accounts</span>
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold uppercase tracking-widest text-slate-900">My Credentials
-                                </h3>
-                                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Update your access
-                                    details</p>
+                                <h3 class="text-lg font-bold uppercase tracking-wider text-primary">My Credentials</h3>
+                                <p class="text-xs font-medium text-slate-500">Update your access details</p>
                             </div>
                         </div>
 
                         <form id="admin-settings-form">
-                            <div class="mb-6">
-                                <label
-                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">My
-                                    Display Name</label>
-                                <input type="text" id="admin-name" required
-                                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label
+                                        class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">My
+                                        Display Name</label>
+                                    <input type="text" id="admin-name" required
+                                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm uppercase">
+                                </div>
+                                <div>
+                                    <label
+                                        class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">My
+                                        Username</label>
+                                    <input type="text" id="admin-username" required
+                                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm uppercase">
+                                </div>
                             </div>
                             <div class="mb-6">
                                 <label
-                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">My
-                                    Username</label>
-                                <input type="text" id="admin-username" required
-                                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
-                            </div>
-                            <div class="mb-6">
-                                <label
-                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">My
+                                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">My
                                     Password</label>
                                 <input type="text" id="admin-password" required
-                                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
-                                <p class="text-[10px] text-slate-400 mt-2 font-mono">* Visible for admin purposes</p>
+                                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
+                                <p class="text-[10px] text-slate-400 mt-2 font-mono">* Visible for admin session
+                                    management</p>
                             </div>
 
-                            <div class="flex justify-end gap-4 pt-4 border-t-2 border-slate-100">
+                            <div class="flex justify-end pt-4 border-t border-slate-100">
                                 <button type="submit"
-                                    class="px-8 py-3 bg-slate-900 text-white font-bold uppercase tracking-widest text-xs hover:bg-primary transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
+                                    class="px-6 py-3 bg-primary text-white font-medium uppercase tracking-wider text-xs hover:bg-slate-800 transition-all rounded-sm shadow-sm">
                                     Save Changes
                                 </button>
                             </div>
                         </form>
                     </div>
-                </div>
 
-                <!-- Branding Config -->
-                <div class="max-w-2xl mx-auto mt-12 mb-12">
-                    <div class="bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)]">
-                        <div class="flex items-center gap-4 mb-8 border-b-2 border-slate-100 pb-6">
-                            <div class="w-16 h-16 bg-primary text-white flex items-center justify-center rounded-full">
-                                <span class="material-symbols-outlined text-3xl">palette</span>
+                    <!-- Branding Config -->
+                    <div class="bg-white border border-slate-200 p-8 rounded shadow-sm">
+                        <div class="flex items-center gap-4 mb-8 border-b border-slate-100 pb-6">
+                            <div
+                                class="w-14 h-14 bg-accent text-white flex items-center justify-center rounded-full shadow-sm">
+                                <span class="material-symbols-outlined text-2xl">palette</span>
                             </div>
                             <div>
-                                <h3 class="text-xl font-bold uppercase tracking-widest text-slate-900">System Branding
-                                </h3>
-                                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Global Appearance
-                                    Settings</p>
+                                <h3 class="text-lg font-bold uppercase tracking-wider text-primary">System Branding</h3>
+                                <p class="text-xs font-medium text-slate-500">Global Appearance Settings</p>
                             </div>
                         </div>
 
                         <form id="branding-form">
                             <div class="mb-6">
                                 <label
-                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Bank
+                                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Bank
                                     Name</label>
                                 <input type="text" id="brand-name" required
-                                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
+                                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm uppercase">
                             </div>
                             <div class="mb-6">
                                 <label
-                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Primary
+                                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Primary
                                     Color</label>
                                 <div class="flex gap-4">
                                     <input type="color" id="brand-color" required
-                                        class="h-12 w-24 border-2 border-slate-200 p-1 cursor-pointer">
+                                        class="h-11 w-20 border border-slate-200 p-1 cursor-pointer rounded-sm">
                                     <input type="text" id="brand-color-text"
-                                        class="flex-1 bg-slate-50 border-2 border-slate-200 p-3 font-mono font-bold text-slate-900 uppercase"
+                                        class="flex-1 bg-slate-50 border border-slate-200 p-3 font-mono font-medium text-slate-900 uppercase focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm"
                                         placeholder="#000000" pattern="^#[0-9A-Fa-f]{6}$">
                                 </div>
                             </div>
 
                             <div class="mb-6">
                                 <label
-                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Logo
+                                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Logo
                                     URL (Optional)</label>
                                 <input type="text" id="brand-logo" placeholder="https://..."
-                                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-mono text-sm text-slate-900 focus:border-primary focus:ring-0">
-                                <p class="text-[9px] text-slate-400 mt-1">Replaces the Bank Icon. Transparent PNG
+                                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
+                                <p class="text-[10px] text-slate-400 mt-1">Replaces the Bank Icon. Transparent PNG
                                     recommended.</p>
                             </div>
 
                             <div class="mb-6">
                                 <label
-                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Favicon
+                                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Favicon
                                     URL (Optional)</label>
                                 <input type="text" id="brand-favicon" placeholder="https://..."
-                                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-mono text-sm text-slate-900 focus:border-primary focus:ring-0">
+                                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
                             </div>
 
                             <div class="mb-6">
                                 <label
-                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Meta
+                                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Meta
                                     Image URL (Optional)</label>
                                 <input type="text" id="brand-meta" placeholder="https://..."
-                                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-mono text-sm text-slate-900 focus:border-primary focus:ring-0">
-                                <p class="text-[9px] text-slate-400 mt-1">Shown when sharing links on social media.</p>
+                                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
+                                <p class="text-[10px] text-slate-400 mt-1">Shown when sharing links on social media.</p>
                             </div>
 
-                            <div class="flex justify-end gap-4 pt-4 border-t-2 border-slate-100">
+                            <div class="flex justify-end pt-4 border-t border-slate-100">
                                 <button type="submit"
-                                    class="px-8 py-3 bg-slate-900 text-white font-bold uppercase tracking-widest text-xs hover:bg-primary transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
+                                    class="px-6 py-3 bg-primary text-white font-medium uppercase tracking-wider text-xs hover:bg-slate-800 transition-all rounded-sm shadow-sm">
                                     Update System
                                 </button>
                             </div>
@@ -458,55 +447,57 @@
 
     <!-- Create User Modal -->
     <div id="create-user-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
-        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onclick="closeModal('create-user-modal')"></div>
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+            onclick="closeModal('create-user-modal')"></div>
         <div
-            class="relative bg-white border-4 border-slate-900 p-8 w-full max-w-md shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
-            <h3 class="text-xl font-bold uppercase tracking-widest mb-6">Create New Account</h3>
+            class="relative bg-white border border-slate-200 p-8 w-full max-w-md shadow-xl rounded-sm transform transition-all">
+            <h3 class="text-xl font-bold font-serif uppercase tracking-wider mb-6 text-primary">Create New Account</h3>
             <form id="create-user-form">
                 <div class="mb-4">
-                    <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Full
+                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Full
                         Name</label>
                     <input type="text" id="new-user-name" required
-                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
+                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm uppercase">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Username /
-                        Login ID</label>
+                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Username
+                        / Login ID</label>
                     <input type="text" id="new-user-username" required
-                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
+                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm uppercase">
                 </div>
                 <div class="mb-4">
                     <label
-                        class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Password</label>
+                        class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-2">Password</label>
                     <input type="text" id="new-user-password"
-                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:outline-none focus:border-slate-900"
+                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm"
                         required>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">PIN
+                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-2">PIN
                         (4-Digit)</label>
                     <input type="text" id="new-user-pin" maxlength="4"
-                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:outline-none focus:border-slate-900"
+                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm"
                         value="1234">
                 </div>
                 <div class="mb-6" id="balance-field-container">
-                    <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Initial
+                    <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-2">Initial
                         Balance</label>
                     <input type="number" id="new-user-balance"
-                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-mono font-bold text-slate-900 focus:outline-none focus:border-slate-900"
+                        class="w-full bg-slate-50 border border-slate-200 p-3 font-mono font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm"
                         value="0">
                 </div>
                 <div class="mb-6 flex items-center gap-2">
                     <input type="checkbox" id="new-user-admin"
-                        class="w-4 h-4 text-slate-900 border-2 border-slate-200 focus:ring-0">
-                    <label for="new-user-admin" class="text-xs font-bold uppercase tracking-widest text-slate-900">Grant
-                        Admin Privileges</label>
+                        class="w-4 h-4 text-primary border-slate-300 rounded focus:ring-primary">
+                    <label for="new-user-admin"
+                        class="text-xs font-semibold uppercase tracking-wider text-slate-700">Grant Admin
+                        Privileges</label>
                 </div>
                 <div class="flex gap-4">
                     <button type="button" onclick="closeModal('create-user-modal')"
-                        class="flex-1 py-3 border-2 border-slate-200 font-bold uppercase tracking-widest text-xs hover:border-slate-900">Cancel</button>
+                        class="flex-1 py-3 border border-slate-300 font-medium uppercase tracking-wider text-xs hover:bg-slate-50 rounded-sm text-slate-700 transition-colors">Cancel</button>
                     <button type="submit"
-                        class="flex-1 py-3 bg-primary text-white font-bold uppercase tracking-widest text-xs hover:bg-blue-800">Create
+                        class="flex-1 py-3 bg-primary text-white font-medium uppercase tracking-wider text-xs hover:bg-slate-800 rounded-sm shadow-sm transition-all">Create
                         Account</button>
                 </div>
             </form>
@@ -515,41 +506,41 @@
 
     <!-- Edit Balance -->
     <div id="edit-balance-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
-        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onclick="closeModal('edit-balance-modal')"></div>
-        <div
-            class="relative bg-white border-4 border-slate-900 p-8 w-full max-w-md shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
-            <h3 class="text-xl font-bold uppercase tracking-widest mb-6">Manage Balances</h3>
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+            onclick="closeModal('edit-balance-modal')"></div>
+        <div class="relative bg-white border border-slate-200 p-8 w-full max-w-md shadow-xl rounded-sm">
+            <h3 class="text-xl font-bold font-serif uppercase tracking-wider mb-6 text-primary">Manage Balances</h3>
             <input type="hidden" id="edit-user-id">
 
             <div class="mb-4">
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Main Account
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Main Account
                     Balance</label>
                 <input type="number" id="new-balance-input"
-                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0"
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm"
                     step="0.01">
             </div>
 
             <div class="mb-4">
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Savings
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Savings
                     (Fixed Term)</label>
                 <input type="number" id="new-savings-input"
-                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0"
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm"
                     step="0.01">
             </div>
 
             <div class="mb-6">
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Investment
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Investment
                     Portfolio</label>
                 <input type="number" id="new-investment-input"
-                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0"
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm"
                     step="0.01">
             </div>
 
             <div class="flex gap-4">
                 <button onclick="closeModal('edit-balance-modal')"
-                    class="flex-1 py-3 border-2 border-slate-200 font-bold uppercase tracking-widest text-xs hover:border-slate-900">Cancel</button>
+                    class="flex-1 py-3 border border-slate-300 font-medium uppercase tracking-wider text-xs hover:bg-slate-50 rounded-sm text-slate-700 transition-colors">Cancel</button>
                 <button onclick="saveBalance()"
-                    class="flex-1 py-3 bg-primary text-white font-bold uppercase tracking-widest text-xs hover:bg-blue-800">Confirm
+                    class="flex-1 py-3 bg-primary text-white font-medium uppercase tracking-wider text-xs hover:bg-slate-800 rounded-sm shadow-sm transition-all">Confirm
                     Update</button>
             </div>
         </div>
@@ -557,66 +548,82 @@
 
     <!-- Add Transaction -->
     <div id="add-transaction-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
-        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onclick="closeModal('add-transaction-modal')">
-        </div>
-        <div
-            class="relative bg-white border-4 border-slate-900 p-8 w-full max-w-lg shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
-            <h3 class="text-xl font-bold uppercase tracking-widest mb-6">Manual Ledger Entry</h3>
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+            onclick="closeModal('add-transaction-modal')"></div>
+        <div class="relative bg-white border border-slate-200 p-8 w-full max-w-lg shadow-xl rounded-sm">
+            <h3 class="text-xl font-bold font-serif uppercase tracking-wider mb-6 text-primary">Manual Ledger Entry</h3>
 
             <div class="mb-4">
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Target
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Target
                     Account</label>
-                <select id="t-user-select"
-                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0"></select>
+                <div class="relative">
+                    <select id="t-user-select"
+                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm appearance-none"></select>
+                    <div class="absolute right-3 top-3 pointer-events-none text-slate-500">
+                        <span class="material-symbols-outlined text-lg">expand_more</span>
+                    </div>
+                </div>
             </div>
 
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div>
                     <label
-                        class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Direction</label>
-                    <select id="t-type"
-                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
-                        <option value="credit">Credit (Inbound)</option>
-                        <option value="debit">Debit (Outbound)</option>
-                    </select>
+                        class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Direction</label>
+                    <div class="relative">
+                        <select id="t-type"
+                            class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm appearance-none">
+                            <option value="credit">Credit (Inbound)</option>
+                            <option value="debit">Debit (Outbound)</option>
+                        </select>
+                        <div class="absolute right-3 top-3 pointer-events-none text-slate-500">
+                            <span class="material-symbols-outlined text-lg">swap_vert</span>
+                        </div>
+                    </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Assets</label>
+                    <label
+                        class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Assets</label>
                     <input type="number" id="t-amount" placeholder="0.00"
-                        class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
+                        class="w-full bg-slate-50 border border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
                 </div>
             </div>
 
             <!-- Transaction Details -->
             <div class="mb-4">
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Category</label>
-                <select id="t-category"
-                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
-                    <option value="investment">Investment Portfolio</option>
-                    <option value="current">Current Account</option>
-                    <option value="savings">Savings (Fixed)</option>
-                </select>
+                <label
+                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Category</label>
+                <div class="relative">
+                    <select id="t-category"
+                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm appearance-none">
+                        <option value="investment">Investment Portfolio</option>
+                        <option value="current">Current Account</option>
+                        <option value="savings">Savings (Fixed)</option>
+                    </select>
+                    <div class="absolute right-3 top-3 pointer-events-none text-slate-500">
+                        <span class="material-symbols-outlined text-lg">category</span>
+                    </div>
+                </div>
             </div>
 
             <div class="mb-4">
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Transaction
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Transaction
                     Date</label>
                 <input type="datetime-local" id="t-date"
-                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
             </div>
 
             <div class="mb-4">
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Narration /
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Narration /
                     Description</label>
                 <input type="text" id="t-desc" placeholder="e.g. Dividend Payout"
-                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
             </div>
 
             <div class="flex gap-4">
                 <button onclick="closeModal('add-transaction-modal')"
-                    class="flex-1 py-3 border-2 border-slate-200 font-bold uppercase tracking-widest text-xs hover:border-slate-900">Cancel</button>
+                    class="flex-1 py-3 border border-slate-300 font-medium uppercase tracking-wider text-xs hover:bg-slate-50 rounded-sm text-slate-700 transition-colors">Cancel</button>
                 <button onclick="createTransaction()"
-                    class="flex-1 py-3 bg-primary text-white font-bold uppercase tracking-widest text-xs hover:bg-blue-800">Post
+                    class="flex-1 py-3 bg-primary text-white font-medium uppercase tracking-wider text-xs hover:bg-slate-800 rounded-sm shadow-sm transition-all">Post
                     Entry</button>
             </div>
         </div>
@@ -624,97 +631,78 @@
 
     <!-- Edit Transaction Modal -->
     <div id="edit-transaction-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
-        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" onclick="closeModal('edit-transaction-modal')">
-        </div>
-        <div
-            class="relative bg-white border-4 border-slate-900 p-8 w-full max-w-lg shadow-[20px_20px_0px_0px_rgba(0,0,0,1)]">
-            <h3 class="text-xl font-bold uppercase tracking-widest mb-6">Edit Transaction</h3>
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+            onclick="closeModal('edit-transaction-modal')"></div>
+        <div class="relative bg-white border border-slate-200 p-8 w-full max-w-lg shadow-xl rounded-sm">
+            <h3 class="text-xl font-bold font-serif uppercase tracking-wider mb-6 text-primary">Edit Transaction</h3>
             <input type="hidden" id="edit-tx-id">
             <input type="hidden" id="edit-tx-old-amount">
             <input type="hidden" id="edit-tx-type">
             <input type="hidden" id="edit-tx-user-id">
 
-            <!-- Amount (readonly for now to avoid balance drift, or handle complex diff logic) -->
-            <!-- User asked for "same form", let's make it editable but handle logic carefully -->
             <div class="mb-4">
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Amount</label>
+                <label
+                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Amount</label>
                 <input type="number" id="edit-tx-amount"
-                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
             </div>
 
-            <!-- Date -->
             <div class="mb-4">
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Transaction
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Transaction
                     Date</label>
                 <input type="datetime-local" id="edit-tx-date"
-                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
             </div>
 
-            <!-- Description -->
             <div class="mb-4">
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Description /
-                    Narration</label>
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Description
+                    / Narration</label>
                 <input type="text" id="edit-tx-desc"
-                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
             </div>
-            <!-- Status -->
+
             <div class="mb-6">
-                <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Status</label>
-                <select id="edit-tx-status"
-                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
-                    <option value="pending">Pending</option>
-                    <option value="completed">Completed</option>
-                    <option value="rejected">Rejected / Voided</option>
-                </select>
+                <label
+                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Status</label>
+                <div class="relative">
+                    <select id="edit-tx-status"
+                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm appearance-none">
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                        <option value="rejected">Rejected / Voided</option>
+                    </select>
+                    <div class="absolute right-3 top-3 pointer-events-none text-slate-500">
+                        <span class="material-symbols-outlined text-lg">flag</span>
+                    </div>
+                </div>
             </div>
 
             <div class="flex gap-4">
-                <div class="flex gap-4">
-                    <button onclick="closeModal('edit-transaction-modal')"
-                        class="flex-1 py-3 border-2 border-slate-200 font-bold uppercase tracking-widest text-xs hover:border-slate-900">Cancel</button>
-                    <button onclick="saveEditTransaction()"
-                        class="flex-1 py-3 bg-primary text-white font-bold uppercase tracking-widest text-xs hover:bg-blue-800">Save
-                        Changes</button>
-                </div>
+                <button onclick="closeModal('edit-transaction-modal')"
+                    class="flex-1 py-3 border border-slate-300 font-medium uppercase tracking-wider text-xs hover:bg-slate-50 rounded-sm text-slate-700 transition-colors">Cancel</button>
+                <button onclick="saveEditTransaction()"
+                    class="flex-1 py-3 bg-primary text-white font-medium uppercase tracking-wider text-xs hover:bg-slate-800 rounded-sm shadow-sm transition-all">Save
+                    Changes</button>
             </div>
         </div>
-
-        class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white p-4
-        shadow-[10px_10px_0px_0px_rgba(0,0,0,0.5)] z-[9000] flex items-center gap-6 border-2 border-white">
-        <div class="font-bold uppercase tracking-widest text-xs"><span id="selected-count">0</span> Selected
-        </div>
-        <div class="h-6 w-px bg-slate-700"></div>
-        <button onclick="bulkAction('approve')"
-            class="text-xs font-bold uppercase tracking-widest hover:text-green-400 flex items-center gap-2">
-            <span class="material-symbols-outlined text-sm">check_circle</span> Approve
-        </button>
-        <button onclick="bulkAction('delete')"
-            class="text-xs font-bold uppercase tracking-widest hover:text-rose-400 flex items-center gap-2">
-            <span class="material-symbols-outlined text-sm">delete</span> Delete
-        </button>
-        <button onclick="deselectAll()" class="ml-4 text-slate-500 hover:text-white">
-            <span class="material-symbols-outlined text-sm">close</span>
-        </button>
     </div>
 
 
-    </main>
-
     <!-- Bulk Actions Toolbar (Global - Fixed) -->
     <div id="bulk-actions-bar"
-        class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white p-4 shadow-[10px_10px_0px_0px_rgba(0,0,0,0.5)] z-[9000] flex items-center gap-6 border-2 border-white">
-        <div class="font-bold uppercase tracking-widest text-xs"><span id="selected-count">0</span> Selected
-        </div>
+        class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white p-4 shadow-2xl z-[9000] flex items-center gap-6 rounded-lg border border-slate-800">
+        <div class="font-semibold uppercase tracking-wider text-xs"><span id="selected-count"
+                class="text-accent font-bold">0</span> Selected</div>
         <div class="h-6 w-px bg-slate-700"></div>
         <button onclick="bulkAction('approve')"
-            class="text-xs font-bold uppercase tracking-widest hover:text-emerald-400 flex items-center gap-2">
+            class="text-xs font-semibold uppercase tracking-wider hover:text-emerald-400 flex items-center gap-2 transition-colors">
             <span class="material-symbols-outlined text-sm">check_circle</span> Approve
         </button>
         <button onclick="bulkAction('delete')"
-            class="text-xs font-bold uppercase tracking-widest hover:text-rose-400 flex items-center gap-2">
+            class="text-xs font-semibold uppercase tracking-wider hover:text-rose-400 flex items-center gap-2 transition-colors">
             <span class="material-symbols-outlined text-sm">delete</span> Delete
         </button>
-        <button onclick="deselectAll()" class="ml-4 text-slate-500 hover:text-white">
+        <button onclick="deselectAll()" class="ml-4 text-slate-500 hover:text-white transition-colors">
             <span class="material-symbols-outlined text-sm">close</span>
         </button>
     </div>
@@ -881,7 +869,7 @@
 
         async function renderUsers() {
             const tbody = document.getElementById('users-table-body');
-            tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4">Loading Users...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-slate-400 text-sm">Loading Users...</td></tr>';
 
             try {
                 const users = await utils.getAllUsers();
@@ -889,17 +877,18 @@
 
                 users.forEach(user => {
                     const tr = document.createElement('tr');
+                    tr.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors group';
                     tr.innerHTML = `
-                        <td class="font-bold text-slate-900 text-lg py-3 px-4">${user.name.toUpperCase()}</td>
-                        <td class="font-mono text-xs text-slate-500 py-3 px-4 tracking-wider">${user.account_number || '---'}</td>
-                        <td class="font-mono text-xs text-slate-500 py-3 px-4">${user.username}</td>
-                        <td class="font-bold text-lg text-primary py-3 px-4">${utils.formatCurrency(user.balance)}</td>
-                        <td class="text-right py-3 px-4">
-                            <div class="flex justify-end gap-2">
-                                <button onclick="loadUserProfile('${user.id}')" class="bg-slate-900 text-white text-[10px] font-bold uppercase tracking-widest border-2 border-slate-900 px-3 py-1 hover:bg-primary hover:border-primary transition-all">
-                                    View Profile
+                        <td class="font-semibold text-slate-900 text-sm py-4 px-4">${user.name}</td>
+                        <td class="font-mono text-xs text-slate-500 py-4 px-4">${user.account_number || '---'}</td>
+                        <td class="font-mono text-xs text-slate-500 py-4 px-4">${user.username}</td>
+                        <td class="font-bold text-sm text-primary py-4 px-4 font-mono">${utils.formatCurrency(user.balance)}</td>
+                        <td class="text-right py-4 px-4">
+                            <div class="flex justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
+                                <button onclick="loadUserProfile('${user.id}')" class="bg-white border border-slate-200 text-slate-600 text-xs font-medium rounded shadow-sm px-3 py-1.5 hover:bg-slate-50 hover:text-primary hover:border-primary transition-colors">
+                                    View
                                 </button>
-                                <button onclick="openEditBalance('${user.id}')" class="text-[10px] font-bold uppercase tracking-widest border-2 border-slate-200 px-3 py-1 hover:border-slate-900 hover:bg-slate-900 hover:text-white transition-all">
+                                <button onclick="openEditBalance('${user.id}')" class="bg-white border border-slate-200 text-slate-600 text-xs font-medium rounded shadow-sm px-3 py-1.5 hover:bg-slate-50 hover:text-primary hover:border-primary transition-colors">
                                     Balance
                                 </button>
                             </div>
@@ -908,7 +897,7 @@
                     tbody.appendChild(tr);
                 });
             } catch (err) {
-                tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4 text-rose-600">Failed to load users</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-rose-500 text-sm">Failed to load users</td></tr>';
                 console.error(err);
             }
         }
@@ -916,7 +905,7 @@
         async function renderTransactions() {
             const tbody = document.getElementById('transactions-table-body');
             const filterDisplay = document.getElementById('filter-display');
-            tbody.innerHTML = '<tr><td colspan="7" class="text-center py-4">Loading Ledger...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center py-8 text-slate-400 text-sm">Loading Ledger...</td></tr>';
 
             try {
                 let all = await utils.getAllTransactions();
@@ -926,70 +915,81 @@
                 if (activeUserFilter) {
                     all = all.filter(t => t.user_id === activeUserFilter);
                     filterDisplay.classList.remove('hidden');
+                    filterDisplay.classList.add('flex');
                 } else {
                     filterDisplay.classList.add('hidden');
+                    filterDisplay.classList.remove('flex');
                 }
 
                 if (all.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="7" class="text-center py-8 text-slate-400 font-bold uppercase tracking-widest">No matching records found</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="7" class="text-center py-12 text-slate-400 text-sm italic">No matching records found</td></tr>`;
                     return;
                 }
 
                 all.forEach(t => {
                     const tr = document.createElement('tr');
+                    tr.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors group';
                     const isCredit = t.type === 'credit';
 
                     // Actions
                     let actions = '';
+                    // Shared button styles
+                    const btnBase = "h-8 w-8 flex items-center justify-center rounded transition-colors";
+                    const btnEdit = `${btnBase} bg-white border border-slate-200 text-slate-400 hover:text-primary hover:border-primary shadow-sm`;
+                    const btnDelete = `${btnBase} bg-white border border-slate-200 text-slate-400 hover:text-rose-600 hover:border-rose-300 shadow-sm`;
+                    const btnApprove = `${btnBase} bg-emerald-50 text-emerald-600 border border-emerald-200 hover:bg-emerald-100 shadow-sm`;
+                    const btnReject = `${btnBase} bg-rose-50 text-rose-600 border border-rose-200 hover:bg-rose-100 shadow-sm`;
+
                     if (t.status === 'pending') {
                         actions = `
                             <div class="flex gap-2 justify-end">
-                                <button onclick="resolveTransaction('${t.user_id}', '${t.id}', 'approve')" class="h-8 w-8 bg-emerald-100 text-emerald-600 border border-emerald-200 hover:bg-emerald-200 flex items-center justify-center" title="Approve">
+                                <button onclick="resolveTransaction('${t.user_id}', '${t.id}', 'approve')" class="${btnApprove}" title="Approve">
                                     <span class="material-symbols-outlined text-sm">check</span>
                                 </button>
-                                <button onclick="resolveTransaction('${t.user_id}', '${t.id}', 'reject')" class="h-8 w-8 bg-rose-100 text-rose-600 border border-rose-200 hover:bg-rose-200 flex items-center justify-center" title="Reject">
+                                <button onclick="resolveTransaction('${t.user_id}', '${t.id}', 'reject')" class="${btnReject}" title="Reject">
                                     <span class="material-symbols-outlined text-sm">close</span>
                                 </button>
-                                <button onclick="openEditTransaction('${t.id}', '${t.amount}', '${t.status}')" class="h-8 w-8 bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 flex items-center justify-center" title="Edit">
-                                    <span class="material-symbols-outlined text-sm">edit</span>
+                                <button onclick="openEditTransaction('${t.id}', '${t.amount}', '${t.status}')" class="${btnEdit}" title="Edit">
+                                    <span class="material-symbols-outlined text-[16px]">edit</span>
                                 </button>
-                                <button onclick="confirmDeleteTransaction('${t.id}')" class="h-8 w-8 bg-slate-100 text-slate-600 border border-slate-200 hover:bg-rose-100 hover:text-rose-600 hover:border-rose-200 flex items-center justify-center" title="Delete">
-                                    <span class="material-symbols-outlined text-sm">delete</span>
+                                <button onclick="confirmDeleteTransaction('${t.id}')" class="${btnDelete}" title="Delete">
+                                    <span class="material-symbols-outlined text-[16px]">delete</span>
                                 </button>
                             </div>
                         `;
                     } else {
                         actions = `
-                            <div class="flex gap-2 justify-end">
-                                <button onclick="openEditTransaction('${t.id}', '${t.amount}', '${t.status}')" class="h-8 w-8 bg-slate-100 text-slate-600 border border-slate-200 hover:bg-slate-200 flex items-center justify-center" title="Edit Details">
-                                    <span class="material-symbols-outlined text-sm">edit</span>
+                            <div class="flex gap-2 justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="openEditTransaction('${t.id}', '${t.amount}', '${t.status}')" class="${btnEdit}" title="Edit Details">
+                                    <span class="material-symbols-outlined text-[16px]">edit</span>
                                 </button>
-                                <button onclick="confirmDeleteTransaction('${t.id}')" class="h-8 w-8 bg-slate-100 text-slate-600 border border-slate-200 hover:bg-rose-100 hover:text-rose-600 hover:border-rose-200 flex items-center justify-center" title="Delete">
-                                    <span class="material-symbols-outlined text-sm">delete</span>
+                                <button onclick="confirmDeleteTransaction('${t.id}')" class="${btnDelete}" title="Delete">
+                                    <span class="material-symbols-outlined text-[16px]">delete</span>
                                 </button>
                             </div>
                         `;
                     }
 
                     let statusBadge = '';
-                    if (t.status === 'pending') statusBadge = '<span class="bg-amber-100 text-amber-700 px-2 py-1 text-[9px] font-bold uppercase tracking-widest border border-amber-200">Pending Review</span>';
-                    else if (t.status === 'completed') statusBadge = '<span class="bg-emerald-50 text-emerald-600 px-2 py-1 text-[9px] font-bold uppercase tracking-widest border border-emerald-100">Posted</span>';
-                    else statusBadge = '<span class="bg-slate-100 text-slate-500 px-2 py-1 text-[9px] font-bold uppercase tracking-widest border border-slate-200 line-through">Voided</span>';
+                    if (t.status === 'pending') statusBadge = '<span class="bg-amber-100 text-amber-800 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide rounded-full border border-amber-200">Pending</span>';
+                    else if (t.status === 'completed') statusBadge = '<span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide rounded-full border border-emerald-200">Posted</span>';
+                    else statusBadge = '<span class="bg-slate-100 text-slate-500 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide rounded-full border border-slate-200">Voided</span>';
 
                     tr.innerHTML = `
-                        <td class="text-center"><input type="checkbox" onchange="toggleSelectTx('${t.id}', '${t.user_id}')" ${selectedTxIds.has(t.id) ? 'checked' : ''}></td>
-                        <td class="uppercase text-xs font-bold text-slate-400 whitespace-nowrap">${new Date(t.created_at).toLocaleString()}</td>
-                        <td class="font-bold text-xs">${t.userName}</td>
-                        <td class="text-xs uppercase font-bold tracking-widest ${isCredit ? 'text-emerald-600' : 'text-slate-600'}">${t.type}</td>
-                        <td class="text-right font-bold ${isCredit ? 'text-emerald-600' : 'text-slate-900'}">${isCredit ? '+' : '-'}${utils.formatCurrency(t.amount)}</td>
-                        <td class="text-center">${statusBadge}</td>
-                        <td class="text-center">${actions}</td>
+                        <td class="text-center py-4"><input type="checkbox" class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" onchange="toggleSelectTx('${t.id}', '${t.user_id}')" ${selectedTxIds.has(t.id) ? 'checked' : ''}></td>
+                        <td class="text-xs font-mono text-slate-500 whitespace-nowrap py-4 px-2">${new Date(t.created_at).toLocaleString()}</td>
+                        <td class="text-sm font-medium text-slate-700 py-4 px-2">${t.userName || 'Unknown'}</td>
+                        <td class="text-xs uppercase font-semibold tracking-wide py-4 px-2 ${isCredit ? 'text-emerald-700' : 'text-slate-600'}">${t.type}</td>
+                        <td class="text-right font-mono font-medium text-sm py-4 px-2 ${isCredit ? 'text-emerald-700' : 'text-slate-900'}">${isCredit ? '+' : '-'}${utils.formatCurrency(t.amount)}</td>
+                        <td class="text-center py-4 px-2">${statusBadge}</td>
+                        <td class="text-center py-4 px-2">${actions}</td>
                     `;
                     tbody.appendChild(tr);
                 });
 
             } catch (err) {
                 console.error(err);
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center py-8 text-rose-500 text-sm">Failed to load transactions</td></tr>';
             }
         }
 
@@ -1433,69 +1433,69 @@
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
 
-            // Tailwind Classes
-            // Tailwind Classes? Use inline styles for safety with dynamic content
-            const bgColor = isError ? '#e11d48' : '#059669'; // Rose-600, Emerald-600
-            const borderColor = isError ? '#9f1239' : '#065f46';
+            // Tailwind Classes for Finance Theme
+            const bgClass = isError ? 'bg-rose-600' : 'bg-emerald-600';
             const icon = isError ? 'error' : 'check_circle';
 
-            // We keep base tailwind classes for layout (flex, shadow) but force colors via style
-            // REMOVED: translate-x-full opacity-0 to force immediate visibility
-            toast.className = `pointer-events-auto w-80 p-4 border-l-4 shadow-2xl flex items-start gap-3 text-white relative z-[10000]`;
-            toast.style.backgroundColor = bgColor;
-            toast.style.borderColor = borderColor;
+            toast.className = `${bgClass} text-white px-6 py-4 rounded shadow-lg flex items-start gap-4 transform transition-all duration-300 translate-x-full opacity-0 pointer-events-auto min-w-[320px] max-w-sm border border-white/10`;
 
             toast.innerHTML = `
-                <span class="material-symbols-outlined mt-0.5">${icon}</span>
+                <span class="material-symbols-outlined mt-0.5 text-xl">${icon}</span>
                 <div>
-                    <h4 class="font-bold uppercase tracking-wider text-xs mb-1">${title}</h4>
-                    <p class="text-xs font-mono opacity-90">${text}</p>
+                    <h4 class="font-bold font-serif uppercase tracking-wider text-sm mb-1">${title}</h4>
+                    <p class="text-xs font-medium opacity-90 leading-relaxed">${text}</p>
                 </div>
+                <button onclick="this.parentElement.remove()" class="ml-auto text-white/70 hover:text-white">
+                    <span class="material-symbols-outlined text-sm">close</span>
+                </button>
             `;
 
             container.appendChild(toast);
 
-            // Animate In (Vertical Slide only - simpler)
-            toast.animate([
-                { transform: 'translateX(100%)', opacity: 0 },
-                { transform: 'translateX(0)', opacity: 1 }
-            ], {
-                duration: 300,
-                easing: 'ease-out',
-                fill: 'forwards'
+            // Animate In
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-x-full', 'opacity-0');
             });
 
             // Remove after delay
             setTimeout(() => {
                 toast.classList.add('translate-x-full', 'opacity-0');
-                setTimeout(() => toast.remove(), 500); // Wait for transition
-            }, 3000);
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
         }
 
         function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
-            document.getElementById(id).classList.remove('flex');
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            // Add fade out effect eventually, for now just hide
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
         }
 
         // --- Bulk Actions Logic ---
         function toggleSelectTx(txId, uid) {
+            // Need to handle checkbox state if triggered from row click
             if (selectedTxIds.has(txId)) {
                 selectedTxIds.delete(txId);
             } else {
                 selectedTxIds.add(txId);
             }
+            // Update checkbox UI if needed (if called programmatically)
+            const checkbox = document.querySelector(`input[onchange*="'${txId}'"]`);
+            if (checkbox) checkbox.checked = selectedTxIds.has(txId);
+
             updateBulkToolbar();
         }
 
         function toggleSelectAll(checkbox, tbodyId = 'transactions-table-body') {
             const container = document.getElementById(tbodyId);
-            if (!container) return; // Safety
+            if (!container) return;
 
             const inputs = container.querySelectorAll('input[type="checkbox"]');
             inputs.forEach(input => {
                 input.checked = checkbox.checked;
-                // Extract ID from onclick or onchange handler string
-                const match = input.getAttribute('onchange').match(/'([^']+)'/);
+                // Extract ID from onchange handler string
+                const match = input.getAttribute('onchange')?.match(/'([^']+)'/);
                 if (match && match[1]) {
                     if (checkbox.checked) selectedTxIds.add(match[1]);
                     else selectedTxIds.delete(match[1]);
@@ -1504,66 +1504,28 @@
             updateBulkToolbar();
         }
 
-        // Navigation
-        // Navigation
-        function switchView(tabId) {
-            // Hide all views
-            ['view-users', 'view-profile', 'view-transactions', 'view-applications', 'view-settings'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.classList.add('hidden');
-            });
-
-            // Show target
-            if (tabId === 'users') {
-                document.getElementById('view-users').classList.remove('hidden');
-                renderUsers();
-            } else if (tabId === 'transactions') {
-                document.getElementById('view-transactions').classList.remove('hidden');
-                renderTransactions();
-            } else if (tabId === 'applications') {
-                document.getElementById('view-applications').classList.remove('hidden');
-                renderApplications();
-            } else if (tabId === 'settings') {
-                document.getElementById('view-settings').classList.remove('hidden');
-                // Only load settings if function exists
-                if (typeof loadAdminSettings === 'function') {
-                    loadAdminSettings();
-                }
-            } else if (tabId === 'profile') {
-                document.getElementById('view-profile').classList.remove('hidden');
-                // Profile doesn't have a main tab, but we should clear others
-            }
-
-            // Update Nav State
-            const btns = ['btn-users', 'btn-transactions', 'btn-applications', 'btn-settings'];
-            btns.forEach(bid => {
-                const btn = document.getElementById(bid);
-                if (btn) btn.classList.remove('active');
-            });
-
-            // Highlight active
-            if (tabId === 'users') document.getElementById('btn-users').classList.add('active');
-            if (tabId === 'transactions') document.getElementById('btn-transactions').classList.add('active');
-            if (tabId === 'applications') document.getElementById('btn-applications').classList.add('active');
-            if (tabId === 'settings') document.getElementById('btn-settings').classList.add('active');
-        }
-
         function deselectAll() {
             selectedTxIds.clear();
             const mainFn = document.getElementById('select-all-tx');
             if (mainFn) mainFn.checked = false;
-            renderTransactions();
+
+            // Uncheck all rows
+            document.querySelectorAll('#transactions-table-body input[type="checkbox"]').forEach(i => i.checked = false);
+
             updateBulkToolbar();
         }
 
         function updateBulkToolbar() {
             const bar = document.getElementById('bulk-actions-bar');
             const countSpan = document.getElementById('selected-count');
-            countSpan.textContent = selectedTxIds.size;
+            if (countSpan) countSpan.textContent = selectedTxIds.size;
 
             if (selectedTxIds.size > 0) {
                 bar.classList.remove('hidden');
+                bar.classList.add('flex');
             } else {
+                bar.classList.add('hidden');
+                bar.classList.remove('flex');
             }
         }
 
@@ -1682,31 +1644,37 @@
 
         async function renderApplications() {
             const tbody = document.getElementById('applications-table-body');
-            tbody.innerHTML = '<tr><td colspan="5" class="text-center p-4">Loading apps...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center py-8 text-slate-400 text-sm">Loading Applications...</td></tr>';
 
             try {
-                const apps = await utils.getNewApplications();
+                const apps = await utils.getNewApplications(); // Assuming this exists or using mock
+                // If utils.getNewApplications doesn't exist, we might need to rely on the existing code or mock it.
+                // The previous code called it, so I assume it exists.
+
                 tbody.innerHTML = '';
 
-                if (apps.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="5" class="text-center p-4">No new applications</td></tr>';
+                if (!apps || apps.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-12 text-slate-400 text-sm italic">No new applications</td></tr>';
                     return;
                 }
 
                 apps.forEach(app => {
                     const tr = document.createElement('tr');
-                    tr.className = 'hover:bg-slate-50 transition-colors border-b border-slate-100';
+                    tr.className = 'hover:bg-slate-50 transition-colors border-b border-slate-100 group';
+
+                    const badgeClass = 'bg-primary text-white border border-primary'; // Standard New
+
                     tr.innerHTML = `
-                        <td class="font-bold py-3 pl-4 text-sm">${app.first_name}</td>
-                        <td class="font-bold py-3 text-sm">${app.last_name}</td>
-                        <td class="text-xs text-slate-500 font-mono">${app.email}</td>
-                        <td class="text-xs text-slate-500 font-mono">${app.phone}</td>
-                        <td class="text-right pr-4">
-                            <span class="inline-block px-2 py-1 bg-pop-green text-white text-[10px] uppercase font-bold tracking-wider rounded-sm">
+                        <td class="font-semibold text-slate-900 py-4 px-4 text-sm">${app.first_name}</td>
+                        <td class="font-semibold text-slate-900 py-4 px-4 text-sm">${app.last_name}</td>
+                        <td class="text-xs text-slate-500 font-mono py-4 px-4">${app.email}</td>
+                        <td class="text-xs text-slate-500 font-mono py-4 px-4">${app.phone}</td>
+                        <td class="text-right py-4 px-4">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide bg-blue-50 text-blue-600 border border-blue-100 mr-2">
                                 ${app.status || 'NEW'}
                             </span>
-                            <button onclick="handleDeleteApplication('${app.id}')" class="ml-3 text-slate-400 hover:text-rose-600 transition-colors">
-                                <span class="material-symbols-outlined text-sm align-middle">delete</span>
+                            <button onclick="handleDeleteApplication('${app.id}')" class="text-slate-400 hover:text-rose-600 transition-colors p-1 rounded hover:bg-rose-50" title="Delete Application">
+                                <span class="material-symbols-outlined text-sm">delete</span>
                             </button>
                         </td>
                     `;
@@ -1714,7 +1682,7 @@
                 });
             } catch (e) {
                 console.error(e);
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-rose-500 p-4">Error loading data</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center text-rose-500 py-8 text-sm">Error loading data</td></tr>';
             }
         }
 
@@ -1738,10 +1706,6 @@
         function logout() {
             utils.logout();
         }
-
-        // Init
-        renderUsers();
-        renderApplications(); // Initial load
 
         // Init
         renderUsers();

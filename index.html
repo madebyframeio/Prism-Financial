@@ -4,78 +4,54 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>KreditLithua | Global Financial Consulting</title>
+    <title>Prism | Financial Clarity</title>
     <meta name="robots" content="noindex, nofollow">
     <meta name="description"
-        content="KreditLithua provides elite financial consulting and investment portfolio management for global partners.">
-    <meta property="og:title" content="KreditLithua | Global Consulting">
-    <meta property="og:description" content="Secure investment management and corporate financial planning.">
-    <meta property="og:image" content="https://kreditlithua.xyz/meta.png">
-    <meta property="og:url" content="https://kreditlithua.xyz">
-    <link rel="icon" type="image/png" href="favicon.png">
+        content="Prism provides clear, professional financial consulting and investment management for the modern era.">
+    <meta property="og:title" content="Prism | Financial Clarity">
+    <meta property="og:description" content="Secure, transparent, and intelligent financial management.">
+    <meta property="og:image" content="meta.png">
+    <meta property="og:url" content="https://prism-financial.xyz">
+    <link rel="icon" type="image/png" href="logo.png">
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-    <script>
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#000000", /* Deep black for text/borders */
-                        "pop-yellow": "#FFD600",
-                        "pop-blue": "#3B82F6",
-                        "pop-pink": "#EC4899",
-                        "pop-green": "#10B981",
-                        "pop-purple": "#8B5CF6",
-                    },
-                    fontFamily: {
-                        "sans": ["'Space Grotesk'", "sans-serif"],
-                        "display": ["'Space Grotesk'", "sans-serif"],
-                    },
-                    boxShadow: {
-                        "pop": "8px 8px 0px 0px #000000",
-                        "pop-hover": "12px 12px 0px 0px #000000",
-                        "pop-pink": "8px 8px 0px 0px #EC4899",
-                        "pop-blue": "8px 8px 0px 0px #3B82F6",
-                        "pop-green": "8px 8px 0px 0px #10B981",
-                    }
-                },
-            },
-        }
-    </script>
+    <script src="theme.js"></script>
     <style type="text/tailwindcss">
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            @apply bg-white text-black antialiased;
+            @apply font-sans bg-surface text-secondary antialiased;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            @apply font-serif text-primary;
         }
         
         .material-symbols-outlined {
-            font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 48;
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
         }
 
-        .brutal-btn {
-            @apply inline-flex items-center justify-center gap-2 px-8 py-4 font-bold uppercase tracking-widest text-sm border-4 border-black bg-black text-white shadow-pop-pink hover:shadow-pop-hover hover:-translate-y-1 transition-all active:translate-y-0 active:shadow-none;
+        .btn-primary {
+            @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded text-sm bg-primary text-white shadow hover:bg-emerald-900 transition-all duration-300;
         }
 
-        .brutal-btn-outline {
-            @apply inline-flex items-center justify-center gap-2 px-8 py-4 font-bold uppercase tracking-widest text-sm border-4 border-black bg-white text-black shadow-pop-blue hover:shadow-pop-hover hover:-translate-y-1 transition-all active:translate-y-0 active:shadow-none;
+        .btn-outline {
+            @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded text-sm border border-slate-300 bg-white text-secondary shadow-sm hover:bg-slate-50 hover:border-slate-400 transition-all duration-300;
         }
 
-        .pop-card {
-            @apply border-4 border-black p-8 flex flex-col items-start gap-4 transition-transform text-left h-full shadow-pop text-white;
+        .card {
+            @apply bg-white p-8 rounded shadow-md border border-slate-100 transition-all duration-300 hover:shadow-lg hover:border-accent/20;
         }
 
-        .brutal-section-title {
-            @apply text-5xl md:text-7xl font-black uppercase tracking-tighter mb-4 text-black;
+        .section-title {
+            @apply text-3xl md:text-5xl font-bold tracking-tight mb-4 text-primary font-serif;
         }
 
-        .brutal-tag {
-            @apply inline-block bg-white text-black text-[12px] font-black uppercase tracking-[0.2em] px-3 py-1 mb-4 border-4 border-black shadow-[4px_4px_0px_0px_#000000];
+        .badge {
+            @apply inline-block bg-slate-100 text-slate-600 text-xs font-semibold uppercase tracking-wider px-3 py-1 mb-4 rounded-sm border border-slate-200;
         }
     </style>
 </head>
@@ -83,106 +59,105 @@
 <body class="flex flex-col min-h-screen">
 
     <!-- Header -->
-    <header class="bg-white sticky top-0 z-50 border-b-4 border-black">
+    <header class="bg-white sticky top-0 z-50 border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <img src="logo.png" alt="KreditLithua" class="h-10 w-auto object-contain">
-                <span class="text-2xl font-black tracking-tighter uppercase">KreditLithua</span>
+            <div class="flex items-center gap-3">
+                <img src="logo.png" alt="Prism Logo" class="h-10 w-auto">
+                <span class="text-xl font-bold tracking-tight text-primary font-serif">Prism</span>
             </div>
 
-            <nav class="hidden md:flex items-center gap-8 text-sm font-bold uppercase tracking-widest">
-                <a href="#"
-                    class="hover:text-pop-blue hover:underline decoration-4 underline-offset-4 decoration-black">Personal</a>
-                <a href="#"
-                    class="hover:text-pop-pink hover:underline decoration-4 underline-offset-4 decoration-black">Business</a>
-                <a href="#"
-                    class="hover:text-pop-green hover:underline decoration-4 underline-offset-4 decoration-black">Wealth</a>
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
+                <a href="#" class="hover:text-primary transition-colors">Personal</a>
+                <a href="#" class="hover:text-primary transition-colors">Business</a>
+                <a href="#" class="hover:text-primary transition-colors">Wealth</a>
             </nav>
 
             <div class="flex items-center gap-4">
-                <a href="login.html"
-                    class="text-sm font-bold uppercase tracking-widest hover:text-pop-blue transition-colors">Log In</a>
+                <a href="login.html" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">Log
+                    In</a>
+                <a href="signup.html" class="btn-primary py-2 px-5 text-xs">Open Account</a>
             </div>
-
-
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="py-20 md:py-32 overflow-hidden border-b-4 border-black bg-pop-yellow">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
-            <div class="md:w-1/2 flex flex-col items-start text-left relative z-10">
-                <div class="brutal-tag rotate-2">The Future is Here</div>
-                <h1
-                    class="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-8 text-black drop-shadow-sm">
-                    Finance <br> <span class="text-white text-stroke-3 text-shadow-black">Differently</span>
+    <section class="py-20 md:py-32 overflow-hidden bg-surface relative">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16 relative z-10">
+            <div class="md:w-1/2 flex flex-col items-start text-left">
+                <div class="badge text-primary bg-slate-200 border-slate-300">The Future of Finance</div>
+                <h1 class="text-5xl md:text-7xl font-bold tracking-tight leading-tight mb-6 text-primary font-serif">
+                    Financial <span class="text-accent">Clarity</span>
                 </h1>
-                <p class="text-xl md:text-2xl font-bold text-black border-l-8 border-black pl-6 mb-12 max-w-xl">
-                    No boring forms. Simple, intuitive, and built for a colorful life.
+                <p class="text-lg md:text-xl text-slate-600 mb-10 max-w-lg leading-relaxed font-light">
+                    Experience banking with precision, transparency, and intelligence. Prism brings your financial life
+                    into focus.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-6 w-full sm:w-auto">
-                    <a href="login.html" class="brutal-btn w-full sm:w-auto bg-black text-white hover:bg-slate-800">
-                        Login
+                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                    <a href="signup.html" class="btn-primary w-full sm:w-auto text-base px-8 rounded-sm">
+                        Open Account
                     </a>
-                    <a href="signup.html" class="brutal-btn-outline w-full sm:w-auto bg-white hover:bg-gray-50">
-                        Sign Up
+                    <a href="login.html" class="btn-outline w-full sm:w-auto text-base px-8 rounded-sm">
+                        Client Login
                     </a>
                 </div>
             </div>
 
-            <div class="md:w-1/2 w-full">
-                <div
-                    class="border-4 border-black shadow-pop bg-white p-4 md:p-8 rounded-none -rotate-2 hover:rotate-0 transition-transform duration-300">
-                    <img src="hero_flat.png" alt="KreditLithua Architecture"
-                        class="w-full h-auto object-contain border-4 border-black bg-pop-blue">
+            <div class="md:w-1/2 w-full relative">
+                <!-- Clean Geometric Decoration -->
+                <div class="absolute -top-10 -right-10 w-64 h-64 bg-slate-200 rounded-sm opacity-50"></div>
+                <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-accent/10 rounded-sm opacity-50"></div>
+
+                <div class="relative bg-white p-1 rounded-sm shadow-xl border border-slate-200">
+                    <img src="hero_flat.png" alt="Prism Dashboard Interface"
+                        class="w-full h-auto shadow-inner bg-slate-50 grayscale-[20%]">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features"
-        class="py-24 bg-white border-b-4 border-black bg-[radial-gradient(#000000_2px,transparent_2px)] [background-size:32px_32px]">
+    <section id="features" class="py-24 bg-white border-t border-slate-200">
         <div class="max-w-7xl mx-auto px-6">
-            <div
-                class="mb-16 text-center bg-white border-4 border-black p-8 inline-block shadow-pop mx-auto transform -rotate-1">
-                <h2 class="brutal-section-title mb-0">Why KreditLithua?</h2>
+            <div class="text-center mb-16">
+                <h2 class="section-title">Why Choose Prism?</h2>
+                <p class="text-slate-500 max-w-2xl mx-auto text-lg font-light">Built for those who demand more from
+                    their financial institutions.</p>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8 md:gap-12">
-                <!-- Card 1 (Blue) -->
-                <div class="pop-card bg-pop-blue hover:-translate-y-2 hover:shadow-pop-hover">
-                    <div
-                        class="w-16 h-16 bg-white border-4 border-black flex items-center justify-center text-pop-blue shadow-[4px_4px_0px_0px_#000000] mb-4">
-                        <span class="material-symbols-outlined text-4xl">bolt</span>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="card group hover:-translate-y-1">
+                    <div class="w-12 h-12 flex items-center justify-center mb-6 border-b-2 border-accent pb-2">
+                        <span
+                            class="material-symbols-outlined text-4xl text-primary group-hover:text-accent transition-colors">bolt</span>
                     </div>
-                    <h3 class="text-3xl font-black uppercase tracking-tight">Efficient</h3>
-                    <p class="font-bold text-lg leading-tight opacity-90">
-                        Send money reliably to connected accounts. Swift, secure, and always on time.
+                    <h3 class="text-xl font-bold text-primary mb-3 font-serif">Instant Execution</h3>
+                    <p class="text-slate-500 leading-relaxed font-light">
+                        Real-time processing for all your transactions. No delays, no hidden holding periods.
                     </p>
                 </div>
 
-                <!-- Card 2 (Pink) -->
-                <div class="pop-card bg-pop-pink hover:-translate-y-2 hover:shadow-pop-hover">
-                    <div
-                        class="w-16 h-16 bg-white border-4 border-black flex items-center justify-center text-pop-pink shadow-[4px_4px_0px_0px_#000000] mb-4">
-                        <span class="material-symbols-outlined text-4xl">security</span>
+                <!-- Card 2 -->
+                <div class="card group hover:-translate-y-1">
+                    <div class="w-12 h-12 flex items-center justify-center mb-6 border-b-2 border-accent pb-2">
+                        <span
+                            class="material-symbols-outlined text-4xl text-primary group-hover:text-accent transition-colors">shield</span>
                     </div>
-                    <h3 class="text-3xl font-black uppercase tracking-tight">Secure</h3>
-                    <p class="font-bold text-lg leading-tight opacity-90">
-                        Industry-leading encryption and real-time fraud detection. Your peace of mind is our priority.
+                    <h3 class="text-xl font-bold text-primary mb-3 font-serif">Bank-Grade Security</h3>
+                    <p class="text-slate-500 leading-relaxed font-light">
+                        Protected by industry-leading encryption and 24/7 fraud monitoring systems.
                     </p>
                 </div>
 
-                <!-- Card 3 (Green) -->
-                <div class="pop-card bg-pop-green hover:-translate-y-2 hover:shadow-pop-hover">
-                    <div
-                        class="w-16 h-16 bg-white border-4 border-black flex items-center justify-center text-pop-green shadow-[4px_4px_0px_0px_#000000] mb-4">
-                        <span class="material-symbols-outlined text-4xl">trending_up</span>
+                <!-- Card 3 -->
+                <div class="card group hover:-translate-y-1">
+                    <div class="w-12 h-12 flex items-center justify-center mb-6 border-b-2 border-accent pb-2">
+                        <span
+                            class="material-symbols-outlined text-4xl text-primary group-hover:text-accent transition-colors">trending_up</span>
                     </div>
-                    <h3 class="text-3xl font-black uppercase tracking-tight">Growth</h3>
-                    <p class="font-bold text-lg leading-tight opacity-90">
-                        Watch your savings grow with competitive rates and intelligent automated tools.
+                    <h3 class="text-xl font-bold text-primary mb-3 font-serif">Intelligent Growth</h3>
+                    <p class="text-slate-500 leading-relaxed font-light">
+                        Smart savings algorithms that adapt to your spending habits to maximize returns.
                     </p>
                 </div>
             </div>
@@ -192,77 +167,66 @@
     <!-- Split Sections -->
     <section class="py-0">
         <!-- Business -->
-        <div class="flex flex-col md:flex-row border-b-4 border-black">
-            <div
-                class="md:w-1/2 p-12 md:p-24 bg-pop-purple text-white flex flex-col justify-center border-b-4 md:border-b-0 md:border-r-4 border-black relative overflow-hidden">
-                <div
-                    class="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(#ffffff_4px,transparent_4px)] [background-size:24px_24px]">
-                </div>
-                <div class="relative z-10">
-                    <div class="brutal-tag bg-pop-yellow text-black border-black shadow-none -rotate-2">Solutions</div>
-                    <h2 class="text-5xl md:text-6xl font-black uppercase tracking-tighter mb-6">Business Scale</h2>
-                    <p class="text-xl font-bold mb-8 max-w-md">
-                        Liquidity, API access, and consulting tools for modern enterprises.
-                    </p>
-                    <a href="login.html" class="brutal-btn-outline bg-white text-black hover:bg-gray-100">
-                        Explore Corporate
-                    </a>
-                </div>
+        <div class="flex flex-col md:flex-row border-t border-slate-200">
+            <div class="md:w-1/2 p-12 md:p-24 bg-surface flex flex-col justify-center border-r border-slate-200">
+                <div class="badge bg-slate-200 text-slate-700">Enterprise</div>
+                <h2 class="text-4xl font-bold text-primary mb-6 tracking-tight font-serif">Prism for Business</h2>
+                <p class="text-lg text-slate-600 mb-8 max-w-md font-light">
+                    Scalable financial infrastructure for companies of all sizes. API access, multi-user permissions,
+                    and automated payroll.
+                </p>
+                <a href="login.html" class="btn-outline self-start rounded-sm">
+                    Explore Corporate
+                </a>
             </div>
             <div class="md:w-1/2 bg-white p-12 md:p-24 flex items-center justify-center">
-                <div class="w-full max-w-sm border-4 border-black shadow-pop bg-pop-yellow p-4 rotate-1">
-                    <img src="business_flat.png" alt="Business" class="w-full h-auto border-4 border-black bg-white">
+                <div class="relative w-full max-w-sm p-2 bg-white shadow-lg border border-slate-100">
+                    <img src="business_flat.png" alt="Business Solutions"
+                        class="relative z-10 w-full h-auto grayscale-[20%]">
                 </div>
             </div>
         </div>
 
         <!-- Wealth -->
-        <div class="flex flex-col md:flex-row-reverse">
-            <div
-                class="md:w-1/2 p-12 md:p-24 bg-black text-white flex flex-col justify-center border-b-4 md:border-b-0 md:border-l-4 border-black">
-                <div class="brutal-tag bg-pop-green text-black border-white shadow-none rotate-2">Advisory</div>
-                <h2 class="text-5xl md:text-6xl font-black uppercase tracking-tighter mb-6">Private Wealth</h2>
-                <p class="text-xl font-bold text-gray-400 mb-8 max-w-md">
-                    Exclusive investment opportunities and personalized advisory services.
+        <div class="flex flex-col md:flex-row-reverse border-t border-slate-200">
+            <div class="md:w-1/2 p-12 md:p-24 bg-primary text-white flex flex-col justify-center">
+                <div class="badge bg-slate-700 text-slate-300 border-slate-600">Private Client</div>
+                <h2 class="text-4xl font-bold mb-6 tracking-tight font-serif text-white">Wealth Management</h2>
+                <p class="text-lg text-slate-300 mb-8 max-w-md font-light">
+                    Bespoke advisory services for high-net-worth individuals. Access exclusive markets and personalized
+                    portfolio strategies.
                 </p>
-                <a href="login.html" class="brutal-btn bg-pop-pink text-white border-white hover:bg-pink-600">
-                    Explore Wealth
+                <a href="login.html"
+                    class="btn-primary bg-white text-primary hover:bg-slate-200 border-none self-start rounded-sm">
+                    Private Clients
                 </a>
             </div>
-            <div class="md:w-1/2 bg-pop-blue p-12 md:p-24 flex items-center justify-center relative overflow-hidden">
-                <div
-                    class="absolute top-0 left-0 w-full h-full opacity-10 bg-[repeating-linear-gradient(45deg,#ffffff,#ffffff_10px,transparent_10px,transparent_20px)]">
-                </div>
-                <div class="w-full max-w-sm border-4 border-black shadow-pop bg-white p-4 relative z-10 -rotate-1">
-                    <img src="wealth_flat.png" alt="Wealth" class="w-full h-auto border-4 border-black bg-pop-green">
+            <div class="md:w-1/2 bg-slate-900 p-12 md:p-24 flex items-center justify-center relative overflow-hidden">
+                <div class="relative w-full max-w-sm border border-slate-700 p-2">
+                    <img src="wealth_flat.png" alt="Wealth Management"
+                        class="relative z-10 w-full h-auto grayscale-[40%] opacity-90">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-pop-yellow py-16 border-t-4 border-black">
+    <footer class="bg-white border-t border-slate-200 py-16">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
-                <div class="flex items-center gap-2">
-                    <div class="w-10 h-10 bg-black border-4 border-black flex items-center justify-center text-white">
-                        <span class="material-symbols-outlined text-xl">account_balance</span>
-                    </div>
-                    <span class="text-3xl font-black uppercase tracking-tighter">KreditLithua</span>
+                <div class="flex items-center gap-3">
+                    <img src="logo.png" alt="Prism Logo" class="h-8 w-auto">
+                    <span class="text-xl font-bold tracking-tight text-primary">Prism</span>
                 </div>
-                <div class="flex flex-wrap justify-center gap-8 font-black uppercase tracking-widest text-sm">
-                    <a href="#"
-                        class="hover:text-white transition-colors decoration-4 underline-offset-4 hover:underline">Privacy</a>
-                    <a href="#"
-                        class="hover:text-white transition-colors decoration-4 underline-offset-4 hover:underline">Terms</a>
-                    <a href="#"
-                        class="hover:text-white transition-colors decoration-4 underline-offset-4 hover:underline">About</a>
-                    <a href="#"
-                        class="hover:text-white transition-colors decoration-4 underline-offset-4 hover:underline">Support</a>
+                <div class="flex flex-wrap justify-center gap-8 text-sm font-medium text-slate-500">
+                    <a href="#" class="hover:text-primary transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-primary transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-primary transition-colors">About Us</a>
+                    <a href="#" class="hover:text-primary transition-colors">Support</a>
                 </div>
             </div>
-            <div class="text-center text-xs font-black uppercase tracking-widest text-black/50">
-                <p>&copy; 2026 KreditLithua. Financial services provided by partner institutions.</p>
+            <div class="text-center text-xs text-slate-400">
+                <p>&copy; 2026 Prism Financial. All rights reserved.</p>
             </div>
         </div>
     </footer>

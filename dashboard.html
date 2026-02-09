@@ -4,59 +4,47 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>KreditLithua | Portfolio Dashboard</title>
-    <meta name="description" content="Manage your KreditLithua global investment portfolio securely.">
-    <meta property="og:title" content="KreditLithua | Portfolio Dashboard">
-    <meta property="og:image" content="https://kreditlithua.xyz/meta.png">
-    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Prism | Dashboard</title>
+    <meta name="description" content="Secure financial dashboard for Prism clients.">
+    <meta property="og:title" content="Prism | Dashboard">
+    <meta property="og:image" content="meta.png">
+    <link rel="icon" type="image/png" href="logo.png">
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "primary": "#002855",
-                        "secondary": "#0f172a",
-                        "accent": "#2563eb",
-                        "surface": "#ffffff",
-                        "background": "#ffffff",
-                        "header": "#ffffff",
-                    },
-                    fontFamily: {
-                        "sans": ["'Space Grotesk'", "sans-serif"]
-                    },
-                    borderRadius: {
-                        "none": "0px",
-                        "DEFAULT": "0px",
-                        "lg": "0px",
-                        "xl": "0px",
-                    },
-                },
-            },
+    <script src="theme.js"></script>
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Inter', sans-serif;
+            @apply bg-surface text-secondary antialiased;
         }
-    </script>
-</head>script>
-<style type="text/tailwindcss">
-    body {
-            font-family: 'Space Grotesk', sans-serif;
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Urbanist', sans-serif;
         }
+
+        .font-mono {
+            font-family: 'Space Mono', monospace;
+        }
+
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
         }
-        * {
-            border-radius: 0 !important;
+
+        /* Table Styles */
+        th {
+            @apply text-xs font-semibold uppercase tracking-wider text-slate-500 py-3 border-b border-slate-200;
+        }
+        td {
+            @apply py-4 border-b border-slate-100 text-sm;
         }
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col bg-background text-slate-900">
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-900">
     <!-- Print Styles -->
     <style>
         @media print {
@@ -91,75 +79,75 @@
 
     <!-- Receipt Modal -->
     <div id="receipt-modal"
-        class="hidden fixed inset-0 bg-slate-900/95 items-center justify-center p-4 z-[100] backdrop-blur-sm">
-        <div
-            class="bg-white w-full max-w-md p-8 border-4 border-slate-900 shadow-[20px_20px_0px_0px_rgba(255,255,255,0.2)] relative">
+        class="hidden fixed inset-0 bg-slate-900/50 items-center justify-center p-4 z-[100] backdrop-blur-sm transition-opacity">
+        <div class="bg-white w-full max-w-md p-8 rounded shadow-2xl relative transform transition-all">
             <!-- Close Button -->
             <button onclick="closeReceipt()"
-                class="absolute -top-4 -right-4 bg-rose-600 text-white p-2 border-2 border-slate-900 hover:bg-rose-700 transition-colors no-print shadow-[4px_4px_0px_0px_rgba(15,23,42,1)]">
+                class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors no-print">
                 <span class="material-symbols-outlined">close</span>
             </button>
 
             <!-- Receipt Content -->
-            <div class="text-center border-b-4 border-slate-900 pb-6 mb-6">
-                <div class="inline-flex items-center justify-center w-12 h-12 bg-slate-900 text-white mb-4">
+            <div class="text-center border-b border-slate-100 pb-6 mb-6">
+                <div
+                    class="inline-flex items-center justify-center w-12 h-12 bg-slate-50 text-primary rounded-full mb-4">
                     <span class="material-symbols-outlined">receipt_long</span>
                 </div>
-                <h2 class="text-2xl font-black uppercase italic tracking-tighter">Transaction Receipt</h2>
-                <p class="text-[10px] font-bold uppercase tracking-[0.4em] text-slate-400 mt-2">KreditLithua Global
-                    Finance
-                </p>
+                <h2 class="text-2xl font-bold font-serif text-primary">Transaction Receipt</h2>
+                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mt-2">Prism Global
+                    Finance</p>
             </div>
 
-            <div class="space-y-4 font-mono text-sm">
-                <div class="flex justify-between border-b border-slate-200 pb-2">
-                    <span class="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Reference ID</span>
-                    <span id="r-id" class="font-bold text-slate-900">#00000000</span>
+            <div class="space-y-4 font-mono text-sm text-slate-600">
+                <div class="flex justify-between border-b border-slate-50 pb-2">
+                    <span class="text-slate-400 font-medium uppercase text-xs">Reference ID</span>
+                    <span id="r-id" class="font-bold text-slate-800">#00000000</span>
                 </div>
-                <div class="flex justify-between border-b border-slate-200 pb-2">
-                    <span class="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Date</span>
-                    <span id="r-date" class="font-bold text-slate-900">JAN 01, 2026</span>
+                <div class="flex justify-between border-b border-slate-50 pb-2">
+                    <span class="text-slate-400 font-medium uppercase text-xs">Date</span>
+                    <span id="r-date" class="font-bold text-slate-800">JAN 01, 2026</span>
                 </div>
-                <div class="flex justify-between border-b border-slate-200 pb-2">
-                    <span class="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Type</span>
-                    <span id="r-type" class="font-bold text-slate-900 uppercase">TRANSFER</span>
+                <div class="flex justify-between border-b border-slate-50 pb-2">
+                    <span class="text-slate-400 font-medium uppercase text-xs">Type</span>
+                    <span id="r-type" class="font-bold text-slate-800 uppercase">TRANSFER</span>
                 </div>
-                <div class="flex justify-between border-b border-slate-200 pb-2">
-                    <span class="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Status</span>
-                    <span id="r-status" class="font-bold text-slate-900 uppercase">COMPLETED</span>
+                <div class="flex justify-between border-b border-slate-50 pb-2">
+                    <span class="text-slate-400 font-medium uppercase text-xs">Status</span>
+                    <span id="r-status" class="font-bold text-slate-800 uppercase">COMPLETED</span>
                 </div>
                 <div class="flex justify-between items-end pt-4">
-                    <span class="text-slate-400 font-bold uppercase tracking-widest text-[10px] mb-1">Total
-                        Amount</span>
-                    <span id="r-amount" class="text-3xl font-black tracking-tighter text-slate-900">$0.00</span>
+                    <span class="text-slate-400 font-medium uppercase text-xs mb-1">Total Amount</span>
+                    <span id="r-amount" class="text-3xl font-bold tracking-tight text-primary">$0.00</span>
                 </div>
             </div>
 
-            <div class="mt-8 pt-6 border-t-4 border-slate-900 text-center">
-                <p class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-6">Thank you for choosing
+            <div class="mt-8 pt-6 border-t border-slate-100 text-center">
+                <p class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-6">Thank you for banking with
                     us.</p>
                 <button onclick="window.print()"
-                    class="w-full py-4 bg-slate-900 text-white font-bold uppercase tracking-widest text-xs hover:bg-primary transition-all flex items-center justify-center gap-2 no-print group">
-                    <span class="material-symbols-outlined group-hover:scale-110 transition-transform">print</span>
+                    class="w-full py-3 bg-primary text-white font-medium uppercase tracking-wider text-xs hover:bg-slate-800 transition-all rounded shadow-md flex items-center justify-center gap-2 no-print">
+                    <span class="material-symbols-outlined text-lg">print</span>
                     Print Receipt
                 </button>
             </div>
         </div>
     </div>
-    <div class="relative flex flex-col w-full min-h-screen">
+
+    <div class="relative flex flex-col w-full min-h-screen font-sans">
         <header
-            class="flex items-center justify-between px-6 lg:px-12 py-6 bg-header border-b-2 border-slate-900 sticky top-0 z-50">
-            <div class="flex items-center gap-4">
-                <img src="logo.png" alt="KreditLithua" class="h-10 w-auto object-contain">
+            class="flex items-center justify-between px-6 lg:px-12 py-4 bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+            <div class="flex items-center gap-3">
+                <img src="logo.png" alt="Prism Logo" class="h-8 w-auto">
+                <span class="text-lg font-bold tracking-tight text-primary font-serif">Prism Financial</span>
             </div>
 
             <div class="flex items-center gap-6">
                 <div class="flex flex-col items-end">
-                    <span id="user-name-display" class="text-sm font-bold text-slate-900">LOADING...</span>
+                    <span id="user-name-display" class="text-sm font-semibold text-slate-700">LOADING...</span>
+                    <span class="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Verified Client</span>
                 </div>
                 <!-- Profile/Logout Dropdown Trigger -->
-                <button onclick="logout()"
-                    class="group h-10 w-10 bg-slate-900 flex items-center justify-center text-white hover:bg-primary transition-colors"
+                <button onclick="logout()" class="h-8 w-8 text-slate-400 hover:text-primary transition-colors"
                     title="Logout">
                     <span class="material-symbols-outlined">logout</span>
                 </button>
@@ -171,70 +159,66 @@
 
 
             <!-- Account Overview Grid -->
-            <!-- Account Overview Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                 <!-- Main Balance -->
-                <div
-                    class="w-full bg-primary text-white p-8 lg:p-12 border-l-8 border-slate-900 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.05)] relative overflow-hidden">
+                <div class="w-full bg-primary text-white p-8 lg:p-12 rounded shadow-finance relative overflow-hidden">
                     <div class="relative z-10">
                         <div class="flex justify-between items-center mb-4">
-                            <p class="text-blue-200 text-xs font-bold uppercase tracking-[0.3em]">Current Account</p>
+                            <p class="text-slate-300 text-xs font-semibold uppercase tracking-wider">Current Account</p>
                             <p id="acc-num-display"
-                                class="text-white/80 text-[10px] font-mono tracking-widest bg-white/10 px-2 py-1 rounded">
+                                class="text-white/80 text-xs font-mono tracking-widest bg-white/10 px-2 py-1 rounded-sm">
                                 20XXXXXXXX</p>
                         </div>
-                        <h2 id="balance-display" class="text-4xl lg:text-6xl font-bold tracking-tighter mb-4">$0.00</h2>
+                        <h2 id="balance-display" class="text-4xl lg:text-6xl font-bold tracking-tight mb-4 font-serif">
+                            $0.00</h2>
                         <div class="flex items-center gap-2">
-                            <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                            <span class="text-[10px] uppercase font-bold tracking-widest text-blue-200">Active</span>
+                            <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+                            <span class="text-xs uppercase font-semibold tracking-wider text-emerald-400">Active
+                                Status</span>
                         </div>
                     </div>
-                    <span
-                        class="material-symbols-outlined absolute -bottom-4 -right-4 text-9xl text-white opacity-10">account_balance_wallet</span>
                 </div>
 
                 <!-- Savings (Locked) -->
                 <div
-                    class="w-full bg-slate-900 text-white p-8 lg:p-12 border-l-8 border-slate-400 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.05)] relative overflow-hidden">
+                    class="w-full bg-white text-secondary p-8 lg:p-12 rounded shadow-md border border-slate-200 relative overflow-hidden">
                     <div class="relative z-10">
                         <div class="flex justify-between items-start mb-4">
-                            <p class="text-slate-400 text-xs font-bold uppercase tracking-[0.3em]">Savings Vault</p>
+                            <p class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Savings Vault</p>
                             <span
-                                class="bg-amber-500 text-slate-900 px-2 py-1 text-[10px] font-bold uppercase tracking-widest flex items-center gap-1">
+                                class="bg-amber-100 text-amber-800 px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-sm flex items-center gap-1 border border-amber-200">
                                 <span class="material-symbols-outlined text-sm">lock_clock</span> Fixed Term
                             </span>
                         </div>
-                        <h2 id="savings-display" class="text-4xl lg:text-6xl font-bold tracking-tighter mb-6">$0.00</h2>
+                        <h2 id="savings-display"
+                            class="text-4xl lg:text-6xl font-bold tracking-tight mb-6 font-serif text-primary">$0.00
+                        </h2>
                         <a href="officer.html"
-                            class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-amber-500 hover:text-amber-400 border-b-2 border-amber-500 pb-1">
+                            class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-accent hover:text-accent-dark transition-colors">
                             Request Unlock <span class="material-symbols-outlined text-sm">arrow_forward</span>
                         </a>
                     </div>
-                    <span
-                        class="material-symbols-outlined absolute -bottom-4 -right-4 text-9xl text-slate-700 opacity-20">lock_clock</span>
                 </div>
-
-
             </div>
 
 
 
             <!-- Investment Section -->
-            <div
-                class="mb-16 bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.05)] relative">
+            <div class="mb-16 bg-white border border-slate-200 p-8 rounded shadow-md relative overflow-hidden">
                 <div
-                    class="absolute top-0 left-0 bg-slate-900 text-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest">
+                    class="absolute top-0 left-0 bg-primary text-white px-4 py-1 text-xs font-semibold uppercase tracking-wider rounded-br">
                     Investment Portfolio
                 </div>
                 <div class="flex flex-col lg:flex-row gap-12 mt-8">
                     <!-- Investment Balance & Withdraw -->
-                    <div class="lg:w-1/3 border-b-2 lg:border-b-0 lg:border-r-2 border-slate-100 pb-8 lg:pb-0 lg:pr-12">
-                        <p class="text-slate-400 text-xs font-bold uppercase tracking-[0.3em] mb-2">Total Assets</p>
+                    <div class="lg:w-1/3 border-b lg:border-b-0 lg:border-r border-slate-100 pb-8 lg:pb-0 lg:pr-12">
+                        <p class="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">Total Assets</p>
                         <h2 id="investment-display"
-                            class="text-4xl lg:text-5xl font-bold tracking-tighter text-slate-900 mb-8">$0.00</h2>
+                            class="text-4xl lg:text-5xl font-bold tracking-tight text-primary mb-8 font-serif">$0.00
+                        </h2>
 
                         <a href="investment-withdraw.html"
-                            class="block w-full py-4 bg-slate-900 text-white text-center font-bold uppercase tracking-widest text-xs hover:bg-primary transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none">
+                            class="block w-full py-3 bg-secondary text-white text-center font-medium uppercase tracking-wider text-xs hover:bg-primary transition-all rounded shadow-sm">
                             <span class="material-symbols-outlined align-middle mr-1 text-sm">payments</span> Liquidate
                             Assets
                         </a>
@@ -246,7 +230,7 @@
                     <!-- Investment History (Mini) -->
                     <div class="lg:w-2/3">
                         <h3
-                            class="text-sm font-bold uppercase tracking-widest text-slate-900 mb-6 flex items-center gap-2">
+                            class="text-sm font-semibold uppercase tracking-wider text-primary mb-6 flex items-center gap-2">
                             <span class="material-symbols-outlined text-base">history</span> Recent Activity
                         </h3>
                         <!-- We reuse the transaction table logic but filter for investment in future if needed, for now showing main tx or we can create a specific list -->
@@ -254,7 +238,7 @@
                             <table class="w-full text-left border-collapse">
                                 <tbody id="inv-history-body">
                                     <tr>
-                                        <td class="py-4 text-xs font-bold uppercase text-slate-400 tracking-widest">No
+                                        <td class="py-4 text-xs font-medium text-slate-400 uppercase tracking-wider">No
                                             recent investment activity</td>
                                     </tr>
                                 </tbody>
@@ -267,28 +251,28 @@
             <!-- Quick Actions -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
                 <button
-                    class="flex items-center justify-center gap-4 h-24 bg-slate-50 border-2 border-slate-200 text-slate-400 text-lg font-bold uppercase tracking-widest cursor-not-allowed hover:bg-slate-100 transition-all opacity-60"
+                    class="flex items-center justify-center gap-4 h-20 bg-slate-50 border border-slate-200 text-slate-400 text-base font-semibold uppercase tracking-wider cursor-not-allowed hover:bg-slate-100 transition-all opacity-60 rounded"
                     title="Deposit requires branch visit">
                     <span class="material-symbols-outlined">move_to_inbox</span>
-                    Deposit
+                    Deposit Funds
                 </button>
-                </a>
             </div>
 
             <!-- Main Ledger -->
             <div class="mb-12">
                 <div
-                    class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 border-b-4 border-slate-900 pb-4 gap-4">
-                    <h3 class="text-2xl font-bold uppercase tracking-tighter">Transaction Ledger</h3>
+                    class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 border-b border-slate-200 pb-4 gap-4">
+                    <h3 class="text-2xl font-bold uppercase tracking-tight font-serif text-primary">Transaction Ledger
+                    </h3>
                     <div class="flex gap-2">
                         <button
-                            class="px-4 py-2 border-2 border-slate-900 font-bold text-xs uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all">Download
+                            class="px-4 py-2 border border-slate-300 font-bold text-xs uppercase tracking-wider hover:bg-slate-50 text-slate-600 transition-all rounded-sm">Download
                             Report</button>
                     </div>
                 </div>
                 <!-- ... existing table ... -->
                 <div class="overflow-x-auto">
-                    <table class="w-full high-contrast-table text-left border-collapse">
+                    <table class="w-full text-left border-collapse">
                         <thead>
                             <tr>
                                 <th>Date</th>
@@ -306,21 +290,21 @@
             </div>
         </main>
 
-        <footer class="mt-auto py-12 px-6 lg:px-12 border-t-2 border-slate-100 bg-slate-50">
+        <footer class="mt-auto py-12 px-6 lg:px-12 border-t border-slate-200 bg-white">
             <div class="flex flex-col md:flex-row justify-between items-center gap-8">
-                <div class="flex items-center gap-2 grayscale opacity-50">
-                    <div class="brand-logo-container bg-slate-900 p-1 text-white">
-                        <span class="material-symbols-outlined block text-xl">account_balance</span>
+                <div class="flex items-center gap-2 opacity-80">
+                    <div class="w-6 h-6 bg-primary flex items-center justify-center text-white rounded-sm">
+                        <span class="material-symbols-outlined text-xs">account_balance</span>
                     </div>
-                    <h2 class="text-slate-900 text-lg font-bold tracking-tighter uppercase italic brand-text">
-                        KreditLithua
+                    <h2 class="text-primary text-base font-bold tracking-tight font-serif">
+                        Prism Financial
                     </h2>
                 </div>
-                <p class="text-slate-400 text-[10px] uppercase tracking-[0.3em] font-bold text-center md:text-right">
-                    © <span class="current-year">2026</span> <span class="brand-text">KREDITLITHUA</span>. INSURED.
+                <p class="text-slate-400 text-[10px] uppercase tracking-wider font-semibold text-center md:text-right">
+                    © <span class="current-year">2026</span> <span class="brand-text">PRISM FINANCIAL</span>. INSURED.
                     SECURE.
                 </p>
-                <div class="flex gap-8 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                <div class="flex gap-8 text-[10px] font-bold uppercase tracking-wider text-slate-400">
                     <a class="hover:text-primary transition-colors" href="#">Legal</a>
                     <a class="hover:text-primary transition-colors" href="#">Privacy</a>
                 </div>
@@ -379,24 +363,30 @@
             tbody.innerHTML = '';
 
             if (transactions.length === 0) {
-                tbody.innerHTML = `<tr><td class="py-4 text-xs font-bold uppercase text-slate-400 tracking-widest">No recent investment activity</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-xs text-slate-400 text-center italic">No recent investment activity</td></tr>`;
                 return;
             }
 
             transactions.slice(0, 5).forEach(t => { // Show max 5
                 const tr = document.createElement('tr');
                 const date = new Date(t.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-                const isCredit = t.type === 'investment_deposit'; // Future proofing
+                const isCredit = t.type.includes('deposit');
 
-                tr.className = 'border-b border-slate-50 last:border-0';
+                tr.className = 'border-b border-slate-50 last:border-0 hover:bg-slate-50 transition-colors';
+
+                // Status Badge
+                let statusClass = 'bg-slate-100 text-slate-600';
+                if (t.status === 'completed') statusClass = 'bg-emerald-50 text-emerald-600';
+                if (t.status === 'pending') statusClass = 'bg-amber-50 text-amber-600';
+
                 tr.innerHTML = `
-                    <td class="py-3 text-[10px] font-bold text-slate-500 uppercase">${date}</td>
-                    <td class="py-3 text-xs font-bold text-slate-900">${t.description}</td>
-                    <td class="py-3 text-right text-xs font-bold ${isCredit ? 'text-emerald-600' : 'text-slate-900'}">
+                    <td class="py-3 px-2 text-xs font-mono text-slate-500">${date}</td>
+                    <td class="py-3 px-2 text-xs font-medium text-slate-900">${t.description || 'Investment Action'}</td>
+                    <td class="py-3 px-2 text-right text-xs font-mono font-medium ${isCredit ? 'text-emerald-600' : 'text-slate-900'}">
                         ${isCredit ? '+' : '-'}${utils.formatCurrency(t.amount)}
                     </td>
-                    <td class="py-3 text-right">
-                         <span class="text-[9px] font-bold uppercase tracking-widest px-2 py-1 ${getDetailedStatusClass(t.status)} border border-slate-100">${t.status}</span>
+                    <td class="py-3 px-2 text-right">
+                         <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${statusClass}">${t.status}</span>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -408,38 +398,40 @@
             tbody.innerHTML = '';
 
             if (transactions.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-8 text-slate-400 font-bold uppercase tracking-widest">No transaction records found</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-12 text-slate-400 text-sm italic">No transaction records found</td></tr>`;
                 return;
             }
 
             transactions.forEach((t, index) => {
                 const tr = document.createElement('tr');
+                tr.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors group';
+
                 const isCredit = t.type === 'credit';
-                const date = new Date(t.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
+                const date = new Date(t.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
                 // Styling based on status
                 let statusBadge = '';
                 if (t.status === 'pending') {
-                    statusBadge = `<span class="bg-amber-100 text-amber-800 px-3 py-1 text-[10px] font-bold uppercase tracking-widest border border-amber-200 break-keep whitespace-nowrap">Pending Auth</span>`;
+                    statusBadge = `<span class="bg-amber-50 text-amber-700 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide rounded-full border border-amber-100 whitespace-nowrap">Pending</span>`;
                 } else if (t.status === 'rejected') {
-                    statusBadge = `<span class="bg-slate-200 text-slate-600 px-3 py-1 text-[10px] font-bold uppercase tracking-widest border border-slate-300 line-through">Voided</span>`;
+                    statusBadge = `<span class="bg-slate-100 text-slate-500 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide rounded-full border border-slate-200 line-through">Voided</span>`;
                 } else {
                     statusBadge = isCredit
-                        ? `<span class="bg-emerald-100 text-emerald-800 px-3 py-1 text-[10px] font-bold uppercase tracking-widest border border-emerald-200">Received</span>`
-                        : `<span class="bg-blue-100 text-blue-800 px-3 py-1 text-[10px] font-bold uppercase tracking-widest border border-blue-200">Sent</span>`;
+                        ? `<span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide rounded-full border border-emerald-100">Received</span>`
+                        : `<span class="bg-blue-50 text-slate-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide rounded-full border border-slate-200">Sent</span>`;
                 }
 
                 // Amount Color
-                const amountClass = isCredit ? 'text-emerald-600' : 'text-slate-900';
+                const amountClass = isCredit ? 'text-emerald-700' : 'text-slate-900';
                 const amountPrefix = isCredit ? '+' : '-';
 
                 tr.innerHTML = `
-                    <td class="font-bold whitespace-nowrap">${date}</td>
-                    <td>${statusBadge}</td>
-                    <td><span class="text-[10px] font-bold uppercase tracking-widest px-2 py-1 ${getDetailedStatusClass(t.status)}">${t.status}</span></td>
-                    <td class="text-right font-bold ${amountClass}">${amountPrefix}${utils.formatCurrency(t.amount)}</td>
-                    <td class="text-center">
-                         <button onclick="openReceipt(${index})" class="h-8 w-8 bg-slate-100 text-slate-900 border border-slate-200 hover:bg-slate-900 hover:text-white flex items-center justify-center transition-colors mx-auto" title="View Receipt">
+                    <td class="font-mono text-xs text-slate-500 py-4 px-4 whitespace-nowrap">${date}</td>
+                    <td class="py-4 px-4">${statusBadge}</td>
+                    <td class="py-4 px-4 text-xs font-medium text-slate-700 uppercase tracking-wide">${t.type}</td>
+                    <td class="text-right font-mono font-medium text-sm py-4 px-4 ${amountClass}">${amountPrefix}${utils.formatCurrency(t.amount)}</td>
+                    <td class="text-center py-4 px-4">
+                         <button onclick="openReceipt(${index})" class="h-8 w-8 bg-white border border-slate-200 text-slate-400 hover:text-primary hover:border-primary flex items-center justify-center transition-colors mx-auto rounded shadow-sm opacity-80 group-hover:opacity-100" title="View Receipt">
                             <span class="material-symbols-outlined text-[16px]">receipt</span>
                         </button>
                     </td>
