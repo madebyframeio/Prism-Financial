@@ -2,109 +2,114 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Client Access | Prism</title>
-    <meta name="robots" content="noindex, nofollow">
-    <meta name="description" content="Secure portal access for Prism partners.">
-    <meta property="og:title" content="Client Access | Prism">
-    <meta property="og:image" content="meta.png">
-    <meta property="og:url" content="https://www.prism.finance/login.html">
-    <link rel="icon" type="image/png" href="logo.png">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign On | Prisim Finance Online</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#008450",
+                        secondary: "#004B8D",
+                        accent: "#FCCC44",
+                        bankGray: "#F4F4F4",
+                        bankText: "#333333",
+                        borderGray: "#D1D1D1"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-    <script src="theme.js"></script>
     <style type="text/tailwindcss">
-        body {
-            font-family: 'Inter', sans-serif;
-            @apply bg-surface text-secondary antialiased;
+        @layer base {
+            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
         }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: 'Urbanist', sans-serif;
-        }
-
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+        @layer components {
+            .input-field { @apply w-full bg-white border border-gray-300 p-3 rounded-sm focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all placeholder:text-gray-400 text-sm; }
+            .btn-wf-signin { @apply w-full py-3 bg-primary text-white font-black text-sm uppercase tracking-widest hover:bg-green-700 transition-all rounded-sm shadow-md active:translate-y-px; }
         }
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col items-center justify-center p-6 bg-slate-100">
-
-    <div class="w-full max-w-md bg-white p-8 md:p-12 relative shadow-finance rounded">
-        <!-- Decorative Header Stripe -->
-        <div class="absolute top-0 left-0 w-full h-1 bg-accent"></div>
-
-        <div class="flex flex-col items-center justify-center mb-10 text-center">
-            <img src="logo.png" alt="Prism Logo" class="h-16 w-auto mb-4">
-            <h2 class="text-xs font-bold uppercase tracking-widest text-slate-500">Prism Financial</h2>
+<body class="min-h-screen flex flex-col">
+    <!-- Corporate Header -->
+    <header class="bg-primary text-white p-4 shadow-md">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="bg-white p-1 rounded-sm">
+                <img src="logo.png" alt="Prisim Finance" class="h-8">
+            </a>
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">Secure Session</span>
         </div>
+    </header>
 
-        <h3 class="text-2xl font-bold text-center mb-8 text-primary font-serif">Secure Sign In</h3>
+    <main class="flex-1 flex items-center justify-center p-6">
+        <div class="w-full max-w-md bg-white p-10 border border-gray-300 rounded shadow-sm relative overflow-hidden">
+            <!-- Red Top Stripe -->
+            <div class="absolute top-0 left-0 w-full h-1.5 bg-primary"></div>
 
-        <form id="login-form">
-            <div class="mb-6">
-                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Username /
-                    ID</label>
-                <input type="text" id="username"
-                    class="w-full bg-slate-50 border border-slate-300 p-3 text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all rounded-sm placeholder:text-slate-400"
-                    placeholder="Enter ID" required>
-            </div>
+            <h1 class="text-2xl font-black text-primary mb-8 tracking-tighter">Sign On</h1>
 
-            <div class="mb-8">
-                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Password</label>
-                <input type="password" id="password"
-                    class="w-full bg-slate-50 border border-slate-300 p-3 text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all rounded-sm placeholder:text-slate-400"
-                    placeholder="••••••••" required>
-            </div>
-
-            <div id="error-msg" class="hidden mb-6 bg-red-50 border-l-4 border-red-500 text-red-700 p-3 text-sm">
-                <div class="flex items-center">
-                    <span class="material-symbols-outlined text-base mr-2">error</span>
-                    <span>Invalid Credentials</span>
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label class="block text-xs font-black uppercase tracking-widest text-gray-500 mb-2">Username / User
+                        ID</label>
+                    <input type="text" id="username" class="input-field" placeholder="Enter ID" required>
                 </div>
-            </div>
 
-            <button type="submit"
-                class="w-full py-3 bg-primary text-white font-medium uppercase tracking-wider hover:bg-slate-800 transition-all rounded-sm shadow-md">
-                Access Account
-            </button>
-        </form>
+                <div>
+                    <label
+                        class="block text-xs font-black uppercase tracking-widest text-gray-500 mb-2">Password</label>
+                    <input type="password" id="password" class="input-field" placeholder="••••••••" required>
+                </div>
 
-        <div class="mt-8 pt-6 border-t border-slate-100 text-center">
-            <div class="flex items-center justify-center gap-2 mb-6">
-                <span class="material-symbols-outlined text-slate-400 text-sm">lock</span>
-                <p class="text-[10px] font-medium uppercase tracking-widest text-slate-400">
-                    Encrypted Connection
-                </p>
-            </div>
+                <div id="error-msg"
+                    class="hidden bg-red-50 border-l-4 border-primary p-3 text-xs text-primary font-bold">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">warning</span>
+                        Invalid username or password. Please try again.
+                    </div>
+                </div>
 
-            <div class="flex flex-col gap-3">
-                <a href="signup.html" class="text-sm text-slate-600 hover:text-primary transition-colors">
-                    Apply for an Account
-                </a>
-                <a href="index.html"
-                    class="text-xs font-medium uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors">
-                    ← Back to Home
-                </a>
+                <div class="flex items-center gap-2">
+                    <input type="checkbox" id="save-id"
+                        class="rounded-sm border-gray-300 text-secondary focus:ring-secondary h-4 w-4">
+                    <label for="save-id" class="text-xs text-gray-600 font-semibold cursor-pointer">Save User ID</label>
+                </div>
+
+                <button type="submit" class="btn-wf-signin">Sign On</button>
+            </form>
+
+            <div class="mt-8 pt-8 border-t border-gray-100 space-y-4">
+                <a href="#" class="block text-xs text-secondary font-bold hover:underline">Forgot Password/Username?</a>
+                <a href="signup.html" class="block text-xs text-secondary font-bold hover:underline">Enroll Now</a>
             </div>
         </div>
-    </div>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-white border-t border-gray-300 py-10">
+        <div class="max-w-4xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex gap-6 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                <a href="#" class="hover:text-primary transition-colors">Safety & Security</a>
+                <a href="#" class="hover:text-primary transition-colors">Privacy & Legal</a>
+                <a href="#" class="hover:text-primary transition-colors">Fraud Center</a>
+            </div>
+            <p class="text-[10px] text-gray-400 font-bold">© 2026 Prisim Finance. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="utils.js"></script>
     <script>
-        // Init Utils (which inits Supabase)
         utils.init();
 
         document.getElementById('login-form').addEventListener('submit', async (e) => {
@@ -114,35 +119,20 @@
             const btn = e.submitter;
             const originalText = btn.innerHTML;
 
-            // Loading state
             btn.disabled = true;
-            btn.innerHTML = '<span class="animate-pulse">Accessing...</span>';
-
-            // Special Admin Check (Hardcoded for simulator, or could be in DB)
-            // We'll check DB for admin flag if we want it dynamic, 
-            // OR keep the "admin" user as a special case in the DB.
-            // Let's assume we check the DB.
+            btn.innerHTML = '<span class="animate-pulse">Signing On...</span>';
 
             try {
                 const user = await utils.login(username, password);
-
                 if (user) {
-                    if (user.is_admin) {
-                        window.location.href = 'admin.html';
-                    } else {
-                        window.location.href = 'dashboard.html';
-                    }
+                    window.location.href = user.is_admin ? 'admin.html' : 'dashboard.html';
                 } else {
-                    // Fallback for hardcoded admin if not in DB yet
+                    // Simulation Admin Fallback
                     if (username === 'admin' && password === 'admin') {
-                        // Mock a full user object so admin.html parsing works
                         sessionStorage.setItem('currentUser', JSON.stringify({
-                            id: '00000000-0000-0000-0000-000000000000', // Mock UUID
-                            role: 'admin',
+                            id: '00000000-0000-0000-0000-000000000000',
+                            name: 'Administrator',
                             username: 'admin',
-                            name: 'Root Administrator',
-                            password: 'admin',
-                            balance: 0,
                             is_admin: true
                         }));
                         window.location.href = 'admin.html';
@@ -163,19 +153,9 @@
         function showError() {
             const err = document.getElementById('error-msg');
             err.classList.remove('hidden');
-            setTimeout(() => err.classList.add('hidden'), 3000);
+            setTimeout(() => err.classList.add('hidden'), 5000);
         }
-
-        // --- Security Protection ---
-        // (Cleaned for Prism Standard Compliance)
     </script>
-    <!-- Simulation Disclaimer -->
-    <div
-        class="fixed bottom-0 left-0 w-full bg-amber-50 border-t border-amber-200 py-2 text-center z-[200] opacity-0 pointer-events-none">
-        <p class="text-[10px] uppercase tracking-widest font-bold text-amber-800">
-            Prism Simulation Environment • Educational Project • No Real Money Involved
-        </p>
-    </div>
 </body>
 
 </html>

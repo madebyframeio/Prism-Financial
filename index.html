@@ -1,243 +1,220 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Prism | Financial Clarity</title>
-    <meta name="robots" content="noindex, nofollow">
-    <meta name="description"
-        content="Prism provides clear, professional financial consulting and investment management for the modern era.">
-    <meta property="og:title" content="Prism | Financial Clarity">
-    <meta property="og:description" content="Secure, transparent, and intelligent financial management.">
-    <meta property="og:image" content="meta.png">
-    <meta property="og:url" content="https://prism-financial.xyz">
-    <link rel="icon" type="image/png" href="logo.png">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prisim Finance – Personal & Business Banking – Student, Auto & Home Loans</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#008450",
+                        secondary: "#004B8D",
+                        accent: "#FCCC44",
+                        bankGray: "#F4F4F4",
+                        bankText: "#333333"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                        serif: ["Source Serif 4", "serif"],
+                    }
+                }
+            }
+        };
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Source+Serif+4:wght@600;700&display=swap"
         rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-    <script src="theme.js"></script>
     <style type="text/tailwindcss">
-        body {
-            @apply font-sans bg-surface text-secondary antialiased;
+        @layer base {
+            body { @apply bg-white text-bankText font-sans antialiased; }
         }
-
-        h1, h2, h3, h4, h5, h6 {
-            @apply font-serif text-primary;
-        }
-        
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
-        }
-
-        .btn-primary {
-            @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded text-sm bg-primary text-white shadow hover:bg-emerald-900 transition-all duration-300;
-        }
-
-        .btn-outline {
-            @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded text-sm border border-slate-300 bg-white text-secondary shadow-sm hover:bg-slate-50 hover:border-slate-400 transition-all duration-300;
-        }
-
-        .card {
-            @apply bg-white p-8 rounded shadow-md border border-slate-100 transition-all duration-300 hover:shadow-lg hover:border-accent/20;
-        }
-
-        .section-title {
-            @apply text-3xl md:text-5xl font-bold tracking-tight mb-4 text-primary font-serif;
-        }
-
-        .badge {
-            @apply inline-block bg-slate-100 text-slate-600 text-xs font-semibold uppercase tracking-wider px-3 py-1 mb-4 rounded-sm border border-slate-200;
+        @layer components {
+            .nav-link { @apply text-sm font-semibold hover:underline; }
+            .btn-wf-primary { @apply bg-primary text-white px-6 py-2 rounded-sm font-bold hover:bg-green-700 transition-colors shadow-sm; }
+            .service-card { @apply flex flex-col items-center text-center p-6 border-transparent border-2 hover:border-primary/20 hover:bg-bankGray/50 rounded-lg transition-all; }
         }
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen">
+<body class="overflow-x-hidden">
+    <!-- Top Utility Bar -->
+    <div class="bg-bankGray border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 py-2 flex justify-end gap-6 text-[11px] font-semibold text-secondary">
+            <a href="#" class="hover:underline">AdChoices</a>
+            <a href="#" class="hover:underline">About Prisim Finance</a>
+            <a href="#" class="hover:underline">Careers</a>
+            <a href="faq.html" class="hover:underline">Privacy, Cookies, Security & Legal</a>
+        </div>
+    </div>
 
-    <!-- Header -->
-    <header class="bg-white sticky top-0 z-50 border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <img src="logo.png" alt="Prism Logo" class="h-10 w-auto">
-                <span class="text-xl font-bold tracking-tight text-primary font-serif">Prism</span>
+    <!-- Main Header -->
+    <header class="bg-primary text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <!-- Logo -->
+                <div class="bg-white p-1 rounded-sm shadow-inner">
+                    <img src="logo.png" alt="Prisim Finance" class="h-10">
+                </div>
+                <!-- Nav -->
+                <nav class="hidden md:flex gap-6 uppercase text-[11px] tracking-wider font-bold">
+                    <a href="#" class="border-b-2 border-accent pb-1">Personal</a>
+                    <a href="#" class="opacity-80 hover:opacity-100 hover:border-b-2 border-white/50 pb-1">Small
+                        Business</a>
+                    <a href="#"
+                        class="opacity-80 hover:opacity-100 hover:border-b-2 border-white/50 pb-1">Commercial</a>
+                    <a href="#" class="opacity-80 hover:opacity-100 hover:border-b-2 border-white/50 pb-1">Wealth
+                        Management</a>
+                </nav>
             </div>
-
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-                <a href="#" class="hover:text-primary transition-colors">Personal</a>
-                <a href="#" class="hover:text-primary transition-colors">Business</a>
-                <a href="#" class="hover:text-primary transition-colors">Wealth</a>
-            </nav>
-
             <div class="flex items-center gap-4">
-                <a href="login.html" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors">Log
-                    In</a>
-                <a href="signup.html" class="btn-primary py-2 px-5 text-xs">Open Account</a>
+                <button class="flex items-center gap-1 text-sm font-bold hover:underline">
+                    <span class="material-symbols-outlined text-lg">search</span> Search
+                </button>
+                <a href="login.html"
+                    class="bg-accent text-primary px-5 py-1.5 rounded-sm font-black text-xs uppercase shadow-sm">Sign
+                    On</a>
             </div>
         </div>
     </header>
 
+    <!-- Navigation Tabs -->
+    <div class="bg-white border-b border-gray-300">
+        <div class="max-w-7xl mx-auto px-4 flex gap-10 py-3 text-sm font-semibold text-bankText">
+            <a href="#" class="text-primary border-b-2 border-primary pb-3 -mb-3">Checking</a>
+            <a href="#" class="hover:text-primary transition-colors">Savings & CDs</a>
+            <a href="#" class="hover:text-primary transition-colors">Credit Cards</a>
+            <a href="#" class="hover:text-primary transition-colors">Home Loans</a>
+            <a href="#" class="hover:text-primary transition-colors">Auto Loans</a>
+            <a href="#" class="hover:text-primary transition-colors">Personal Loans</a>
+            <a href="#" class="hover:text-primary transition-colors">Investing & Wealth</a>
+        </div>
+    </div>
+
     <!-- Hero Section -->
-    <section class="py-20 md:py-32 overflow-hidden bg-surface relative">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16 relative z-10">
-            <div class="md:w-1/2 flex flex-col items-start text-left">
-                <div class="badge text-primary bg-slate-200 border-slate-300">The Future of Finance</div>
-                <h1 class="text-5xl md:text-7xl font-bold tracking-tight leading-tight mb-6 text-primary font-serif">
-                    Financial <span class="text-accent">Clarity</span>
-                </h1>
-                <p class="text-lg md:text-xl text-slate-600 mb-10 max-w-lg leading-relaxed font-light">
-                    Experience banking with precision, transparency, and intelligence. Prism brings your financial life
-                    into focus.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                    <a href="signup.html" class="btn-primary w-full sm:w-auto text-base px-8 rounded-sm">
-                        Open Account
-                    </a>
-                    <a href="login.html" class="btn-outline w-full sm:w-auto text-base px-8 rounded-sm">
-                        Client Login
-                    </a>
+    <section class="relative bg-bankGray overflow-hidden">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center">
+            <!-- Hero Content -->
+            <div class="flex-1 p-8 md:p-20 z-10">
+                <h1 class="font-serif text-4xl md:text-5xl text-primary leading-tight mb-6 font-bold">With you when life
+                    happens</h1>
+                <p class="text-lg mb-8 max-w-md text-bankText/80 leading-relaxed">Our bankers are here to help you move
+                    your financial life forward with expert guidance and secure tools.</p>
+                <div class="flex gap-4">
+                    <a href="login.html" class="btn-wf-primary">Sign On</a>
+                    <button class="text-secondary font-bold hover:underline">Find a Location</button>
                 </div>
             </div>
-
-            <div class="md:w-1/2 w-full relative">
-                <!-- Clean Geometric Decoration -->
-                <div class="absolute -top-10 -right-10 w-64 h-64 bg-slate-200 rounded-sm opacity-50"></div>
-                <div class="absolute -bottom-10 -left-10 w-64 h-64 bg-accent/10 rounded-sm opacity-50"></div>
-
-                <div class="relative bg-white p-1 rounded-sm shadow-xl border border-slate-200">
-                    <img src="hero_flat.png" alt="Prism Dashboard Interface"
-                        class="w-full h-auto shadow-inner bg-slate-50 grayscale-[20%]">
-                </div>
+            <!-- Hero Image -->
+            <div class="flex-1 w-full h-[400px] md:h-[600px] relative">
+                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=1000"
+                    alt="Customer help" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-r from-bankGray via-transparent to-transparent"></div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="py-24 bg-white border-t border-slate-200">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="text-center mb-16">
-                <h2 class="section-title">Why Choose Prism?</h2>
-                <p class="text-slate-500 max-w-2xl mx-auto text-lg font-light">Built for those who demand more from
-                    their financial institutions.</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Card 1 -->
-                <div class="card group hover:-translate-y-1">
-                    <div class="w-12 h-12 flex items-center justify-center mb-6 border-b-2 border-accent pb-2">
-                        <span
-                            class="material-symbols-outlined text-4xl text-primary group-hover:text-accent transition-colors">bolt</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3 font-serif">Instant Execution</h3>
-                    <p class="text-slate-500 leading-relaxed font-light">
-                        Real-time processing for all your transactions. No delays, no hidden holding periods.
-                    </p>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="card group hover:-translate-y-1">
-                    <div class="w-12 h-12 flex items-center justify-center mb-6 border-b-2 border-accent pb-2">
-                        <span
-                            class="material-symbols-outlined text-4xl text-primary group-hover:text-accent transition-colors">shield</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3 font-serif">Bank-Grade Security</h3>
-                    <p class="text-slate-500 leading-relaxed font-light">
-                        Protected by industry-leading encryption and 24/7 fraud monitoring systems.
-                    </p>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="card group hover:-translate-y-1">
-                    <div class="w-12 h-12 flex items-center justify-center mb-6 border-b-2 border-accent pb-2">
-                        <span
-                            class="material-symbols-outlined text-4xl text-primary group-hover:text-accent transition-colors">trending_up</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-primary mb-3 font-serif">Intelligent Growth</h3>
-                    <p class="text-slate-500 leading-relaxed font-light">
-                        Smart savings algorithms that adapt to your spending habits to maximize returns.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Split Sections -->
-    <section class="py-0">
-        <!-- Business -->
-        <div class="flex flex-col md:flex-row border-t border-slate-200">
-            <div class="md:w-1/2 p-12 md:p-24 bg-surface flex flex-col justify-center border-r border-slate-200">
-                <div class="badge bg-slate-200 text-slate-700">Enterprise</div>
-                <h2 class="text-4xl font-bold text-primary mb-6 tracking-tight font-serif">Prism for Business</h2>
-                <p class="text-lg text-slate-600 mb-8 max-w-md font-light">
-                    Scalable financial infrastructure for companies of all sizes. API access, multi-user permissions,
-                    and automated payroll.
-                </p>
-                <a href="login.html" class="btn-outline self-start rounded-sm">
-                    Explore Corporate
+    <!-- Services Grid -->
+    <section class="max-w-7xl mx-auto px-4 py-24">
+        <h2 class="font-serif text-3xl mb-16 text-center text-primary font-bold">Discover how we can help</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+            <div class="service-card group">
+                <span
+                    class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">account_balance</span>
+                <h3 class="font-bold mb-2">Everyday Banking</h3>
+                <p class="text-sm text-center text-bankText/70">Checking accounts that fit your lifestyle and help you
+                    reach your goals.</p>
+                <a href="#"
+                    class="text-secondary mt-6 font-semibold hover:underline text-sm inline-flex items-center gap-1">
+                    Explore Checking <span class="material-symbols-outlined text-xs">arrow_forward</span>
                 </a>
             </div>
-            <div class="md:w-1/2 bg-white p-12 md:p-24 flex items-center justify-center">
-                <div class="relative w-full max-w-sm p-2 bg-white shadow-lg border border-slate-100">
-                    <img src="business_flat.png" alt="Business Solutions"
-                        class="relative z-10 w-full h-auto grayscale-[20%]">
-                </div>
-            </div>
-        </div>
-
-        <!-- Wealth -->
-        <div class="flex flex-col md:flex-row-reverse border-t border-slate-200">
-            <div class="md:w-1/2 p-12 md:p-24 bg-primary text-white flex flex-col justify-center">
-                <div class="badge bg-slate-700 text-slate-300 border-slate-600">Private Client</div>
-                <h2 class="text-4xl font-bold mb-6 tracking-tight font-serif text-white">Wealth Management</h2>
-                <p class="text-lg text-slate-300 mb-8 max-w-md font-light">
-                    Bespoke advisory services for high-net-worth individuals. Access exclusive markets and personalized
-                    portfolio strategies.
-                </p>
-                <a href="login.html"
-                    class="btn-primary bg-white text-primary hover:bg-slate-200 border-none self-start rounded-sm">
-                    Private Clients
+            <div class="service-card group">
+                <span
+                    class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">credit_card</span>
+                <h3 class="font-bold mb-2">Credit Cards</h3>
+                <p class="text-sm text-center text-bankText/70">Find a card that rewards you for the things you do every
+                    day.</p>
+                <a href="#"
+                    class="text-secondary mt-6 font-semibold hover:underline text-sm inline-flex items-center gap-1">
+                    Compare Cards <span class="material-symbols-outlined text-xs">arrow_forward</span>
                 </a>
             </div>
-            <div class="md:w-1/2 bg-slate-900 p-12 md:p-24 flex items-center justify-center relative overflow-hidden">
-                <div class="relative w-full max-w-sm border border-slate-700 p-2">
-                    <img src="wealth_flat.png" alt="Wealth Management"
-                        class="relative z-10 w-full h-auto grayscale-[40%] opacity-90">
-                </div>
+            <div class="service-card group">
+                <span
+                    class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">home</span>
+                <h3 class="font-bold mb-2">Home Loans</h3>
+                <p class="text-sm text-center text-bankText/70">Get a mortgage or refinance your current home with
+                    expert support.</p>
+                <a href="#"
+                    class="text-secondary mt-6 font-semibold hover:underline text-sm inline-flex items-center gap-1">
+                    View Rates <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                </a>
+            </div>
+            <div class="service-card group">
+                <span
+                    class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">trending_up</span>
+                <h3 class="font-bold mb-2">Investing</h3>
+                <p class="text-sm text-center text-bankText/70">Strategic insights and products to help your money grow
+                    over time.</p>
+                <a href="#"
+                    class="text-secondary mt-6 font-semibold hover:underline text-sm inline-flex items-center gap-1">
+                    Start Investing <span class="material-symbols-outlined text-xs">arrow_forward</span>
+                </a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-16">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-8 mb-12">
-                <div class="flex items-center gap-3">
-                    <img src="logo.png" alt="Prism Logo" class="h-8 w-auto">
-                    <span class="text-xl font-bold tracking-tight text-primary">Prism</span>
+    <footer class="bg-bankGray py-16 border-t border-gray-300">
+        <div class="max-w-7xl mx-auto px-4">
+            <div
+                class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16 text-[11px] text-secondary font-bold uppercase tracking-wider">
+                <div class="flex flex-col gap-4">
+                    <a href="#" class="hover:underline">About Prisim Finance</a>
+                    <a href="#" class="hover:underline">Careers</a>
+                    <a href="#" class="hover:underline">Social Impact</a>
                 </div>
-                <div class="flex flex-wrap justify-center gap-8 text-sm font-medium text-slate-500">
-                    <a href="#" class="hover:text-primary transition-colors">Privacy Policy</a>
-                    <a href="#" class="hover:text-primary transition-colors">Terms of Service</a>
-                    <a href="#" class="hover:text-primary transition-colors">About Us</a>
-                    <a href="#" class="hover:text-primary transition-colors">Support</a>
+                <div class="flex flex-col gap-4">
+                    <a href="faq.html" class="hover:underline">Privacy & Security Help</a>
+                    <a href="faq.html" class="hover:underline">Plan & Learn</a>
+                    <a href="support.html" class="hover:underline">Support Chat</a>
+                    <a href="support.html" class="hover:underline">Report Fraud</a>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <a href="#" class="hover:underline">Sitemap</a>
+                    <a href="#" class="hover:underline">Contact Us</a>
+                    <a href="#" class="hover:underline">Accessibility</a>
+                </div>
+                <div class="flex flex-col gap-6 text-right">
+                    <div class="flex justify-end gap-4 text-gray-400">
+                        <span class="material-symbols-outlined">facebook</span>
+                        <span class="material-symbols-outlined">alternate_email</span>
+                    </div>
                 </div>
             </div>
-            <div class="text-center text-xs text-slate-400">
-                <p>&copy; 2026 Prism Financial. All rights reserved.</p>
+            <div class="border-t border-gray-300 pt-10 text-[10px] text-gray-500 leading-relaxed max-w-4xl">
+                <p class="mb-4">1. Investment and Insurance Products are: NOT A DEPOSIT • NOT FDIC INSURED • NOT INSURED
+                    BY ANY FEDERAL GOVERNMENT AGENCY • NOT GUARANTEED BY THE BANK • MAY LOOSE VALUE.</p>
+                <p class="mb-4">Prisim Finance Bank, N.A. Member FDIC.</p>
+                <p>&copy; <span id="current-year">2026</span> Prisim Finance. All rights reserved. NMLSR ID 399801</p>
             </div>
         </div>
     </footer>
 
-    <!-- Simulation Disclaimer -->
-    <div
-        class="fixed bottom-0 left-0 w-full bg-amber-50 border-t border-amber-200 py-2 text-center z-[200] opacity-0 pointer-events-none">
-        <p class="text-[10px] uppercase tracking-widest font-bold text-amber-800">
-            Prism Simulation Environment • Educational Project • No Real Money Involved
-        </p>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            utils.init();
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        });
+    </script>
 </body>
 
 </html>

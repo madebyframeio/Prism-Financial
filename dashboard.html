@@ -1,497 +1,409 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Prism | Dashboard</title>
-    <meta name="description" content="Secure financial dashboard for Prism clients.">
-    <meta name="robots" content="noindex, nofollow">
-    <meta property="og:title" content="Prism | Dashboard">
-    <meta property="og:image" content="meta.png">
-    <link rel="icon" type="image/png" href="logo.png">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Summary | Prisim Finance Online</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#008450",
+                        secondary: "#004B8D",
+                        accent: "#FCCC44",
+                        bankGray: "#F4F4F4",
+                        bankText: "#333333",
+                        borderGray: "#D1D1D1"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-    <script src="theme.js"></script>
     <style type="text/tailwindcss">
-        body {
-            font-family: 'Inter', sans-serif;
-            @apply bg-surface text-secondary antialiased;
+        @layer base {
+            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
         }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Urbanist', sans-serif;
-        }
-
-        .font-mono {
-            font-family: 'Space Mono', monospace;
-        }
-
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
-        }
-
-        /* Table Styles */
-        th {
-            @apply text-xs font-semibold uppercase tracking-wider text-slate-500 py-3 border-b border-slate-200;
-        }
-        td {
-            @apply py-4 border-b border-slate-100 text-sm;
+        @layer components {
+            .account-row { @apply flex items-center justify-between p-5 border-b border-borderGray hover:bg-white transition-colors cursor-pointer bg-white/50; }
+            .btn-action-wf { @apply bg-white border border-gray-300 px-5 py-2.5 rounded-sm text-sm font-semibold hover:border-gray-400 text-secondary shadow-sm transition-all active:translate-y-px; }
+            .sidebar-card { @apply bg-white shadow-sm border border-borderGray rounded-sm p-6; }
         }
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col bg-slate-50 text-slate-900">
-    <!-- Print Styles -->
-    <style>
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-
-            #receipt-modal,
-            #receipt-modal * {
-                visibility: visible;
-            }
-
-            #receipt-modal {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background: white;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border: none;
-                z-index: 9999;
-            }
-
-            .no-print {
-                display: none !important;
-            }
-        }
-    </style>
-
-    <!-- Receipt Modal -->
-    <div id="receipt-modal"
-        class="hidden fixed inset-0 bg-slate-900/50 items-center justify-center p-4 z-[100] backdrop-blur-sm transition-opacity">
-        <div class="bg-white w-full max-w-md p-8 rounded shadow-2xl relative transform transition-all">
-            <!-- Close Button -->
-            <button onclick="closeReceipt()"
-                class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors no-print">
-                <span class="material-symbols-outlined">close</span>
-            </button>
-
-            <!-- Receipt Content -->
-            <div class="text-center border-b border-slate-100 pb-6 mb-6">
-                <div
-                    class="inline-flex items-center justify-center w-12 h-12 bg-slate-50 text-primary rounded-full mb-4">
-                    <span class="material-symbols-outlined">receipt_long</span>
-                </div>
-                <h2 class="text-2xl font-bold font-serif text-primary">Transaction Receipt</h2>
-                <p class="text-xs font-semibold uppercase tracking-wider text-slate-400 mt-2">Prism Global
-                    Finance</p>
-            </div>
-
-            <div class="space-y-4 font-mono text-sm text-slate-600">
-                <div class="flex justify-between border-b border-slate-50 pb-2">
-                    <span class="text-slate-400 font-medium uppercase text-xs">Reference ID</span>
-                    <span id="r-id" class="font-bold text-slate-800">#00000000</span>
-                </div>
-                <div class="flex justify-between border-b border-slate-50 pb-2">
-                    <span class="text-slate-400 font-medium uppercase text-xs">Date</span>
-                    <span id="r-date" class="font-bold text-slate-800">JAN 01, 2026</span>
-                </div>
-                <div class="flex justify-between border-b border-slate-50 pb-2">
-                    <span class="text-slate-400 font-medium uppercase text-xs">Type</span>
-                    <span id="r-type" class="font-bold text-slate-800 uppercase">TRANSFER</span>
-                </div>
-                <div class="flex justify-between border-b border-slate-50 pb-2">
-                    <span class="text-slate-400 font-medium uppercase text-xs">Status</span>
-                    <span id="r-status" class="font-bold text-slate-800 uppercase">COMPLETED</span>
-                </div>
-                <div class="flex justify-between items-end pt-4">
-                    <span class="text-slate-400 font-medium uppercase text-xs mb-1">Total Amount</span>
-                    <span id="r-amount" class="text-3xl font-bold tracking-tight text-primary">$0.00</span>
+<body class="min-h-screen flex flex-col">
+    <!-- Corporate Header -->
+    <header class="bg-primary text-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="bg-white p-1 rounded-sm shadow-inner group">
+                    <img src="logo.png" alt="Prisim Finance" class="h-8 transition-transform group-hover:scale-105">
+                </a>
+                <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
+                    <span class="text-xs opacity-70 uppercase tracking-widest font-black">Welcome back</span>
+                    <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
                 </div>
             </div>
-
-            <div class="mt-8 pt-6 border-t border-slate-100 text-center">
-                <p class="text-xs font-medium text-slate-400 uppercase tracking-wider mb-6">Thank you for banking with
-                    us.</p>
-                <button onclick="window.print()"
-                    class="w-full py-3 bg-primary text-white font-medium uppercase tracking-wider text-xs hover:bg-slate-800 transition-all rounded shadow-md flex items-center justify-center gap-2 no-print">
-                    <span class="material-symbols-outlined text-lg">print</span>
-                    Print Receipt
+            <div class="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
+                <a href="messages.html" class="hover:underline" id="messages-link">Messages</a>
+                <a href="security.html" class="hover:underline">Security</a>
+                <button onclick="utils.logout()"
+                    class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
+                    Sign Out <span class="material-symbols-outlined text-sm">logout</span>
                 </button>
             </div>
         </div>
-    </div>
+    </header>
 
-    <div class="relative flex flex-col w-full min-h-screen font-sans">
-        <header
-            class="flex items-center justify-between px-6 lg:px-12 py-4 bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
-            <div class="flex items-center gap-3">
-                <img src="logo.png" alt="Prism Logo" class="h-8 w-auto">
-                <span class="text-lg font-bold tracking-tight text-primary font-serif">Prism Financial</span>
-            </div>
+    <!-- Main Navigation Tabs -->
+    <nav class="bg-white border-b border-borderGray shadow-sm sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 flex gap-8 items-end overflow-x-auto whitespace-nowrap scrollbar-hide">
+            <a href="dashboard.html"
+                class="border-b-4 border-primary py-4 text-sm font-black text-bankText">Accounts</a>
+            <a href="cards.html"
+                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Cards</a>
+            <a href="wire.html"
+                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer &
+                Pay</a>
+            <a href="faq.html"
+                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan &
+                Learn</a>
+            <a href="support.html"
+                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Support</a>
+        </div>
+    </nav>
 
-            <div class="flex items-center gap-6">
-                <div class="flex flex-col items-end">
-                    <span id="user-name-display" class="text-sm font-semibold text-slate-700">LOADING...</span>
-                    <span class="text-[10px] text-slate-400 uppercase tracking-wider font-medium">Verified Client</span>
+    <!-- Main Content Area -->
+    <main class="max-w-6xl mx-auto w-full px-4 py-10 flex-1 grid grid-cols-1 md:grid-cols-12 gap-10">
+        <!-- Left: Account Summary -->
+        <div class="md:col-span-8 space-y-8">
+            <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
+                <div class="bg-bankGray p-5 border-b border-borderGray flex justify-between items-center">
+                    <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Banking & Credit Accounts
+                    </h2>
+                    <span
+                        class="text-secondary text-xs font-black uppercase tracking-widest hover:underline cursor-pointer">Manage
+                        Accounts</span>
                 </div>
-                <!-- Profile/Logout Dropdown Trigger -->
-                <button onclick="logout()" class="h-8 w-8 text-slate-400 hover:text-primary transition-colors"
-                    title="Logout">
-                    <span class="material-symbols-outlined">logout</span>
-                </button>
-            </div>
-        </header>
 
-        <main class="flex-1 max-w-7xl w-full mx-auto py-12 px-6 lg:px-12">
-            <!-- Market Ticker -->
-
-
-            <!-- Account Overview Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                <!-- Main Balance -->
-                <div class="w-full bg-primary text-white p-8 lg:p-12 rounded shadow-finance relative overflow-hidden">
-                    <div class="relative z-10">
-                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
-                            <p class="text-slate-300 text-xs font-semibold uppercase tracking-wider">Current Account</p>
-                            <p id="acc-num-display"
-                                class="text-white/80 text-xs font-mono tracking-widest bg-white/10 px-2 py-1 rounded-sm">
-                                20XXXXXXXX</p>
+                <!-- Checking -->
+                <div class="account-row group" onclick="window.location.href='wire.html'">
+                    <div class="flex items-center gap-5">
+                        <div class="w-10 h-10 bg-primary/5 rounded-full flex items-center justify-center text-primary">
+                            <span class="material-symbols-outlined">account_balance_wallet</span>
                         </div>
-                        <h2 id="balance-display" class="text-4xl lg:text-6xl font-bold tracking-tight mb-8 font-serif">
-                            $0.00</h2>
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-                                <span class="text-xs uppercase font-semibold tracking-wider text-emerald-400">Active
-                                    Status</span>
+                        <div>
+                            <div class="font-black text-secondary text-sm uppercase tracking-tight">PRISM CHECKING <span
+                                    class="text-[10px] font-normal text-gray-400 ml-2">...<span
+                                        id="acc-last-four">4567</span></span></div>
+                            <div class="text-[9px] text-emerald-600 font-black uppercase tracking-widest mt-0.5">Primary
+                                Active Account</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-2xl font-black text-bankText tracking-tighter balance-text" id="main-balance">
+                            $0.00</div>
+                        <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest">Available Balance
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Savings -->
+                <div class="account-row group">
+                    <div class="flex items-center gap-5">
+                        <div
+                            class="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-700">
+                            <span class="material-symbols-outlined">savings</span>
+                        </div>
+                        <div>
+                            <div class="font-black text-secondary text-sm uppercase tracking-tight">ORDINARY SAVINGS
+                                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span
+                                        id="acc-savings">8901</span></span>
                             </div>
-                            <a href="withdraw.html"
-                                class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold uppercase tracking-widest rounded transition-all">
-                                <span class="material-symbols-outlined text-sm">payments</span>
-                                Withdraw
-                            </a>
+                            <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest mt-0.5">Standard
+                                Tier</div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xl font-black text-bankText balance-text" id="savings-balance">$0.00</div>
+                        <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest">Available Balance
                         </div>
                     </div>
                 </div>
 
-                <!-- Savings (Locked) -->
-                <div
-                    class="w-full bg-white text-secondary p-8 lg:p-12 rounded shadow-md border border-slate-200 relative overflow-hidden">
-                    <div class="relative z-10">
-                        <div class="flex justify-between items-start mb-4">
-                            <p class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Savings Vault</p>
-                            <span
-                                class="bg-amber-100 text-amber-800 px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded-sm flex items-center gap-1 border border-amber-200">
-                                <span class="material-symbols-outlined text-sm">lock_clock</span> Fixed Term
-                            </span>
+                <!-- Credit Card -->
+                <div class="account-row group border-b-0">
+                    <div class="flex items-center gap-5">
+                        <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-secondary">
+                            <span class="material-symbols-outlined">credit_card</span>
                         </div>
-                        <h2 id="savings-display"
-                            class="text-4xl lg:text-6xl font-bold tracking-tight mb-6 font-serif text-primary">$0.00
-                        </h2>
-                        <a href="officer.html"
-                            class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-accent hover:text-accent-dark transition-colors">
-                            Request Unlock <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                        </a>
+                        <div>
+                            <div class="font-black text-secondary text-sm uppercase tracking-tight cursor-pointer hover:underline"
+                                onclick="window.location.href='cards.html'">REWARDS VISA CARD
+                                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span
+                                        id="cc-number">2345</span></span>
+                            </div>
+                            <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest mt-0.5">Active
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-
-
-            <!-- Investment Section -->
-            <div class="mb-16 bg-white border border-slate-200 p-8 rounded shadow-md relative overflow-hidden">
-                <div
-                    class="absolute top-0 left-0 bg-primary text-white px-4 py-1 text-xs font-semibold uppercase tracking-wider rounded-br">
-                    Investment Portfolio
-                </div>
-                <div class="flex flex-col lg:flex-row gap-12 mt-8">
-                    <!-- Investment Balance & Withdraw -->
-                    <div class="lg:w-1/3 border-b lg:border-b-0 lg:border-r border-slate-100 pb-8 lg:pb-0 lg:pr-12">
-                        <p class="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-2">Total Assets</p>
-                        <h2 id="investment-display"
-                            class="text-4xl lg:text-5xl font-bold tracking-tight text-primary mb-8 font-serif">$0.00
-                        </h2>
-
-                        <a href="investment-withdraw.html"
-                            class="block w-full py-3 bg-secondary text-white text-center font-medium uppercase tracking-wider text-xs hover:bg-primary transition-all rounded shadow-sm">
-                            <span class="material-symbols-outlined align-middle mr-1 text-sm">payments</span> Liquidate
-                            Assets
-                        </a>
-                        <p class="text-[10px] text-slate-400 mt-4 text-center leading-relaxed">
-                            Withdrawals are subject to T+2 settlement period and security verification.
-                        </p>
-                    </div>
-
-                    <!-- Investment History (Mini) -->
-                    <div class="lg:w-2/3">
-                        <h3
-                            class="text-sm font-semibold uppercase tracking-wider text-primary mb-6 flex items-center gap-2">
-                            <span class="material-symbols-outlined text-base">history</span> Recent Activity
-                        </h3>
-                        <!-- We reuse the transaction table logic but filter for investment in future if needed, for now showing main tx or we can create a specific list -->
-                        <div class="overflow-hidden">
-                            <table class="w-full text-left border-collapse">
-                                <tbody id="inv-history-body">
-                                    <tr>
-                                        <td class="py-4 text-xs font-medium text-slate-400 uppercase tracking-wider">No
-                                            recent investment activity</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class="text-right">
+                        <div class="text-xl font-black text-bankText" id="cc-balance">$0.00</div>
+                        <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest">Available Credit
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Quick Actions -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
-                <button
-                    class="flex items-center justify-center gap-4 h-20 bg-slate-50 border border-slate-200 text-slate-400 text-base font-semibold uppercase tracking-wider cursor-not-allowed hover:bg-slate-100 transition-all opacity-60 rounded"
-                    title="Deposit requires branch visit">
-                    <span class="material-symbols-outlined">move_to_inbox</span>
-                    Deposit Funds
-                </button>
-            </div>
-
-            <!-- Main Ledger -->
-            <div class="mb-12">
-                <div
-                    class="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 border-b border-slate-200 pb-4 gap-4">
-                    <h3 class="text-2xl font-bold uppercase tracking-tight font-serif text-primary">Transaction Ledger
-                    </h3>
-                    <div class="flex gap-2">
-                        <button
-                            class="px-4 py-2 border border-slate-300 font-bold text-xs uppercase tracking-wider hover:bg-slate-50 text-slate-600 transition-all rounded-sm">Download
-                            Report</button>
-                    </div>
+            <!-- Recent Activity Table -->
+            <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
+                <div class="bg-bankGray p-5 border-b border-borderGray flex justify-between items-center">
+                    <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Recent Account Activity</h2>
+                    <span
+                        class="text-secondary text-xs font-black uppercase tracking-widest hover:underline cursor-pointer">View
+                        All</span>
                 </div>
-                <!-- ... existing table ... -->
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Type</th>
-                                <th class="text-right">Amount</th>
-                                <th class="text-center">Receipt</th>
+                            <tr class="bg-white">
+                                <th
+                                    class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
+                                    Date</th>
+                                <th
+                                    class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
+                                    Description</th>
+                                <th
+                                    class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
+                                    Status</th>
+                                <th
+                                    class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray text-right">
+                                    Amount</th>
                             </tr>
                         </thead>
-                        <tbody id="tx-table-body">
-                            <!-- Populated JS -->
+                        <tbody id="transaction-history">
+                            <!-- JS Populated -->
+                            <tr>
+                                <td colspan="3" class="p-10 text-center text-gray-400 italic text-xs">
+                                    No recent transactions found
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </main>
 
-        <footer class="mt-auto py-12 px-6 lg:px-12 border-t border-slate-200 bg-white">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
-                <div class="flex items-center gap-2 opacity-80">
-                    <div class="w-6 h-6 bg-primary flex items-center justify-center text-white rounded-sm">
-                        <span class="material-symbols-outlined text-xs">account_balance</span>
-                    </div>
-                    <h2 class="text-primary text-base font-bold tracking-tight font-serif">
-                        Prism Financial
+            </div>
+
+            <!-- Investment Accounts -->
+            <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
+                <div class="bg-bankGray p-5 border-b border-borderGray flex justify-between items-center">
+                    <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Brokerage & Investing
                     </h2>
                 </div>
-                <p class="text-slate-400 text-[10px] uppercase tracking-wider font-semibold text-center md:text-right">
-                    © <span class="current-year">2026</span> <span class="brand-text">PRISM FINANCIAL</span>. INSURED.
-                    SECURE.
-                </p>
-                <div class="flex gap-8 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                    <a class="hover:text-primary transition-colors" href="#">Legal</a>
-                    <a class="hover:text-primary transition-colors" href="#">Privacy</a>
+                <div class="account-row border-b-0 group" onclick="window.location.href='investment-withdraw.html'">
+                    <div class="flex items-center gap-5">
+                        <div class="w-10 h-10 bg-amber-50 rounded-full flex items-center justify-center text-amber-700">
+                            <span class="material-symbols-outlined">show_chart</span>
+                        </div>
+                        <div>
+                            <div class="font-black text-secondary text-sm uppercase tracking-tight">PRISM BROKERAGE
+                                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span
+                                        id="acc-invest">9999</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xl font-black text-bankText balance-text" id="investment-balance">$0.00
+                        </div>
+                        <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest">Market Value
+                        </div>
+                    </div>
                 </div>
             </div>
-        </footer>
-    </div>
+        </div>
+
+        <!-- Right: Actions & Tools -->
+        <div class="md:col-span-4 space-y-8">
+            <div class="sidebar-card">
+                <h3 class="font-black text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-6">Money Operations
+                </h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <button class="btn-action-wf" onclick="window.location.href='wire.html'">Transfer</button>
+                    <button class="btn-action-wf" onclick="window.location.href='bill-pay.html'">Bill Pay</button>
+                    <button class="btn-action-wf" onclick="window.location.href='zelle.html'">Zelle&reg;</button>
+                    <button class="btn-action-wf" onclick="window.location.href='statements.html'">Statements</button>
+                </div>
+            </div>
+
+            <div class="sidebar-card border-l-4 border-l-primary">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="material-symbols-outlined text-primary">security</span>
+                    <h3 class="font-black text-[10px] uppercase tracking-[0.3em] text-primary">Privacy Shield</h3>
+                </div>
+                <p class="text-[11px] text-gray-500 leading-relaxed mb-6">Protect your financial information when
+                    banking in public areas by hiding account balances.</p>
+                <button id="toggle-privacy"
+                    class="w-full flex items-center justify-center gap-3 py-3 bg-secondary text-white rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-blue-800 transition-all shadow-md active:scale-95">
+                    <span class="material-symbols-outlined text-sm">visibility</span>
+                    <span id="privacy-text">Hide Balances</span>
+                </button>
+            </div>
+
+            <div class="text-center p-6 border-2 border-dashed border-borderGray rounded-lg opacity-0">
+                <p class="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] mb-2">Member FDIC</p>
+                <p class="text-[9px] text-gray-400 leading-relaxed">Prism Financial is a simulation. No real funds
+                    are
+                    managed on this platform.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-white border-t border-borderGray py-10 mt-12">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex gap-8 text-[11px] text-secondary font-black uppercase tracking-widest">
+                <a href="support.html" class="hover:underline">Contact</a>
+                <a href="faq.html" class="hover:underline">Legal</a>
+                <a href="faq.html" class="hover:underline">Privacy Help</a>
+                <a href="support.html" class="hover:underline">Security Support</a>
+            </div>
+            <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Prisim Finance. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="utils.js"></script>
     <script>
-        const currentUser = utils.getCurrentUser();
-        if (!currentUser) window.location.href = 'login.html';
+        document.addEventListener('DOMContentLoaded', async () => {
+            utils.init();
+            const user = utils.getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
 
-        utils.init();
+            // Sync Header Name
+            const userDisplayEl = document.getElementById('user-display-name');
+            if (userDisplayEl) userDisplayEl.textContent = user.name;
 
-        // Async Load Data
-        async function loadDashboard() {
+            // UI Elements
+            const mainBalEl = document.getElementById('main-balance');
+            const saveBalEl = document.getElementById('savings-balance');
+            const invBalEl = document.getElementById('investment-balance');
+            const privacyBtn = document.getElementById('toggle-privacy');
+            const privacyText = document.getElementById('privacy-text');
+            const privacyIcon = privacyBtn.querySelector('span');
+
+            // Initial Data Load
             try {
-                // Refetch fresh user data
-                const user = await utils.getUserData(currentUser.id);
-                if (!user) {
-                    utils.logout();
-                    return;
+                const userData = await utils.getUserData(user.id);
+                if (userData) {
+                    mainBalEl.textContent = utils.formatCurrency(userData.balance || 0);
+                    saveBalEl.textContent = utils.formatCurrency(userData.savings_balance || 0);
+                    invBalEl.textContent = utils.formatCurrency(userData.investment_balance || 0);
+
+                    if (userData.account_number) {
+                        document.getElementById('acc-last-four').textContent = userData.account_number.slice(-4);
+                    }
+                    if (userData.acc_savings) {
+                        document.getElementById('acc-savings').textContent = userData.acc_savings.slice(-4);
+                    }
+                    if (userData.acc_invest) {
+                        document.getElementById('acc-invest').textContent = userData.acc_invest.slice(-4);
+                    }
+                    if (userData.cc_number) {
+                        document.getElementById('cc-number').textContent = userData.cc_number.slice(-4);
+                    }
+                    document.getElementById('cc-balance').textContent = utils.formatCurrency(userData.cc_balance || 0);
+
+                    // Load Transactions
+                    const txs = await utils.getTransactions(user.id);
+                    const historyEl = document.getElementById('transaction-history');
+                    if (txs && txs.length > 0) {
+                        historyEl.innerHTML = '';
+                        txs.slice(0, 5).forEach(tx => {
+                            const tr = document.createElement('tr');
+                            tr.className = "border-b border-borderGray group hover:bg-slate-50 transition-colors cursor-default";
+
+                            const isCredit = tx.type === 'credit' || tx.type === 'investment_deposit';
+                            const colorClass = isCredit ? 'text-emerald-600' : 'text-bankText';
+                            const prefix = isCredit ? '+' : '-';
+
+
+                            const statusColor = tx.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
+                                tx.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700';
+
+                            tr.innerHTML = `
+                                <td class="p-5 text-xs font-bold text-gray-500">${new Date(tx.created_at).toLocaleDateString()}</td>
+                                <td class="p-5 text-sm font-black text-secondary tracking-tight uppercase">${tx.description || tx.type}</td>
+                                <td class="p-5 text-[10px] font-black uppercase">
+                                    <span class="px-2 py-0.5 rounded-sm ${statusColor}">${tx.status}</span>
+                                </td>
+                                <td class="p-5 text-sm font-bold text-right ${colorClass}">${prefix}${utils.formatCurrency(tx.amount)}</td>
+                            `;
+                            historyEl.appendChild(tr);
+                        });
+                    }
+
+                    // Check Unread Messages
+                    const unreadCount = await utils.getUnreadMessageCount(user.id);
+                    if (unreadCount > 0) {
+                        const msgLink = document.getElementById('messages-link');
+                        if (msgLink) {
+                            msgLink.innerHTML = `Messages <span class="bg-accent text-primary px-1.5 py-0.5 rounded-full text-[8px] ml-1 animate-pulse">${unreadCount}</span>`;
+                        }
+
+                        // Also add a toast-like notification card on the right
+                        const notificationContainer = document.querySelector('.md\\:col-span-4');
+                        if (notificationContainer) {
+                            const note = document.createElement('div');
+                            note.className = "sidebar-card border-l-4 border-l-accent animate-bounce-slow mt-4";
+                            note.innerHTML = `
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="material-symbols-outlined text-accent">campaign</span>
+                                    <h3 class="font-black text-[10px] uppercase tracking-[0.3em] text-accent">New Message</h3>
+                                </div>
+                                <p class="text-[11px] text-gray-600 font-bold mb-3">You have ${unreadCount} unread message(s) in your secure inbox.</p>
+                                <a href="messages.html" class="text-[9px] font-black uppercase tracking-widest text-primary hover:underline">Read Now &rarr;</a>
+                            `;
+                            notificationContainer.prepend(note);
+                        }
+                    }
                 }
-
-                // Update UI
-                document.getElementById('user-name-display').textContent = `${user.name}`;
-                if (document.getElementById('card-holder-name')) {
-                    document.getElementById('card-holder-name').textContent = user.name;
-                }
-                document.getElementById('balance-display').textContent = utils.formatCurrency(user.balance || 0);
-                if (document.getElementById('acc-num-display')) {
-                    document.getElementById('acc-num-display').textContent = `ACC. No: ${user.account_number || '---'}`;
-                }
-
-                // Savings & Investment
-                document.getElementById('savings-display').textContent = utils.formatCurrency(user.savings_balance || 0);
-                document.getElementById('investment-display').textContent = utils.formatCurrency(user.investment_balance || 0);
-
-                // Load Transactions
-                const transactions = await utils.getTransactions(currentUser.id);
-                window.currentTransactions = transactions; // Store for access
-                renderHistory(transactions);
-
-                // Render Investment History (Filter for investment types via Description tag)
-                const invTransactions = transactions.filter(t => t.description && (t.description.includes('[INV_WITHDRAWAL]') || t.description.includes('[INV_DEPOSIT]')));
-                renderInvestmentHistory(invTransactions);
-
             } catch (err) {
-                console.error("Failed to load dashboard", err);
-            }
-        }
-
-        function renderInvestmentHistory(transactions) {
-            const tbody = document.getElementById('inv-history-body');
-            tbody.innerHTML = '';
-
-            if (transactions.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-xs text-slate-400 text-center italic">No recent investment activity</td></tr>`;
-                return;
+                console.error("Dashboard Load Error:", err);
             }
 
-            transactions.slice(0, 5).forEach(t => { // Show max 5
-                const tr = document.createElement('tr');
-                const date = new Date(t.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-                const isCredit = t.type.includes('deposit');
+            // Privacy Functional Implementation
+            let isPrivate = false;
+            privacyBtn.addEventListener('click', () => {
+                isPrivate = !isPrivate;
+                const balances = document.querySelectorAll('.balance-text');
 
-                tr.className = 'border-b border-slate-50 last:border-0 hover:bg-slate-50 transition-colors';
-
-                // Status Badge
-                let statusClass = 'bg-slate-100 text-slate-600';
-                if (t.status === 'completed') statusClass = 'bg-emerald-50 text-emerald-600';
-                if (t.status === 'pending') statusClass = 'bg-amber-50 text-amber-600';
-
-                tr.innerHTML = `
-                    <td class="py-3 px-2 text-xs font-mono text-slate-500">${date}</td>
-                    <td class="py-3 px-2 text-xs font-medium text-slate-900">${t.description || 'Investment Action'}</td>
-                    <td class="py-3 px-2 text-right text-xs font-mono font-medium ${isCredit ? 'text-emerald-600' : 'text-slate-900'}">
-                        ${isCredit ? '+' : '-'}${utils.formatCurrency(t.amount)}
-                    </td>
-                    <td class="py-3 px-2 text-right">
-                         <span class="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${statusClass}">${t.status}</span>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function renderHistory(transactions) {
-            const tbody = document.getElementById('tx-table-body');
-            tbody.innerHTML = '';
-
-            if (transactions.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-12 text-slate-400 text-sm italic">No transaction records found</td></tr>`;
-                return;
-            }
-
-            transactions.forEach((t, index) => {
-                const tr = document.createElement('tr');
-                tr.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors group';
-
-                const isCredit = t.type === 'credit';
-                const date = new Date(t.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-
-                // Styling based on status
-                let statusBadge = '';
-                if (t.status === 'pending') {
-                    statusBadge = `<span class="bg-amber-50 text-amber-700 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide rounded-full border border-amber-100 whitespace-nowrap">Pending</span>`;
-                } else if (t.status === 'rejected') {
-                    statusBadge = `<span class="bg-slate-100 text-slate-500 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide rounded-full border border-slate-200 line-through">Voided</span>`;
+                if (isPrivate) {
+                    balances.forEach(el => el.style.filter = 'blur(10px)');
+                    privacyText.textContent = 'Show Balances';
+                    privacyIcon.textContent = 'visibility_off';
+                    privacyBtn.classList.replace('bg-secondary', 'bg-gray-400');
                 } else {
-                    statusBadge = isCredit
-                        ? `<span class="bg-emerald-50 text-emerald-700 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide rounded-full border border-emerald-100">Received</span>`
-                        : `<span class="bg-blue-50 text-slate-600 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide rounded-full border border-slate-200">Sent</span>`;
+                    balances.forEach(el => el.style.filter = 'none');
+                    privacyText.textContent = 'Hide Balances';
+                    privacyIcon.textContent = 'visibility';
+                    privacyBtn.classList.replace('bg-gray-400', 'bg-secondary');
                 }
-
-                // Amount Color
-                const amountClass = isCredit ? 'text-emerald-700' : 'text-slate-900';
-                const amountPrefix = isCredit ? '+' : '-';
-
-                tr.innerHTML = `
-                    <td class="font-mono text-xs text-slate-500 py-4 px-4 whitespace-nowrap">${date}</td>
-                    <td class="py-4 px-4">${statusBadge}</td>
-                    <td class="py-4 px-4 text-xs font-medium text-slate-700 uppercase tracking-wide">${t.type}</td>
-                    <td class="text-right font-mono font-medium text-sm py-4 px-4 ${amountClass}">${amountPrefix}${utils.formatCurrency(t.amount)}</td>
-                    <td class="text-center py-4 px-4">
-                         <button onclick="openReceipt(${index})" class="h-8 w-8 bg-white border border-slate-200 text-slate-400 hover:text-primary hover:border-primary flex items-center justify-center transition-colors mx-auto rounded shadow-sm opacity-80 group-hover:opacity-100" title="View Receipt">
-                            <span class="material-symbols-outlined text-[16px]">receipt</span>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
             });
-        }
-
-        function getDetailedStatusClass(status) {
-            if (status === 'completed') return 'text-emerald-600';
-            if (status === 'pending') return 'text-amber-600';
-            return 'text-rose-600';
-        }
-
-        function logout() {
-            utils.logout();
-        }
-
-        function openReceipt(index) {
-            const t = window.currentTransactions[index];
-            if (!t) return;
-
-            document.getElementById('r-id').textContent = '#' + t.id.slice(0, 8).toUpperCase();
-            document.getElementById('r-date').textContent = new Date(t.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase();
-            document.getElementById('r-type').textContent = t.type.toUpperCase();
-            document.getElementById('r-status').textContent = t.status.toUpperCase();
-            document.getElementById('r-amount').textContent = utils.formatCurrency(t.amount);
-
-            // Adjust amount color
-            const isCredit = t.type === 'credit';
-            const amountEl = document.getElementById('r-amount');
-            amountEl.className = `text-3xl font-black tracking-tighter ${isCredit ? 'text-emerald-600' : 'text-slate-900'}`;
-            amountEl.textContent = (isCredit ? '+' : '-') + utils.formatCurrency(t.amount);
-
-            document.getElementById('receipt-modal').classList.remove('hidden');
-            document.getElementById('receipt-modal').classList.add('flex');
-        }
-
-        function closeReceipt() {
-            document.getElementById('receipt-modal').classList.add('hidden');
-            document.getElementById('receipt-modal').classList.remove('flex');
-        }
-
-        loadDashboard();
+        });
     </script>
-    <!-- Simulation Disclaimer -->
-    <div
-        class="fixed bottom-0 left-0 w-full bg-amber-50 border-t border-amber-200 py-2 text-center z-[200] opacity-0 pointer-events-none">
-        <p class="text-[10px] uppercase tracking-widest font-bold text-amber-800">
-            Prism Simulation Environment • Educational Project • No Real Money Involved
-        </p>
-    </div>
 </body>
 
 </html>

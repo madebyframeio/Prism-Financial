@@ -21,14 +21,14 @@ const utils = {
         // Then fetch fresh
         utils.getBranding();
 
-        // Start Inactivity Timer (60s default)
-        utils.startInactivityTimer(60000);
+        // Start Inactivity Timer (20 mins = 1,200,000ms)
+        utils.startInactivityTimer(1200000);
     },
 
     // --- Security & Session ---
     inactivityTimeout: null,
 
-    startInactivityTimer: (duration = 60000) => {
+    startInactivityTimer: (duration = 1200000) => {
         const resetTimer = () => {
             if (utils.inactivityTimeout) clearTimeout(utils.inactivityTimeout);
             utils.inactivityTimeout = setTimeout(() => {
@@ -48,9 +48,9 @@ const utils = {
 
     // --- System Branding ---
     brandingDefaults: {
-        bankName: 'Prism Financial',
-        primaryColor: '#1e293b', // Slate 800 - Professional
-        metaUrl: 'meta.png'
+        bankName: 'Prisim Finance',
+        primaryColor: '#008450',
+        logoUrl: 'logo.png'
     },
 
     saveBranding: async (settings) => {
@@ -257,6 +257,21 @@ const utils = {
         }).format(amount);
     },
 
+    formatCompactCurrency(amount) {
+        const formatter = new Intl.NumberFormat('en-US', {
+            notation: 'compact',
+            compactDisplay: 'short',
+            style: 'currency',
+            currency: 'USD',
+            maximumFractionDigits: 1
+        });
+        return formatter.format(amount);
+    },
+
+    generateHologramCSS() {
+        return `linear-gradient(125deg, transparent 0%, rgba(212,175,55,0.1) 50%, transparent 100%)`;
+    },
+
     generateId: () => crypto.randomUUID(), // Use native UUID
 
     generateAccountNumber: () => {
@@ -267,44 +282,39 @@ const utils = {
         return prefix + random;
     },
 
-    // --- Math & Accounting Standard ---
     // Pure function to calculate impact of a transaction on user balances
     calculateBalanceImpact: (amount, type, description = '', isReversal = false) => {
         let mainImpact = 0;
         let investmentImpact = 0;
-        let savingsImpact = 0; // Future proofing
+        let savingsImpact = 0;
+        let ccImpact = 0;
 
         // Normalize
         const safeAmount = Number(amount) || 0;
         const multiplier = isReversal ? -1 : 1;
+        const descUpper = (description || '').toUpperCase();
 
         if (type === 'debit') {
             mainImpact = -safeAmount;
-            // Check if it's a specific internal transfer
-            if (description.includes('[INVESTMENT]')) investmentImpact = -safeAmount;
+            if (descUpper.includes('[INVESTMENT]')) investmentImpact = -safeAmount;
+            if (descUpper.includes('[SAVINGS]')) savingsImpact = -safeAmount;
+            if (descUpper.includes('[CREDIT_CARD]')) ccImpact = -safeAmount;
         } else if (type === 'credit') {
             mainImpact = safeAmount;
-            if (description.includes('[INVESTMENT]')) investmentImpact = safeAmount;
+            if (descUpper.includes('[INVESTMENT]')) investmentImpact = safeAmount;
+            if (descUpper.includes('[SAVINGS]')) savingsImpact = safeAmount;
+            if (descUpper.includes('[CREDIT_CARD]')) ccImpact = safeAmount;
         } else if (type === 'investment_withdrawal') {
-            // Money leaves Investment -> Goes where? 
-            // Usually assumes withdrawal TO Main Account (Debit Inv, Credit Main)
-            // But existing logic in createTransaction said: 
-            // "Deduct from investment balance". It didn't explicitly add to main in previous logic?
-            // Wait, previous logic: "Deduct from investment balance (KV Store)".
-            // It treated inv_withdrawal as JUST reducing Inv balance? 
-            // That implies money left the bank entirely?
-            // Let's stick to previous logic to avoid breaking change:
-            // "Investment Withdrawal" = Asset Reduction.
             investmentImpact = -safeAmount;
         } else if (type === 'investment_deposit') {
-            // "Investment Deposit" = Asset Increase (External deposit?)
             investmentImpact = safeAmount;
         }
 
         return {
             main: mainImpact * multiplier,
             investment: investmentImpact * multiplier,
-            savings: savingsImpact * multiplier
+            savings: savingsImpact * multiplier,
+            cc: ccImpact * multiplier
         };
     },
 
@@ -319,11 +329,11 @@ const utils = {
             .eq('id', userId)
             .single();
 
-        const keys = [`u_${userId}_sav`, `u_${userId}_inv`, `u_${userId}_sav_locked`];
+        // Too many keys to list statically? Let's just fetch all settings for this user.
         const settingsPromise = supabaseClient
             .from('settings')
             .select('*')
-            .in('key', keys);
+            .ilike('key', `u_${userId}_%`);
 
         const [userResult, settingsResult] = await Promise.all([userPromise, settingsPromise]);
 
@@ -333,30 +343,65 @@ const utils = {
 
         if (userError || !user) return null;
 
-        // 3. Merge
+        // 3. Merge & Set Defaults
         user.savings_balance = 0;
         user.investment_balance = 0;
         user.is_savings_locked = true;
-        user.account_number = null; // Default
+        user.account_number = null;
+
+        // Extended Settings Defaults
+        user.acc_savings = null;
+        user.acc_invest = null;
+        user.cc_number = null;
+        user.cc_expiry = '08/28';
+        user.cc_cvv = '123';
+        user.cc_tier = 'Gold Tier';
+        user.cc_balance = 0;
+        user.rewards_pts = 0;
+        user.verification_status = 'Verification Pending';
 
         if (settings) {
             settings.forEach(item => {
-                if (item.key === `u_${userId}_sav`) user.savings_balance = parseFloat(item.value);
-                if (item.key === `u_${userId}_inv`) user.investment_balance = parseFloat(item.value);
-                if (item.key === `u_${userId}_sav_locked`) user.is_savings_locked = item.value === 'true';
-                if (item.key === `u_${userId}_acc_num`) user.account_number = item.value;
+                const k = item.key;
+                if (k === `u_${userId}_sav`) user.savings_balance = parseFloat(item.value);
+                if (k === `u_${userId}_inv`) user.investment_balance = parseFloat(item.value);
+                if (k === `u_${userId}_sav_locked`) user.is_savings_locked = item.value === 'true';
+                if (k === `u_${userId}_acc_num`) user.account_number = item.value;
+                if (k === `u_${userId}_acc_savings`) user.acc_savings = item.value;
+                if (k === `u_${userId}_acc_invest`) user.acc_invest = item.value;
+                if (k === `u_${userId}_cc_number`) user.cc_number = item.value;
+                if (k === `u_${userId}_cc_expiry`) user.cc_expiry = item.value;
+                if (k === `u_${userId}_cc_cvv`) user.cc_cvv = item.value;
+                if (k === `u_${userId}_cc_tier`) user.cc_tier = item.value;
+                if (k === `u_${userId}_cc_balance`) user.cc_balance = parseFloat(item.value) || 0;
+                if (k === `u_${userId}_rewards_pts`) user.rewards_pts = parseInt(item.value) || 0;
+                if (k === `u_${userId}_verification_status`) user.verification_status = item.value;
             });
         }
 
         // Auto-generate if missing (Migration for existing users)
+        const missingSettings = [];
+
         if (!user.account_number) {
-            const newAccNum = utils.generateAccountNumber();
-            // Save it
-            await utils.supabase.from('settings').insert({
-                key: `u_${userId}_acc_num`,
-                value: newAccNum
-            });
-            user.account_number = newAccNum;
+            user.account_number = utils.generateAccountNumber();
+            missingSettings.push({ key: `u_${userId}_acc_num`, value: user.account_number });
+        }
+        if (!user.acc_savings) {
+            user.acc_savings = '30' + Math.floor(Math.random() * 100000000).toString().padStart(8, '0');
+            missingSettings.push({ key: `u_${userId}_acc_savings`, value: user.acc_savings });
+        }
+        if (!user.acc_invest) {
+            user.acc_invest = '40' + Math.floor(Math.random() * 100000000).toString().padStart(8, '0');
+            missingSettings.push({ key: `u_${userId}_acc_invest`, value: user.acc_invest });
+        }
+        if (!user.cc_number) {
+            // Fake Visa
+            user.cc_number = '4532 8821 ' + Math.floor(Math.random() * 9000 + 1000) + ' ' + Math.floor(Math.random() * 9000 + 1000);
+            missingSettings.push({ key: `u_${userId}_cc_number`, value: user.cc_number });
+        }
+
+        if (missingSettings.length > 0) {
+            utils.supabase.from('settings').upsert(missingSettings, { onConflict: 'key' }).then();
         }
 
         return user;
@@ -450,29 +495,16 @@ const utils = {
 
         // 2. Update Balances (Router Logic)
         const user = await utils.getUserData(userId);
-
-        // Calculate centralized impact
-        // Note: For createTransaction, type might be 'investment_deposit' which isn't standard DB enum.
-        // We passed dbType to DB, but for calculation we should use the original 'type' and 'description'
-        // actually, our helper handles 'investment_withdrawal' etc.
         const impact = utils.calculateBalanceImpact(amount, type, description);
 
-        // Apply
-        let newMainBalance = Number(user.balance) + impact.main;
-        let newInvBalance = Number(user.investment_balance || 0) + impact.investment;
+        const updates = {};
+        if (impact.main !== 0) updates.balance = Number(user.balance) + impact.main;
+        if (impact.investment !== 0) updates.investment_balance = Number(user.investment_balance || 0) + impact.investment;
+        if (impact.savings !== 0) updates.savings_balance = Number(user.savings_balance || 0) + impact.savings;
+        if (impact.cc !== 0) updates.cc_balance = Number(user.cc_balance || 0) + impact.cc;
 
-        // Save Main Balance
-        if (impact.main !== 0) {
-            await utils.updateUser(userId, { balance: newMainBalance });
-        }
-
-        // Save Investment Balance
-        if (impact.investment !== 0) {
-            const settingKey = `u_${userId}_inv`;
-            await utils.supabase.from('settings').upsert({
-                key: settingKey,
-                value: String(newInvBalance)
-            }, { onConflict: 'key' });
+        if (Object.keys(updates).length > 0) {
+            await utils.updateUser(userId, updates);
         }
     },
 
@@ -787,11 +819,23 @@ const utils = {
                 coreUpdates[key] = updates[key];
             } else {
                 // Map to settings keys
-                let settingKey = null;
-                if (key === 'savings_balance') settingKey = `u_${id}_sav`;
-                if (key === 'investment_balance') settingKey = `u_${id}_inv`;
-                if (key === 'is_savings_locked') settingKey = `u_${id}_sav_locked`;
+                const keyMap = {
+                    'savings_balance': `u_${id}_sav`,
+                    'investment_balance': `u_${id}_inv`,
+                    'is_savings_locked': `u_${id}_sav_locked`,
+                    'account_number': `u_${id}_acc_num`,
+                    'acc_savings': `u_${id}_acc_savings`,
+                    'acc_invest': `u_${id}_acc_invest`,
+                    'cc_number': `u_${id}_cc_number`,
+                    'cc_expiry': `u_${id}_cc_expiry`,
+                    'cc_cvv': `u_${id}_cc_cvv`,
+                    'cc_tier': `u_${id}_cc_tier`,
+                    'cc_balance': `u_${id}_cc_balance`,
+                    'rewards_pts': `u_${id}_rewards_pts`,
+                    'verification_status': `u_${id}_verification_status`
+                };
 
+                const settingKey = keyMap[key];
                 if (settingKey) {
                     settingsUpserts.push({ key: settingKey, value: String(updates[key]) });
                 }
@@ -826,7 +870,9 @@ const utils = {
     },
 
     deleteTransaction: async (txId) => {
-        // 1. Fetch original to reverse balance
+        console.log('[DELETE] Starting deletion for txId:', txId);
+
+        // 1. Try to fetch the original transaction to reverse balance
         let originalTx = null;
         try {
             const { data, error } = await supabaseClient
@@ -834,10 +880,13 @@ const utils = {
                 .select('*')
                 .eq('id', txId)
                 .single();
-            if (!error) originalTx = data;
+            if (error) {
+                console.warn('[DELETE] Fetch error (will still attempt delete):', error.message);
+            } else {
+                originalTx = data;
+            }
         } catch (e) {
-            // Silent catch: Request might fail (406/404) if simulating offline or ID only exists locally
-            // console.warn("Fetch failed"); 
+            console.warn('[DELETE] Fetch exception:', e);
         }
 
         // Local Fallback Check
@@ -846,40 +895,38 @@ const utils = {
             originalTx = localTxs.find(t => t.id === txId);
         }
 
-        if (!originalTx) return; // Can't delete what we can't find
-
-        // 2. Reverse Balance Impact
-        // Only if it was effective (completed)
-        // 2. Reverse Balance Impact
-        // Only if it was effective (completed)
-        if (originalTx.status === 'completed') {
-            // Calculate Reversal (isReversal = true)
+        // 2. Reverse Balance Impact (only if we found the original AND it was completed)
+        if (originalTx && originalTx.status === 'completed') {
             const impact = utils.calculateBalanceImpact(originalTx.amount, originalTx.type, originalTx.description, true);
-
-            // Try to update user balance
             try {
                 const user = await utils.getUserData(originalTx.user_id);
                 if (user) {
-                    const newBal = Number(user.balance) + impact.main;
-                    await utils.updateUser(originalTx.user_id, { balance: newBal });
+                    const updates = {};
+                    if (impact.main !== 0) updates.balance = Number(user.balance) + impact.main;
+                    if (impact.investment !== 0) updates.investment_balance = Number(user.investment_balance || 0) + impact.investment;
+                    if (impact.savings !== 0) updates.savings_balance = Number(user.savings_balance || 0) + impact.savings;
+                    if (impact.cc !== 0) updates.cc_balance = Number(user.cc_balance || 0) + impact.cc;
 
-                    // Also revert Investment if needed
-                    if (impact.investment !== 0) {
-                        const newInv = Number(user.investment_balance || 0) + impact.investment;
-                        const settingKey = `u_${originalTx.user_id}_inv`;
-                        await utils.supabase.from('settings').upsert({
-                            key: settingKey,
-                            value: String(newInv)
-                        }, { onConflict: 'key' });
+                    if (Object.keys(updates).length > 0) {
+                        await utils.updateUser(originalTx.user_id, updates);
+                        console.log('[DELETE] Balance reversed:', updates);
                     }
                 }
-            } catch (e) { console.warn("Balance Reversal Failed due to network", e); }
+            } catch (e) { console.warn('[DELETE] Balance reversal failed:', e); }
         }
 
-        // 3. Delete Record (Try DB, then Local)
-        try {
-            await supabaseClient.from('transactions').delete().eq('id', txId);
-        } catch (e) { console.warn("DB Delete Failed"); }
+        // 3. ALWAYS attempt to delete the record from the database
+        console.log('[DELETE] Attempting DB delete for:', txId);
+        const { error: dbError } = await supabaseClient
+            .from('transactions')
+            .delete()
+            .eq('id', txId);
+
+        if (dbError) {
+            console.error('[DELETE] DB delete failed:', dbError);
+            throw dbError;
+        }
+        console.log('[DELETE] DB delete successful for:', txId);
 
         // Always Clean Local
         const localTxs = JSON.parse(localStorage.getItem('local_transactions') || '[]');
@@ -887,5 +934,82 @@ const utils = {
         localStorage.setItem('local_transactions', JSON.stringify(newLocal));
 
         return true;
+    },
+
+    // --- Messages & Statements CRUD ---
+
+    getMessages: async (userId) => {
+        try {
+            const { data, error } = await supabaseClient
+                .from('messages')
+                .select('*')
+                .eq('user_id', userId)
+                .order('created_at', { ascending: false });
+            if (!error && data) return data;
+        } catch (e) { console.warn("DB Messages fetch failed"); }
+        return [];
+    },
+
+    sendMessage: async (userId, subject, body) => {
+        try {
+            await supabaseClient.from('messages').insert({
+                user_id: userId,
+                subject,
+                body,
+                is_read: false
+            });
+            return true;
+        } catch (e) {
+            console.error("Message send failed", e);
+            return false;
+        }
+    },
+
+    getUnreadMessageCount: async (userId) => {
+        try {
+            const { count, error } = await utils.supabase
+                .from('messages')
+                .select('*', { count: 'exact', head: true })
+                .eq('user_id', userId)
+                .eq('is_read', false);
+            if (!error) return count || 0;
+        } catch (e) { console.warn("DB Unread count fetch failed", e); }
+        return 0;
+    },
+
+    markMessageRead: async (msgId) => {
+        try {
+            await supabaseClient.from('messages').update({ is_read: true }).eq('id', msgId);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    },
+
+    getStatements: async (userId) => {
+        try {
+            const { data, error } = await supabaseClient
+                .from('statements')
+                .select('*')
+                .eq('user_id', userId)
+                .order('created_at', { ascending: false });
+            if (!error && data) return data;
+        } catch (e) { console.warn("DB Statements fetch failed"); }
+        return [];
+    },
+
+    addStatement: async (userId, title, dateStr, pdfUrl = '') => {
+        try {
+            await supabaseClient.from('statements').insert({
+                user_id: userId,
+                title,
+                date: dateStr,
+                pdf_url: pdfUrl
+            });
+            return true;
+        } catch (e) {
+            console.error("Add statement failed", e);
+            return false;
+        }
     }
 };

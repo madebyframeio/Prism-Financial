@@ -367,5 +367,197 @@ window.logout = function () {
     utils.logout();
 }
 
+// --- Card Management ---
+window.openEditCardModal = async function (userId) {
+    const user = allUsers.find(u => u.id === userId) || await utils.getUserData(userId);
+    if (!user) return;
+
+    document.getElementById('edit-card-user-id').value = userId;
+    document.getElementById('edit-card-tier').value = user.cc_tier || 'Platinum';
+    document.getElementById('edit-card-number').value = user.cc_number || '';
+    document.getElementById('edit-card-expiry').value = user.cc_expiry || '';
+    document.getElementById('edit-card-cvv').value = user.cc_cvv || '';
+    document.getElementById('edit-card-balance').value = user.cc_balance || 0;
+    document.getElementById('edit-card-rewards').value = user.rewards_pts || 0;
+
+    document.getElementById('edit-card-modal').classList.remove('hidden');
+    document.getElementById('edit-card-modal').classList.add('flex');
+}
+
+window.saveCardDetails = async function () {
+    const userId = document.getElementById('edit-card-user-id').value;
+    const tier = document.getElementById('edit-card-tier').value;
+    const number = document.getElementById('edit-card-number').value;
+    const expiry = document.getElementById('edit-card-expiry').value;
+    const cvv = document.getElementById('edit-card-cvv').value;
+    const balance = parseFloat(document.getElementById('edit-card-balance').value) || 0;
+    const rewards = parseInt(document.getElementById('edit-card-rewards').value) || 0;
+
+    try {
+        await utils.updateUser(userId, {
+            cc_tier: tier,
+            cc_number: number,
+            cc_expiry: expiry,
+            cc_cvv: cvv,
+            cc_balance: balance,
+            rewards_pts: rewards
+        });
+        closeModal('edit-card-modal');
+        if (currentUserProfileId && typeof loadUserProfile === 'function') {
+            loadUserProfile(currentUserProfileId);
+        }
+        alert('Card details updated successfully');
+    } catch (e) {
+        alert('Failed to update card: ' + e.message);
+    }
+}
+
+// --- Messages ---
+window.renderMessages = async function () {
+    const tbody = document.getElementById('messages-table-body');
+    if (!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-400">Loading...</td></tr>';
+    try {
+        const { data, error } = await utils.supabase.from('messages').select('*, users(name)').order('created_at', { ascending: false });
+        if (error) throw error;
+        tbody.innerHTML = '';
+        if (!data || data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-400">No messages found.</td></tr>';
+            return;
+        }
+        data.forEach(m => {
+            const tr = document.createElement('tr');
+            tr.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors cursor-pointer';
+            tr.innerHTML = `
+                <td class="px-4 py-3"><div class="text-xs font-bold text-slate-900">${m.subject}</div></td>
+                <td class="px-4 py-3"><div class="text-sm text-slate-600 truncate max-w-[200px]">${m.body}</div></td>
+                <td class="px-4 py-3"><div class="text-xs font-bold text-slate-700">${m.users?.name || 'Unknown User'}</div></td>
+                <td class="px-4 py-3"><div class="text-xs font-mono text-slate-500">${new Date(m.created_at).toLocaleDateString()}</div></td>
+                <td class="px-4 py-3 text-right">
+                    <span class="px-2 py-1 text-[10px] font-bold uppercase rounded ${m.is_read ? 'bg-slate-100 text-slate-500' : 'bg-primary/10 text-primary'}">${m.is_read ? 'Read' : 'Unread'}</span>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-rose-500">Error loading messages</td></tr>';
+    }
+}
+
+window.openSendMessageModal = function () {
+    const select = document.getElementById('msg-user-select');
+    if (select) {
+        select.innerHTML = '<option value="">Select a user...</option>';
+        allUsers.forEach(u => {
+            const opt = document.createElement('option');
+            opt.value = u.id;
+            opt.textContent = `${u.name} (${u.username})`;
+            select.appendChild(opt);
+        });
+    }
+    document.getElementById('compose-message-modal').classList.remove('hidden');
+    document.getElementById('compose-message-modal').classList.add('flex');
+}
+
+window.composeMessage = async function (e) {
+    e.preventDefault();
+    const userId = document.getElementById('msg-user-select').value;
+    const subject = document.getElementById('msg-subject').value;
+    const body = document.getElementById('msg-body').value;
+    if (!userId || !subject || !body) return alert("All fields are required");
+    try {
+        const { error } = await utils.supabase.from('messages').insert([{ user_id: userId, subject, body, is_read: false }]);
+        if (error) throw error;
+        closeModal('compose-message-modal');
+        document.getElementById('compose-message-form').reset();
+        await renderMessages();
+        alert('Message sent successfully');
+    } catch (err) {
+        alert('Failed to send message: ' + err.message);
+    }
+}
+
+// --- Statements ---
+window.renderStatements = async function () {
+    const tbody = document.getElementById('statements-table-body');
+    if (!tbody) return;
+    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-400">Loading...</td></tr>';
+    try {
+        const { data, error } = await utils.supabase.from('statements').select('*, users(name)').order('created_at', { ascending: false });
+        if (error) throw error;
+        tbody.innerHTML = '';
+        if (!data || data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-400">No statements found.</td></tr>';
+            return;
+        }
+        data.forEach(s => {
+            const tr = document.createElement('tr');
+            tr.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors';
+            tr.innerHTML = `
+                <td class="px-4 py-3"><div class="text-xs font-bold text-slate-900">${s.title}</div></td>
+                <td class="px-4 py-3"><div class="text-xs font-bold text-slate-700">${s.users?.name || 'Unknown User'}</div></td>
+                <td class="px-4 py-3"><div class="text-xs font-mono text-slate-500">${s.period_start ? new Date(s.period_start).toLocaleDateString() : '---'} - ${s.period_end ? new Date(s.period_end).toLocaleDateString() : '---'}</div></td>
+                 <td class="px-4 py-3">
+                    <a href="${s.file_url}" target="_blank" class="text-xs font-bold text-primary hover:underline flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">download</span> PDF
+                    </a>
+                </td>
+                <td class="px-4 py-3 text-right">
+                     <button onclick="confirmDeleteStatement('${s.id}')" class="text-slate-400 hover:text-rose-600 transition-colors p-1"><span class="material-symbols-outlined text-sm">delete</span></button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-rose-500">Error loading statements</td></tr>';
+    }
+}
+
+window.openAddStatementModal = function () {
+    const select = document.getElementById('stmt-user-select');
+    if (select) {
+        select.innerHTML = '<option value="">Select a user...</option>';
+        allUsers.forEach(u => {
+            const opt = document.createElement('option');
+            opt.value = u.id;
+            opt.textContent = `${u.name} (${u.username})`;
+            select.appendChild(opt);
+        });
+    }
+    document.getElementById('add-statement-modal').classList.remove('hidden');
+    document.getElementById('add-statement-modal').classList.add('flex');
+}
+
+window.submitAddStatement = async function (e) {
+    e.preventDefault();
+    const userId = document.getElementById('stmt-user-select').value;
+    const title = document.getElementById('stmt-title').value;
+    const url = document.getElementById('stmt-url').value;
+    const start = document.getElementById('stmt-start').value || null;
+    const end = document.getElementById('stmt-end').value || null;
+    if (!userId || !title || !url) return alert("Required fields missing");
+    try {
+        const { error } = await utils.supabase.from('statements').insert([{ user_id: userId, title, file_url: url, period_start: start, period_end: end }]);
+        if (error) throw error;
+        closeModal('add-statement-modal');
+        document.getElementById('add-statement-form').reset();
+        await renderStatements();
+        alert('Statement added successfully');
+    } catch (err) {
+        alert('Failed to add statement: ' + err.message);
+    }
+}
+
+window.confirmDeleteStatement = async function (id) {
+    if (!confirm('Delete this statement?')) return;
+    try {
+        const { error } = await utils.supabase.from('statements').delete().eq('id', id);
+        if (error) throw error;
+        await renderStatements();
+    } catch (err) {
+        alert('Failed to delete statement: ' + err.message);
+    }
+}
+
 // Start
 loadAdmin();

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status | Prisim Finance Online</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#008450",
+                        secondary: "#004B8D",
+                        accent: "#FCCC44",
+                        bankGray: "#F4F4F4",
+                        bankText: "#333333",
+                        borderGray: "#D1D1D1"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                        serif: ["Source Serif 4", "serif"],
+                    }
+                }
+            }
+        };
+    </script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Source+Serif+4:wght@600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        @layer base {
+            body { @apply bg-white text-bankText font-sans antialiased; }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <!-- Corporate Header -->
+    <header class="bg-primary text-white p-4 shadow-md">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-inner overflow-hidden">
+                <img src="logo.png" alt="Prisim Finance" class="h-8">
+            </a>
+            <a href="dashboard.html"
+                class="text-[10px] font-black uppercase tracking-widest hover:underline flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">arrow_back</span> Return to Dashboard
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-6">
+        <div
+            class="max-w-md w-full bg-white border border-gray-100 p-12 rounded-sm shadow-2xl text-center space-y-8 relative overflow-hidden">
+            <!-- Top Stripe -->
+            <div class="absolute top-0 left-0 w-full h-1.5 bg-primary"></div>
+
+            <div
+                class="w-20 h-20 bg-primary/5 text-primary rounded-full flex items-center justify-center mx-auto border-2 border-primary/10">
+                <span class="material-symbols-outlined text-4xl animate-spin"
+                    style="animation-duration: 3s;">sync</span>
+            </div>
+
+            <div class="space-y-4">
+                <h1 class="text-3xl font-black text-primary tracking-tighter uppercase leading-none">Processing...</h1>
+                <p class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Transaction Status: Hold</p>
+            </div>
+
+            <div class="py-10 border-y border-gray-50 text-sm font-semibold text-gray-600 leading-relaxed px-4">
+                "Our compliance department is currently reviewing your recent activity. Someone from the verification
+                team will reach out with payment confirmation shortly. Alternatively, please check back in 48 hours."
+            </div>
+
+            <div class="space-y-4 pt-4">
+                <button onclick="window.location.href='dashboard.html'"
+                    class="w-full py-4 bg-primary text-white font-black text-xs uppercase tracking-widest rounded-sm hover:bg-green-800 transition-all shadow-lg active:scale-95">
+                    Return to Dashboard
+                </button>
+                <div
+                    class="flex items-center justify-center gap-6 text-[10px] font-black uppercase tracking-widest text-secondary">
+                    <a href="support.html" class="hover:underline">Support Chat</a>
+                    <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
+                    <a href="faq.html" class="hover:underline">Plan & Learn</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-bankGray py-10 border-t border-gray-200">
+        <div
+            class="max-w-4xl mx-auto px-4 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+            <p>© 2026 Prisim Finance. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a href="faq.html" class="hover:underline">Privacy Help</a>
+                <a href="support.html" class="hover:underline">Security Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="utils.js"></script>
+    <script>
+        utils.init();
+    </script>
+</body>
+
+</html>

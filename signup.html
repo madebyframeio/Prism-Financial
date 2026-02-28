@@ -2,131 +2,132 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Client Application | Prism</title>
-    <meta name="description" content="Apply for a Prism account.">
-    <meta name="robots" content="noindex, nofollow">
-    <meta property="og:title" content="Client Application | Prism">
-    <meta property="og:image" content="meta.png">
-    <link rel="icon" type="image/png" href="logo.png">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enrollment | Prisim Finance Online</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#008450",
+                        secondary: "#004B8D",
+                        accent: "#FCCC44",
+                        bankGray: "#F4F4F4",
+                        bankText: "#333333",
+                        borderGray: "#D1D1D1"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-    <script src="theme.js"></script>
     <style type="text/tailwindcss">
-        body {
-            font-family: 'Inter', sans-serif;
-            @apply bg-surface text-secondary antialiased;
+        @layer base {
+            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
         }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: 'Urbanist', sans-serif;
-        }
-
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+        @layer components {
+            .input-field { @apply w-full bg-white border border-gray-300 p-3 rounded-sm focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all placeholder:text-gray-400 text-sm; }
+            .btn-wf-primary { @apply w-full py-3 bg-primary text-white font-black text-sm uppercase tracking-widest hover:bg-green-700 transition-all rounded-sm shadow-md active:translate-y-px; }
         }
     </style>
 </head>
 
-<body class="min-h-screen flex flex-col items-center justify-center p-6 bg-slate-100">
-
-    <div class="w-full max-w-lg bg-white p-8 md:p-12 relative shadow-finance rounded">
-        <!-- Decorative Header Stripe -->
-        <div class="absolute top-0 left-0 w-full h-1 bg-accent"></div>
-
-        <div class="flex flex-col items-center justify-center mb-8 text-center">
-            <a href="index.html" class="hover:opacity-75 transition-opacity flex items-center gap-2">
-                <img src="logo.png" alt="Prism Logo" class="h-12 w-auto mb-4">
-                <h2 class="text-xs font-bold uppercase tracking-widest text-slate-500">Prism Financial</h2>
-                <span class="text-xl font-bold tracking-tight text-primary font-serif">Prism</span>
+<body class="min-h-screen flex flex-col">
+    <!-- Corporate Header -->
+    <header class="bg-primary text-white p-4 shadow-md">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="bg-white p-1 rounded-sm">
+                <img src="logo.png" alt="Prisim Finance" class="h-8">
             </a>
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">Enrollment Portal</span>
         </div>
+    </header>
 
-        <h3 class="text-2xl font-bold text-center mb-8 text-primary font-serif">Client Registration</h3>
+    <main class="flex-1 flex items-center justify-center p-6">
+        <div class="w-full max-w-2xl bg-white p-10 border border-gray-300 rounded shadow-sm relative overflow-hidden">
+            <!-- Red Top Stripe -->
+            <div class="absolute top-0 left-0 w-full h-1.5 bg-primary"></div>
 
-        <form id="signup-form">
-            <div class="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">First
-                        Name</label>
-                    <input type="text" id="firstname"
-                        class="w-full bg-slate-50 border border-slate-300 p-3 text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all rounded-sm placeholder:text-slate-400"
-                        placeholder="John" required>
+            <h1 class="text-2xl font-black text-primary mb-2 tracking-tighter">Enroll in Prisim Finance Online®</h1>
+            <p class="text-sm text-gray-500 mb-8 font-semibold">Tell us about yourself to begin your banking journey.
+            </p>
+
+            <form id="signup-form" class="space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-widest text-gray-500 mb-2">Legal Full
+                            Name</label>
+                        <input type="text" id="fullname" class="input-field" placeholder="John Doe" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-widest text-gray-500 mb-2">Desired
+                            Username</label>
+                        <input type="text" id="username" class="input-field" placeholder="johndoe123" required>
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Last
-                        Name</label>
-                    <input type="text" id="lastname"
-                        class="w-full bg-slate-50 border border-slate-300 p-3 text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all rounded-sm placeholder:text-slate-400"
-                        placeholder="Doe" required>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label
+                            class="block text-xs font-black uppercase tracking-widest text-gray-500 mb-2">Password</label>
+                        <input type="password" id="password" class="input-field" placeholder="••••••••" required>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-black uppercase tracking-widest text-gray-500 mb-2">Confirm
+                            Password</label>
+                        <input type="password" id="confirm-password" class="input-field" placeholder="••••••••"
+                            required>
+                    </div>
                 </div>
-            </div>
 
-            <div class="mb-4">
-                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Phone
-                    Number</label>
-                <input type="tel" id="phone"
-                    class="w-full bg-slate-50 border border-slate-300 p-3 text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all rounded-sm placeholder:text-slate-400"
-                    placeholder="+1 (555) 000-0000" required>
-            </div>
-
-            <div class="mb-4">
-                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Email
-                    Address</label>
-                <input type="email" id="email"
-                    class="w-full bg-slate-50 border border-slate-300 p-3 text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all rounded-sm placeholder:text-slate-400"
-                    placeholder="name@example.com" required>
-            </div>
-
-            <div class="mb-6">
-                <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-2">Desired Username
-                    / ID</label>
-                <input type="text" id="username"
-                    class="w-full bg-slate-50 border border-slate-300 p-3 text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all rounded-sm placeholder:text-slate-400"
-                    placeholder="User ID" required>
-            </div>
-
-            <div id="error-msg" class="hidden mb-6 bg-red-50 border-l-4 border-red-500 text-red-700 p-3 text-sm">
-                <div class="flex items-center">
-                    <span class="material-symbols-outlined text-base mr-2">error</span>
-                    <span id="error-text">Registration Failed</span>
+                <div class="p-4 bg-bankGray rounded-sm border border-gray-200">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-gray-400 mb-3">Electronic Delivery
+                        Consent</h3>
+                    <div class="flex items-start gap-3">
+                        <input type="checkbox" id="consent"
+                            class="mt-1 rounded-sm border-gray-300 text-secondary focus:ring-secondary h-4 w-4"
+                            required>
+                        <label for="consent" class="text-[11px] text-gray-600 font-semibold leading-relaxed">
+                            I agree to receive all communications from Prisim Finance electronically. I certify that I
+                            have
+                            the necessary hardware and software to access such communications.
+                        </label>
+                    </div>
                 </div>
-            </div>
 
-            <div id="success-msg"
-                class="hidden mb-6 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 p-3 text-sm">
-                <div class="flex items-center">
-                    <span class="material-symbols-outlined text-base mr-2">check_circle</span>
-                    <span>Application Received.</span>
+                <div id="status-msg" class="hidden p-4 text-xs font-bold rounded-sm"></div>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button type="submit" class="btn-wf-primary flex-1">Enroll Now</button>
+                    <a href="login.html"
+                        class="flex-1 py-3 bg-white border border-gray-300 text-secondary font-black text-xs uppercase tracking-widest flex items-center justify-center hover:bg-gray-50 transition-all rounded-sm">Account
+                        Login</a>
                 </div>
-            </div>
-
-            <button type="submit"
-                class="w-full py-3 bg-primary text-white font-medium uppercase tracking-wider hover:bg-slate-800 transition-all rounded-sm shadow-md">
-                Submit Application
-            </button>
-        </form>
-
-        <div class="mt-8 pt-6 border-t border-slate-100 text-center flex flex-col gap-3">
-            <a href="login.html" class="text-sm text-slate-600 hover:text-primary transition-colors">
-                Already have an account? Sign In
-            </a>
-            <a href="index.html"
-                class="text-xs font-medium uppercase tracking-widest text-slate-400 hover:text-slate-900 transition-colors">
-                ← Back to Home
-            </a>
+            </form>
         </div>
-    </div>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-white border-t border-gray-300 py-10">
+        <div
+            class="max-w-4xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+            <div
+                class="flex flex-wrap justify-center md:justify-start gap-6 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                <a href="#" class="hover:text-primary transition-colors">Privacy, Cookies & Security</a>
+                <a href="#" class="hover:text-primary transition-colors">Terms of Use</a>
+                <a href="#" class="hover:text-primary transition-colors">Accessibility</a>
+            </div>
+            <p class="text-[10px] text-gray-400 font-bold">© 2026 Prisim Finance. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="utils.js"></script>
@@ -135,74 +136,47 @@
 
         document.getElementById('signup-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const firstname = document.getElementById('firstname').value;
-            const lastname = document.getElementById('lastname').value;
-            const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
+            const fullName = document.getElementById('fullname').value;
             const username = document.getElementById('username').value;
-            // Generate Random Password for Applicant
-            const password = Math.random().toString(36).slice(-8);
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('confirm-password').value;
+            const status = document.getElementById('status-msg');
+
+            if (password !== confirm) {
+                showStatus('Passwords do not match.', 'error');
+                return;
+            }
+
             const btn = e.submitter;
             const originalText = btn.innerHTML;
-
-            // Loading
             btn.disabled = true;
-            btn.innerHTML = '<span class="animate-pulse">Processing...</span>';
-
-            document.getElementById('error-msg').classList.add('hidden');
-            document.getElementById('success-msg').classList.add('hidden');
+            btn.innerHTML = '<span class="animate-pulse">Enrolling...</span>';
 
             try {
-                // Check if user exists? utils.login check or direct insert fail
-                // We'll try to insert directly.
-                // Schema: name, username, password. PIN defaults to '0000', balance 0.
-
-                await utils.createUser({
-                    name: `${firstname} ${lastname}`,
-                    first_name: firstname,
-                    last_name: lastname,
-                    phone: phone,
-                    email: email,
-                    username: username,
-                    password: password,
-                    pin: '0000', // Default
-                    balance: 0
-                }, true); // isApplicant = true
-
-                // Success
-                // Success - Show Confirmation View
-                document.getElementById('signup-form').classList.add('hidden');
-
-                const container = document.querySelector('.bg-white'); // The main card
-                container.innerHTML = `
-                    <div class="text-center py-10">
-                        <span class="material-symbols-outlined text-6xl text-emerald-500 mb-4">check_circle</span>
-                        <h2 class="text-2xl font-bold uppercase tracking-tighter text-slate-900 mb-4">Application Received</h2>
-                        <p class="text-slate-600 font-medium mb-8 max-w-xs mx-auto leading-relaxed">
-                            Thank you for your interest. An account officer will review your details and reach out to you shortly for the next steps.
-                        </p>
-                        <a href="index.html" class="inline-block px-8 py-3 bg-slate-900 text-white font-bold uppercase tracking-widest text-xs hover:bg-primary transition-colors">
-                            Return to Home
-                        </a>
-                    </div>
-                `;
-
+                const user = await utils.signup(username, password, fullName);
+                if (user) {
+                    showStatus('Enrollment successful! Redirecting to dashboard...', 'success');
+                    setTimeout(() => window.location.href = 'dashboard.html', 2000);
+                } else {
+                    showStatus('Enrollment failed. Username may be taken.', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                }
             } catch (err) {
                 console.error(err);
-                document.getElementById('error-text').textContent = err.message || 'Registration Failed';
-                document.getElementById('error-msg').classList.remove('hidden');
+                showStatus('A system error occurred. Please try again later.', 'error');
                 btn.disabled = false;
                 btn.innerHTML = originalText;
             }
         });
+
+        function showStatus(msg, type) {
+            const status = document.getElementById('status-msg');
+            status.textContent = msg;
+            status.className = `p-4 text-xs font-bold rounded-sm block ${type === 'success' ? 'bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500' : 'bg-red-50 text-primary border-l-4 border-primary'
+                }`;
+        }
     </script>
-    <!-- Simulation Disclaimer -->
-    <div
-        class="fixed bottom-0 left-0 w-full bg-amber-50 border-t border-amber-200 py-2 text-center z-[200] opacity-0 pointer-events-none">
-        <p class="text-[10px] uppercase tracking-widest font-bold text-amber-800">
-            Prism Simulation Environment • Educational Project • No Real Money Involved
-        </p>
-    </div>
 </body>
 
 </html>

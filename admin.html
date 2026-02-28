@@ -12,7 +12,8 @@
     <link rel="icon" type="image/png" href="logo.png">
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
@@ -29,7 +30,8 @@
         h4,
         h5,
         h6 {
-            font-family: 'Urbanist', sans-serif;
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
         }
 
         .material-symbols-outlined {
@@ -72,6 +74,12 @@
                 </button>
                 <button onclick="switchView('transactions')" id="btn-transactions" class="tab-btn">
                     Transactions
+                </button>
+                <button onclick="switchView('messages')" id="btn-messages" class="tab-btn">
+                    Messages
+                </button>
+                <button onclick="switchView('statements')" id="btn-statements" class="tab-btn">
+                    Statements
                 </button>
                 <button onclick="switchView('settings')" id="btn-settings" class="tab-btn">
                     Settings
@@ -190,6 +198,57 @@
                                     class="text-xl font-bold text-slate-800 tracking-tight">$0.00</h3>
                             </div>
 
+                            <!-- New Key Metrics Section -->
+                            <div class="border-t border-slate-100 pt-6 mb-6">
+                                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800 mb-4">Account
+                                    Numbers</h4>
+                                <div class="flex flex-col gap-2 mb-6">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] uppercase font-semibold text-slate-500">Main:</span>
+                                        <span id="profile-acc-main"
+                                            class="text-xs font-mono font-bold text-slate-800">...</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] uppercase font-semibold text-slate-500">Savings:</span>
+                                        <span id="profile-acc-savings"
+                                            class="text-xs font-mono font-bold text-slate-800">...</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span
+                                            class="text-[10px] uppercase font-semibold text-slate-500">Investment:</span>
+                                        <span id="profile-acc-invest"
+                                            class="text-xs font-mono font-bold text-slate-800">...</span>
+                                    </div>
+                                </div>
+                                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800 mb-4">Security
+                                    Profile</h4>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-[10px] uppercase font-semibold text-slate-500">Identity
+                                        Status:</span>
+                                    <span id="profile-verification-status"
+                                        class="text-xs font-bold text-slate-800">Pending</span>
+                                </div>
+
+                                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800 mt-6 mb-4">Credit
+                                    Card details</h4>
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] uppercase font-semibold text-slate-500">Tier:</span>
+                                        <span id="profile-cc-tier"
+                                            class="text-xs font-bold text-slate-800">Platinum</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] uppercase font-semibold text-slate-500">Balance:</span>
+                                        <span id="profile-cc-balance"
+                                            class="text-xs font-bold text-slate-800">$0.00</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-[10px] uppercase font-semibold text-slate-500">Points:</span>
+                                        <span id="profile-rewards-pts" class="text-xs font-bold text-accent">0</span>
+                                    </div>
+                                </div>
+                            </div>
+
                             <button onclick="deleteUser()"
                                 class="w-full py-3 border border-rose-200 text-rose-600 font-medium uppercase tracking-wider text-xs hover:bg-rose-50 transition-all rounded-sm">
                                 Terminate Account
@@ -231,7 +290,39 @@
                                     <input type="text" id="edit-profile-pin" maxlength="4"
                                         class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
                                 </div>
-                                <div class="flex items-end gap-3">
+                                <div
+                                    class="md:col-span-2 mt-4 pt-4 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label
+                                            class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Verification
+                                            Status</label>
+                                        <div class="relative">
+                                            <select id="edit-profile-verification"
+                                                class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm appearance-none">
+                                                <option value="Verification Pending">Verification Pending</option>
+                                                <option value="Verified">Verified</option>
+                                                <option value="Action Required">Action Required</option>
+                                            </select>
+                                            <div class="absolute right-3 top-3 pointer-events-none text-slate-500">
+                                                <span class="material-symbols-outlined text-lg">expand_more</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-end gap-3 flex-wrap mt-4">
+                                        <button type="button"
+                                            onclick="openSendMessageModalForUser(currentUserProfileId)"
+                                            class="flex-1 h-[50px] border border-slate-300 text-slate-700 font-medium uppercase tracking-wider text-xs hover:bg-slate-50 transition-all flex items-center justify-center gap-2 rounded-sm shadow-sm whitespace-nowrap px-4">
+                                            <span class="material-symbols-outlined text-lg">mail</span>
+                                            Message User
+                                        </button>
+                                        <button type="button" onclick="openEditCardModal(currentUserProfileId)"
+                                            class="flex-1 h-[50px] border border-slate-300 text-slate-700 font-medium uppercase tracking-wider text-xs hover:bg-slate-50 transition-all flex items-center justify-center gap-2 rounded-sm shadow-sm whitespace-nowrap px-4">
+                                            <span class="material-symbols-outlined text-lg">credit_card</span>
+                                            Manage Card
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="md:col-span-2 flex items-end gap-3 mt-4">
                                     <button type="submit"
                                         class="flex-1 h-[50px] bg-primary text-white font-medium uppercase tracking-wider text-xs hover:bg-slate-800 transition-all rounded-sm shadow-sm">
                                         Update Credentials
@@ -313,6 +404,68 @@
                             </thead>
                             <tbody id="transactions-table-body">
                                 <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages View -->
+            <div id="view-messages" class="hidden">
+                <div class="flex justify-between items-center mb-6 gap-4">
+                    <h2 class="text-2xl font-bold font-serif text-primary">Secure Messages</h2>
+                    <button onclick="openSendMessageModal()"
+                        class="bg-primary text-white px-6 py-3 font-medium uppercase tracking-wider text-xs hover:bg-slate-800 transition-all rounded shadow-sm">
+                        + Compose Message
+                    </button>
+                </div>
+                <div class="bg-white border border-slate-200 shadow-sm rounded overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full admin-table text-left border-collapse min-w-[800px]">
+                            <thead>
+                                <tr>
+                                    <th>Date Sent</th>
+                                    <th>Recipient username</th>
+                                    <th>Subject</th>
+                                    <th class="text-center">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="messages-table-body">
+                                <tr>
+                                    <td colspan="4" class="text-center py-8 text-slate-400 text-sm italic">Loading
+                                        messages...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statements View -->
+            <div id="view-statements" class="hidden">
+                <div class="flex justify-between items-center mb-6 gap-4">
+                    <h2 class="text-2xl font-bold font-serif text-primary">Statements & Documents</h2>
+                    <button onclick="openAddStatementModal()"
+                        class="bg-primary text-white px-6 py-3 font-medium uppercase tracking-wider text-xs hover:bg-slate-800 transition-all rounded shadow-sm">
+                        + Generate Statement
+                    </button>
+                </div>
+                <div class="bg-white border border-slate-200 shadow-sm rounded overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full admin-table text-left border-collapse min-w-[800px]">
+                            <thead>
+                                <tr>
+                                    <th>Date/Period</th>
+                                    <th>Recipient username</th>
+                                    <th>Title</th>
+                                    <th class="text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="statements-table-body">
+                                <tr>
+                                    <td colspan="4" class="text-center py-8 text-slate-400 text-sm italic">Loading
+                                        statements...</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -547,6 +700,69 @@
         </div>
     </div>
 
+    <!-- Edit Card Details -->
+    <div id="edit-card-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+            onclick="closeModal('edit-card-modal')"></div>
+        <div class="relative bg-white border border-slate-200 p-8 w-full max-w-md shadow-xl rounded-sm">
+            <h3 class="text-xl font-bold font-serif uppercase tracking-wider mb-6 text-primary">Card Management</h3>
+            <input type="hidden" id="edit-card-user-id">
+
+            <div class="mb-4">
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Card
+                    Tier</label>
+                <input type="text" id="edit-card-tier" placeholder="e.g. Platinum Elite"
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Card
+                    Number</label>
+                <input type="text" id="edit-card-number" placeholder="XXXX XXXX XXXX XXXX"
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm font-mono tracking-widest text-sm">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label
+                        class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Expiry</label>
+                    <input type="text" id="edit-card-expiry" placeholder="MM/YY"
+                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm font-mono text-sm">
+                </div>
+                <div>
+                    <label
+                        class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">CVV</label>
+                    <input type="text" id="edit-card-cvv" placeholder="123" maxlength="4"
+                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm font-mono text-sm">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Credit Limit
+                    / Balance</label>
+                <input type="number" id="edit-card-balance"
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm"
+                    step="1">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Rewards
+                    Points</label>
+                <input type="number" id="edit-card-rewards"
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm"
+                    step="1">
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="closeModal('edit-card-modal')"
+                    class="flex-1 py-3 border border-slate-300 font-medium uppercase tracking-wider text-xs hover:bg-slate-50 rounded-sm text-slate-700 transition-colors">Cancel</button>
+                <button onclick="saveCardDetails()"
+                    class="flex-1 py-3 bg-primary text-white font-medium uppercase tracking-wider text-xs hover:bg-slate-800 rounded-sm shadow-sm transition-all">Confirm
+                    Update</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Add Transaction -->
     <div id="add-transaction-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
@@ -599,6 +815,7 @@
                         <option value="investment">Investment Portfolio</option>
                         <option value="current">Current Account</option>
                         <option value="savings">Savings (Fixed)</option>
+                        <option value="credit_card">Credit Card</option>
                     </select>
                     <div class="absolute right-3 top-3 pointer-events-none text-slate-500">
                         <span class="material-symbols-outlined text-lg">category</span>
@@ -689,6 +906,105 @@
     </div>
 
 
+    <!-- Compose Message Modal -->
+    <div id="compose-message-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+            onclick="closeModal('compose-message-modal')"></div>
+        <div class="relative bg-white border border-slate-200 p-8 w-full max-w-lg shadow-xl rounded-sm">
+            <h3 class="text-xl font-bold font-serif uppercase tracking-wider mb-6 text-primary">Compose Secure Message
+            </h3>
+
+            <div class="mb-4">
+                <label
+                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Recipient</label>
+                <div class="relative">
+                    <select id="msg-user-select"
+                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm appearance-none"></select>
+                    <div class="absolute right-3 top-3 pointer-events-none text-slate-500">
+                        <span class="material-symbols-outlined text-lg">expand_more</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label
+                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Subject</label>
+                <input type="text" id="msg-subject" placeholder="Important Account Updates"
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Message
+                    Body</label>
+                <textarea id="msg-body" rows="6" placeholder="Type your secure message here..."
+                    class="w-full bg-slate-50 border border-slate-200 p-4 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm resize-none"></textarea>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="closeModal('compose-message-modal')"
+                    class="flex-1 py-3 border border-slate-300 font-medium uppercase tracking-wider text-xs hover:bg-slate-50 rounded-sm text-slate-700 transition-colors">Cancel</button>
+                <button onclick="sendMessage()"
+                    class="flex-1 py-3 bg-primary text-white font-medium uppercase tracking-wider text-xs hover:bg-slate-800 rounded-sm shadow-sm transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-sm">send</span> Send Secure
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Statement Modal -->
+    <div id="add-statement-modal" class="fixed inset-0 z-[100] hidden items-center justify-center">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+            onclick="closeModal('add-statement-modal')"></div>
+        <div class="relative bg-white border border-slate-200 p-8 w-full max-w-lg shadow-xl rounded-sm">
+            <h3 class="text-xl font-bold font-serif uppercase tracking-wider mb-6 text-primary">Attach Statement</h3>
+
+            <div class="mb-4">
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Account
+                    Holder</label>
+                <div class="relative">
+                    <select id="stmt-user-select"
+                        class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm appearance-none"></select>
+                    <div class="absolute right-3 top-3 pointer-events-none text-slate-500">
+                        <span class="material-symbols-outlined text-lg">expand_more</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Statement
+                    Title</label>
+                <input type="text" id="stmt-title" placeholder="e.g. Account Statement - Jan 2026"
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Statement
+                    Date String</label>
+                <input type="text" id="stmt-date" placeholder="e.g. Dec 10, 2025 - Jan 10, 2026"
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">External PDF
+                    Link (Optional)</label>
+                <input type="url" id="stmt-pdf-url" placeholder="https://"
+                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm text-sm">
+                <p class="text-[10px] text-slate-400 mt-2">If left blank, clicking download will simulate a blank PDF.
+                </p>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="closeModal('add-statement-modal')"
+                    class="flex-1 py-3 border border-slate-300 font-medium uppercase tracking-wider text-xs hover:bg-slate-50 rounded-sm text-slate-700 transition-colors">Cancel</button>
+                <button onclick="addStatement()"
+                    class="flex-1 py-3 bg-primary text-white font-medium uppercase tracking-wider text-xs hover:bg-slate-800 rounded-sm shadow-sm transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-sm">upload_file</span> Attach
+                </button>
+            </div>
+        </div>
+    </div>
+
+
     <!-- Bulk Actions Toolbar (Global - Fixed) -->
     <div id="bulk-actions-bar"
         class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white p-4 shadow-2xl z-[9000] flex items-center gap-6 rounded-lg border border-slate-800">
@@ -715,6 +1031,7 @@
     <script src="utils.js"></script>
     <script>
         utils.init();
+        console.log('[ADMIN] Script loaded - version 2027-02-27-v3');
 
         // Override Admin Logic for new UI classes
         // Override Admin Logic for new UI classes
@@ -732,6 +1049,8 @@
 
             document.getElementById('view-users').classList.add('hidden');
             document.getElementById('view-transactions').classList.add('hidden');
+            document.getElementById('view-messages').classList.add('hidden');
+            document.getElementById('view-statements').classList.add('hidden');
             document.getElementById('view-profile').classList.add('hidden');
             document.getElementById('view-settings').classList.add('hidden');
 
@@ -751,6 +1070,10 @@
                 await renderTransactions();
             } else if (viewName === 'settings') {
                 await loadAdminSettings();
+            } else if (viewName === 'messages') {
+                await renderMessages();
+            } else if (viewName === 'statements') {
+                await renderStatements();
             }
         }
 
@@ -1018,6 +1341,20 @@
                 document.getElementById('edit-profile-username').value = user.username;
                 document.getElementById('edit-profile-password').value = user.password;
                 document.getElementById('edit-profile-pin').value = user.pin || ''; // Load PIN
+                document.getElementById('edit-profile-verification').value = user.verification_status || 'Verification Pending'; // Load verification
+
+                // Load New Metrics
+                document.getElementById('profile-verification-status').textContent = user.verification_status || 'Pending';
+
+                // Account numbers
+                if (document.getElementById('profile-acc-main')) document.getElementById('profile-acc-main').textContent = user.account_number || 'N/A';
+                if (document.getElementById('profile-acc-savings')) document.getElementById('profile-acc-savings').textContent = user.acc_savings || 'N/A';
+                if (document.getElementById('profile-acc-invest')) document.getElementById('profile-acc-invest').textContent = user.acc_invest || 'N/A';
+
+                // Card details display
+                document.getElementById('profile-cc-tier').textContent = user.cc_tier || 'Platinum';
+                document.getElementById('profile-cc-balance').textContent = utils.formatCurrency(user.cc_balance || 0);
+                document.getElementById('profile-rewards-pts').textContent = user.rewards_pts || '0';
 
                 // Load history asynchronously
                 const transactions = await utils.getTransactions(uid);
@@ -1069,13 +1406,15 @@
             const newUsername = document.getElementById('edit-profile-username').value;
             const newPassword = document.getElementById('edit-profile-password').value;
             const newPin = document.getElementById('edit-profile-pin').value;
+            const newVerification = document.getElementById('edit-profile-verification').value;
 
             try {
                 await utils.updateUser(uid, {
                     name: newName,
                     username: newUsername,
                     password: newPassword,
-                    pin: newPin
+                    pin: newPin,
+                    verification_status: newVerification
                 });
                 showMessage('Success', 'Credentials & Profile Updated Successfully');
                 loadUserProfile(uid);
@@ -1203,33 +1542,36 @@
 
 
         async function confirmDeleteTransaction(txId) {
-            if (confirm('Are you sure? This will reverse the balance impact.')) {
-                try {
-                    await utils.deleteTransaction(txId);
-                    showMessage('Success', 'Transaction Deleted & Balance Reserved');
+            try {
+                console.log('[ADMIN] Deleting transaction:', txId);
+                await utils.deleteTransaction(txId);
+                showMessage('Success', 'Transaction Deleted & Balance Reversed');
+                alert('Transaction deleted successfully!');
 
-                    // Refresh
-                    renderTransactions();
-                    if (currentUserProfileId && !document.getElementById('view-profile').classList.contains('hidden')) {
-                        loadUserProfile(currentUserProfileId);
-                    }
-                } catch (e) {
-                    console.error(e);
-                    showMessage('Error', 'Failed to delete transaction', true);
+                // Refresh
+                renderTransactions();
+                if (currentUserProfileId && !document.getElementById('view-profile').classList.contains('hidden')) {
+                    loadUserProfile(currentUserProfileId);
                 }
+            } catch (e) {
+                console.error(e);
+                alert('Failed to delete transaction: ' + e.message);
+                showMessage('Error', 'Failed to delete transaction', true);
             }
         }
 
         async function deleteUser() {
-            if (confirm('Are you sure you want to PERMANENTLY delete this user?')) {
-                try {
-                    await utils.deleteUser(currentUserProfileId);
-                    switchView('users');
-                    showMessage('Account Deleted', 'User has been permanently removed');
-                } catch (err) {
-                    console.error(err);
-                    showMessage('Error', 'Failed to delete user', true);
-                }
+            try {
+                console.log('[ADMIN] Deleting user:', currentUserProfileId);
+                await utils.deleteUser(currentUserProfileId);
+                switchView('users');
+                renderUsers();
+                showMessage('Account Deleted', 'User has been permanently removed');
+                alert('User account terminated successfully!');
+            } catch (err) {
+                console.error(err);
+                alert('Failed to delete user: ' + err.message);
+                showMessage('Error', 'Failed to delete user', true);
             }
         }
 
@@ -1398,6 +1740,7 @@
             let finalDesc = descInput || 'Manual Entry';
             if (category === 'investment') finalDesc = `[INVESTMENT] ${finalDesc}`;
             else if (category === 'savings') finalDesc = `[SAVINGS] ${finalDesc}`;
+            else if (category === 'credit_card') finalDesc = `[CREDIT_CARD] ${finalDesc}`;
 
             try {
                 // Use Centralized Utils Logic (Ensures Create/Delete logic matches)
@@ -1534,7 +1877,7 @@
         // Expose to Global Scope for HTML onclick
         window.bulkAction = async function (action) {
             if (selectedTxIds.size === 0) return;
-            if (!confirm(`Are you sure you want to ${action} ${selectedTxIds.size} transactions?`)) return;
+            console.log('[BULK] Starting bulk action:', action, 'on', selectedTxIds.size, 'items');
 
             // Show loading
             const btnBar = document.getElementById('bulk-actions-bar');
@@ -1545,14 +1888,11 @@
 
             try {
                 if (action === 'delete') {
-                    // Direct Delete (Assuming we don't need to revert balances for deleted history)
-                    const { error } = await utils.supabase
-                        .from('transactions')
-                        .delete()
-                        .in('id', ids);
-
-                    if (error) throw error;
-                    showMessage('Success', 'Transactions deleted successfully');
+                    // Delete each transaction individually to ensure balance reversal
+                    for (const id of ids) {
+                        await utils.deleteTransaction(id);
+                    }
+                    showMessage('Success', `${ids.length} transaction(s) deleted successfully`);
 
                 } else if (action === 'approve') {
                     // 1. Fetch the actual transaction objects to know amounts/users
@@ -1629,6 +1969,7 @@
                 btnBar.innerHTML = originalContent;
 
                 deselectAll();
+                renderTransactions(); // Refresh the table
 
                 // NEW: Refresh User Profile if Active
                 const profileView = document.getElementById('view-profile');
@@ -1636,8 +1977,11 @@
                     await loadUserProfile(currentUserProfileId);
                 }
 
+                alert(`Bulk ${action} completed successfully!`);
+
             } catch (e) {
-                console.error(e);
+                console.error('[BULK] Error:', e);
+                alert('Bulk action failed: ' + e.message);
                 showMessage('Error', 'Bulk action failed: ' + e.message, true);
                 if (selectedTxIds.size > 0) btnBar.innerHTML = originalContent;
             }
@@ -1689,7 +2033,7 @@
 
         // Global Handler for Application Deletion
         window.handleDeleteApplication = async function (id) {
-            if (!confirm('Are you sure you want to dismiss this application?')) return;
+            console.log('[ADMIN] Dismissing application:', id);
 
             try {
                 await utils.deleteApplication(id);
@@ -1708,9 +2052,320 @@
             utils.logout();
         }
 
+        function openSendMessageModalForUser(uid) {
+            if (typeof openSendMessageModal === 'function') {
+                openSendMessageModal();
+                setTimeout(() => {
+                    const select = document.getElementById('msg-user-select');
+                    if (select) select.value = uid;
+                }, 500);
+            } else {
+                showMessage('Error', 'Messaging module not loaded', true);
+            }
+        }
+
+        // --- Card Management ---
+        window.openEditCardModal = async function (userId) {
+            const user = await utils.getUserData(userId);
+            if (!user) return;
+
+            document.getElementById('edit-card-user-id').value = userId;
+            document.getElementById('edit-card-tier').value = user.cc_tier || 'Platinum';
+            document.getElementById('edit-card-number').value = user.cc_number || '';
+            document.getElementById('edit-card-expiry').value = user.cc_expiry || '';
+            document.getElementById('edit-card-cvv').value = user.cc_cvv || '';
+            document.getElementById('edit-card-balance').value = user.cc_balance || 0;
+            document.getElementById('edit-card-rewards').value = user.rewards_pts || 0;
+
+            document.getElementById('edit-card-modal').classList.remove('hidden');
+            document.getElementById('edit-card-modal').classList.add('flex');
+        }
+
+        window.saveCardDetails = async function () {
+            const userId = document.getElementById('edit-card-user-id').value;
+            const tier = document.getElementById('edit-card-tier').value;
+            const number = document.getElementById('edit-card-number').value;
+            const expiry = document.getElementById('edit-card-expiry').value;
+            const cvv = document.getElementById('edit-card-cvv').value;
+            const balance = parseFloat(document.getElementById('edit-card-balance').value) || 0;
+            const rewards = parseInt(document.getElementById('edit-card-rewards').value) || 0;
+
+            try {
+                await utils.updateUser(userId, {
+                    cc_tier: tier,
+                    cc_number: number,
+                    cc_expiry: expiry,
+                    cc_cvv: cvv,
+                    cc_balance: balance,
+                    rewards_pts: rewards
+                });
+                closeModal('edit-card-modal');
+                if (currentUserProfileId && typeof loadUserProfile === 'function') {
+                    loadUserProfile(currentUserProfileId);
+                }
+                showMessage('Success', 'Card details updated successfully');
+            } catch (e) {
+                showMessage('Error', 'Failed to update card: ' + e.message, true);
+            }
+        }
+
+        // --- Messages ---
+        window.renderMessages = async function () {
+            const tbody = document.getElementById('messages-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-400">Loading...</td></tr>';
+            try {
+                const { data, error } = await utils.supabase.from('messages').select('*, users(name, username)').order('created_at', { ascending: false });
+                if (error) throw error;
+                tbody.innerHTML = '';
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-400">No messages found.</td></tr>';
+                    return;
+                }
+                data.forEach(m => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors cursor-pointer';
+                    // TH Order: Date Sent, Recipient username, Subject, Status
+                    tr.innerHTML = `
+                        <td class="px-4 py-3"><div class="text-xs font-mono text-slate-500">${new Date(m.created_at).toLocaleDateString()}</div></td>
+                        <td class="px-4 py-3"><div class="text-xs font-bold text-slate-700">${m.users?.username || 'Unknown'}</div></td>
+                        <td class="px-4 py-3">
+                            <div class="text-xs font-bold text-slate-900">${m.subject}</div>
+                            <div class="text-[10px] text-slate-500 truncate max-w-[300px]">${m.body}</div>
+                        </td>
+                        <td class="px-4 py-3 text-right">
+                            <button onclick="utils.markMessageRead('${m.id}'); setTimeout(renderMessages, 500)" class="px-2 py-1 text-[10px] font-bold uppercase rounded hover:bg-slate-200 transition-colors ${m.is_read ? 'bg-slate-100 text-slate-500' : 'bg-primary/10 text-primary'}">${m.is_read ? 'Read' : 'Mark Read'}</button>
+                            <button onclick="deleteMessage('${m.id}')" class="text-slate-400 hover:text-rose-600 transition-colors p-1 ml-2"><span class="material-symbols-outlined text-sm">delete</span></button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-rose-500">Error loading messages</td></tr>';
+            }
+        }
+
+        window.deleteMessage = async function (id) {
+            console.log('[ADMIN] Deleting message:', id);
+            try {
+                const { error } = await utils.supabase.from('messages').delete().eq('id', id);
+                if (error) throw error;
+                renderMessages();
+            } catch (e) { showMessage("Error", "Could not delete message", true); }
+        }
+
+        window.openSendMessageModal = async function () {
+            const select = document.getElementById('msg-user-select');
+            if (select) {
+                select.innerHTML = '<option value="">Select a user...</option>';
+                const allUsers = await utils.getAllUsers();
+                allUsers.forEach(u => {
+                    const opt = document.createElement('option');
+                    opt.value = u.id;
+                    opt.textContent = `${u.name} (${u.username})`;
+                    select.appendChild(opt);
+                });
+            }
+            document.getElementById('compose-message-modal').classList.remove('hidden');
+            document.getElementById('compose-message-modal').classList.add('flex');
+        }
+
+        window.sendMessage = async function (e) {
+            if (e) e.preventDefault();
+            const userId = document.getElementById('msg-user-select').value;
+            const subject = document.getElementById('msg-subject').value;
+            const body = document.getElementById('msg-body').value;
+            if (!userId || !subject || !body) {
+                showMessage('Error', "All fields are required", true);
+                return;
+            }
+            try {
+                const { error } = await utils.supabase.from('messages').insert([{ user_id: userId, subject, body, is_read: false }]);
+                if (error) throw error;
+                closeModal('compose-message-modal');
+                document.getElementById('msg-subject').value = '';
+                document.getElementById('msg-body').value = '';
+                if (!document.getElementById('view-messages').classList.contains('hidden')) {
+                    await renderMessages();
+                }
+                showMessage('Success', 'Message sent successfully');
+            } catch (err) {
+                showMessage('Error', 'Failed to send message: ' + err.message, true);
+            }
+        }
+
+        // --- Statements ---
+        window.renderStatements = async function () {
+            const tbody = document.getElementById('statements-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-400">Loading...</td></tr>';
+            try {
+                const { data, error } = await utils.supabase.from('statements').select('*, users(name, username)').order('created_at', { ascending: false });
+                if (error) throw error;
+                tbody.innerHTML = '';
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-slate-400">No statements found.</td></tr>';
+                    return;
+                }
+                data.forEach(s => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors';
+                    // TH Order: Date/Period, Recipient username, Title, Action
+                    tr.innerHTML = `
+                        <td class="px-4 py-3"><div class="text-xs font-mono text-slate-500">${s.date || '---'}</div></td>
+                        <td class="px-4 py-3"><div class="text-xs font-bold text-slate-700">${s.users?.username || 'Unknown'}</div></td>
+                        <td class="px-4 py-3"><div class="text-xs font-bold text-slate-900">${s.title}</div></td>
+                        <td class="px-4 py-3 text-right flex items-center justify-end gap-2">
+                            <a href="${s.pdf_url || '#'}" target="_blank" class="h-8 w-8 bg-primary/10 text-primary hover:bg-primary hover:text-white flex items-center justify-center transition-colors rounded-sm" title="Download PDF">
+                                <span class="material-symbols-outlined text-sm">download</span>
+                            </a>
+                             <button onclick="confirmDeleteStatement('${s.id}')" class="h-8 w-8 text-slate-400 hover:text-rose-600 transition-colors flex items-center justify-center"><span class="material-symbols-outlined text-sm">delete</span></button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center py-4 text-rose-500">Error loading statements</td></tr>';
+            }
+        }
+
+        window.openAddStatementModal = async function () {
+            const select = document.getElementById('stmt-user-select');
+            if (select) {
+                select.innerHTML = '<option value="">Select a user...</option>';
+                const allUsers = await utils.getAllUsers();
+                allUsers.forEach(u => {
+                    const opt = document.createElement('option');
+                    opt.value = u.id;
+                    opt.textContent = `${u.name} (${u.username})`;
+                    select.appendChild(opt);
+                });
+            }
+            document.getElementById('add-statement-modal').classList.remove('hidden');
+            document.getElementById('add-statement-modal').classList.add('flex');
+        }
+
+        window.addStatement = async function (e) {
+            if (e) e.preventDefault();
+            const userId = document.getElementById('stmt-user-select').value;
+            const title = document.getElementById('stmt-title').value;
+            const dateStr = document.getElementById('stmt-date').value;
+            const pdfUrl = document.getElementById('stmt-pdf-url').value;
+
+            if (!userId || !title) {
+                showMessage('Error', "Required fields missing", true);
+                return;
+            }
+            try {
+                const { error } = await utils.supabase.from('statements').insert([{
+                    user_id: userId,
+                    title,
+                    date: dateStr,
+                    pdf_url: pdfUrl
+                }]);
+                if (error) throw error;
+                closeModal('add-statement-modal');
+                document.getElementById('stmt-title').value = '';
+                document.getElementById('stmt-date').value = '';
+                document.getElementById('stmt-pdf-url').value = '';
+                if (!document.getElementById('view-statements').classList.contains('hidden')) {
+                    await renderStatements();
+                }
+                showMessage('Success', 'Statement added successfully');
+            } catch (err) {
+                showMessage('Error', 'Failed to add statement: ' + err.message, true);
+            }
+        }
+
+        window.confirmDeleteStatement = async function (id) {
+            console.log('[ADMIN] Deleting statement:', id);
+            try {
+                const { error } = await utils.supabase.from('statements').delete().eq('id', id);
+                if (error) throw error;
+                await renderStatements();
+                showMessage('Success', 'Statement deleted');
+            } catch (err) {
+                showMessage('Error', 'Failed to delete statement: ' + err.message, true);
+            }
+        }
+
+        // === Expose ALL onclick-called functions to global window scope ===
+        window.switchView = switchView;
+        window.renderUsers = renderUsers;
+        window.renderTransactions = renderTransactions;
+        window.loadUserProfile = loadUserProfile;
+        window.confirmDeleteTransaction = confirmDeleteTransaction;
+        window.deleteUser = deleteUser;
+        window.viewUserHistory = viewUserHistory;
+        window.clearFilter = clearFilter;
+        window.openCreateUserModal = openCreateUserModal;
+        window.resolveTransaction = resolveTransaction;
+        window.openEditBalance = openEditBalance;
+        window.saveBalance = saveBalance;
+        window.showAddTransactionModal = showAddTransactionModal;
+        window.createTransaction = createTransaction;
+        window.openEditTransaction = openEditTransaction;
+        window.saveEditTransaction = saveEditTransaction;
+        window.showMessage = showMessage;
+        window.closeModal = closeModal;
+        window.toggleSelectTx = toggleSelectTx;
+        window.toggleSelectAll = toggleSelectAll;
+        window.deselectAll = deselectAll;
+        window.updateBulkToolbar = updateBulkToolbar;
+        window.logout = logout;
+        window.openSendMessageModalForUser = openSendMessageModalForUser;
+        window.renderApplications = renderApplications;
+
         // Init
         renderUsers();
         renderApplications(); // Initial load
+    </script>
+    <script>
+        // === FALLBACK: Event Delegation for Delete Buttons ===
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('button[title="Delete"]');
+            if (!btn) return;
+
+            const onclickAttr = btn.getAttribute('onclick');
+            if (!onclickAttr) return;
+
+            const match = onclickAttr.match(/confirmDeleteTransaction\(['"]([^'"]+)['"]\)/);
+            if (!match) return;
+
+            const txId = match[1];
+            console.log('[DEL] Step 1: Intercepted click for txId:', txId);
+
+            // Block the original onclick from firing
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            btn.removeAttribute('onclick');
+
+            console.log('[DEL] Step 2: Calling utils.deleteTransaction...');
+            console.log('[DEL] utils exists:', typeof utils);
+            console.log('[DEL] utils.deleteTransaction exists:', typeof utils.deleteTransaction);
+
+            utils.deleteTransaction(txId).then(() => {
+                console.log('[DEL] Step 3: DELETE SUCCESSFUL! Refreshing...');
+                alert('Transaction deleted successfully!');
+                // Refresh the view
+                if (typeof window.renderTransactions === 'function') window.renderTransactions();
+                const profileView = document.getElementById('view-profile');
+                if (profileView && !profileView.classList.contains('hidden') && typeof window.loadUserProfile === 'function') {
+                    const uid = document.getElementById('edit-profile-id')?.value;
+                    if (uid) window.loadUserProfile(uid);
+                }
+            }).catch(err => {
+                console.error('[DEL] Step 3: DELETE FAILED:', err);
+                alert('Delete failed: ' + err.message);
+            });
+
+            // Re-add onclick after a delay for future clicks
+            setTimeout(() => {
+                btn.setAttribute('onclick', `confirmDeleteTransaction('${txId}')`);
+            }, 2000);
+
+        }, true);
+        console.log('[DEL] Event delegation registered');
     </script>
     <!-- Simulation Disclaimer -->
     <div

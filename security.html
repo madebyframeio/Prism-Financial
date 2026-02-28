@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security | Prisim Finance Online</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#008450",
+                        secondary: "#004B8D",
+                        bankGray: "#F4F4F4",
+                        bankText: "#333333",
+                        borderGray: "#D1D1D1"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        @layer base {
+            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+        }
+        @layer components {
+            .security-card { @apply bg-white p-6 border border-borderGray rounded-sm shadow-sm flex items-start gap-6 hover:border-primary/20 transition-all; }
+            .status-on { @apply px-2 py-1 bg-emerald-100 text-emerald-700 text-[9px] font-black uppercase rounded; }
+            .status-off { @apply px-2 py-1 bg-gray-100 text-gray-500 text-[9px] font-black uppercase rounded; }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-primary text-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-6">
+                <a href="dashboard.html" class="bg-white p-1 rounded-sm">
+                    <img src="logo.png" alt="Prisim Finance" class="h-8">
+                </a>
+                <div class="hidden sm:flex flex-col border-l border-white/20 pl-6 cursor-default">
+                    <span class="text-xs opacity-70 uppercase tracking-widest font-black">Security Center</span>
+                    <span class="text-sm font-black tracking-tight" id="user-display-name">My Security</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
+                <a href="messages.html" class="hover:underline" id="messages-link">Messages</a>
+                <a href="security.html" class="underline underline-offset-4 decoration-accent decoration-2">Security</a>
+                <button onclick="utils.logout()" class="hover:text-accent border-l border-white/20 pl-6">Sign
+                    Out</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-white border-b border-borderGray shadow-sm sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 flex gap-8 items-end overflow-x-auto whitespace-nowrap scrollbar-hide">
+            <a href="dashboard.html"
+                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Accounts</a>
+            <a href="cards.html"
+                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Cards</a>
+            <a href="wire.html"
+                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer & Pay</a>
+            <a href="faq.html"
+                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan & Learn</a>
+            <a href="support.html"
+                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Support</a>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto w-full px-4 py-12 flex-1 space-y-10">
+        <div class="flex justify-between items-end">
+            <div>
+                <h1 class="text-3xl font-black text-primary tracking-tighter mb-2">Security Overview</h1>
+                <p class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Manage your account
+                    protection</p>
+            </div>
+            <div class="bg-white px-4 py-2 border border-borderGray rounded-sm">
+                <p class="text-[9px] font-black text-gray-400 uppercase tracking-widest mb-1">Cyber Strength</p>
+                <div class="flex items-center gap-2">
+                    <div class="h-1.5 w-24 bg-gray-100 rounded-full overflow-hidden">
+                        <div class="h-full bg-emerald-500 w-[85%]"></div>
+                    </div>
+                    <span class="text-[10px] font-black text-emerald-600">Secure</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Features -->
+        <div class="grid grid-cols-1 gap-6">
+            <div class="security-card">
+                <div class="w-12 h-12 bg-blue-50 text-secondary rounded-full flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined">verified_user</span>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start mb-1">
+                        <h3 class="font-black text-secondary uppercase tracking-tight">2-Step Verification</h3>
+                        <span class="status-on">Active</span>
+                    </div>
+                    <p class="text-xs text-gray-500 font-semibold leading-relaxed mb-4">Adds an extra layer of security
+                        when you sign on from a new device.</p>
+                    <button class="text-[10px] font-black text-primary uppercase tracking-widest hover:underline">Manage
+                        methods</button>
+                </div>
+            </div>
+
+            <div class="security-card">
+                <div class="w-12 h-12 bg-red-50 text-primary rounded-full flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined">pin</span>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start mb-1">
+                        <h3 class="font-black text-secondary uppercase tracking-tight">Authorization PIN</h3>
+                        <span class="status-on">Active</span>
+                    </div>
+                    <p class="text-xs text-gray-500 font-semibold leading-relaxed mb-4">You'll be asked for this PIN
+                        before authorizing high-value transfers.</p>
+                    <button class="text-[10px] font-black text-primary uppercase tracking-widest hover:underline">Change
+                        PIN</button>
+                </div>
+            </div>
+
+            <div class="security-card">
+                <div
+                    class="w-12 h-12 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined">notifications_active</span>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start mb-1">
+                        <h3 class="font-black text-secondary uppercase tracking-tight">Security Alerts</h3>
+                        <span class="status-on">On</span>
+                    </div>
+                    <p class="text-xs text-gray-500 font-semibold leading-relaxed mb-4">Text and email notifications for
+                        suspicious activity.</p>
+                    <button class="text-[10px] font-black text-primary uppercase tracking-widest hover:underline">Change
+                        frequency</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-secondary p-8 rounded shadow-lg text-white relative overflow-hidden">
+            <div class="absolute right-[-20px] bottom-[-20px] opacity-10">
+                <span class="material-symbols-outlined text-[150px]">verified_user</span>
+            </div>
+            <h2 class="text-xl font-black uppercase tracking-tight mb-4">Identity Verification</h2>
+            <p class="text-sm font-semibold opacity-90 leading-relaxed mb-6 max-w-xl">
+                Your account is currently under baseline verification. For full access to international wires and
+                high-limit brokerage transfers, additional documentation may be requested.
+            </p>
+            <div class="flex items-center gap-4">
+                <span class="p-2 bg-white/10 rounded-full material-symbols-outlined">info</span>
+                <span class="text-[10px] font-black uppercase tracking-widest">Status: <span
+                        class="text-accent underline" id="verification-status">Verification Pending</span></span>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-borderGray py-8 mt-12">
+        <div
+            class="max-w-6xl mx-auto px-4 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+            <p>© 2026 Prisim Finance Online</p>
+            <div class="flex gap-6">
+                <a href="faq.html" class="hover:underline">Security Help</a>
+                <a href="support.html" class="hover:underline">Contact Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            utils.init();
+            const user = utils.getCurrentUser();
+            if (!user) { window.location.href = 'login.html'; return; }
+            document.getElementById('user-display-name').textContent = user.name;
+
+            try {
+                const userData = await utils.getUserData(user.id);
+                if (userData && userData.verification_status) {
+                    document.getElementById('verification-status').textContent = userData.verification_status;
+                }
+
+                // Check Unread Messages
+                const unreadCount = await utils.getUnreadMessageCount(user.id);
+                if (unreadCount > 0) {
+                    const msgLink = document.getElementById('messages-link');
+                    if (msgLink) {
+                        msgLink.innerHTML = `Messages <span class="bg-accent text-primary px-1.5 py-0.5 rounded-full text-[8px] ml-1 animate-pulse">${unreadCount}</span>`;
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to load security profile", err);
+            }
+        });
+    </script>
+</body>
+
+</html>

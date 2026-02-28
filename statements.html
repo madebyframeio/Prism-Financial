@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statements & Documents | Prisim Finance Online</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#008450",
+                        secondary: "#004B8D",
+                        accent: "#FCCC44",
+                        bankGray: "#F4F4F4",
+                        bankText: "#333333",
+                        borderGray: "#D1D1D1"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        @layer base {
+            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+        }
+        @layer components {
+            .doc-row { @apply flex items-center justify-between p-6 bg-white border border-borderGray rounded-sm hover:border-secondary transition-all cursor-pointer shadow-sm group; }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-primary text-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-6">
+                <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-inner group">
+                    <img src="logo.png" alt="Prisim Finance" class="h-8 transition-transform group-hover:scale-105">
+                </a>
+                <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
+                    <span class="text-xs opacity-70 uppercase tracking-widest font-black">Account Documents</span>
+                    <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
+                <a href="messages.html" class="hover:underline">Messages</a>
+                <a href="security.html" class="hover:underline">Security</a>
+                <button onclick="utils.logout()"
+                    class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
+                    Sign Out <span class="material-symbols-outlined text-sm">logout</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto w-full px-4 py-12 flex-1">
+        <header class="mb-12">
+            <h1 class="text-3xl font-black text-secondary tracking-tighter uppercase leading-none mb-2">Statements</h1>
+            <p class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Official Banking Documentation
+            </p>
+        </header>
+
+        <div id="statements-list" class="space-y-4">
+            <div class="p-20 bg-white border border-borderGray rounded-sm text-center flex flex-col items-center">
+                <span class="material-symbols-outlined text-5xl text-gray-200 mb-4 opacity-30">description</span>
+                <p class="text-[10px] font-black text-gray-400 uppercase tracking-[0.3em]">No statements available</p>
+                <p class="text-[9px] text-gray-300 mt-2 italic">Statements are generated at the end of each billing
+                    cycle.</p>
+            </div>
+        </div>
+
+        <div
+            class="mt-12 p-8 border-2 border-dashed border-borderGray rounded-lg flex flex-col items-center text-center">
+            <span class="material-symbols-outlined text-4xl text-gray-300 mb-4">history</span>
+            <p class="text-xs font-semibold text-gray-500 leading-relaxed max-w-sm italic">Looking for older documents?
+                Statements before 2026 can be requested via secure messaging for a nominal archival fee.</p>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-borderGray py-10 mt-12">
+        <div
+            class="max-w-4xl mx-auto px-4 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+            <p>© 2026 Prisim Finance Online</p>
+            <div class="flex gap-6">
+                <a href="faq.html" class="hover:underline">Legal</a>
+                <a href="support.html" class="hover:underline">Contact Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            utils.init();
+            const user = utils.getCurrentUser();
+            if (!user) { window.location.href = 'login.html'; return; }
+            document.getElementById('user-display-name').textContent = user.name;
+
+            try {
+                const statements = await utils.getStatements(user.id);
+                const listEl = document.getElementById('statements-list');
+
+                if (statements && statements.length > 0) {
+                    listEl.innerHTML = '';
+                    statements.forEach(stmt => {
+                        const link = stmt.pdf_url || '#';
+                        const isLink = link !== '#';
+
+                        const row = document.createElement('a');
+                        if (isLink) {
+                            row.href = link;
+                            row.target = '_blank';
+                        }
+
+                        row.className = 'doc-row';
+                        row.innerHTML = `
+                            <div class="flex items-center gap-6">
+                                <div class="w-12 h-12 bg-slate-50 text-secondary rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined">picture_as_pdf</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-black text-bankText text-sm uppercase tracking-tight mb-1">${stmt.title}</h3>
+                                    <p class="text-[10px] text-gray-400 font-black uppercase tracking-widest">${stmt.date}</p>
+                                </div>
+                            </div>
+                            <span class="material-symbols-outlined text-gray-300 group-hover:text-primary transition-colors">download</span>
+                        `;
+                        listEl.appendChild(row);
+                    });
+                }
+            } catch (err) {
+                console.error("Failed to load statements", err);
+            }
+        });
+    </script>
+</body>
+
+</html>
