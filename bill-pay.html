@@ -2,149 +2,149 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bill Pay | Prism Financials Online</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#008450",
-                        secondary: "#004B8D",
-                        accent: "#FCCC44",
-                        bankGray: "#F4F4F4",
-                        bankText: "#333333",
-                        borderGray: "#D1D1D1"
-                    },
-                    fontFamily: {
-                        sans: ["Inter", "sans-serif"],
-                    }
-                }
-            }
-        };
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
-    <style type="text/tailwindcss">
-        @layer base {
-            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bill Pay | Prism Financials Online</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#008450",
+            secondary: "#004B8D",
+            accent: "#FCCC44",
+            bankGray: "#F4F4F4",
+            bankText: "#333333",
+            borderGray: "#D1D1D1"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          }
         }
-        @layer components {
-            .biller-card { @apply bg-white p-6 border border-borderGray rounded-sm hover:shadow-md transition-shadow cursor-pointer; }
-        }
-    </style>
-    <link rel="icon" type="image/png" href="logo.png">
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+    }
+    @layer components {
+      .biller-card { @apply bg-white p-6 border border-borderGray rounded-sm hover:shadow-md transition-shadow cursor-pointer; }
+    }
+  </style>
+  <link rel="icon" type="image/png" href="logo.png">
 
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-    <meta name="googlebot" content="noindex, nofollow">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow">
 
-    <!-- Social Meta Tags -->
-    <meta property="og:title" content="Prism Financials Online">
-    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
-    <meta property="og:url" content="https://prism-financial.netlify.app/">
-    <meta property="og:type" content="website">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Prism Financials Online">
-    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <!-- Social Meta Tags -->
+  <meta property="og:title" content="Prism Financials Online">
+  <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <meta property="og:url" content="https://prism-financial.netlify.app/">
+  <meta property="og:type" content="website">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Prism Financials Online">
+  <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
 </head>
 
-<body class="min-h-screen flex flex-col">
-    <!-- Header -->
-    <header class="bg-primary text-white shadow-md">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-6">
-                <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-inner group">
-                    <img src="logo.png" alt="Prism Financials" class="h-8 transition-transform group-hover:scale-105">
-                </a>
-                <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
-                    <span class="text-xs opacity-70 uppercase tracking-widest font-black">Bill Pay</span>
-                    <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
-                </div>
-            </div>
-            <div class="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
-                <a href="messages.html" class="hover:underline">Messages</a>
-                <a href="security.html" class="hover:underline">Security</a>
-                <button onclick="utils.logout()"
-                    class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
-                    Sign Out <span class="material-symbols-outlined text-sm">logout</span>
-                </button>
-            </div>
+<body class=" min-h-screen flex flex-col overflow-x-hidden">
+  <!-- Header -->
+  <header class="bg-primary text-white shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3 sm:gap-6">
+        <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-inner group">
+          <img src="logo.png" alt="Prism Financials" class="h-8 transition-transform group-hover:scale-105">
+        </a>
+        <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
+          <span class="text-xs opacity-70 uppercase tracking-widest font-black">Bill Pay</span>
+          <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
         </div>
-    </header>
+      </div>
+      <div class="flex items-center gap-3 sm:gap-6 text-[10px] font-black uppercase tracking-widest">
+        <a href="messages.html" class="hover:underline">Messages</a>
+        <a href="security.html" class="hover:underline">Security</a>
+        <button onclick="utils.logout()"
+          class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
+          Sign Out <span class="material-symbols-outlined text-sm">logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-    <main class="max-w-4xl mx-auto w-full px-4 py-12 flex-1">
-        <div class="flex justify-between items-end mb-10">
-            <div>
-                <h1 class="text-3xl font-black text-secondary tracking-tighter uppercase leading-none mb-2">Pay Bills
-                </h1>
-                <p class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Scheduled & Recent Payments
-                </p>
-            </div>
-            <button
-                class="bg-secondary text-white px-6 py-3 rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-blue-800 transition-all shadow-md active:scale-95">
-                + Add New Biller
-            </button>
-        </div>
+  <main class="max-w-4xl mx-auto w-full px-4 py-12 flex-1">
+    <div class="flex justify-between items-end mb-10">
+      <div>
+        <h1 class="text-3xl font-black text-secondary tracking-tighter uppercase leading-none mb-2">Pay Bills
+        </h1>
+        <p class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Scheduled & Recent Payments
+        </p>
+      </div>
+      <button
+        class="bg-secondary text-white px-6 py-3 rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-blue-800 transition-all shadow-md active:scale-95">
+        + Add New Biller
+      </button>
+    </div>
 
-        <div
-            class="p-20 border-2 border-dashed border-borderGray rounded-lg text-center flex flex-col items-center mb-12">
-            <span class="material-symbols-outlined text-5xl text-gray-300 mb-4">payments</span>
-            <p class="text-sm font-black text-gray-400 uppercase tracking-widest leading-relaxed max-w-xs">No active
-                billers linked. Link your utility, credit card, or insurance accounts to pay them instantly.</p>
-        </div>
+    <div
+      class="p-20 border-2 border-dashed border-borderGray rounded-lg text-center flex flex-col items-center mb-12">
+      <span class="material-symbols-outlined text-5xl text-gray-300 mb-4">payments</span>
+      <p class="text-sm font-black text-gray-400 uppercase tracking-widest leading-relaxed max-w-xs">No active
+        billers linked. Link your utility, credit card, or insurance accounts to pay them instantly.</p>
+    </div>
 
-        <div class="bg-white border border-borderGray rounded-sm overflow-hidden">
-            <div class="bg-bankGray p-5 border-b border-borderGray">
-                <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Payment History</h2>
-            </div>
-            <div class="p-0">
-                <table class="w-full text-left">
-                    <thead
-                        class="bg-bankGray/50 border-b border-borderGray text-[10px] font-black uppercase tracking-widest text-gray-400">
-                        <tr>
-                            <th class="p-5">Biller</th>
-                            <th class="p-5">Date</th>
-                            <th class="p-5">Amount</th>
-                            <th class="p-5">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-borderGray">
-                        <tr>
-                            <td colspan="4" class="p-10 text-center text-gray-400 italic text-xs">
-                                No payment history found
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </main>
+    <div class="bg-white border border-borderGray rounded-sm overflow-hidden">
+      <div class="bg-bankGray p-4 sm:p-5 border-b border-borderGray">
+        <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Payment History</h2>
+      </div>
+      <div class="p-0">
+        <table class="w-full text-left">
+          <thead
+            class="bg-bankGray/50 border-b border-borderGray text-[10px] font-black uppercase tracking-widest text-gray-400">
+            <tr>
+              <th class="p-5">Biller</th>
+              <th class="p-5">Date</th>
+              <th class="p-5">Amount</th>
+              <th class="p-5">Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-borderGray">
+            <tr>
+              <td colspan="4" class="p-10 text-center text-gray-400 italic text-xs">
+                No payment history found
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
 
-    <footer class="bg-white border-t border-borderGray py-10">
-        <div
-            class="max-w-4xl mx-auto px-4 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
-            <p>© 2026 Prism Financials Online</p>
-            <div class="flex gap-6">
-                <a href="faq.html" class="hover:underline">Legal</a>
-                <a href="support.html" class="hover:underline">Support</a>
-            </div>
-        </div>
-    </footer>
+  <footer class="bg-white border-t border-borderGray py-10">
+    <div
+      class="max-w-4xl mx-auto px-4 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+      <p>© 2026 Prism Financials Online</p>
+      <div class="flex gap-6">
+        <a href="faq.html" class="hover:underline">Legal</a>
+        <a href="support.html" class="hover:underline">Support</a>
+      </div>
+    </div>
+  </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="utils.js"></script>
-    <script>
-        utils.init();
-        const user = utils.getCurrentUser();
-        if (user) document.getElementById('user-display-name').textContent = user.name;
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="utils.js"></script>
+  <script>
+    utils.init();
+    const user = utils.getCurrentUser();
+    if (user) document.getElementById('user-display-name').textContent = user.name;
+  </script>
 </body>
 
 </html>

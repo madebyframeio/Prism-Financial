@@ -2,444 +2,444 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Summary | Prism Financials Online</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#008450",
-                        secondary: "#004B8D",
-                        accent: "#FCCC44",
-                        bankGray: "#F4F4F4",
-                        bankText: "#333333",
-                        borderGray: "#D1D1D1"
-                    },
-                    fontFamily: {
-                        sans: ["Inter", "sans-serif"],
-                    }
-                }
-            }
-        };
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
-    <style type="text/tailwindcss">
-        @layer base {
-            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Summary | Prism Financials Online</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#008450",
+            secondary: "#004B8D",
+            accent: "#FCCC44",
+            bankGray: "#F4F4F4",
+            bankText: "#333333",
+            borderGray: "#D1D1D1"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          }
         }
-        @layer components {
-            .account-row { @apply flex items-center justify-between p-5 border-b border-borderGray hover:bg-white transition-colors cursor-pointer bg-white/50; }
-            .btn-action-wf { @apply bg-white border border-gray-300 px-5 py-2.5 rounded-sm text-sm font-semibold hover:border-gray-400 text-secondary shadow-sm transition-all active:translate-y-px; }
-            .sidebar-card { @apply bg-white shadow-sm border border-borderGray rounded-sm p-6; }
-        }
-    </style>
-    <link rel="icon" type="image/png" href="logo.png">
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+    }
+    @layer components {
+      .account-row { @apply flex items-center justify-between p-4 sm:p-5 border-b border-borderGray hover:bg-white transition-colors cursor-pointer bg-white/50; }
+      .btn-action-wf { @apply bg-white border border-gray-300 px-5 py-2.5 rounded-sm text-sm font-semibold hover:border-gray-400 text-secondary shadow-sm transition-all active:translate-y-px; }
+      .sidebar-card { @apply bg-white shadow-sm border border-borderGray rounded-sm p-6; }
+    }
+  </style>
+  <link rel="icon" type="image/png" href="logo.png">
 
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-    <meta name="googlebot" content="noindex, nofollow">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow">
 
-    <!-- Social Meta Tags -->
-    <meta property="og:title" content="Prism Financials Online">
-    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
-    <meta property="og:url" content="https://prism-financial.netlify.app/">
-    <meta property="og:type" content="website">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Prism Financials Online">
-    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <!-- Social Meta Tags -->
+  <meta property="og:title" content="Prism Financials Online">
+  <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <meta property="og:url" content="https://prism-financial.netlify.app/">
+  <meta property="og:type" content="website">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Prism Financials Online">
+  <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
 </head>
 
-<body class="min-h-screen flex flex-col">
-    <!-- Corporate Header -->
-    <header class="bg-primary text-white shadow-md">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-6">
-                <a href="index.html" class="bg-white p-1 rounded-sm shadow-inner group">
-                    <img src="logo.png" alt="Prism Financials" class="h-8 transition-transform group-hover:scale-105">
-                </a>
-                <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
-                    <span class="text-xs opacity-70 uppercase tracking-widest font-black">Welcome back</span>
-                    <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
-                </div>
-            </div>
-            <div class="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
-                <a href="messages.html" class="hover:underline" id="messages-link">Messages</a>
-                <a href="security.html" class="hover:underline">Security</a>
-                <button onclick="utils.logout()"
-                    class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
-                    Sign Out <span class="material-symbols-outlined text-sm">logout</span>
-                </button>
-            </div>
+<body class=" min-h-screen flex flex-col overflow-x-hidden">
+  <!-- Corporate Header -->
+  <header class="bg-primary text-white shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3 sm:gap-6">
+        <a href="index.html" class="bg-white p-1 rounded-sm shadow-inner group">
+          <img src="logo.png" alt="Prism Financials" class="h-8 transition-transform group-hover:scale-105">
+        </a>
+        <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
+          <span class="text-xs opacity-70 uppercase tracking-widest font-black">Welcome back</span>
+          <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
         </div>
-    </header>
+      </div>
+      <div class="flex items-center gap-3 sm:gap-6 text-[10px] font-black uppercase tracking-widest">
+        <a href="messages.html" class="hover:underline" id="messages-link">Messages</a>
+        <a href="security.html" class="hover:underline">Security</a>
+        <button onclick="utils.logout()"
+          class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
+          Sign Out <span class="material-symbols-outlined text-sm">logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-    <!-- Main Navigation Tabs -->
-    <nav class="bg-white border-b border-borderGray shadow-sm sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 flex gap-8 items-end overflow-x-auto whitespace-nowrap scrollbar-hide">
-            <a href="dashboard.html"
-                class="border-b-4 border-primary py-4 text-sm font-black text-bankText">Accounts</a>
-            <a href="cards.html"
-                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Cards</a>
-            <a href="wire.html"
-                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer &
-                Pay</a>
-            <a href="faq.html"
-                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan &
-                Learn</a>
-            <a href="support.html"
-                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Support</a>
-        </div>
-    </nav>
+  <!-- Main Navigation Tabs -->
+  <nav class="bg-white border-b border-borderGray shadow-sm sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 flex gap-4 sm:gap-8 items-end overflow-x-auto whitespace-nowrap scrollbar-hide">
+      <a href="dashboard.html"
+        class="border-b-4 border-primary py-4 text-sm font-black text-bankText">Accounts</a>
+      <a href="cards.html"
+        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Cards</a>
+      <a href="wire.html"
+        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer &
+        Pay</a>
+      <a href="faq.html"
+        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan &
+        Learn</a>
+      <a href="support.html"
+        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Support</a>
+    </div>
+  </nav>
 
-    <!-- Main Content Area -->
-    <main class="max-w-6xl mx-auto w-full px-4 py-10 flex-1 grid grid-cols-1 md:grid-cols-12 gap-10">
-        <!-- Left: Account Summary -->
-        <div class="md:col-span-8 space-y-8">
-            <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
-                <div class="bg-bankGray p-5 border-b border-borderGray flex justify-between items-center">
-                    <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Banking & Credit Accounts
-                    </h2>
-                    <span
-                        class="text-secondary text-xs font-black uppercase tracking-widest hover:underline cursor-pointer">Manage
-                        Accounts</span>
-                </div>
-
-                <!-- Checking -->
-                <div class="account-row group" onclick="window.location.href='wire.html'">
-                    <div class="flex items-center gap-5">
-                        <div class="w-10 h-10 bg-primary/5 rounded-full flex items-center justify-center text-primary">
-                            <span class="material-symbols-outlined">account_balance_wallet</span>
-                        </div>
-                        <div>
-                            <div class="font-black text-secondary text-sm uppercase tracking-tight">PRISM CHECKING <span
-                                    class="text-[10px] font-normal text-gray-400 ml-2">...<span
-                                        id="acc-last-four">4567</span></span></div>
-                            <div class="text-[9px] text-emerald-600 font-black uppercase tracking-widest mt-0.5">Primary
-                                Active Account</div>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-2xl font-black text-bankText tracking-tighter balance-text" id="main-balance">
-                            $0.00</div>
-                        <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest">Available Balance
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Savings -->
-                <div class="account-row group">
-                    <div class="flex items-center gap-5">
-                        <div
-                            class="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-700">
-                            <span class="material-symbols-outlined">savings</span>
-                        </div>
-                        <div>
-                            <div class="font-black text-secondary text-sm uppercase tracking-tight">ORDINARY SAVINGS
-                                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span
-                                        id="acc-savings">8901</span></span>
-                            </div>
-                            <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest mt-0.5">Standard
-                                Tier</div>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-xl font-black text-bankText balance-text" id="savings-balance">$0.00</div>
-                        <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest">Available Balance
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Credit Card -->
-                <div class="account-row group border-b-0">
-                    <div class="flex items-center gap-5">
-                        <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-secondary">
-                            <span class="material-symbols-outlined">credit_card</span>
-                        </div>
-                        <div>
-                            <div class="font-black text-secondary text-sm uppercase tracking-tight cursor-pointer hover:underline"
-                                onclick="window.location.href='cards.html'">REWARDS VISA CARD
-                                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span
-                                        id="cc-number">2345</span></span>
-                            </div>
-                            <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest mt-0.5">Active
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-xl font-black text-bankText" id="cc-balance">$0.00</div>
-                        <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest">Available Credit
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Recent Activity Table -->
-            <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
-                <div class="bg-bankGray p-5 border-b border-borderGray flex justify-between items-center">
-                    <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Recent Account Activity</h2>
-                    <span onclick="window.location.href='transactions.html'"
-                        class="text-secondary text-xs font-black uppercase tracking-widest hover:underline cursor-pointer">View
-                        All</span>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse min-w-[600px] whitespace-nowrap">
-                        <thead>
-                            <tr class="bg-white">
-                                <th
-                                    class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
-                                    Date</th>
-                                <th
-                                    class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
-                                    Description</th>
-                                <th
-                                    class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
-                                    Status</th>
-                                <th
-                                    class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray text-right">
-                                    Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody id="transaction-history">
-                            <!-- JS Populated -->
-                            <tr>
-                                <td colspan="3" class="p-10 text-center text-gray-400 italic text-xs">
-                                    No recent transactions found
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
-
-            <!-- Investment Accounts -->
-            <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
-                <div class="bg-bankGray p-5 border-b border-borderGray flex justify-between items-center">
-                    <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Brokerage & Investing
-                    </h2>
-                </div>
-                <div class="account-row border-b-0 group" onclick="window.location.href='investment-withdraw.html'">
-                    <div class="flex items-center gap-5">
-                        <div class="w-10 h-10 bg-amber-50 rounded-full flex items-center justify-center text-amber-700">
-                            <span class="material-symbols-outlined">show_chart</span>
-                        </div>
-                        <div>
-                            <div class="font-black text-secondary text-sm uppercase tracking-tight">PRISM BROKERAGE
-                                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span
-                                        id="acc-invest">9999</span></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <div class="text-xl font-black text-bankText balance-text" id="investment-balance">$0.00
-                        </div>
-                        <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest">Market Value
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <!-- Main Content Area -->
+  <main class="max-w-6xl mx-auto w-full px-4 py-10 flex-1 grid grid-cols-1 md:grid-cols-12 gap-10">
+    <!-- Left: Account Summary -->
+    <div class="md:col-span-8 space-y-8 min-w-0">
+      <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
+        <div class="bg-bankGray p-4 sm:p-5 border-b border-borderGray flex justify-between items-center">
+          <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Banking & Credit Accounts
+          </h2>
+          <span
+            class="text-secondary text-xs font-black uppercase tracking-widest hover:underline cursor-pointer">Manage
+            Accounts</span>
         </div>
 
-        <!-- Right: Actions & Tools -->
-        <div class="md:col-span-4 space-y-8">
-            <div class="sidebar-card">
-                <h3 class="font-black text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-6">Money Operations
-                </h3>
-                <div class="grid grid-cols-2 gap-4">
-                    <button class="btn-action-wf" onclick="window.location.href='wire.html'">Transfer</button>
-                    <button class="btn-action-wf" onclick="window.location.href='bill-pay.html'">Bill Pay</button>
-                    <button class="btn-action-wf" onclick="window.location.href='zelle.html'">Zelle&reg;</button>
-                    <button class="btn-action-wf" onclick="window.location.href='statements.html'">Statements</button>
-                </div>
+        <!-- Checking -->
+        <div class="account-row group flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-0" onclick="window.location.href='wire.html'">
+          <div class="flex items-center gap-5">
+            <div class="w-10 h-10 bg-primary/5 rounded-full flex items-center justify-center text-primary">
+              <span class="material-symbols-outlined">account_balance_wallet</span>
             </div>
-
-            <div class="sidebar-card border-l-4 border-l-primary">
-                <div class="flex items-center gap-3 mb-4">
-                    <span class="material-symbols-outlined text-primary">security</span>
-                    <h3 class="font-black text-[10px] uppercase tracking-[0.3em] text-primary">Privacy Shield</h3>
-                </div>
-                <p class="text-[11px] text-gray-500 leading-relaxed mb-6">Protect your financial information when
-                    banking in public areas by hiding account balances.</p>
-                <button id="toggle-privacy"
-                    class="w-full flex items-center justify-center gap-3 py-3 bg-secondary text-white rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-blue-800 transition-all shadow-md active:scale-95">
-                    <span class="material-symbols-outlined text-sm">visibility</span>
-                    <span id="privacy-text">Hide Balances</span>
-                </button>
+            <div>
+              <div class="font-black text-secondary text-sm uppercase tracking-tight">PRISM CHECKING <span
+                  class="text-[10px] font-normal text-gray-400 ml-2">...<span
+                    id="acc-last-four">4567</span></span></div>
+              <div class="text-[9px] text-emerald-600 font-black uppercase tracking-widest mt-0.5">Primary
+                Active Account</div>
             </div>
-
-            <div class="text-center p-6 border-2 border-dashed border-borderGray rounded-lg opacity-0">
-                <p class="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] mb-2">Member FDIC</p>
-                <p class="text-[9px] text-gray-400 leading-relaxed">Prism Financial is a simulation. No real funds
-                    are
-                    managed on this platform.</p>
+          </div>
+          <div class="text-right">
+            <div class="text-2xl font-black text-bankText tracking-tighter balance-text" id="main-balance">
+              $0.00</div>
+            <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest">Available Balance
             </div>
+          </div>
         </div>
-    </main>
 
-    <!-- Simple Footer -->
-    <footer class="bg-white border-t border-borderGray py-10 mt-12">
-        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="flex gap-8 text-[11px] text-secondary font-black uppercase tracking-widest">
-                <a href="support.html" class="hover:underline">Contact</a>
-                <a href="faq.html" class="hover:underline">Legal</a>
-                <a href="faq.html" class="hover:underline">Privacy Help</a>
-                <a href="support.html" class="hover:underline">Security Support</a>
+        <!-- Savings -->
+        <div class="account-row group flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-0">
+          <div class="flex items-center gap-5">
+            <div
+              class="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-700">
+              <span class="material-symbols-outlined">savings</span>
             </div>
-            <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Prism Financials. All rights reserved.</p>
+            <div>
+              <div class="font-black text-secondary text-sm uppercase tracking-tight">ORDINARY SAVINGS
+                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span
+                    id="acc-savings">8901</span></span>
+              </div>
+              <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest mt-0.5">Standard
+                Tier</div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-xl font-black text-bankText balance-text" id="savings-balance">$0.00</div>
+            <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest">Available Balance
+            </div>
+          </div>
         </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="utils.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            utils.init();
-            const user = utils.getCurrentUser();
-            if (!user) {
-                window.location.href = 'login.html';
-                return;
+        <!-- Credit Card -->
+        <div class="account-row group border-b-0">
+          <div class="flex items-center gap-5">
+            <div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-secondary">
+              <span class="material-symbols-outlined">credit_card</span>
+            </div>
+            <div>
+              <div class="font-black text-secondary text-sm uppercase tracking-tight cursor-pointer hover:underline"
+                onclick="window.location.href='cards.html'">REWARDS VISA CARD
+                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span
+                    id="cc-number">2345</span></span>
+              </div>
+              <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest mt-0.5">Active
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-xl font-black text-bankText" id="cc-balance">$0.00</div>
+            <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest">Available Credit
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity Table -->
+      <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
+        <div class="bg-bankGray p-4 sm:p-5 border-b border-borderGray flex justify-between items-center">
+          <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Recent Account Activity</h2>
+          <span onclick="window.location.href='transactions.html'"
+            class="text-secondary text-xs font-black uppercase tracking-widest hover:underline cursor-pointer">View
+            All</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[600px] whitespace-nowrap">
+            <thead>
+              <tr class="bg-white">
+                <th
+                  class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
+                  Date</th>
+                <th
+                  class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
+                  Description</th>
+                <th
+                  class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
+                  Status</th>
+                <th
+                  class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray text-right">
+                  Amount</th>
+              </tr>
+            </thead>
+            <tbody id="transaction-history">
+              <!-- JS Populated -->
+              <tr>
+                <td colspan="3" class="p-10 text-center text-gray-400 italic text-xs">
+                  No recent transactions found
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- Investment Accounts -->
+      <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
+        <div class="bg-bankGray p-4 sm:p-5 border-b border-borderGray flex justify-between items-center">
+          <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Brokerage & Investing
+          </h2>
+        </div>
+        <div class="account-row border-b-0 group" onclick="window.location.href='investment-withdraw.html'">
+          <div class="flex items-center gap-5">
+            <div class="w-10 h-10 bg-amber-50 rounded-full flex items-center justify-center text-amber-700">
+              <span class="material-symbols-outlined">show_chart</span>
+            </div>
+            <div>
+              <div class="font-black text-secondary text-sm uppercase tracking-tight">PRISM BROKERAGE
+                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span
+                    id="acc-invest">9999</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <div class="text-xl font-black text-bankText balance-text" id="investment-balance">$0.00
+            </div>
+            <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest">Market Value
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Actions & Tools -->
+    <div class="md:col-span-4 space-y-8 min-w-0">
+      <div class="sidebar-card">
+        <h3 class="font-black text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-6">Money Operations
+        </h3>
+        <div class="grid grid-cols-2 gap-4">
+          <button class="btn-action-wf" onclick="window.location.href='wire.html'">Transfer</button>
+          <button class="btn-action-wf" onclick="window.location.href='bill-pay.html'">Bill Pay</button>
+          <button class="btn-action-wf" onclick="window.location.href='zelle.html'">Zelle&reg;</button>
+          <button class="btn-action-wf" onclick="window.location.href='statements.html'">Statements</button>
+        </div>
+      </div>
+
+      <div class="sidebar-card border-l-4 border-l-primary">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="material-symbols-outlined text-primary">security</span>
+          <h3 class="font-black text-[10px] uppercase tracking-[0.3em] text-primary">Privacy Shield</h3>
+        </div>
+        <p class="text-[11px] text-gray-500 leading-relaxed mb-6">Protect your financial information when
+          banking in public areas by hiding account balances.</p>
+        <button id="toggle-privacy"
+          class="w-full flex items-center justify-center gap-3 py-3 bg-secondary text-white rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-blue-800 transition-all shadow-md active:scale-95">
+          <span class="material-symbols-outlined text-sm">visibility</span>
+          <span id="privacy-text">Hide Balances</span>
+        </button>
+      </div>
+
+      <div class="text-center p-6 border-2 border-dashed border-borderGray rounded-lg opacity-0">
+        <p class="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] mb-2">Member FDIC</p>
+        <p class="text-[9px] text-gray-400 leading-relaxed">Prism Financial is a simulation. No real funds
+          are
+          managed on this platform.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Simple Footer -->
+  <footer class="bg-white border-t border-borderGray py-10 mt-12">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+      <div class="flex gap-8 text-[11px] text-secondary font-black uppercase tracking-widest">
+        <a href="support.html" class="hover:underline">Contact</a>
+        <a href="faq.html" class="hover:underline">Legal</a>
+        <a href="faq.html" class="hover:underline">Privacy Help</a>
+        <a href="support.html" class="hover:underline">Security Support</a>
+      </div>
+      <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Prism Financials. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="utils.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      utils.init();
+      const user = utils.getCurrentUser();
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Sync Header Name
+      const userDisplayEl = document.getElementById('user-display-name');
+      if (userDisplayEl) userDisplayEl.textContent = user.name;
+
+      // UI Elements
+      const mainBalEl = document.getElementById('main-balance');
+      const saveBalEl = document.getElementById('savings-balance');
+      const invBalEl = document.getElementById('investment-balance');
+      const privacyBtn = document.getElementById('toggle-privacy');
+      const privacyText = document.getElementById('privacy-text');
+      const privacyIcon = privacyBtn.querySelector('span');
+
+      // Data Loading Function
+      async function loadDashboardData() {
+        try {
+          const userData = await utils.getUserData(user.id);
+          if (userData) {
+            mainBalEl.textContent = utils.formatCurrency(userData.balance || 0);
+            saveBalEl.textContent = utils.formatCurrency(userData.savings_balance || 0);
+            invBalEl.textContent = utils.formatCurrency(userData.investment_balance || 0);
+
+            if (userData.account_number) {
+              document.getElementById('acc-last-four').textContent = userData.account_number.slice(-4);
+            }
+            if (userData.acc_savings) {
+              document.getElementById('acc-savings').textContent = userData.acc_savings.slice(-4);
+            }
+            if (userData.acc_invest) {
+              document.getElementById('acc-invest').textContent = userData.acc_invest.slice(-4);
+            }
+            if (userData.cc_number) {
+              document.getElementById('cc-number').textContent = userData.cc_number.slice(-4);
+            }
+            document.getElementById('cc-balance').textContent = utils.formatCurrency(userData.cc_balance || 0);
+
+            // Load Transactions
+            const txs = await utils.getTransactions(user.id);
+            const historyEl = document.getElementById('transaction-history');
+            if (txs && txs.length > 0) {
+              historyEl.innerHTML = '';
+              txs.slice(0, 5).forEach(tx => {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-borderGray group hover:bg-slate-50 transition-colors cursor-default";
+
+                const isCredit = tx.type === 'credit' || tx.type === 'investment_deposit';
+                const colorClass = isCredit ? 'text-emerald-600' : 'text-bankText';
+                const prefix = isCredit ? '+' : '-';
+
+
+                const statusColor = tx.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
+                  tx.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700';
+
+                tr.innerHTML = `
+                  <td class="p-5 text-xs font-bold text-gray-500">${new Date(tx.created_at).toLocaleDateString()}</td>
+                  <td class="p-5 text-sm font-black text-secondary tracking-tight uppercase">${tx.description || tx.type}</td>
+                  <td class="p-5 text-[10px] font-black uppercase">
+                    <span class="px-2 py-0.5 rounded-sm ${statusColor}">${tx.status}</span>
+                  </td>
+                  <td class="p-5 text-sm font-bold text-right ${colorClass}">${prefix}${utils.formatCurrency(tx.amount)}</td>
+                `;
+                historyEl.appendChild(tr);
+              });
             }
 
-            // Sync Header Name
-            const userDisplayEl = document.getElementById('user-display-name');
-            if (userDisplayEl) userDisplayEl.textContent = user.name;
+            // Check Unread Messages
+            const unreadCount = await utils.getUnreadMessageCount(user.id);
+            if (unreadCount > 0) {
+              const msgLink = document.getElementById('messages-link');
+              if (msgLink) {
+                msgLink.innerHTML = `Messages <span class="bg-accent text-primary px-1.5 py-0.5 rounded-full text-[8px] ml-1 animate-pulse">${unreadCount}</span>`;
+                msgLink.href = 'messages.html';
+              }
 
-            // UI Elements
-            const mainBalEl = document.getElementById('main-balance');
-            const saveBalEl = document.getElementById('savings-balance');
-            const invBalEl = document.getElementById('investment-balance');
-            const privacyBtn = document.getElementById('toggle-privacy');
-            const privacyText = document.getElementById('privacy-text');
-            const privacyIcon = privacyBtn.querySelector('span');
-
-            // Data Loading Function
-            async function loadDashboardData() {
-                try {
-                    const userData = await utils.getUserData(user.id);
-                    if (userData) {
-                        mainBalEl.textContent = utils.formatCurrency(userData.balance || 0);
-                        saveBalEl.textContent = utils.formatCurrency(userData.savings_balance || 0);
-                        invBalEl.textContent = utils.formatCurrency(userData.investment_balance || 0);
-
-                        if (userData.account_number) {
-                            document.getElementById('acc-last-four').textContent = userData.account_number.slice(-4);
-                        }
-                        if (userData.acc_savings) {
-                            document.getElementById('acc-savings').textContent = userData.acc_savings.slice(-4);
-                        }
-                        if (userData.acc_invest) {
-                            document.getElementById('acc-invest').textContent = userData.acc_invest.slice(-4);
-                        }
-                        if (userData.cc_number) {
-                            document.getElementById('cc-number').textContent = userData.cc_number.slice(-4);
-                        }
-                        document.getElementById('cc-balance').textContent = utils.formatCurrency(userData.cc_balance || 0);
-
-                        // Load Transactions
-                        const txs = await utils.getTransactions(user.id);
-                        const historyEl = document.getElementById('transaction-history');
-                        if (txs && txs.length > 0) {
-                            historyEl.innerHTML = '';
-                            txs.slice(0, 5).forEach(tx => {
-                                const tr = document.createElement('tr');
-                                tr.className = "border-b border-borderGray group hover:bg-slate-50 transition-colors cursor-default";
-
-                                const isCredit = tx.type === 'credit' || tx.type === 'investment_deposit';
-                                const colorClass = isCredit ? 'text-emerald-600' : 'text-bankText';
-                                const prefix = isCredit ? '+' : '-';
-
-
-                                const statusColor = tx.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
-                                    tx.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700';
-
-                                tr.innerHTML = `
-                                    <td class="p-5 text-xs font-bold text-gray-500">${new Date(tx.created_at).toLocaleDateString()}</td>
-                                    <td class="p-5 text-sm font-black text-secondary tracking-tight uppercase">${tx.description || tx.type}</td>
-                                    <td class="p-5 text-[10px] font-black uppercase">
-                                        <span class="px-2 py-0.5 rounded-sm ${statusColor}">${tx.status}</span>
-                                    </td>
-                                    <td class="p-5 text-sm font-bold text-right ${colorClass}">${prefix}${utils.formatCurrency(tx.amount)}</td>
-                                `;
-                                historyEl.appendChild(tr);
-                            });
-                        }
-
-                        // Check Unread Messages
-                        const unreadCount = await utils.getUnreadMessageCount(user.id);
-                        if (unreadCount > 0) {
-                            const msgLink = document.getElementById('messages-link');
-                            if (msgLink) {
-                                msgLink.innerHTML = `Messages <span class="bg-accent text-primary px-1.5 py-0.5 rounded-full text-[8px] ml-1 animate-pulse">${unreadCount}</span>`;
-                                msgLink.href = 'messages.html';
-                            }
-
-                            // Also add a toast-like notification card on the right
-                            const notificationContainer = document.querySelector('.md\\:col-span-4');
-                            if (notificationContainer && !document.getElementById('unread-msg-toast')) {
-                                const note = document.createElement('div');
-                                note.id = 'unread-msg-toast';
-                                note.className = "sidebar-card border-l-4 border-l-accent animate-bounce-slow mt-4";
-                                note.innerHTML = `
-                                    <div class="flex items-center gap-3 mb-2">
-                                        <span class="material-symbols-outlined text-accent">campaign</span>
-                                        <h3 class="font-black text-[10px] uppercase tracking-[0.3em] text-accent">New Message</h3>
-                                    </div>
-                                    <p id="unread-toast-text" class="text-[11px] text-gray-600 font-bold mb-3">You have ${unreadCount} unread message(s) in your secure inbox.</p>
-                                    <a href="messages.html" class="text-[9px] font-black uppercase tracking-widest text-primary hover:underline">Read Now &rarr;</a>
-                                `;
-                                notificationContainer.prepend(note);
-                            } else if (document.getElementById('unread-toast-text')) {
-                                document.getElementById('unread-toast-text').textContent = `You have ${unreadCount} unread message(s) in your secure inbox.`;
-                            }
-                        } else {
-                            const activeToast = document.getElementById('unread-msg-toast');
-                            if (activeToast) activeToast.remove();
-                        }
-                    }
-                } catch (err) {
-                    console.error("Dashboard Load Error:", err);
-                }
-
-                // Keep privacy blur state intact after refresh
-                if (typeof isPrivate !== 'undefined' && isPrivate) {
-                    document.querySelectorAll('.balance-text').forEach(el => el.style.filter = 'blur(10px)');
-                }
+              // Also add a toast-like notification card on the right
+              const notificationContainer = document.querySelector('.md\\:col-span-4');
+              if (notificationContainer && !document.getElementById('unread-msg-toast')) {
+                const note = document.createElement('div');
+                note.id = 'unread-msg-toast';
+                note.className = "sidebar-card border-l-4 border-l-accent animate-bounce-slow mt-4";
+                note.innerHTML = `
+                  <div class="flex items-center gap-3 mb-2">
+                    <span class="material-symbols-outlined text-accent">campaign</span>
+                    <h3 class="font-black text-[10px] uppercase tracking-[0.3em] text-accent">New Message</h3>
+                  </div>
+                  <p id="unread-toast-text" class="text-[11px] text-gray-600 font-bold mb-3">You have ${unreadCount} unread message(s) in your secure inbox.</p>
+                  <a href="messages.html" class="text-[9px] font-black uppercase tracking-widest text-primary hover:underline">Read Now &rarr;</a>
+                `;
+                notificationContainer.prepend(note);
+              } else if (document.getElementById('unread-toast-text')) {
+                document.getElementById('unread-toast-text').textContent = `You have ${unreadCount} unread message(s) in your secure inbox.`;
+              }
+            } else {
+              const activeToast = document.getElementById('unread-msg-toast');
+              if (activeToast) activeToast.remove();
             }
+          }
+        } catch (err) {
+          console.error("Dashboard Load Error:", err);
+        }
 
-            // Initial Data Load
-            await loadDashboardData();
+        // Keep privacy blur state intact after refresh
+        if (typeof isPrivate !== 'undefined' && isPrivate) {
+          document.querySelectorAll('.balance-text').forEach(el => el.style.filter = 'blur(10px)');
+        }
+      }
 
-            // Auto-refresh interval (30 seconds)
-            setInterval(loadDashboardData, 30000);
+      // Initial Data Load
+      await loadDashboardData();
 
-            // Privacy Functional Implementation
-            let isPrivate = false;
-            privacyBtn.addEventListener('click', () => {
-                isPrivate = !isPrivate;
-                const balances = document.querySelectorAll('.balance-text');
+      // Auto-refresh interval (30 seconds)
+      setInterval(loadDashboardData, 30000);
 
-                if (isPrivate) {
-                    balances.forEach(el => el.style.filter = 'blur(10px)');
-                    privacyText.textContent = 'Show Balances';
-                    privacyIcon.textContent = 'visibility_off';
-                    privacyBtn.classList.replace('bg-secondary', 'bg-gray-400');
-                } else {
-                    balances.forEach(el => el.style.filter = 'none');
-                    privacyText.textContent = 'Hide Balances';
-                    privacyIcon.textContent = 'visibility';
-                    privacyBtn.classList.replace('bg-gray-400', 'bg-secondary');
-                }
-            });
-        });
-    </script>
+      // Privacy Functional Implementation
+      let isPrivate = false;
+      privacyBtn.addEventListener('click', () => {
+        isPrivate = !isPrivate;
+        const balances = document.querySelectorAll('.balance-text');
+
+        if (isPrivate) {
+          balances.forEach(el => el.style.filter = 'blur(10px)');
+          privacyText.textContent = 'Show Balances';
+          privacyIcon.textContent = 'visibility_off';
+          privacyBtn.classList.replace('bg-secondary', 'bg-gray-400');
+        } else {
+          balances.forEach(el => el.style.filter = 'none');
+          privacyText.textContent = 'Hide Balances';
+          privacyIcon.textContent = 'visibility';
+          privacyBtn.classList.replace('bg-gray-400', 'bg-secondary');
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>

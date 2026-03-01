@@ -2,143 +2,143 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zelle&reg; Transfers | Prism Financials Online</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#008450",
-                        secondary: "#004B8D",
-                        zelle: "#6d1ed1",
-                        bankGray: "#F4F4F4",
-                        bankText: "#333333",
-                        borderGray: "#D1D1D1"
-                    },
-                    fontFamily: {
-                        sans: ["Inter", "sans-serif"],
-                    }
-                }
-            }
-        };
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
-    <style type="text/tailwindcss">
-        @layer base {
-            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zelle&reg; Transfers | Prism Financials Online</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#008450",
+            secondary: "#004B8D",
+            zelle: "#6d1ed1",
+            bankGray: "#F4F4F4",
+            bankText: "#333333",
+            borderGray: "#D1D1D1"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          }
         }
-    </style>
-    <link rel="icon" type="image/png" href="logo.png">
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+    }
+  </style>
+  <link rel="icon" type="image/png" href="logo.png">
 
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-    <meta name="googlebot" content="noindex, nofollow">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow">
 
-    <!-- Social Meta Tags -->
-    <meta property="og:title" content="Prism Financials Online">
-    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
-    <meta property="og:url" content="https://prism-financial.netlify.app/">
-    <meta property="og:type" content="website">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Prism Financials Online">
-    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <!-- Social Meta Tags -->
+  <meta property="og:title" content="Prism Financials Online">
+  <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <meta property="og:url" content="https://prism-financial.netlify.app/">
+  <meta property="og:type" content="website">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Prism Financials Online">
+  <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
 </head>
 
-<body class="min-h-screen flex flex-col">
-    <!-- Header -->
-    <header class="bg-primary text-white shadow-md">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-6">
-                <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-inner group">
-                    <img src="logo.png" alt="Prism Financials" class="h-8 transition-transform group-hover:scale-105">
-                </a>
-                <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
-                    <span class="text-xs opacity-70 uppercase tracking-widest font-black">Zelle&reg;</span>
-                    <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
-                </div>
-            </div>
-            <div class="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
-                <a href="messages.html" class="hover:underline">Messages</a>
-                <a href="security.html" class="hover:underline">Security</a>
-                <button onclick="utils.logout()"
-                    class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
-                    Sign Out <span class="material-symbols-outlined text-sm">logout</span>
-                </button>
-            </div>
+<body class=" min-h-screen flex flex-col overflow-x-hidden">
+  <!-- Header -->
+  <header class="bg-primary text-white shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3 sm:gap-6">
+        <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-inner group">
+          <img src="logo.png" alt="Prism Financials" class="h-8 transition-transform group-hover:scale-105">
+        </a>
+        <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
+          <span class="text-xs opacity-70 uppercase tracking-widest font-black">Zelle&reg;</span>
+          <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
         </div>
-    </header>
+      </div>
+      <div class="flex items-center gap-3 sm:gap-6 text-[10px] font-black uppercase tracking-widest">
+        <a href="messages.html" class="hover:underline">Messages</a>
+        <a href="security.html" class="hover:underline">Security</a>
+        <button onclick="utils.logout()"
+          class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
+          Sign Out <span class="material-symbols-outlined text-sm">logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-    <main class="max-w-xl mx-auto w-full px-4 py-12 flex-1">
-        <div class="bg-white p-10 border border-borderGray rounded-sm shadow-xl">
-            <div class="text-center mb-10">
-                <div class="inline-flex items-center justify-center mb-6">
-                    <img src="zelle-logo.jpg" alt="Zelle" class="h-16 object-contain mix-blend-multiply">
-                </div>
-                <p class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Fast, Safe Money Transfer</p>
-            </div>
+  <main class="max-w-xl mx-auto w-full px-4 py-12 flex-1">
+    <div class="bg-white p-10 border border-borderGray rounded-sm shadow-xl">
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center justify-center mb-6">
+          <img src="zelle-logo.jpg" alt="Zelle" class="h-16 object-contain mix-blend-multiply">
+        </div>
+        <p class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Fast, Safe Money Transfer</p>
+      </div>
 
-            <form onsubmit="event.preventDefault(); window.location.href='processing.html'" class="space-y-8">
-                <div>
-                    <label
-                        class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Recipient</label>
-                    <input type="text" required placeholder="Name, Email or Phone"
-                        class="w-full bg-bankGray border-borderGray border-2 p-4 font-black text-lg text-bankText focus:outline-none focus:border-zelle rounded-sm transition-all uppercase tracking-tight">
-                </div>
-
-                <div>
-                    <label
-                        class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Amount</label>
-                    <div class="relative">
-                        <span class="absolute left-4 top-1/2 -translate-y-1/2 font-black text-gray-400">$</span>
-                        <input type="number" required placeholder="0.00"
-                            class="w-full bg-bankGray border-borderGray border-2 p-4 pl-10 font-black text-2xl text-bankText focus:outline-none focus:border-zelle rounded-sm transition-all">
-                    </div>
-                </div>
-
-                <div class="bg-zelle/5 p-4 rounded-sm border border-zelle/10">
-                    <p class="text-[9px] font-black uppercase tracking-widest text-zelle mb-1">Safety Note</p>
-                    <p class="text-[11px] font-semibold text-gray-600 leading-relaxed italic">Money is sent directly
-                        from your bank account to theirs. Only send and receive money with people you trust.</p>
-                </div>
-
-                <button type="submit"
-                    class="w-full py-5 bg-zelle text-white font-black uppercase tracking-widest text-xs hover:bg-[#5a18b0] transition-all shadow-lg active:scale-[0.98] rounded-sm">
-                    Review and Send
-                </button>
-            </form>
+      <form onsubmit="event.preventDefault(); window.location.href='processing.html'" class="space-y-8">
+        <div>
+          <label
+            class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Recipient</label>
+          <input type="text" required placeholder="Name, Email or Phone"
+            class="w-full bg-bankGray border-borderGray border-2 p-4 font-black text-lg text-bankText focus:outline-none focus:border-zelle rounded-sm transition-all uppercase tracking-tight">
         </div>
 
-        <div class="mt-8 text-center text-[10px] font-black uppercase tracking-widest text-gray-400">
-            <p>Terms and Conditions Apply</p>
+        <div>
+          <label
+            class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Amount</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 font-black text-gray-400">$</span>
+            <input type="number" required placeholder="0.00"
+              class="w-full bg-bankGray border-borderGray border-2 p-4 pl-10 font-black text-2xl text-bankText focus:outline-none focus:border-zelle rounded-sm transition-all">
+          </div>
         </div>
-    </main>
 
-    <footer class="bg-white border-t border-borderGray py-10">
-        <div
-            class="max-w-xl mx-auto px-4 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
-            <p>© 2026 Prism Financials</p>
-            <div class="flex gap-6">
-                <a href="faq.html" class="hover:underline">Learn More</a>
-                <a href="support.html" class="hover:underline">Contact Support</a>
-            </div>
+        <div class="bg-zelle/5 p-4 rounded-sm border border-zelle/10">
+          <p class="text-[9px] font-black uppercase tracking-widest text-zelle mb-1">Safety Note</p>
+          <p class="text-[11px] font-semibold text-gray-600 leading-relaxed italic">Money is sent directly
+            from your bank account to theirs. Only send and receive money with people you trust.</p>
         </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="utils.js"></script>
-    <script>
-        utils.init();
-        const user = utils.getCurrentUser();
-        if (user) document.getElementById('user-display-name').textContent = user.name;
-    </script>
+        <button type="submit"
+          class="w-full py-5 bg-zelle text-white font-black uppercase tracking-widest text-xs hover:bg-[#5a18b0] transition-all shadow-lg active:scale-[0.98] rounded-sm">
+          Review and Send
+        </button>
+      </form>
+    </div>
+
+    <div class="mt-8 text-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+      <p>Terms and Conditions Apply</p>
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-borderGray py-10">
+    <div
+      class="max-w-xl mx-auto px-4 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+      <p>© 2026 Prism Financials</p>
+      <div class="flex gap-6">
+        <a href="faq.html" class="hover:underline">Learn More</a>
+        <a href="support.html" class="hover:underline">Contact Support</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="utils.js"></script>
+  <script>
+    utils.init();
+    const user = utils.getCurrentUser();
+    if (user) document.getElementById('user-display-name').textContent = user.name;
+  </script>
 </body>
 
 </html>

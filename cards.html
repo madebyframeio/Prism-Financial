@@ -2,356 +2,356 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cards & Spend | Prism Financials Online</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#008450",
-                        secondary: "#004B8D",
-                        accent: "#FCCC44",
-                        bankGray: "#F4F4F4",
-                        bankText: "#333333",
-                        borderGray: "#D1D1D1"
-                    },
-                    fontFamily: {
-                        sans: ["Inter", "sans-serif"],
-                    }
-                }
-            }
-        };
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
-    <style type="text/tailwindcss">
-        @layer base {
-            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cards & Spend | Prism Financials Online</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#008450",
+            secondary: "#004B8D",
+            accent: "#FCCC44",
+            bankGray: "#F4F4F4",
+            bankText: "#333333",
+            borderGray: "#D1D1D1"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          }
         }
-        @layer components {
-            .card-glass { @apply bg-gradient-to-br from-slate-800 to-slate-950 text-white rounded-2xl p-8 relative overflow-hidden shadow-2xl transition-all hover:scale-[1.02]; }
-            .spend-row { @apply flex items-center justify-between p-4 border-b border-borderGray hover:bg-white transition-colors cursor-pointer bg-white/30; }
-        }
-    </style>
-    <link rel="icon" type="image/png" href="logo.png">
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+    }
+    @layer components {
+      .card-glass { @apply bg-gradient-to-br from-slate-800 to-slate-950 text-white rounded-2xl p-8 relative overflow-hidden shadow-2xl transition-all hover:scale-[1.02]; }
+      .spend-row { @apply flex items-center justify-between p-4 border-b border-borderGray hover:bg-white transition-colors cursor-pointer bg-white/30; }
+    }
+  </style>
+  <link rel="icon" type="image/png" href="logo.png">
 
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-    <meta name="googlebot" content="noindex, nofollow">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow">
 
-    <!-- Social Meta Tags -->
-    <meta property="og:title" content="Prism Financials Online">
-    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
-    <meta property="og:url" content="https://prism-financial.netlify.app/">
-    <meta property="og:type" content="website">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Prism Financials Online">
-    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <!-- Social Meta Tags -->
+  <meta property="og:title" content="Prism Financials Online">
+  <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <meta property="og:url" content="https://prism-financial.netlify.app/">
+  <meta property="og:type" content="website">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Prism Financials Online">
+  <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
 </head>
 
-<body class="min-h-screen flex flex-col">
-    <!-- Corporate Header -->
-    <header class="bg-primary text-white shadow-md">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-6">
-                <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-inner group">
-                    <img src="logo.png" alt="Prism Financials" class="h-8 transition-transform group-hover:scale-105">
-                </a>
-                <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
-                    <span class="text-xs opacity-70 uppercase tracking-widest font-black">Cards & Spend</span>
-                    <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
-                </div>
-            </div>
-            <div class="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
-                <a href="messages.html" class="hover:underline" id="messages-link">Messages</a>
-                <a href="security.html" class="hover:underline">Security</a>
-                <button onclick="utils.logout()"
-                    class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
-                    Sign Out <span class="material-symbols-outlined text-sm">logout</span>
-                </button>
-            </div>
+<body class=" min-h-screen flex flex-col overflow-x-hidden">
+  <!-- Corporate Header -->
+  <header class="bg-primary text-white shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3 sm:gap-6">
+        <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-inner group">
+          <img src="logo.png" alt="Prism Financials" class="h-8 transition-transform group-hover:scale-105">
+        </a>
+        <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
+          <span class="text-xs opacity-70 uppercase tracking-widest font-black">Cards & Spend</span>
+          <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
         </div>
-    </header>
+      </div>
+      <div class="flex items-center gap-3 sm:gap-6 text-[10px] font-black uppercase tracking-widest">
+        <a href="messages.html" class="hover:underline" id="messages-link">Messages</a>
+        <a href="security.html" class="hover:underline">Security</a>
+        <button onclick="utils.logout()"
+          class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
+          Sign Out <span class="material-symbols-outlined text-sm">logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-    <!-- Main Navigation Tabs -->
-    <nav class="bg-white border-b border-borderGray shadow-sm sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 flex gap-8 items-end overflow-x-auto whitespace-nowrap scrollbar-hide">
-            <a href="dashboard.html"
-                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Accounts</a>
-            <a href="cards.html" class="border-b-4 border-primary py-4 text-sm font-black text-bankText">Cards</a>
-            <a href="wire.html"
-                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer & Pay</a>
-            <a href="faq.html"
-                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan & Learn</a>
-            <a href="support.html"
-                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Support</a>
+  <!-- Main Navigation Tabs -->
+  <nav class="bg-white border-b border-borderGray shadow-sm sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 flex gap-4 sm:gap-8 items-end overflow-x-auto whitespace-nowrap scrollbar-hide">
+      <a href="dashboard.html"
+        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Accounts</a>
+      <a href="cards.html" class="border-b-4 border-primary py-4 text-sm font-black text-bankText">Cards</a>
+      <a href="wire.html"
+        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer & Pay</a>
+      <a href="faq.html"
+        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan & Learn</a>
+      <a href="support.html"
+        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Support</a>
+    </div>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="max-w-6xl mx-auto w-full px-4 py-10 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-10">
+    <!-- Left: Card Management -->
+    <div class="lg:col-span-8 space-y-8">
+      <!-- Virtual Card -->
+      <div class="card-glass aspect-[1.58/1] max-w-md mx-auto md:mx-0">
+        <div class="absolute top-0 right-0 p-8 opacity-20">
+          <span class="material-symbols-outlined text-7xl font-thin">contactless</span>
         </div>
-    </nav>
-
-    <!-- Main Content Area -->
-    <main class="max-w-6xl mx-auto w-full px-4 py-10 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-10">
-        <!-- Left: Card Management -->
-        <div class="lg:col-span-8 space-y-8">
-            <!-- Virtual Card -->
-            <div class="card-glass aspect-[1.58/1] max-w-md mx-auto md:mx-0">
-                <div class="absolute top-0 right-0 p-8 opacity-20">
-                    <span class="material-symbols-outlined text-7xl font-thin">contactless</span>
-                </div>
-                <div class="flex flex-col h-full justify-between">
-                    <div class="flex justify-between items-start">
-                        <div class="flex flex-col gap-1">
-                            <span class="text-[10px] uppercase tracking-[0.3em] font-black opacity-60">Rewards
-                                Visa&reg;</span>
-                            <span class="text-xs font-bold italic" id="cc-tier">Gold Tier</span>
-                        </div>
-                        <img src="logo.png" alt="WF" class="h-6 brightness-200 contrast-200">
-                    </div>
-
-                    <div class="space-y-4">
-                        <div class="text-2xl font-black tracking-[0.2em] font-mono leading-none" id="cc-number">
-                            4532 8821 9012 2345
-                        </div>
-                        <div class="flex gap-8 items-center">
-                            <div class="flex flex-col">
-                                <span class="text-[8px] uppercase tracking-widest opacity-60">Expires</span>
-                                <span class="text-xs font-bold leading-none" id="cc-expiry">08/28</span>
-                            </div>
-                            <div class="flex flex-col">
-                                <span class="text-[8px] uppercase tracking-widest opacity-60">CVV</span>
-                                <span class="text-xs font-bold leading-none" id="cc-cvv">***</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-between items-end">
-                        <div class="flex flex-col">
-                            <span class="text-[8px] uppercase tracking-widest opacity-60">Card Holder</span>
-                            <span class="text-sm font-black uppercase tracking-widest"
-                                id="card-user-name">Loading...</span>
-                        </div>
-                        <div class="flex gap-2 text-3xl opacity-80">
-                            <span class="material-symbols-outlined">credit_card</span>
-                        </div>
-                    </div>
-                </div>
+        <div class="flex flex-col h-full justify-between">
+          <div class="flex justify-between items-start">
+            <div class="flex flex-col gap-1">
+              <span class="text-[10px] uppercase tracking-[0.3em] font-black opacity-60">Rewards
+                Visa&reg;</span>
+              <span class="text-xs font-bold italic" id="cc-tier">Gold Tier</span>
             </div>
+            <img src="logo.png" alt="WF" class="h-6 brightness-200 contrast-200">
+          </div>
 
-            <!-- Spend Analytics -->
-            <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
-                <div class="bg-bankGray p-5 border-b border-borderGray flex justify-between items-center">
-                    <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Spend Analytics</h2>
-                    <span
-                        class="text-secondary text-xs font-black uppercase tracking-widest hover:underline cursor-pointer">View
-                        Statements</span>
-                </div>
-                <div class="p-8">
-                    <div class="flex items-end gap-1 h-32 mb-8">
-                        <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
-                        <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
-                        <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
-                        <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
-                        <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
-                        <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
-                        <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
-                    </div>
-                    <div
-                        class="flex justify-between text-[8px] font-black uppercase tracking-widest text-gray-400 px-1">
-                        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
-                    </div>
-                </div>
+          <div class="space-y-4">
+            <div class="text-2xl font-black tracking-[0.2em] font-mono leading-none" id="cc-number">
+              4532 8821 9012 2345
             </div>
+            <div class="flex gap-8 items-center">
+              <div class="flex flex-col">
+                <span class="text-[8px] uppercase tracking-widest opacity-60">Expires</span>
+                <span class="text-xs font-bold leading-none" id="cc-expiry">08/28</span>
+              </div>
+              <div class="flex flex-col">
+                <span class="text-[8px] uppercase tracking-widest opacity-60">CVV</span>
+                <span class="text-xs font-bold leading-none" id="cc-cvv">***</span>
+              </div>
+            </div>
+          </div>
 
-            <!-- Recent Transactions -->
-            <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden"
-                id="card-activity-container">
-                <div class="bg-bankGray p-5 border-b border-borderGray flex justify-between items-center">
-                    <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Card Activity</h2>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse min-w-[600px] whitespace-nowrap">
-                        <tbody id="card-transaction-history">
-                            <tr>
-                                <td colspan="4" class="p-12 text-center text-gray-400">
-                                    <span class="material-symbols-outlined text-4xl mb-3 opacity-20">history</span>
-                                    <p class="text-[10px] font-black uppercase tracking-widest">Loading card activity...
-                                    </p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+          <div class="flex justify-between items-end">
+            <div class="flex flex-col">
+              <span class="text-[8px] uppercase tracking-widest opacity-60">Card Holder</span>
+              <span class="text-sm font-black uppercase tracking-widest"
+                id="card-user-name">Loading...</span>
             </div>
+            <div class="flex gap-2 text-3xl opacity-80">
+              <span class="material-symbols-outlined">credit_card</span>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <!-- Right: Actions & Controls -->
-        <div class="lg:col-span-4 space-y-8">
-            <div class="bg-white shadow-sm border border-borderGray p-6 rounded-sm">
-                <h3 class="font-black text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-6">Card Controls</h3>
-                <div class="space-y-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-black text-secondary uppercase tracking-tight">Lock Card</p>
-                            <p class="text-[9px] text-gray-500 font-semibold">Instantly disable all card activity</p>
-                        </div>
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" class="sr-only peer">
-                            <div
-                                class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
-                            </div>
-                        </label>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-xs font-black text-secondary uppercase tracking-tight">Online Purchases</p>
-                            <p class="text-[9px] text-gray-500 font-semibold">Enable/Disable internet transactions</p>
-                        </div>
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" checked class="sr-only peer">
-                            <div
-                                class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
-                            </div>
-                        </label>
-                    </div>
-                </div>
-                <div class="mt-8 pt-8 border-t border-borderGray space-y-4">
-                    <button
-                        class="w-full py-3 border border-borderGray text-secondary font-black uppercase tracking-widest text-[10px] hover:bg-bankGray transition-all rounded-sm flex items-center justify-center gap-2">
-                        <span class="material-symbols-outlined text-sm">edit</span> Change PIN
-                    </button>
-                    <button
-                        class="w-full py-3 border border-borderGray text-secondary font-black uppercase tracking-widest text-[10px] hover:bg-bankGray transition-all rounded-sm flex items-center justify-center gap-2">
-                        <span class="material-symbols-outlined text-sm">add_card</span> Replace Card
-                    </button>
-                </div>
-            </div>
-
-            <div class="bg-secondary text-white p-8 rounded-sm relative overflow-hidden">
-                <div class="absolute -right-8 -bottom-8 opacity-10">
-                    <span class="material-symbols-outlined text-9xl">workspace_premium</span>
-                </div>
-                <h3 class="font-black text-xs uppercase tracking-[0.2em] mb-4">Reward Status</h3>
-                <div class="mb-6">
-                    <div class="flex justify-between text-[10px] font-black uppercase tracking-widest mb-2">
-                        <span>Current Points</span>
-                        <span class="text-accent" id="rewards-pts">0</span>
-                    </div>
-                    <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
-                        <div class="bg-accent h-full w-[0%]" id="rewards-bar"></div>
-                    </div>
-                </div>
-                <p class="text-[11px] font-semibold opacity-80 leading-relaxed mb-6">Start using your card to earn
-                    points
-                    on every purchase. Qualifying accounts earn 3x points on travel.</p>
-                <button
-                    class="text-[10px] font-black uppercase tracking-widest hover:text-accent transition-colors flex items-center gap-2">
-                    Redeem Rewards <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                </button>
-            </div>
+      <!-- Spend Analytics -->
+      <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
+        <div class="bg-bankGray p-4 sm:p-5 border-b border-borderGray flex justify-between items-center">
+          <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Spend Analytics</h2>
+          <span
+            class="text-secondary text-xs font-black uppercase tracking-widest hover:underline cursor-pointer">View
+            Statements</span>
         </div>
-    </main>
-
-    <footer class="bg-white border-t border-borderGray py-10 mt-12">
-        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="flex gap-8 text-[11px] text-secondary font-black uppercase tracking-widest">
-                <a href="support.html" class="hover:underline">Contact</a>
-                <a href="faq.html" class="hover:underline">Legal</a>
-                <a href="faq.html" class="hover:underline">Privacy Help</a>
-                <a href="support.html" class="hover:underline">Security Support</a>
-            </div>
-            <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Prism Financials. All rights reserved.</p>
+        <div class="p-8">
+          <div class="flex items-end gap-1 h-32 mb-8">
+            <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
+            <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
+            <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
+            <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
+            <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
+            <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
+            <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
+          </div>
+          <div
+            class="flex justify-between text-[8px] font-black uppercase tracking-widest text-gray-400 px-1">
+            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+          </div>
         </div>
-    </footer>
+      </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="utils.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            utils.init();
-            const user = utils.getCurrentUser();
-            if (!user) { window.location.href = 'login.html'; return; }
+      <!-- Recent Transactions -->
+      <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden"
+        id="card-activity-container">
+        <div class="bg-bankGray p-4 sm:p-5 border-b border-borderGray flex justify-between items-center">
+          <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Card Activity</h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[600px] whitespace-nowrap">
+            <tbody id="card-transaction-history">
+              <tr>
+                <td colspan="4" class="p-12 text-center text-gray-400">
+                  <span class="material-symbols-outlined text-4xl mb-3 opacity-20">history</span>
+                  <p class="text-[10px] font-black uppercase tracking-widest">Loading card activity...
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
 
-            document.getElementById('user-display-name').textContent = user.name;
-            document.getElementById('card-user-name').textContent = user.name;
+    <!-- Right: Actions & Controls -->
+    <div class="lg:col-span-4 space-y-8">
+      <div class="bg-white shadow-sm border border-borderGray p-6 rounded-sm">
+        <h3 class="font-black text-[10px] uppercase tracking-[0.3em] text-gray-400 mb-6">Card Controls</h3>
+        <div class="space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-xs font-black text-secondary uppercase tracking-tight">Lock Card</p>
+              <p class="text-[9px] text-gray-500 font-semibold">Instantly disable all card activity</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" class="sr-only peer">
+              <div
+                class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
+              </div>
+            </label>
+          </div>
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-xs font-black text-secondary uppercase tracking-tight">Online Purchases</p>
+              <p class="text-[9px] text-gray-500 font-semibold">Enable/Disable internet transactions</p>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" checked class="sr-only peer">
+              <div
+                class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
+              </div>
+            </label>
+          </div>
+        </div>
+        <div class="mt-8 pt-8 border-t border-borderGray space-y-4">
+          <button
+            class="w-full py-3 border border-borderGray text-secondary font-black uppercase tracking-widest text-[10px] hover:bg-bankGray transition-all rounded-sm flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-sm">edit</span> Change PIN
+          </button>
+          <button
+            class="w-full py-3 border border-borderGray text-secondary font-black uppercase tracking-widest text-[10px] hover:bg-bankGray transition-all rounded-sm flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-sm">add_card</span> Replace Card
+          </button>
+        </div>
+      </div>
 
-            try {
-                const userData = await utils.getUserData(user.id);
-                if (userData) {
-                    if (userData.cc_number) document.getElementById('cc-number').textContent = userData.cc_number;
-                    if (userData.cc_expiry) document.getElementById('cc-expiry').textContent = userData.cc_expiry;
-                    if (userData.cc_cvv) document.getElementById('cc-cvv').textContent = userData.cc_cvv;
-                    if (userData.cc_tier) document.getElementById('cc-tier').textContent = userData.cc_tier;
+      <div class="bg-secondary text-white p-8 rounded-sm relative overflow-hidden">
+        <div class="absolute -right-8 -bottom-8 opacity-10">
+          <span class="material-symbols-outlined text-9xl">workspace_premium</span>
+        </div>
+        <h3 class="font-black text-xs uppercase tracking-[0.2em] mb-4">Reward Status</h3>
+        <div class="mb-6">
+          <div class="flex justify-between text-[10px] font-black uppercase tracking-widest mb-2">
+            <span>Current Points</span>
+            <span class="text-accent" id="rewards-pts">0</span>
+          </div>
+          <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+            <div class="bg-accent h-full w-[0%]" id="rewards-bar"></div>
+          </div>
+        </div>
+        <p class="text-[11px] font-semibold opacity-80 leading-relaxed mb-6">Start using your card to earn
+          points
+          on every purchase. Qualifying accounts earn 3x points on travel.</p>
+        <button
+          class="text-[10px] font-black uppercase tracking-widest hover:text-accent transition-colors flex items-center gap-2">
+          Redeem Rewards <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </button>
+      </div>
+    </div>
+  </main>
 
-                    const pts = userData.rewards_pts || 0;
-                    document.getElementById('rewards-pts').textContent = pts.toLocaleString();
-                    const widthPercent = Math.min((pts / 10000) * 100, 100); // Ex: maxes out bar at 10kb pts
-                    document.getElementById('rewards-bar').style.width = widthPercent + '%';
+  <footer class="bg-white border-t border-borderGray py-10 mt-12">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+      <div class="flex gap-8 text-[11px] text-secondary font-black uppercase tracking-widest">
+        <a href="support.html" class="hover:underline">Contact</a>
+        <a href="faq.html" class="hover:underline">Legal</a>
+        <a href="faq.html" class="hover:underline">Privacy Help</a>
+        <a href="support.html" class="hover:underline">Security Support</a>
+      </div>
+      <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Prism Financials. All rights reserved.</p>
+    </div>
+  </footer>
 
-                    // Check Unread Messages
-                    const unreadCount = await utils.getUnreadMessageCount(user.id);
-                    if (unreadCount > 0) {
-                        const msgLink = document.getElementById('messages-link');
-                        if (msgLink) {
-                            msgLink.innerHTML = `Messages <span class="bg-accent text-primary px-1.5 py-0.5 rounded-full text-[8px] ml-1 animate-pulse">${unreadCount}</span>`;
-                        }
-                    }
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="utils.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      utils.init();
+      const user = utils.getCurrentUser();
+      if (!user) { window.location.href = 'login.html'; return; }
 
-                    // Load Card Transactions
-                    const txs = await utils.getTransactions(user.id);
-                    // Filter for credit card type or description tag
-                    const cardTxs = (txs || []).filter(tx =>
-                        tx.category === 'credit_card' ||
-                        tx.type === 'credit_card_payment' ||
-                        tx.type === 'card_transaction' ||
-                        (tx.description && tx.description.toUpperCase().includes('[CREDIT_CARD]'))
-                    );
-                    const historyEl = document.getElementById('card-transaction-history');
+      document.getElementById('user-display-name').textContent = user.name;
+      document.getElementById('card-user-name').textContent = user.name;
 
-                    if (cardTxs && cardTxs.length > 0) {
-                        historyEl.innerHTML = '';
-                        cardTxs.slice(0, 10).forEach(tx => {
-                            const tr = document.createElement('tr');
-                            tr.className = "border-b border-borderGray group hover:bg-slate-50 transition-colors cursor-default";
+      try {
+        const userData = await utils.getUserData(user.id);
+        if (userData) {
+          if (userData.cc_number) document.getElementById('cc-number').textContent = userData.cc_number;
+          if (userData.cc_expiry) document.getElementById('cc-expiry').textContent = userData.cc_expiry;
+          if (userData.cc_cvv) document.getElementById('cc-cvv').textContent = userData.cc_cvv;
+          if (userData.cc_tier) document.getElementById('cc-tier').textContent = userData.cc_tier;
 
-                            const isCredit = tx.type === 'credit' || tx.type === 'investment_deposit';
-                            const colorClass = isCredit ? 'text-emerald-600' : 'text-bankText';
-                            const prefix = isCredit ? '+' : '-';
+          const pts = userData.rewards_pts || 0;
+          document.getElementById('rewards-pts').textContent = pts.toLocaleString();
+          const widthPercent = Math.min((pts / 10000) * 100, 100); // Ex: maxes out bar at 10kb pts
+          document.getElementById('rewards-bar').style.width = widthPercent + '%';
 
-                            const statusColor = tx.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
-                                tx.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700';
-
-                            tr.innerHTML = `
-                                <td class="p-5 text-xs font-bold text-gray-500">${new Date(tx.created_at).toLocaleDateString()}</td>
-                                <td class="p-5 text-sm font-black text-secondary tracking-tight uppercase max-w-[150px] truncate">${tx.description || tx.type}</td>
-                                <td class="p-5 text-[10px] font-black uppercase">
-                                    <span class="px-2 py-0.5 rounded-sm ${statusColor}">${tx.status}</span>
-                                </td>
-                                <td class="p-5 text-sm font-bold text-right ${colorClass}">${prefix}${utils.formatCurrency(tx.amount)}</td>
-                            `;
-                            historyEl.appendChild(tr);
-                        });
-                    } else {
-                        historyEl.innerHTML = `
-                            <tr>
-                                <td colspan="4" class="p-12 text-center text-gray-400">
-                                    <span class="material-symbols-outlined text-4xl mb-3 opacity-20">history</span>
-                                    <p class="text-[10px] font-black uppercase tracking-widest">No recent card transactions found</p>
-                                </td>
-                            </tr>
-                        `;
-                    }
-                }
-            } catch (err) {
-                console.error("Cards Load Error:", err);
+          // Check Unread Messages
+          const unreadCount = await utils.getUnreadMessageCount(user.id);
+          if (unreadCount > 0) {
+            const msgLink = document.getElementById('messages-link');
+            if (msgLink) {
+              msgLink.innerHTML = `Messages <span class="bg-accent text-primary px-1.5 py-0.5 rounded-full text-[8px] ml-1 animate-pulse">${unreadCount}</span>`;
             }
-        });
-    </script>
+          }
+
+          // Load Card Transactions
+          const txs = await utils.getTransactions(user.id);
+          // Filter for credit card type or description tag
+          const cardTxs = (txs || []).filter(tx =>
+            tx.category === 'credit_card' ||
+            tx.type === 'credit_card_payment' ||
+            tx.type === 'card_transaction' ||
+            (tx.description && tx.description.toUpperCase().includes('[CREDIT_CARD]'))
+          );
+          const historyEl = document.getElementById('card-transaction-history');
+
+          if (cardTxs && cardTxs.length > 0) {
+            historyEl.innerHTML = '';
+            cardTxs.slice(0, 10).forEach(tx => {
+              const tr = document.createElement('tr');
+              tr.className = "border-b border-borderGray group hover:bg-slate-50 transition-colors cursor-default";
+
+              const isCredit = tx.type === 'credit' || tx.type === 'investment_deposit';
+              const colorClass = isCredit ? 'text-emerald-600' : 'text-bankText';
+              const prefix = isCredit ? '+' : '-';
+
+              const statusColor = tx.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
+                tx.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700';
+
+              tr.innerHTML = `
+                <td class="p-5 text-xs font-bold text-gray-500">${new Date(tx.created_at).toLocaleDateString()}</td>
+                <td class="p-5 text-sm font-black text-secondary tracking-tight uppercase max-w-[150px] truncate">${tx.description || tx.type}</td>
+                <td class="p-5 text-[10px] font-black uppercase">
+                  <span class="px-2 py-0.5 rounded-sm ${statusColor}">${tx.status}</span>
+                </td>
+                <td class="p-5 text-sm font-bold text-right ${colorClass}">${prefix}${utils.formatCurrency(tx.amount)}</td>
+              `;
+              historyEl.appendChild(tr);
+            });
+          } else {
+            historyEl.innerHTML = `
+              <tr>
+                <td colspan="4" class="p-12 text-center text-gray-400">
+                  <span class="material-symbols-outlined text-4xl mb-3 opacity-20">history</span>
+                  <p class="text-[10px] font-black uppercase tracking-widest">No recent card transactions found</p>
+                </td>
+              </tr>
+            `;
+          }
+        }
+      } catch (err) {
+        console.error("Cards Load Error:", err);
+      }
+    });
+  </script>
 </body>
 
 </html>

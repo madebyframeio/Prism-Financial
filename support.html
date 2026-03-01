@@ -2,162 +2,162 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support | Prism Financials Assistant</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#008450",
-                        secondary: "#004B8D",
-                        bankGray: "#F4F4F4",
-                        bankText: "#333333",
-                        borderGray: "#D1D1D1"
-                    },
-                    fontFamily: {
-                        sans: ["Inter", "sans-serif"],
-                    }
-                }
-            }
-        };
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
-    <style type="text/tailwindcss">
-        @layer base {
-            body { @apply bg-[#f8fbff] text-bankText font-sans antialiased overflow-hidden; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support | Prism Financials Assistant</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#008450",
+            secondary: "#004B8D",
+            bankGray: "#F4F4F4",
+            bankText: "#333333",
+            borderGray: "#D1D1D1"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          }
         }
-        @layer components {
-            .chat-bubble-bot { @apply bg-white border border-borderGray p-4 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] text-sm font-semibold; }
-            .chat-bubble-user { @apply bg-primary text-white p-4 rounded-2xl rounded-tr-none shadow-md max-w-[85%] text-sm font-semibold ml-auto; }
-            .suggested-pill { @apply px-4 py-2 bg-white border border-borderGray rounded-full text-[10px] font-black uppercase tracking-widest text-secondary hover:border-primary hover:text-primary transition-all cursor-pointer whitespace-nowrap; }
-        }
-    </style>
-    <link rel="icon" type="image/png" href="logo.png">
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-[#f8fbff] text-bankText font-sans antialiased overflow-hidden; }
+    }
+    @layer components {
+      .chat-bubble-bot { @apply bg-white border border-borderGray p-4 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] text-sm font-semibold; }
+      .chat-bubble-user { @apply bg-primary text-white p-4 rounded-2xl rounded-tr-none shadow-md max-w-[85%] text-sm font-semibold ml-auto; }
+      .suggested-pill { @apply px-4 py-2 bg-white border border-borderGray rounded-full text-[10px] font-black uppercase tracking-widest text-secondary hover:border-primary hover:text-primary transition-all cursor-pointer whitespace-nowrap; }
+    }
+  </style>
+  <link rel="icon" type="image/png" href="logo.png">
 
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-    <meta name="googlebot" content="noindex, nofollow">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow">
 
-    <!-- Social Meta Tags -->
-    <meta property="og:title" content="Prism Financials Online">
-    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
-    <meta property="og:url" content="https://prism-financial.netlify.app/">
-    <meta property="og:type" content="website">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Prism Financials Online">
-    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <!-- Social Meta Tags -->
+  <meta property="og:title" content="Prism Financials Online">
+  <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <meta property="og:url" content="https://prism-financial.netlify.app/">
+  <meta property="og:type" content="website">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Prism Financials Online">
+  <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
 </head>
 
-<body class="h-screen flex flex-col">
-    <!-- Corporate Header -->
-    <header class="bg-primary text-white shadow-md p-4 relative z-50">
-        <div class="max-w-4xl mx-auto flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <a href="dashboard.html" class="bg-white p-1 rounded-sm">
-                    <img src="logo.png" alt="Prism Financials" class="h-8">
-                </a>
-                <div class="flex flex-col border-l border-white/20 pl-4">
-                    <span class="text-xs font-black uppercase tracking-widest leading-none">AI Banking Assistant</span>
-                    <span class="text-[9px] font-bold opacity-70 flex items-center gap-1 mt-1">
-                        <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span> Available Now
-                    </span>
-                </div>
-            </div>
-            <a href="dashboard.html" class="material-symbols-outlined hover:text-accent transition-colors">close</a>
+<body class=" h-screen flex flex-col overflow-x-hidden">
+  <!-- Corporate Header -->
+  <header class="bg-primary text-white shadow-md p-4 relative z-50">
+    <div class="max-w-4xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="dashboard.html" class="bg-white p-1 rounded-sm">
+          <img src="logo.png" alt="Prism Financials" class="h-8">
+        </a>
+        <div class="flex flex-col border-l border-white/20 pl-4">
+          <span class="text-xs font-black uppercase tracking-widest leading-none">AI Banking Assistant</span>
+          <span class="text-[9px] font-bold opacity-70 flex items-center gap-1 mt-1">
+            <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span> Available Now
+          </span>
         </div>
-    </header>
+      </div>
+      <a href="dashboard.html" class="material-symbols-outlined hover:text-accent transition-colors">close</a>
+    </div>
+  </header>
 
-    <!-- Chat Area -->
-    <main class="flex-1 overflow-y-auto p-4 md:p-10 space-y-8 scroll-smooth" id="chat-container">
-        <!-- Bot Welcome -->
-        <div class="flex gap-4">
-            <div class="w-10 h-10 bg-secondary text-white rounded-full flex items-center justify-center shrink-0">
-                <span class="material-symbols-outlined text-xl">smart_toy</span>
-            </div>
-            <div class="chat-bubble-bot">
-                Hello! I'm your Prism Financials Assistant. I can help you with account balances, transfer status, or
-                connecting you with a specialist. How can I assist you today?
-            </div>
-        </div>
-    </main>
+  <!-- Chat Area -->
+  <main class="flex-1 overflow-y-auto p-4 md:p-10 space-y-8 scroll-smooth" id="chat-container">
+    <!-- Bot Welcome -->
+    <div class="flex gap-4">
+      <div class="w-10 h-10 bg-secondary text-white rounded-full flex items-center justify-center shrink-0">
+        <span class="material-symbols-outlined text-xl">smart_toy</span>
+      </div>
+      <div class="chat-bubble-bot">
+        Hello! I'm your Prism Financials Assistant. I can help you with account balances, transfer status, or
+        connecting you with a specialist. How can I assist you today?
+      </div>
+    </div>
+  </main>
 
-    <!-- Suggested Options -->
-    <div class="bg-white/80 backdrop-blur-md p-4 border-t border-borderGray">
-        <div class="max-w-4xl mx-auto flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
-            <div onclick="sendMessage('Check Balance')" class="suggested-pill">Check Balance</div>
-            <div onclick="sendMessage('Transaction Status')" class="suggested-pill">Transaction Status</div>
-            <div onclick="sendMessage('Contact Specialist')" class="suggested-pill">Contact Specialist</div>
-            <div onclick="sendMessage('Security Concerns')" class="suggested-pill">Security Concerns</div>
-        </div>
-
-        <!-- Input Area -->
-        <div class="max-w-4xl mx-auto mt-4 relative">
-            <input type="text" id="user-input" placeholder="Type your message..."
-                class="w-full bg-bankGray border-borderGray border-2 py-4 pl-6 pr-16 rounded-full font-semibold focus:outline-none focus:border-primary transition-all">
-            <button onclick="handleSend()"
-                class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-green-800 transition-all shadow-md">
-                <span class="material-symbols-outlined">send</span>
-            </button>
-        </div>
+  <!-- Suggested Options -->
+  <div class="bg-white/80 backdrop-blur-md p-4 border-t border-borderGray">
+    <div class="max-w-4xl mx-auto flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+      <div onclick="sendMessage('Check Balance')" class="suggested-pill">Check Balance</div>
+      <div onclick="sendMessage('Transaction Status')" class="suggested-pill">Transaction Status</div>
+      <div onclick="sendMessage('Contact Specialist')" class="suggested-pill">Contact Specialist</div>
+      <div onclick="sendMessage('Security Concerns')" class="suggested-pill">Security Concerns</div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="utils.js"></script>
-    <script>
-        utils.init();
-        const chatContainer = document.getElementById('chat-container');
-        const userInput = document.getElementById('user-input');
+    <!-- Input Area -->
+    <div class="max-w-4xl mx-auto mt-4 relative">
+      <input type="text" id="user-input" placeholder="Type your message..."
+        class="w-full bg-bankGray border-borderGray border-2 py-4 pl-6 pr-16 rounded-full font-semibold focus:outline-none focus:border-primary transition-all">
+      <button onclick="handleSend()"
+        class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-green-800 transition-all shadow-md">
+        <span class="material-symbols-outlined">send</span>
+      </button>
+    </div>
+  </div>
 
-        function appendMessage(text, type) {
-            const div = document.createElement('div');
-            if (type === 'bot') {
-                div.className = 'flex gap-4';
-                div.innerHTML = `
-                    <div class="w-10 h-10 bg-secondary text-white rounded-full flex items-center justify-center shrink-0">
-                        <span class="material-symbols-outlined text-xl">smart_toy</span>
-                    </div>
-                    <div class="chat-bubble-bot">${text}</div>
-                `;
-            } else {
-                div.className = 'flex flex-col gap-2';
-                div.innerHTML = `
-                    <div class="chat-bubble-user">${text}</div>
-                    <span class="text-[9px] font-black text-gray-400 uppercase text-right mr-2">Sent</span>
-                `;
-            }
-            chatContainer.appendChild(div);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="utils.js"></script>
+  <script>
+    utils.init();
+    const chatContainer = document.getElementById('chat-container');
+    const userInput = document.getElementById('user-input');
 
-        function handleSend() {
-            const text = userInput.value.trim();
-            if (!text) return;
-            appendMessage(text, 'user');
-            userInput.value = '';
+    function appendMessage(text, type) {
+      const div = document.createElement('div');
+      if (type === 'bot') {
+        div.className = 'flex gap-4';
+        div.innerHTML = `
+          <div class="w-10 h-10 bg-secondary text-white rounded-full flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-xl">smart_toy</span>
+          </div>
+          <div class="chat-bubble-bot">${text}</div>
+        `;
+      } else {
+        div.className = 'flex flex-col gap-2';
+        div.innerHTML = `
+          <div class="chat-bubble-user">${text}</div>
+          <span class="text-[9px] font-black text-gray-400 uppercase text-right mr-2">Sent</span>
+        `;
+      }
+      chatContainer.appendChild(div);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
 
-            // Mock Response
-            setTimeout(() => {
-                appendMessage("I'm looking into that for you. One moment while I retrieve your latest secure messages...", 'bot');
-            }, 800);
-        }
+    function handleSend() {
+      const text = userInput.value.trim();
+      if (!text) return;
+      appendMessage(text, 'user');
+      userInput.value = '';
 
-        function sendMessage(text) {
-            userInput.value = text;
-            handleSend();
-        }
+      // Mock Response
+      setTimeout(() => {
+        appendMessage("I'm looking into that for you. One moment while I retrieve your latest secure messages...", 'bot');
+      }, 800);
+    }
 
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleSend();
-        });
-    </script>
+    function sendMessage(text) {
+      userInput.value = text;
+      handleSend();
+    }
+
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleSend();
+    });
+  </script>
 </body>
 
 </html>

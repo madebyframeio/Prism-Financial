@@ -2,198 +2,198 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Withdraw Funds | Prism Financials Online</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#008450",
-                        secondary: "#004B8D",
-                        accent: "#FCCC44",
-                        bankGray: "#F4F4F4",
-                        bankText: "#333333",
-                        borderGray: "#D1D1D1"
-                    },
-                    fontFamily: {
-                        sans: ["Inter", "sans-serif"],
-                    }
-                }
-            }
-        };
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
-    <style type="text/tailwindcss">
-        @layer base {
-            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Withdraw Funds | Prism Financials Online</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#008450",
+            secondary: "#004B8D",
+            accent: "#FCCC44",
+            bankGray: "#F4F4F4",
+            bankText: "#333333",
+            borderGray: "#D1D1D1"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          }
         }
-        @layer components {
-            .input-field { @apply w-full bg-white border border-gray-300 p-3 rounded-sm focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all placeholder:text-gray-400 text-sm; }
-            .btn-wf-primary { @apply w-full py-4 bg-primary text-white font-black text-sm uppercase tracking-widest hover:bg-green-700 transition-all rounded-sm shadow-md active:translate-y-px; }
-            .form-section { @apply bg-white p-8 border border-gray-300 rounded shadow-sm relative overflow-hidden; }
-        }
-    </style>
-    <link rel="icon" type="image/png" href="logo.png">
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+    }
+    @layer components {
+      .input-field { @apply w-full bg-white border border-gray-300 p-3 rounded-sm focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all placeholder:text-gray-400 text-sm; }
+      .btn-wf-primary { @apply w-full py-4 bg-primary text-white font-black text-sm uppercase tracking-widest hover:bg-green-700 transition-all rounded-sm shadow-md active:translate-y-px; }
+      .form-section { @apply bg-white p-8 border border-gray-300 rounded shadow-sm relative overflow-hidden; }
+    }
+  </style>
+  <link rel="icon" type="image/png" href="logo.png">
 
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-    <meta name="googlebot" content="noindex, nofollow">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow">
 
-    <!-- Social Meta Tags -->
-    <meta property="og:title" content="Prism Financials Online">
-    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
-    <meta property="og:url" content="https://prism-financial.netlify.app/">
-    <meta property="og:type" content="website">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Prism Financials Online">
-    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <!-- Social Meta Tags -->
+  <meta property="og:title" content="Prism Financials Online">
+  <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <meta property="og:url" content="https://prism-financial.netlify.app/">
+  <meta property="og:type" content="website">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Prism Financials Online">
+  <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
 </head>
 
-<body class="min-h-screen flex flex-col">
-    <header class="bg-primary text-white p-4 shadow-md">
-        <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <a href="dashboard.html" class="bg-white p-1 rounded-sm">
-                <img src="logo.png" alt="Prism Financials" class="h-8">
-            </a>
-            <a href="dashboard.html"
-                class="text-[10px] font-black uppercase tracking-widest hover:underline flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Dashboard
-            </a>
-        </div>
-    </header>
-
-    <main class="flex-1 max-w-xl w-full mx-auto py-12 px-6">
-        <h1 class="text-2xl font-black text-primary mb-8 tracking-tighter">Fast Withdrawal</h1>
-
-        <form id="withdraw-form" class="space-y-8">
-            <div class="form-section">
-                <div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
-                <h3 class="text-xs font-black uppercase tracking-widest text-gray-400 mb-6 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-sm">payments</span> Transfer Details
-                </h3>
-
-                <div class="space-y-6">
-                    <div>
-                        <label
-                            class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Withdrawal
-                            Amount (USD) *</label>
-                        <div class="relative">
-                            <span
-                                class="absolute left-4 top-1/2 -translate-y-1/2 font-black text-gray-400 text-lg">$</span>
-                            <input type="number" id="amount" required step="0.01" min="1"
-                                class="input-field pl-10 text-xl font-black font-mono" placeholder="0.00">
-                        </div>
-                        <p id="balance-hint"
-                            class="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-3 text-right">
-                            Loading Balance...</p>
-                    </div>
-
-                    <div class="pt-4 border-t border-gray-100">
-                        <label
-                            class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Destination
-                            Bank *</label>
-                        <input type="text" id="bank-name" required class="input-field uppercase"
-                            placeholder="e.g. CHASE, BofA, etc.">
-                    </div>
-
-                    <div>
-                        <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Account
-                            Number / IBAN *</label>
-                        <input type="text" id="bene-acc" required class="input-field font-mono"
-                            placeholder="XXXX XXXX XXXX">
-                    </div>
-                </div>
-            </div>
-
-            <div
-                class="p-4 bg-amber-50 rounded-sm border-l-4 border-accent text-[11px] text-amber-800 font-semibold leading-relaxed">
-                Notice: All standard withdrawals are subject to a 24-hour security hold and manual verification by our
-                compliance department.
-            </div>
-
-            <button type="submit" class="btn-wf-primary">Confirm Withdrawal</button>
-        </form>
-    </main>
-
-    <!-- Success Modal -->
-    <div id="success-modal"
-        class="fixed inset-0 z-[100] hidden items-center justify-center p-6 bg-secondary/80 backdrop-blur-sm">
-        <div class="bg-white p-10 max-w-sm w-full border border-gray-300 rounded shadow-2xl text-center space-y-6">
-            <div
-                class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto border-2 border-emerald-100">
-                <span class="material-symbols-outlined text-3xl">verified</span>
-            </div>
-            <h2 class="text-xl font-black text-bankText tracking-tight">Request Recorded</h2>
-            <div class="py-4 border-y border-gray-100 italic text-[11px] text-gray-500">
-                Reference: <span id="ref-id" class="font-mono font-bold text-bankText">#---</span>
-            </div>
-            <p class="text-[11px] text-gray-500 font-semibold leading-relaxed">Your withdrawal is being processed. You
-                will receive an alert once the funds are settled.</p>
-            <button onclick="window.location.href='dashboard.html'"
-                class="w-full py-3 bg-secondary text-white font-black text-xs uppercase tracking-widest rounded-sm">Return
-                to Dashboard</button>
-        </div>
+<body class=" min-h-screen flex flex-col overflow-x-hidden">
+  <header class="bg-primary text-white p-4 shadow-md">
+    <div class="max-w-4xl mx-auto flex justify-between items-center">
+      <a href="dashboard.html" class="bg-white p-1 rounded-sm">
+        <img src="logo.png" alt="Prism Financials" class="h-8">
+      </a>
+      <a href="dashboard.html"
+        class="text-[10px] font-black uppercase tracking-widest hover:underline flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Dashboard
+      </a>
     </div>
+  </header>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="utils.js"></script>
-    <script>
-        utils.init();
-        const currentUser = utils.getCurrentUser();
-        if (!currentUser) window.location.href = 'login.html';
+  <main class="flex-1 max-w-xl w-full mx-auto py-12 px-6">
+    <h1 class="text-2xl font-black text-primary mb-8 tracking-tighter">Fast Withdrawal</h1>
 
-        let userBalance = 0;
-        async function loadBalance() {
-            const data = await utils.getUserData(currentUser.id);
-            if (data) {
-                userBalance = data.balance;
-                document.getElementById('balance-hint').textContent = `Available Balance: ${utils.formatCurrency(userBalance)}`;
-            }
-        }
-        loadBalance();
+    <form id="withdraw-form" class="space-y-8">
+      <div class="form-section">
+        <div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+        <h3 class="text-xs font-black uppercase tracking-widest text-gray-400 mb-6 flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm">payments</span> Transfer Details
+        </h3>
 
-        document.getElementById('withdraw-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const amount = parseFloat(document.getElementById('amount').value);
-            if (amount > userBalance) {
-                alert('INSUFFICIENT FUNDS');
-                return;
-            }
+        <div class="space-y-6">
+          <div>
+            <label
+              class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Withdrawal
+              Amount (USD) *</label>
+            <div class="relative">
+              <span
+                class="absolute left-4 top-1/2 -translate-y-1/2 font-black text-gray-400 text-lg">$</span>
+              <input type="number" id="amount" required step="0.01" min="1"
+                class="input-field pl-10 text-xl font-black font-mono" placeholder="0.00">
+            </div>
+            <p id="balance-hint"
+              class="text-[10px] font-black uppercase tracking-widest text-gray-400 mt-3 text-right">
+              Loading Balance...</p>
+          </div>
 
-            const btn = e.submitter;
-            btn.disabled = true;
-            btn.innerHTML = 'Submitting Request...';
+          <div class="pt-4 border-t border-gray-100">
+            <label
+              class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Destination
+              Bank *</label>
+            <input type="text" id="bank-name" required class="input-field uppercase"
+              placeholder="e.g. CHASE, BofA, etc.">
+          </div>
 
-            const bank = document.getElementById('bank-name').value;
-            const acc = document.getElementById('bene-acc').value;
-            const desc = `WITHDRAWAL TO ${bank} (${acc})`.toUpperCase();
-
-            try {
-                const res = await utils.createTransaction(currentUser.id, amount, 'debit', desc, 'pending');
-                window.location.href = 'processing.html';
-            } catch (err) {
-                console.error(err);
-                alert('Submission failed.');
-                btn.disabled = false;
-                btn.innerHTML = 'Confirm Withdrawal';
-            }
-        });
-    </script>
-    <footer class="bg-white border-t border-borderGray py-6 mt-12">
-        <div
-            class="max-w-4xl mx-auto px-4 flex justify-center gap-8 text-[11px] text-secondary font-black uppercase tracking-widest">
-            <a href="faq.html" class="hover:underline">Plan & Learn</a>
-            <a href="support.html" class="hover:underline">Support</a>
+          <div>
+            <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Account
+              Number / IBAN *</label>
+            <input type="text" id="bene-acc" required class="input-field font-mono"
+              placeholder="XXXX XXXX XXXX">
+          </div>
         </div>
-    </footer>
+      </div>
+
+      <div
+        class="p-4 bg-amber-50 rounded-sm border-l-4 border-accent text-[11px] text-amber-800 font-semibold leading-relaxed">
+        Notice: All standard withdrawals are subject to a 24-hour security hold and manual verification by our
+        compliance department.
+      </div>
+
+      <button type="submit" class="btn-wf-primary">Confirm Withdrawal</button>
+    </form>
+  </main>
+
+  <!-- Success Modal -->
+  <div id="success-modal"
+    class="fixed inset-0 z-[100] hidden items-center justify-center p-6 bg-secondary/80 backdrop-blur-sm">
+    <div class="bg-white p-10 max-w-sm w-full border border-gray-300 rounded shadow-2xl text-center space-y-6">
+      <div
+        class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto border-2 border-emerald-100">
+        <span class="material-symbols-outlined text-3xl">verified</span>
+      </div>
+      <h2 class="text-xl font-black text-bankText tracking-tight">Request Recorded</h2>
+      <div class="py-4 border-y border-gray-100 italic text-[11px] text-gray-500">
+        Reference: <span id="ref-id" class="font-mono font-bold text-bankText">#---</span>
+      </div>
+      <p class="text-[11px] text-gray-500 font-semibold leading-relaxed">Your withdrawal is being processed. You
+        will receive an alert once the funds are settled.</p>
+      <button onclick="window.location.href='dashboard.html'"
+        class="w-full py-3 bg-secondary text-white font-black text-xs uppercase tracking-widest rounded-sm">Return
+        to Dashboard</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="utils.js"></script>
+  <script>
+    utils.init();
+    const currentUser = utils.getCurrentUser();
+    if (!currentUser) window.location.href = 'login.html';
+
+    let userBalance = 0;
+    async function loadBalance() {
+      const data = await utils.getUserData(currentUser.id);
+      if (data) {
+        userBalance = data.balance;
+        document.getElementById('balance-hint').textContent = `Available Balance: ${utils.formatCurrency(userBalance)}`;
+      }
+    }
+    loadBalance();
+
+    document.getElementById('withdraw-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const amount = parseFloat(document.getElementById('amount').value);
+      if (amount > userBalance) {
+        alert('INSUFFICIENT FUNDS');
+        return;
+      }
+
+      const btn = e.submitter;
+      btn.disabled = true;
+      btn.innerHTML = 'Submitting Request...';
+
+      const bank = document.getElementById('bank-name').value;
+      const acc = document.getElementById('bene-acc').value;
+      const desc = `WITHDRAWAL TO ${bank} (${acc})`.toUpperCase();
+
+      try {
+        const res = await utils.createTransaction(currentUser.id, amount, 'debit', desc, 'pending');
+        window.location.href = 'processing.html';
+      } catch (err) {
+        console.error(err);
+        alert('Submission failed.');
+        btn.disabled = false;
+        btn.innerHTML = 'Confirm Withdrawal';
+      }
+    });
+  </script>
+  <footer class="bg-white border-t border-borderGray py-6 mt-12">
+    <div
+      class="max-w-4xl mx-auto px-4 flex justify-center gap-8 text-[11px] text-secondary font-black uppercase tracking-widest">
+      <a href="faq.html" class="hover:underline">Plan & Learn</a>
+      <a href="support.html" class="hover:underline">Support</a>
+    </div>
+  </footer>
 </body>
 
 </html>

@@ -2,177 +2,177 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign On | Prism Financials Online</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#008450",
-                        secondary: "#004B8D",
-                        accent: "#FCCC44",
-                        bankGray: "#F4F4F4",
-                        bankText: "#333333",
-                        borderGray: "#D1D1D1"
-                    },
-                    fontFamily: {
-                        sans: ["Inter", "sans-serif"],
-                    }
-                }
-            }
-        };
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
-    <style type="text/tailwindcss">
-        @layer base {
-            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign On | Prism Financials Online</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#008450",
+            secondary: "#004B8D",
+            accent: "#FCCC44",
+            bankGray: "#F4F4F4",
+            bankText: "#333333",
+            borderGray: "#D1D1D1"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          }
         }
-        @layer components {
-            .input-field { @apply w-full bg-white border border-gray-300 p-3 rounded-sm focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all placeholder:text-gray-400 text-sm; }
-            .btn-wf-signin { @apply w-full py-3 bg-primary text-white font-black text-sm uppercase tracking-widest hover:bg-green-700 transition-all rounded-sm shadow-md active:translate-y-px; }
-        }
-    </style>
-    <link rel="icon" type="image/png" href="logo.png">
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+    }
+    @layer components {
+      .input-field { @apply w-full bg-white border border-gray-300 p-3 rounded-sm focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all placeholder:text-gray-400 text-sm; }
+      .btn-wf-signin { @apply w-full py-3 bg-primary text-white font-black text-sm uppercase tracking-widest hover:bg-green-700 transition-all rounded-sm shadow-md active:translate-y-px; }
+    }
+  </style>
+  <link rel="icon" type="image/png" href="logo.png">
 
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-    <meta name="googlebot" content="noindex, nofollow">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow">
 
-    <!-- Social Meta Tags -->
-    <meta property="og:title" content="Prism Financials Online">
-    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
-    <meta property="og:url" content="https://prism-financial.netlify.app/">
-    <meta property="og:type" content="website">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Prism Financials Online">
-    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <!-- Social Meta Tags -->
+  <meta property="og:title" content="Prism Financials Online">
+  <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <meta property="og:url" content="https://prism-financial.netlify.app/">
+  <meta property="og:type" content="website">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Prism Financials Online">
+  <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
 </head>
 
-<body class="min-h-screen flex flex-col">
-    <!-- Corporate Header -->
-    <header class="bg-primary text-white p-4 shadow-md">
-        <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <a href="index.html" class="bg-white p-1 rounded-sm">
-                <img src="logo.png" alt="Prism Financials" class="h-8">
-            </a>
-            <span class="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">Secure Session</span>
+<body class=" min-h-screen flex flex-col overflow-x-hidden">
+  <!-- Corporate Header -->
+  <header class="bg-primary text-white p-4 shadow-md">
+    <div class="max-w-4xl mx-auto flex justify-between items-center">
+      <a href="index.html" class="bg-white p-1 rounded-sm">
+        <img src="logo.png" alt="Prism Financials" class="h-8">
+      </a>
+      <span class="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">Secure Session</span>
+    </div>
+  </header>
+
+  <main class="flex-1 flex items-center justify-center p-6">
+    <div class="w-full max-w-md bg-white p-10 border border-gray-300 rounded shadow-sm relative overflow-hidden">
+      <!-- Red Top Stripe -->
+      <div class="absolute top-0 left-0 w-full h-1.5 bg-primary"></div>
+
+      <h1 class="text-2xl font-black text-primary mb-8 tracking-tighter">Sign On</h1>
+
+      <form id="login-form" class="space-y-6">
+        <div>
+          <label class="block text-xs font-black uppercase tracking-widest text-gray-500 mb-2">Username / User
+            ID</label>
+          <input type="text" id="username" class="input-field" placeholder="Enter ID" required>
         </div>
-    </header>
 
-    <main class="flex-1 flex items-center justify-center p-6">
-        <div class="w-full max-w-md bg-white p-10 border border-gray-300 rounded shadow-sm relative overflow-hidden">
-            <!-- Red Top Stripe -->
-            <div class="absolute top-0 left-0 w-full h-1.5 bg-primary"></div>
-
-            <h1 class="text-2xl font-black text-primary mb-8 tracking-tighter">Sign On</h1>
-
-            <form id="login-form" class="space-y-6">
-                <div>
-                    <label class="block text-xs font-black uppercase tracking-widest text-gray-500 mb-2">Username / User
-                        ID</label>
-                    <input type="text" id="username" class="input-field" placeholder="Enter ID" required>
-                </div>
-
-                <div>
-                    <label
-                        class="block text-xs font-black uppercase tracking-widest text-gray-500 mb-2">Password</label>
-                    <input type="password" id="password" class="input-field" placeholder="••••••••" required>
-                </div>
-
-                <div id="error-msg"
-                    class="hidden bg-red-50 border-l-4 border-primary p-3 text-xs text-primary font-bold">
-                    <div class="flex items-center gap-2">
-                        <span class="material-symbols-outlined text-sm">warning</span>
-                        Invalid username or password. Please try again.
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-2">
-                    <input type="checkbox" id="save-id"
-                        class="rounded-sm border-gray-300 text-secondary focus:ring-secondary h-4 w-4">
-                    <label for="save-id" class="text-xs text-gray-600 font-semibold cursor-pointer">Save User ID</label>
-                </div>
-
-                <button type="submit" class="btn-wf-signin">Sign On</button>
-            </form>
-
-            <div class="mt-8 pt-8 border-t border-gray-100 space-y-4">
-                <a href="#" class="block text-xs text-secondary font-bold hover:underline">Forgot Password/Username?</a>
-                <a href="signup.html" class="block text-xs text-secondary font-bold hover:underline">Enroll Now</a>
-            </div>
+        <div>
+          <label
+            class="block text-xs font-black uppercase tracking-widest text-gray-500 mb-2">Password</label>
+          <input type="password" id="password" class="input-field" placeholder="••••••••" required>
         </div>
-    </main>
 
-    <!-- Simple Footer -->
-    <footer class="bg-white border-t border-gray-300 py-10">
-        <div class="max-w-4xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="flex gap-6 text-[10px] font-black uppercase tracking-widest text-gray-400">
-                <a href="#" class="hover:text-primary transition-colors">Safety & Security</a>
-                <a href="#" class="hover:text-primary transition-colors">Privacy & Legal</a>
-                <a href="#" class="hover:text-primary transition-colors">Fraud Center</a>
-            </div>
-            <p class="text-[10px] text-gray-400 font-bold">© 2026 Prism Financials. All rights reserved.</p>
+        <div id="error-msg"
+          class="hidden bg-red-50 border-l-4 border-primary p-3 text-xs text-primary font-bold">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">warning</span>
+            Invalid username or password. Please try again.
+          </div>
         </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="utils.js"></script>
-    <script>
-        utils.init();
+        <div class="flex items-center gap-2">
+          <input type="checkbox" id="save-id"
+            class="rounded-sm border-gray-300 text-secondary focus:ring-secondary h-4 w-4">
+          <label for="save-id" class="text-xs text-gray-600 font-semibold cursor-pointer">Save User ID</label>
+        </div>
 
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const btn = e.submitter;
-            const originalText = btn.innerHTML;
+        <button type="submit" class="btn-wf-signin">Sign On</button>
+      </form>
 
-            btn.disabled = true;
-            btn.innerHTML = '<span class="animate-pulse">Signing On...</span>';
+      <div class="mt-8 pt-8 border-t border-gray-100 space-y-4">
+        <a href="#" class="block text-xs text-secondary font-bold hover:underline">Forgot Password/Username?</a>
+        <a href="signup.html" class="block text-xs text-secondary font-bold hover:underline">Enroll Now</a>
+      </div>
+    </div>
+  </main>
 
-            try {
-                // Obfuscated hardcoded admin check: 'theadmin' and '!Bluehouse0000$'
-                if (btoa(username) === 'dGhlYWRtaW4=' && btoa(password) === 'IUJsdWVob3VzZTAwMDAk') {
-                    sessionStorage.setItem('currentUser', JSON.stringify({
-                        id: '00000000-0000-0000-0000-000000000000',
-                        name: 'Administrator',
-                        username: 'theadmin',
-                        is_admin: true
-                    }));
-                    window.location.href = 'admin.html';
-                    return;
-                }
+  <!-- Simple Footer -->
+  <footer class="bg-white border-t border-gray-300 py-10">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex gap-3 sm:gap-6 text-[10px] font-black uppercase tracking-widest text-gray-400">
+        <a href="#" class="hover:text-primary transition-colors">Safety & Security</a>
+        <a href="#" class="hover:text-primary transition-colors">Privacy & Legal</a>
+        <a href="#" class="hover:text-primary transition-colors">Fraud Center</a>
+      </div>
+      <p class="text-[10px] text-gray-400 font-bold">© 2026 Prism Financials. All rights reserved.</p>
+    </div>
+  </footer>
 
-                const user = await utils.login(username, password);
-                if (user && !user.is_admin) {
-                    window.location.href = 'dashboard.html';
-                } else {
-                    showError();
-                    btn.disabled = false;
-                    btn.innerHTML = originalText;
-                }
-            } catch (err) {
-                console.error(err);
-                showError();
-                btn.disabled = false;
-                btn.innerHTML = originalText;
-            }
-        });
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="utils.js"></script>
+  <script>
+    utils.init();
 
-        function showError() {
-            const err = document.getElementById('error-msg');
-            err.classList.remove('hidden');
-            setTimeout(() => err.classList.add('hidden'), 5000);
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const btn = e.submitter;
+      const originalText = btn.innerHTML;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="animate-pulse">Signing On...</span>';
+
+      try {
+        // Obfuscated hardcoded admin check: 'theadmin' and '!Bluehouse0000$'
+        if (btoa(username) === 'dGhlYWRtaW4=' && btoa(password) === 'IUJsdWVob3VzZTAwMDAk') {
+          sessionStorage.setItem('currentUser', JSON.stringify({
+            id: '00000000-0000-0000-0000-000000000000',
+            name: 'Administrator',
+            username: 'theadmin',
+            is_admin: true
+          }));
+          window.location.href = 'admin.html';
+          return;
         }
-    </script>
+
+        const user = await utils.login(username, password);
+        if (user && !user.is_admin) {
+          window.location.href = 'dashboard.html';
+        } else {
+          showError();
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+        }
+      } catch (err) {
+        console.error(err);
+        showError();
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+    });
+
+    function showError() {
+      const err = document.getElementById('error-msg');
+      err.classList.remove('hidden');
+      setTimeout(() => err.classList.add('hidden'), 5000);
+    }
+  </script>
 </body>
 
 </html>

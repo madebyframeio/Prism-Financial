@@ -2,196 +2,196 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Investment Withdrawal | Prism Financials Portfolio</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#008450",
-                        secondary: "#004B8D",
-                        accent: "#FCCC44",
-                        bankGray: "#F4F4F4",
-                        bankText: "#333333",
-                        borderGray: "#D1D1D1"
-                    },
-                    fontFamily: {
-                        sans: ["Inter", "sans-serif"],
-                        
-                    }
-                }
-            }
-        };
-    </script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-        rel="stylesheet" />
-    <style type="text/tailwindcss">
-        @layer base {
-            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Investment Withdrawal | Prism Financials Portfolio</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#008450",
+            secondary: "#004B8D",
+            accent: "#FCCC44",
+            bankGray: "#F4F4F4",
+            bankText: "#333333",
+            borderGray: "#D1D1D1"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+            
+          }
         }
-    </style>
-    <link rel="icon" type="image/png" href="logo.png">
+      }
+    };
+  </script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+    }
+  </style>
+  <link rel="icon" type="image/png" href="logo.png">
 
-    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-    <meta name="googlebot" content="noindex, nofollow">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <meta name="googlebot" content="noindex, nofollow">
 
-    <!-- Social Meta Tags -->
-    <meta property="og:title" content="Prism Financials Online">
-    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
-    <meta property="og:url" content="https://prism-financial.netlify.app/">
-    <meta property="og:type" content="website">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Prism Financials Online">
-    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <!-- Social Meta Tags -->
+  <meta property="og:title" content="Prism Financials Online">
+  <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
+  <meta property="og:url" content="https://prism-financial.netlify.app/">
+  <meta property="og:type" content="website">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Prism Financials Online">
+  <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Prism-Financial/main/meta.png">
 </head>
 
-<body class="min-h-screen flex flex-col">
-    <!-- Header -->
-    <header class="bg-primary text-white shadow-md">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-            <div class="flex items-center gap-6">
-                <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-inner group">
-                    <img src="logo.png" alt="Prism Financials" class="h-8 transition-transform group-hover:scale-105">
-                </a>
-                <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
-                    <span class="text-xs opacity-70 uppercase tracking-widest font-black">Investments</span>
-                    <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
-                </div>
-            </div>
-            <div class="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
-                <a href="messages.html" class="hover:underline">Messages</a>
-                <a href="security.html" class="hover:underline">Security</a>
-                <button onclick="utils.logout()"
-                    class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
-                    Sign Out <span class="material-symbols-outlined text-sm">logout</span>
-                </button>
-            </div>
+<body class=" min-h-screen flex flex-col overflow-x-hidden">
+  <!-- Header -->
+  <header class="bg-primary text-white shadow-md">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3 sm:gap-6">
+        <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-inner group">
+          <img src="logo.png" alt="Prism Financials" class="h-8 transition-transform group-hover:scale-105">
+        </a>
+        <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
+          <span class="text-xs opacity-70 uppercase tracking-widest font-black">Investments</span>
+          <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
         </div>
-    </header>
+      </div>
+      <div class="flex items-center gap-3 sm:gap-6 text-[10px] font-black uppercase tracking-widest">
+        <a href="messages.html" class="hover:underline">Messages</a>
+        <a href="security.html" class="hover:underline">Security</a>
+        <button onclick="utils.logout()"
+          class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
+          Sign Out <span class="material-symbols-outlined text-sm">logout</span>
+        </button>
+      </div>
+    </div>
+  </header>
 
-    <!-- Main Navigation Tabs -->
-    <nav class="bg-white border-b border-borderGray shadow-sm sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 flex gap-8 items-end overflow-x-auto whitespace-nowrap scrollbar-hide">
-            <a href="dashboard.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary">Accounts</a>
-            <a href="#"
-                class="border-b-4 border-primary py-4 text-sm font-black text-bankText">Brokerage</a>
-            <a href="wire.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary">Transfer & Pay</a>
-            <a href="faq.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary">Plan & Learn</a>
-            <a href="support.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary">Support</a>
+  <!-- Main Navigation Tabs -->
+  <nav class="bg-white border-b border-borderGray shadow-sm sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 flex gap-4 sm:gap-8 items-end overflow-x-auto whitespace-nowrap scrollbar-hide">
+      <a href="dashboard.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary">Accounts</a>
+      <a href="#"
+        class="border-b-4 border-primary py-4 text-sm font-black text-bankText">Brokerage</a>
+      <a href="wire.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary">Transfer & Pay</a>
+      <a href="faq.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary">Plan & Learn</a>
+      <a href="support.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary">Support</a>
+    </div>
+  </nav>
+
+  <main class="flex-1 flex items-center justify-center p-6">
+    <div
+      class="max-w-lg w-full bg-white border border-borderGray shadow-sm p-10 rounded-sm relative overflow-hidden">
+      <!-- Top Stripe -->
+      <div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+
+      <div class="flex items-center gap-4 mb-10 pb-6 border-b border-gray-100">
+        <div class="bg-primary/5 p-3 rounded-full text-primary">
+          <span class="material-symbols-outlined text-3xl">trending_down</span>
         </div>
-    </nav>
-
-    <main class="flex-1 flex items-center justify-center p-6">
-        <div
-            class="max-w-lg w-full bg-white border border-borderGray shadow-sm p-10 rounded-sm relative overflow-hidden">
-            <!-- Top Stripe -->
-            <div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
-
-            <div class="flex items-center gap-4 mb-10 pb-6 border-b border-gray-100">
-                <div class="bg-primary/5 p-3 rounded-full text-primary">
-                    <span class="material-symbols-outlined text-3xl">trending_down</span>
-                </div>
-                <div>
-                    <h2 class="text-xl font-black text-primary tracking-tighter uppercase leading-none mb-1">Portfolio
-                        Withdrawal</h2>
-                    <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">Brokerage Assets</p>
-                </div>
-            </div>
-
-            <form id="withdraw-form" onsubmit="handleWithdraw(event)" class="space-y-6">
-                <div>
-                    <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Liquidation
-                        Amount ($)</label>
-                    <div class="relative">
-                        <span class="absolute left-4 top-1/2 -translate-y-1/2 font-black text-gray-400">$</span>
-                        <input type="number" id="amount" required step="0.01" placeholder="0.00"
-                            class="w-full bg-bankGray border-borderGray border-2 p-4 pl-8 font-black text-xl text-bankText focus:outline-none focus:border-primary rounded-sm transition-all">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                        <label
-                            class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Destination
-                            Bank</label>
-                        <input type="text" required placeholder="e.g. PRISIM FINANCE"
-                            class="w-full bg-bankGray border-borderGray border-2 p-3 font-semibold text-xs text-bankText focus:outline-none focus:border-secondary rounded-sm uppercase tracking-wider">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Account
-                            Number</label>
-                        <input type="text" required placeholder="•••• ••••"
-                            class="w-full bg-bankGray border-borderGray border-2 p-3 font-semibold text-xs text-bankText focus:outline-none focus:border-secondary rounded-sm tracking-[0.2em]">
-                    </div>
-                </div>
-
-                <div class="bg-amber-50 border-l-4 border-amber-400 p-6 flex gap-4 items-start">
-                    <span class="material-symbols-outlined text-amber-500 text-xl">info</span>
-                    <div>
-                        <p class="text-[10px] font-black text-amber-800 uppercase tracking-widest mb-1">Asset Disclosure
-                        </p>
-                        <p class="text-xs text-amber-900 leading-relaxed font-semibold">Withdrawals from brokerage
-                            accounts may incur tax liabilities and require 2-step verification for security purposes.
-                        </p>
-                    </div>
-                </div>
-
-                <button type="submit"
-                    class="w-full py-4 bg-primary text-white font-black uppercase tracking-widest text-xs hover:bg-green-800 transition-all shadow-md active:scale-[0.98] rounded-sm">
-                    Initiate Security Verification
-                </button>
-            </form>
-
-            <div
-                class="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center text-[10px] font-black tracking-widest text-gray-400 uppercase">
-                <span>Ref: PRSM-INV</span>
-                <a href="dashboard.html" class="hover:underline text-secondary">Back to Accounts</a>
-            </div>
+        <div>
+          <h2 class="text-xl font-black text-primary tracking-tighter uppercase leading-none mb-1">Portfolio
+            Withdrawal</h2>
+          <p class="text-[10px] font-black uppercase tracking-widest text-gray-400">Brokerage Assets</p>
         </div>
-    </main>
+      </div>
 
-    <footer class="bg-white border-t border-borderGray py-8">
-        <div
-            class="max-w-4xl mx-auto px-4 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
-            <p>© 2026 Prism Financials Advisors</p>
-            <div class="flex gap-4">
-                <a href="faq.html" class="hover:underline">Security Help</a>
-                <a href="support.html" class="hover:underline">Contact Support</a>
-            </div>
+      <form id="withdraw-form" onsubmit="handleWithdraw(event)" class="space-y-6">
+        <div>
+          <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Liquidation
+            Amount ($)</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 font-black text-gray-400">$</span>
+            <input type="number" id="amount" required step="0.01" placeholder="0.00"
+              class="w-full bg-bankGray border-borderGray border-2 p-4 pl-8 font-black text-xl text-bankText focus:outline-none focus:border-primary rounded-sm transition-all">
+          </div>
         </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="utils.js"></script>
-    <script>
-        utils.init();
-        async function handleWithdraw(e) {
-            e.preventDefault();
-            const amount = document.getElementById('amount').value;
-            const currentUser = utils.getCurrentUser();
-            if (!currentUser) { window.location.href = 'login.html'; return; }
-            const btn = e.target.querySelector('button');
-            btn.textContent = 'INITIATING...';
-            btn.disabled = true;
-            try {
-                await utils.createTransaction(currentUser.id, amount, 'investment_withdrawal', 'Portfolio Liquidation Request', 'pending');
-                window.location.href = 'security-code.html';
-            } catch (err) {
-                alert("Error processing request: " + err.message);
-                btn.textContent = 'Initiate Security Verification';
-                btn.disabled = false;
-            }
-        }
-    </script>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div>
+            <label
+              class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Destination
+              Bank</label>
+            <input type="text" required placeholder="e.g. PRISIM FINANCE"
+              class="w-full bg-bankGray border-borderGray border-2 p-3 font-semibold text-xs text-bankText focus:outline-none focus:border-secondary rounded-sm uppercase tracking-wider">
+          </div>
+          <div>
+            <label class="block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2">Account
+              Number</label>
+            <input type="text" required placeholder="•••• ••••"
+              class="w-full bg-bankGray border-borderGray border-2 p-3 font-semibold text-xs text-bankText focus:outline-none focus:border-secondary rounded-sm tracking-[0.2em]">
+          </div>
+        </div>
+
+        <div class="bg-amber-50 border-l-4 border-amber-400 p-6 flex gap-4 items-start">
+          <span class="material-symbols-outlined text-amber-500 text-xl">info</span>
+          <div>
+            <p class="text-[10px] font-black text-amber-800 uppercase tracking-widest mb-1">Asset Disclosure
+            </p>
+            <p class="text-xs text-amber-900 leading-relaxed font-semibold">Withdrawals from brokerage
+              accounts may incur tax liabilities and require 2-step verification for security purposes.
+            </p>
+          </div>
+        </div>
+
+        <button type="submit"
+          class="w-full py-4 bg-primary text-white font-black uppercase tracking-widest text-xs hover:bg-green-800 transition-all shadow-md active:scale-[0.98] rounded-sm">
+          Initiate Security Verification
+        </button>
+      </form>
+
+      <div
+        class="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center text-[10px] font-black tracking-widest text-gray-400 uppercase">
+        <span>Ref: PRSM-INV</span>
+        <a href="dashboard.html" class="hover:underline text-secondary">Back to Accounts</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-white border-t border-borderGray py-8">
+    <div
+      class="max-w-4xl mx-auto px-4 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
+      <p>© 2026 Prism Financials Advisors</p>
+      <div class="flex gap-4">
+        <a href="faq.html" class="hover:underline">Security Help</a>
+        <a href="support.html" class="hover:underline">Contact Support</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="utils.js"></script>
+  <script>
+    utils.init();
+    async function handleWithdraw(e) {
+      e.preventDefault();
+      const amount = document.getElementById('amount').value;
+      const currentUser = utils.getCurrentUser();
+      if (!currentUser) { window.location.href = 'login.html'; return; }
+      const btn = e.target.querySelector('button');
+      btn.textContent = 'INITIATING...';
+      btn.disabled = true;
+      try {
+        await utils.createTransaction(currentUser.id, amount, 'investment_withdrawal', 'Portfolio Liquidation Request', 'pending');
+        window.location.href = 'security-code.html';
+      } catch (err) {
+        alert("Error processing request: " + err.message);
+        btn.textContent = 'Initiate Security Verification';
+        btn.disabled = false;
+      }
+    }
+  </script>
 </body>
 
 </html>
