@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Account Summary | Prisim Finance Online</title>
+    <title>Account Summary | Prism Financials Online</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
         tailwind.config = {
@@ -39,6 +39,7 @@
             .sidebar-card { @apply bg-white shadow-sm border border-borderGray rounded-sm p-6; }
         }
     </style>
+    <link rel="icon" type="image/png" href="logo.png">
 </head>
 
 <body class="min-h-screen flex flex-col">
@@ -47,7 +48,7 @@
         <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-6">
                 <a href="index.html" class="bg-white p-1 rounded-sm shadow-inner group">
-                    <img src="logo.png" alt="Prisim Finance" class="h-8 transition-transform group-hover:scale-105">
+                    <img src="logo.png" alt="Prism Financials" class="h-8 transition-transform group-hover:scale-105">
                 </a>
                 <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
                     <span class="text-xs opacity-70 uppercase tracking-widest font-black">Welcome back</span>
@@ -169,12 +170,12 @@
             <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
                 <div class="bg-bankGray p-5 border-b border-borderGray flex justify-between items-center">
                     <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Recent Account Activity</h2>
-                    <span
+                    <span onclick="window.location.href='transactions.html'"
                         class="text-secondary text-xs font-black uppercase tracking-widest hover:underline cursor-pointer">View
                         All</span>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
+                    <table class="w-full text-left border-collapse min-w-[600px] whitespace-nowrap">
                         <thead>
                             <tr class="bg-white">
                                 <th
@@ -277,7 +278,7 @@
                 <a href="faq.html" class="hover:underline">Privacy Help</a>
                 <a href="support.html" class="hover:underline">Security Support</a>
             </div>
-            <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Prisim Finance. All rights reserved.</p>
+            <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Prism Financials. All rights reserved.</p>
         </div>
     </footer>
 
@@ -304,85 +305,105 @@
             const privacyText = document.getElementById('privacy-text');
             const privacyIcon = privacyBtn.querySelector('span');
 
-            // Initial Data Load
-            try {
-                const userData = await utils.getUserData(user.id);
-                if (userData) {
-                    mainBalEl.textContent = utils.formatCurrency(userData.balance || 0);
-                    saveBalEl.textContent = utils.formatCurrency(userData.savings_balance || 0);
-                    invBalEl.textContent = utils.formatCurrency(userData.investment_balance || 0);
+            // Data Loading Function
+            async function loadDashboardData() {
+                try {
+                    const userData = await utils.getUserData(user.id);
+                    if (userData) {
+                        mainBalEl.textContent = utils.formatCurrency(userData.balance || 0);
+                        saveBalEl.textContent = utils.formatCurrency(userData.savings_balance || 0);
+                        invBalEl.textContent = utils.formatCurrency(userData.investment_balance || 0);
 
-                    if (userData.account_number) {
-                        document.getElementById('acc-last-four').textContent = userData.account_number.slice(-4);
-                    }
-                    if (userData.acc_savings) {
-                        document.getElementById('acc-savings').textContent = userData.acc_savings.slice(-4);
-                    }
-                    if (userData.acc_invest) {
-                        document.getElementById('acc-invest').textContent = userData.acc_invest.slice(-4);
-                    }
-                    if (userData.cc_number) {
-                        document.getElementById('cc-number').textContent = userData.cc_number.slice(-4);
-                    }
-                    document.getElementById('cc-balance').textContent = utils.formatCurrency(userData.cc_balance || 0);
+                        if (userData.account_number) {
+                            document.getElementById('acc-last-four').textContent = userData.account_number.slice(-4);
+                        }
+                        if (userData.acc_savings) {
+                            document.getElementById('acc-savings').textContent = userData.acc_savings.slice(-4);
+                        }
+                        if (userData.acc_invest) {
+                            document.getElementById('acc-invest').textContent = userData.acc_invest.slice(-4);
+                        }
+                        if (userData.cc_number) {
+                            document.getElementById('cc-number').textContent = userData.cc_number.slice(-4);
+                        }
+                        document.getElementById('cc-balance').textContent = utils.formatCurrency(userData.cc_balance || 0);
 
-                    // Load Transactions
-                    const txs = await utils.getTransactions(user.id);
-                    const historyEl = document.getElementById('transaction-history');
-                    if (txs && txs.length > 0) {
-                        historyEl.innerHTML = '';
-                        txs.slice(0, 5).forEach(tx => {
-                            const tr = document.createElement('tr');
-                            tr.className = "border-b border-borderGray group hover:bg-slate-50 transition-colors cursor-default";
+                        // Load Transactions
+                        const txs = await utils.getTransactions(user.id);
+                        const historyEl = document.getElementById('transaction-history');
+                        if (txs && txs.length > 0) {
+                            historyEl.innerHTML = '';
+                            txs.slice(0, 5).forEach(tx => {
+                                const tr = document.createElement('tr');
+                                tr.className = "border-b border-borderGray group hover:bg-slate-50 transition-colors cursor-default";
 
-                            const isCredit = tx.type === 'credit' || tx.type === 'investment_deposit';
-                            const colorClass = isCredit ? 'text-emerald-600' : 'text-bankText';
-                            const prefix = isCredit ? '+' : '-';
+                                const isCredit = tx.type === 'credit' || tx.type === 'investment_deposit';
+                                const colorClass = isCredit ? 'text-emerald-600' : 'text-bankText';
+                                const prefix = isCredit ? '+' : '-';
 
 
-                            const statusColor = tx.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
-                                tx.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700';
+                                const statusColor = tx.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
+                                    tx.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700';
 
-                            tr.innerHTML = `
-                                <td class="p-5 text-xs font-bold text-gray-500">${new Date(tx.created_at).toLocaleDateString()}</td>
-                                <td class="p-5 text-sm font-black text-secondary tracking-tight uppercase">${tx.description || tx.type}</td>
-                                <td class="p-5 text-[10px] font-black uppercase">
-                                    <span class="px-2 py-0.5 rounded-sm ${statusColor}">${tx.status}</span>
-                                </td>
-                                <td class="p-5 text-sm font-bold text-right ${colorClass}">${prefix}${utils.formatCurrency(tx.amount)}</td>
-                            `;
-                            historyEl.appendChild(tr);
-                        });
-                    }
-
-                    // Check Unread Messages
-                    const unreadCount = await utils.getUnreadMessageCount(user.id);
-                    if (unreadCount > 0) {
-                        const msgLink = document.getElementById('messages-link');
-                        if (msgLink) {
-                            msgLink.innerHTML = `Messages <span class="bg-accent text-primary px-1.5 py-0.5 rounded-full text-[8px] ml-1 animate-pulse">${unreadCount}</span>`;
+                                tr.innerHTML = `
+                                    <td class="p-5 text-xs font-bold text-gray-500">${new Date(tx.created_at).toLocaleDateString()}</td>
+                                    <td class="p-5 text-sm font-black text-secondary tracking-tight uppercase">${tx.description || tx.type}</td>
+                                    <td class="p-5 text-[10px] font-black uppercase">
+                                        <span class="px-2 py-0.5 rounded-sm ${statusColor}">${tx.status}</span>
+                                    </td>
+                                    <td class="p-5 text-sm font-bold text-right ${colorClass}">${prefix}${utils.formatCurrency(tx.amount)}</td>
+                                `;
+                                historyEl.appendChild(tr);
+                            });
                         }
 
-                        // Also add a toast-like notification card on the right
-                        const notificationContainer = document.querySelector('.md\\:col-span-4');
-                        if (notificationContainer) {
-                            const note = document.createElement('div');
-                            note.className = "sidebar-card border-l-4 border-l-accent animate-bounce-slow mt-4";
-                            note.innerHTML = `
-                                <div class="flex items-center gap-3 mb-2">
-                                    <span class="material-symbols-outlined text-accent">campaign</span>
-                                    <h3 class="font-black text-[10px] uppercase tracking-[0.3em] text-accent">New Message</h3>
-                                </div>
-                                <p class="text-[11px] text-gray-600 font-bold mb-3">You have ${unreadCount} unread message(s) in your secure inbox.</p>
-                                <a href="messages.html" class="text-[9px] font-black uppercase tracking-widest text-primary hover:underline">Read Now &rarr;</a>
-                            `;
-                            notificationContainer.prepend(note);
+                        // Check Unread Messages
+                        const unreadCount = await utils.getUnreadMessageCount(user.id);
+                        if (unreadCount > 0) {
+                            const msgLink = document.getElementById('messages-link');
+                            if (msgLink) {
+                                msgLink.innerHTML = `Messages <span class="bg-accent text-primary px-1.5 py-0.5 rounded-full text-[8px] ml-1 animate-pulse">${unreadCount}</span>`;
+                                msgLink.href = 'messages.html';
+                            }
+
+                            // Also add a toast-like notification card on the right
+                            const notificationContainer = document.querySelector('.md\\:col-span-4');
+                            if (notificationContainer && !document.getElementById('unread-msg-toast')) {
+                                const note = document.createElement('div');
+                                note.id = 'unread-msg-toast';
+                                note.className = "sidebar-card border-l-4 border-l-accent animate-bounce-slow mt-4";
+                                note.innerHTML = `
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <span class="material-symbols-outlined text-accent">campaign</span>
+                                        <h3 class="font-black text-[10px] uppercase tracking-[0.3em] text-accent">New Message</h3>
+                                    </div>
+                                    <p id="unread-toast-text" class="text-[11px] text-gray-600 font-bold mb-3">You have ${unreadCount} unread message(s) in your secure inbox.</p>
+                                    <a href="messages.html" class="text-[9px] font-black uppercase tracking-widest text-primary hover:underline">Read Now &rarr;</a>
+                                `;
+                                notificationContainer.prepend(note);
+                            } else if (document.getElementById('unread-toast-text')) {
+                                document.getElementById('unread-toast-text').textContent = `You have ${unreadCount} unread message(s) in your secure inbox.`;
+                            }
+                        } else {
+                            const activeToast = document.getElementById('unread-msg-toast');
+                            if (activeToast) activeToast.remove();
                         }
                     }
+                } catch (err) {
+                    console.error("Dashboard Load Error:", err);
                 }
-            } catch (err) {
-                console.error("Dashboard Load Error:", err);
+
+                // Keep privacy blur state intact after refresh
+                if (typeof isPrivate !== 'undefined' && isPrivate) {
+                    document.querySelectorAll('.balance-text').forEach(el => el.style.filter = 'blur(10px)');
+                }
             }
+
+            // Initial Data Load
+            await loadDashboardData();
+
+            // Auto-refresh interval (30 seconds)
+            setInterval(loadDashboardData, 30000);
 
             // Privacy Functional Implementation
             let isPrivate = false;

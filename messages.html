@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Messages | Prisim Finance Secure Messaging</title>
+    <title>Messages | Prism Financials Secure Messaging</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
         tailwind.config = {
@@ -30,13 +30,14 @@
         rel="stylesheet" />
     <style type="text/tailwindcss">
         @layer base {
-            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased h-screen flex flex-col; }
+            body { @apply bg-white text-bankText font-sans antialiased h-screen flex flex-col; }
         }
         @layer components {
-            .msg-row { @apply flex items-center gap-4 p-5 bg-white border-b border-borderGray hover:bg-slate-50 transition-colors cursor-pointer; }
-            .msg-row.unread { @apply border-l-4 border-l-primary bg-blue-50/30; }
+            .msg-row { @apply flex items-start gap-4 p-5 bg-white border-b border-borderGray hover:bg-slate-50 transition-colors cursor-pointer; }
+            .msg-row.unread { @apply border-l-4 border-l-primary bg-white; }
         }
     </style>
+    <link rel="icon" type="image/png" href="logo.png">
 </head>
 
 <body>
@@ -44,69 +45,77 @@
     <header class="bg-primary text-white shadow-md">
         <div class="max-w-full mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center gap-6">
-                <a href="dashboard.html" class="bg-white p-1 rounded-sm">
-                    <img src="logo.png" alt="Prisim Finance" class="h-8">
+                <a href="dashboard.html" class="bg-white p-2 rounded-sm flex items-center justify-center">
+                    <img src="logo.png" alt="Prism Financials" class="h-8">
                 </a>
-                <h1 class="text-sm font-black uppercase tracking-widest border-l border-white/20 pl-6 hidden sm:block">
+                <h1 class="text-[14px] font-black uppercase tracking-widest pl-2 hidden sm:block">
                     Secure Message Center</h1>
             </div>
-            <div class="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
-                <a href="messages.html" class="underline underline-offset-4 decoration-accent decoration-2">Messages</a>
-                <a href="security.html" class="hover:underline">Security</a>
-                <a href="dashboard.html" class="hover:text-accent">Close</a>
+            <div class="flex items-center gap-6 text-[10px] font-black uppercase tracking-[0.2em] relative top-1">
+                <a href="messages.html" class="border-b-[3px] border-white pb-1">MESSAGES</a>
+                <a href="security.html"
+                    class="hover:border-b-[3px] border-white pb-1 transition-all transparent border-transparent">SECURITY</a>
+                <a href="dashboard.html" class="hover:text-accent pb-1">CLOSE</a>
             </div>
         </div>
     </header>
 
-    <main class="flex-1 flex overflow-hidden">
+    <main class="flex-1 flex overflow-hidden max-w-[1400px] w-full mx-auto border-l border-r border-borderGray">
         <!-- Sidebar: List -->
-        <div class="w-full md:w-[400px] bg-white border-r border-borderGray overflow-y-auto w-full md:w-auto flex-shrink-0"
+        <div class="w-full md:w-1/4 bg-white border-r border-borderGray overflow-y-auto flex-shrink-0"
             id="message-list-container">
             <div
-                class="p-6 bg-bankGray border-b border-borderGray flex justify-between items-center sticky top-0 z-10 w-full">
+                class="p-6 bg-white border-b border-borderGray flex justify-between items-center sticky top-0 z-10 w-full">
                 <span class="text-[10px] font-black uppercase tracking-widest text-gray-500">Inbox (<span
                         id="unread-count">0</span>)</span>
                 <button
-                    class="material-symbols-outlined text-secondary hover:text-primary transition-colors">edit_square</button>
+                    class="material-symbols-outlined text-secondary hover:text-primary transition-colors text-lg">edit_square</button>
             </div>
 
             <div id="message-list">
                 <!-- Message List Placeholder -->
-                <div class="p-12 text-center text-gray-400">
-                    <span class="material-symbols-outlined text-4xl mb-3 opacity-20">mail</span>
-                    <p class="text-[10px] font-black uppercase tracking-widest">Your inbox is empty</p>
+                <div class="p-12 text-center text-gray-400 flex flex-col items-center justify-center mt-10">
+                    <span class="material-symbols-outlined text-4xl mb-6 opacity-20">mail</span>
+                    <p class="text-[10px] font-black uppercase tracking-[0.1em] text-gray-400">Your inbox is empty</p>
                 </div>
             </div>
         </div>
 
         <!-- Detail Placeholder -->
         <div id="message-detail"
-            class="hidden md:flex flex-1 flex-col items-center justify-center bg-slate-50 text-gray-400 p-20 text-center w-full relative">
+            class="hidden md:flex flex-1 flex-col items-center justify-center bg-white text-gray-400 p-20 text-center w-full relative">
 
             <button id="close-mobile-msg"
                 class="md:hidden absolute top-4 left-4 p-2 bg-white rounded-full shadow text-bankText z-50 material-symbols-outlined hidden">
                 arrow_back
             </button>
 
-            <div id="empty-state" class="flex flex-col items-center justify-center">
+            <div id="empty-state" class="flex flex-col items-center justify-center -mt-20">
                 <span class="material-symbols-outlined text-6xl mb-4 opacity-10">mark_email_read</span>
-                <h2 class="text-xl font-black uppercase tracking-tighter mb-2">Secure Inbox</h2>
-                <p class="text-xs font-semibold max-w-xs leading-relaxed">Select a message from the list on the left to
+                <h2 class="text-[16px] font-black uppercase tracking-tighter mb-2 text-bankText/40">Secure Inbox</h2>
+                <p class="text-[11px] font-semibold max-w-[280px] leading-relaxed text-gray-400">Select a message from
+                    the list on the left to
                     view
                     its contents in our secure encrypted environment.</p>
             </div>
 
             <div id="active-message"
-                class="hidden w-full h-full flex flex-col text-left max-w-2xl mx-auto pt-10 md:pt-0">
+                class="hidden w-full h-full flex flex-col text-left max-w-3xl mx-auto pt-10 md:pt-0">
                 <div class="border-b border-borderGray pb-6 mb-6 pt-4">
-                    <h2 id="msg-subject" class="text-2xl font-black text-bankText mb-2">Subject</h2>
+                    <div class="flex justify-between items-start mb-2">
+                        <h2 id="msg-subject" class="text-xl font-bold text-bankText">Subject</h2>
+                        <button id="btn-delete-msg" title="Delete Message"
+                            class="text-red-500 hover:text-red-700 transition-colors flex items-center justify-center p-2 rounded-full hover:bg-red-50">
+                            <span class="material-symbols-outlined text-lg">delete</span>
+                        </button>
+                    </div>
                     <div class="flex justify-between items-center text-xs font-semibold text-gray-500">
                         <span>From: Customer Security</span>
                         <span id="msg-date">Date</span>
                     </div>
                 </div>
                 <div id="msg-body"
-                    class="text-sm text-bankText leading-relaxed whitespace-pre-wrap flex-1 overflow-y-auto">
+                    class="text-sm text-bankText leading-loose whitespace-pre-wrap flex-1 overflow-y-auto">
                     Body
                 </div>
             </div>
@@ -133,75 +142,125 @@
             const msgSubject = document.getElementById('msg-subject');
             const msgDate = document.getElementById('msg-date');
             const msgBody = document.getElementById('msg-body');
+            const btnDeleteMsg = document.getElementById('btn-delete-msg');
 
-            try {
-                const messages = await utils.getMessages(user.id);
+            let activeMsgId = null;
+            let activeMsgRow = null;
 
-                if (messages && messages.length > 0) {
-                    listEl.innerHTML = '';
-                    let unread = 0;
+            async function loadMessages() {
+                try {
+                    const messages = await utils.getMessages(user.id);
 
-                    messages.forEach(msg => {
-                        if (!msg.is_read) unread++;
+                    if (messages && messages.length > 0) {
+                        listEl.innerHTML = '';
+                        let unread = 0;
 
-                        const row = document.createElement('div');
-                        row.className = `msg-row ${!msg.is_read ? 'unread' : ''}`;
-                        row.innerHTML = `
-                            <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center shrink-0 text-slate-400 ${!msg.is_read ? 'bg-blue-100 text-secondary' : ''}">
-                                <span class="material-symbols-outlined">${!msg.is_read ? 'mail' : 'drafts'}</span>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex justify-between items-center mb-1">
-                                    <h4 class="font-black text-xs truncate ${!msg.is_read ? 'text-secondary' : 'text-bankText'}">${msg.subject}</h4>
-                                    <span class="text-[9px] font-black text-gray-400 shrink-0 ml-2">${new Date(msg.created_at).toLocaleDateString()}</span>
+                        messages.forEach(msg => {
+                            if (!msg.is_read) unread++;
+
+                            const row = document.createElement('div');
+                            row.className = `msg-row ${!msg.is_read ? 'unread' : ''}`;
+
+                            // If this is the currently active message, we can optionally highlight it later, but for now just preserving the click handler
+                            row.innerHTML = `
+                                <div class="flex items-center justify-center shrink-0 w-8 h-8 rounded-full border border-gray-200 bg-gray-50/50 mt-1">
+                                    <span class="material-symbols-outlined text-[16px] text-[#AAB0C6]">${!msg.is_read ? 'mail' : 'drafts'}</span>
                                 </div>
-                                <p class="text-xs text-gray-500 truncate">${msg.body}</p>
-                            </div>
-                        `;
+                                <div class="flex-1 min-w-0 flex flex-col pt-1">
+                                    <h4 class="font-black text-[11px] truncate text-bankText mb-1">${msg.subject}</h4>
+                                    <p class="text-[11px] text-gray-400 font-semibold truncate leading-relaxed">${msg.body}</p>
+                                </div>
+                            `;
 
-                        row.addEventListener('click', async () => {
-                            // Mobile View Switch
-                            if (window.innerWidth < 768) {
-                                listContainer.classList.add('hidden');
-                                detailView.classList.remove('hidden');
-                                detailView.classList.add('flex');
-                                btnCloseMobile.classList.remove('hidden');
-                            }
+                            row.addEventListener('click', async () => {
+                                // Mobile View Switch
+                                if (window.innerWidth < 768) {
+                                    listContainer.classList.add('hidden');
+                                    detailView.classList.remove('hidden');
+                                    detailView.classList.add('flex');
+                                    btnCloseMobile.classList.remove('hidden');
+                                }
 
-                            emptyState.classList.add('hidden');
-                            activeMsg.classList.remove('hidden');
-                            activeMsg.classList.add('flex');
+                                emptyState.classList.add('hidden');
+                                activeMsg.classList.remove('hidden');
+                                activeMsg.classList.add('flex');
 
-                            msgSubject.textContent = msg.subject;
-                            msgDate.textContent = new Date(msg.created_at).toLocaleString();
-                            msgBody.textContent = msg.body;
+                                activeMsgId = msg.id;
+                                activeMsgRow = row;
 
-                            // Mark read
-                            if (!msg.is_read) {
-                                await utils.markMessageRead(msg.id);
-                                msg.is_read = true;
-                                row.classList.remove('unread');
-                                row.querySelector('.bg-blue-100').classList.replace('bg-blue-100', 'bg-slate-100');
-                                row.querySelector('.text-secondary').classList.replace('text-secondary', 'text-slate-400');
-                                row.querySelector('span.material-symbols-outlined').textContent = 'drafts';
-                                row.querySelector('h4').classList.replace('text-secondary', 'text-bankText');
-                                unreadCountEl.textContent = Math.max(0, parseInt(unreadCountEl.textContent) - 1);
-                            }
+                                msgSubject.textContent = msg.subject;
+                                msgDate.textContent = new Date(msg.created_at).toLocaleString();
+                                msgBody.textContent = msg.body;
+
+                                // Mark read
+                                if (!msg.is_read) {
+                                    row.classList.remove('unread');
+                                    row.querySelector('span.material-symbols-outlined').textContent = 'drafts';
+                                    row.querySelector('span.material-symbols-outlined').classList.replace('text-secondary', 'text-[#AAB0C6]');
+                                    unreadCountEl.textContent = Math.max(0, parseInt(unreadCountEl.textContent) - 1);
+                                }
+                            });
+
+                            listEl.appendChild(row);
                         });
 
-                        listEl.appendChild(row);
-                    });
-
-                    unreadCountEl.textContent = unread;
+                        unreadCountEl.textContent = unread;
+                    }
+                } catch (err) {
+                    console.error("Messages load failed", err);
                 }
-            } catch (err) {
-                console.error("Messages load failed", err);
             }
+
+            await loadMessages();
+            setInterval(loadMessages, 30000);
 
             btnCloseMobile.addEventListener('click', () => {
                 detailView.classList.add('hidden');
                 detailView.classList.remove('flex');
                 listContainer.classList.remove('hidden');
+            });
+
+            btnDeleteMsg.addEventListener('click', async () => {
+                if (!activeMsgId) return;
+
+                if (confirm("Are you sure you want to permanently delete this message?")) {
+                    btnDeleteMsg.disabled = true;
+                    btnDeleteMsg.innerHTML = '<span class="material-symbols-outlined text-lg animate-spin">sync</span>';
+
+                    const success = await utils.deleteMessage(activeMsgId);
+
+                    if (success) {
+                        if (activeMsgRow) {
+                            activeMsgRow.remove();
+                        }
+
+                        activeMsg.classList.add('hidden');
+                        activeMsg.classList.remove('flex');
+                        emptyState.classList.remove('hidden');
+
+                        if (window.innerWidth < 768) {
+                            detailView.classList.add('hidden');
+                            detailView.classList.remove('flex');
+                            listContainer.classList.remove('hidden');
+                        }
+
+                        if (listEl.children.length === 1) { // Only placeholder exists
+                            listEl.innerHTML = `
+                                <div class="p-12 text-center text-gray-400 flex flex-col items-center justify-center mt-10">
+                                    <span class="material-symbols-outlined text-4xl mb-6 opacity-20">mail</span>
+                                    <p class="text-[10px] font-black uppercase tracking-[0.1em] text-gray-400">Your inbox is empty</p>
+                                </div>
+                            `;
+                        }
+                    } else {
+                        alert("Failed to delete message. Please try again.");
+                    }
+
+                    btnDeleteMsg.disabled = false;
+                    btnDeleteMsg.innerHTML = '<span class="material-symbols-outlined text-lg">delete</span>';
+                    activeMsgId = null;
+                    activeMsgRow = null;
+                }
             });
         });
     </script>

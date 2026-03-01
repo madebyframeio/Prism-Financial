@@ -9,11 +9,11 @@
     <meta name="robots" content="noindex, nofollow">
     <meta property="og:title" content="Admin Terminal | Prism">
     <meta property="og:image" content="meta.png">
-    <link rel="icon" type="image/png" href="logo.png">
+
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Inter:wght@300;400;600;700;800;900&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
@@ -54,6 +54,7 @@
             @apply text-primary border-primary;
         }
     </style>
+    <link rel="icon" type="image/png" href="logo.png">
 </head>
 
 <body class="min-h-screen flex flex-col bg-slate-50">
@@ -63,7 +64,7 @@
         <div class="flex flex-col md:flex-row items-center gap-6 w-full md:w-auto">
             <div class="flex items-center gap-3">
                 <img src="logo.png" alt="Prism Admin Logo" class="h-8 w-auto">
-                <span class="text-lg font-bold tracking-tight text-primary font-serif">Prism Admin</span>
+                <span class="text-lg font-bold tracking-tight text-primary font-sans">Prism Admin</span>
             </div>
 
             <div class="hidden md:block h-6 w-px bg-slate-200"></div>
@@ -101,7 +102,7 @@
             <!-- Users View -->
             <div id="view-users" class="block">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold font-serif text-primary">Registered Accounts</h2>
+                    <h2 class="text-2xl font-bold font-sans text-primary">Registered Accounts</h2>
                     <button onclick="openCreateUserModal()"
                         class="bg-primary text-white px-6 py-3 font-medium uppercase tracking-wider text-xs hover:bg-slate-800 transition-all rounded shadow-sm">
                         + New Account
@@ -109,7 +110,7 @@
                 </div>
                 <div class="bg-white border border-slate-200 shadow-sm rounded overflow-hidden">
                     <div class="overflow-x-auto">
-                        <table class="w-full admin-table text-left border-collapse min-w-[600px]">
+                        <table class="w-full admin-table text-left border-collapse min-w-[900px] whitespace-nowrap">
                             <thead>
                                 <tr>
                                     <th class="w-1/4">Account Name</th>
@@ -130,14 +131,14 @@
             <!-- Applications View -->
             <div id="view-applications" class="hidden">
                 <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-2xl font-bold font-serif text-primary">New Applications</h2>
+                    <h2 class="text-2xl font-bold font-sans text-primary">New Applications</h2>
                     <div class="text-xs text-slate-500 font-semibold uppercase tracking-wider flex items-center gap-2">
                         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live Feed
                     </div>
                 </div>
                 <div class="bg-white border border-slate-200 shadow-sm rounded overflow-hidden">
                     <div class="overflow-x-auto">
-                        <table class="w-full admin-table text-left border-collapse min-w-[800px]">
+                        <table class="w-full admin-table text-left border-collapse min-w-[900px] whitespace-nowrap">
                             <thead>
                                 <tr>
                                     <th>First Name</th>
@@ -173,7 +174,7 @@
                                 <span class="material-symbols-outlined text-4xl">person</span>
                             </div>
                             <h2 id="profile-name-display"
-                                class="text-xl font-bold uppercase text-center mb-1 text-slate-800 font-serif">User Name
+                                class="text-xl font-bold uppercase text-center mb-1 text-slate-800 font-sans">User Name
                             </h2>
                             <p id="profile-id-display" class="text-xs font-mono text-center text-slate-400 mb-2">ID:
                                 U123456</p>
@@ -185,7 +186,7 @@
                                 <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
                                     Current Balance</p>
                                 <h3 id="profile-balance-display"
-                                    class="text-3xl font-bold text-primary tracking-tight mb-4 font-serif">$0.00</h3>
+                                    class="text-3xl font-bold text-primary tracking-tight mb-4 font-sans">$0.00</h3>
 
                                 <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
                                     Savings (Fixed Term)</p>
@@ -260,7 +261,7 @@
                     <div class="lg:col-span-2">
                         <div class="bg-white border border-slate-200 p-8 rounded shadow-sm mb-8">
                             <h3
-                                class="text-lg font-bold font-serif uppercase tracking-wider mb-6 border-b border-slate-100 pb-2 text-primary">
+                                class="text-lg font-bold font-sans uppercase tracking-wider mb-6 border-b border-slate-100 pb-2 text-primary">
                                 Account Controls</h3>
                             <form id="edit-profile-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <input type="hidden" id="edit-profile-id">
@@ -338,7 +339,7 @@
 
                         <div class="bg-white border border-slate-200 p-8 rounded shadow-sm">
                             <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-2">
-                                <h3 class="text-lg font-bold font-serif uppercase tracking-wider text-primary">Recent
+                                <h3 class="text-lg font-bold font-sans uppercase tracking-wider text-primary">Recent
                                     Activity</h3>
                                 <button onclick="showAddTransactionModal(currentUserProfileId)"
                                     class="text-xs font-bold uppercase tracking-wider text-accent hover:text-accent-dark flex items-center gap-1 transition-colors">
@@ -346,7 +347,8 @@
                                 </button>
                             </div>
                             <div class="max-h-64 overflow-y-auto overflow-x-auto">
-                                <table class="w-full admin-table text-left border-collapse min-w-[500px]">
+                                <table
+                                    class="w-full admin-table text-left border-collapse min-w-[600px] whitespace-nowrap">
                                     <thead>
                                         <tr>
                                             <th class="w-[40px] text-center"><input type="checkbox"
@@ -373,7 +375,7 @@
             <div id="view-transactions" class="hidden">
                 <div class="flex justify-between items-center mb-6 gap-4">
                     <div class="flex items-center gap-4">
-                        <h2 class="text-2xl font-bold font-serif text-primary">Global Ledger</h2>
+                        <h2 class="text-2xl font-bold font-sans text-primary">Global Ledger</h2>
                         <span id="filter-display"
                             class="hidden bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider flex items-center gap-2 rounded-full">
                             Filtered View
@@ -389,7 +391,7 @@
 
                 <div class="bg-white border border-slate-200 shadow-sm rounded overflow-hidden">
                     <div class="overflow-x-auto">
-                        <table class="w-full admin-table text-left border-collapse min-w-[800px]">
+                        <table class="w-full admin-table text-left border-collapse min-w-[900px] whitespace-nowrap">
                             <thead>
                                 <tr>
                                     <th class="w-[40px] text-center"><input type="checkbox" id="select-all-tx"
@@ -413,7 +415,7 @@
             <!-- Messages View -->
             <div id="view-messages" class="hidden">
                 <div class="flex justify-between items-center mb-6 gap-4">
-                    <h2 class="text-2xl font-bold font-serif text-primary">Secure Messages</h2>
+                    <h2 class="text-2xl font-bold font-sans text-primary">Secure Messages</h2>
                     <button onclick="openSendMessageModal()"
                         class="bg-primary text-white px-6 py-3 font-medium uppercase tracking-wider text-xs hover:bg-slate-800 transition-all rounded shadow-sm">
                         + Compose Message
@@ -421,7 +423,7 @@
                 </div>
                 <div class="bg-white border border-slate-200 shadow-sm rounded overflow-hidden">
                     <div class="overflow-x-auto">
-                        <table class="w-full admin-table text-left border-collapse min-w-[800px]">
+                        <table class="w-full admin-table text-left border-collapse min-w-[900px] whitespace-nowrap">
                             <thead>
                                 <tr>
                                     <th>Date Sent</th>
@@ -444,7 +446,7 @@
             <!-- Statements View -->
             <div id="view-statements" class="hidden">
                 <div class="flex justify-between items-center mb-6 gap-4">
-                    <h2 class="text-2xl font-bold font-serif text-primary">Statements & Documents</h2>
+                    <h2 class="text-2xl font-bold font-sans text-primary">Statements & Documents</h2>
                     <button onclick="openAddStatementModal()"
                         class="bg-primary text-white px-6 py-3 font-medium uppercase tracking-wider text-xs hover:bg-slate-800 transition-all rounded shadow-sm">
                         + Generate Statement
@@ -452,7 +454,7 @@
                 </div>
                 <div class="bg-white border border-slate-200 shadow-sm rounded overflow-hidden">
                     <div class="overflow-x-auto">
-                        <table class="w-full admin-table text-left border-collapse min-w-[800px]">
+                        <table class="w-full admin-table text-left border-collapse min-w-[900px] whitespace-nowrap">
                             <thead>
                                 <tr>
                                     <th>Date/Period</th>
@@ -475,7 +477,7 @@
             <!-- Admin Settings View -->
             <div id="view-settings" class="hidden">
                 <div class="max-w-3xl mx-auto">
-                    <h2 class="text-2xl font-bold font-serif text-primary mb-6">Admin Configuration</h2>
+                    <h2 class="text-2xl font-bold font-sans text-primary mb-6">Admin Configuration</h2>
                     <div class="bg-white border border-slate-200 p-8 rounded shadow-sm mb-8">
                         <div class="flex items-center gap-4 mb-8 border-b border-slate-100 pb-6">
                             <div
@@ -524,75 +526,7 @@
                         </form>
                     </div>
 
-                    <!-- Branding Config -->
-                    <div class="bg-white border border-slate-200 p-8 rounded shadow-sm">
-                        <div class="flex items-center gap-4 mb-8 border-b border-slate-100 pb-6">
-                            <div
-                                class="w-14 h-14 bg-accent text-white flex items-center justify-center rounded-full shadow-sm">
-                                <span class="material-symbols-outlined text-2xl">palette</span>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold uppercase tracking-wider text-primary">System Branding</h3>
-                                <p class="text-xs font-medium text-slate-500">Global Appearance Settings</p>
-                            </div>
-                        </div>
-
-                        <form id="branding-form">
-                            <div class="mb-6">
-                                <label
-                                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Bank
-                                    Name</label>
-                                <input type="text" id="brand-name" required
-                                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm uppercase">
-                            </div>
-                            <div class="mb-6">
-                                <label
-                                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Primary
-                                    Color</label>
-                                <div class="flex gap-4">
-                                    <input type="color" id="brand-color" required
-                                        class="h-11 w-20 border border-slate-200 p-1 cursor-pointer rounded-sm">
-                                    <input type="text" id="brand-color-text"
-                                        class="flex-1 bg-slate-50 border border-slate-200 p-3 font-mono font-medium text-slate-900 uppercase focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm"
-                                        placeholder="#000000" pattern="^#[0-9A-Fa-f]{6}$">
-                                </div>
-                            </div>
-
-                            <div class="mb-6">
-                                <label
-                                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Logo
-                                    URL (Optional)</label>
-                                <input type="text" id="brand-logo" placeholder="https://..."
-                                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
-                                <p class="text-[10px] text-slate-400 mt-1">Replaces the Bank Icon. Transparent PNG
-                                    recommended.</p>
-                            </div>
-
-                            <div class="mb-6">
-                                <label
-                                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Favicon
-                                    URL (Optional)</label>
-                                <input type="text" id="brand-favicon" placeholder="https://..."
-                                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
-                            </div>
-
-                            <div class="mb-6">
-                                <label
-                                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Meta
-                                    Image URL (Optional)</label>
-                                <input type="text" id="brand-meta" placeholder="https://..."
-                                    class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
-                                <p class="text-[10px] text-slate-400 mt-1">Shown when sharing links on social media.</p>
-                            </div>
-
-                            <div class="flex justify-end pt-4 border-t border-slate-100">
-                                <button type="submit"
-                                    class="px-6 py-3 bg-primary text-white font-medium uppercase tracking-wider text-xs hover:bg-slate-800 transition-all rounded-sm shadow-sm">
-                                    Update System
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                    <!-- Branding Config Removed -->
                 </div>
             </div>
 
@@ -605,7 +539,7 @@
             onclick="closeModal('create-user-modal')"></div>
         <div
             class="relative bg-white border border-slate-200 p-8 w-full max-w-md shadow-xl rounded-sm transform transition-all">
-            <h3 class="text-xl font-bold font-serif uppercase tracking-wider mb-6 text-primary">Create New Account</h3>
+            <h3 class="text-xl font-bold font-sans uppercase tracking-wider mb-6 text-primary">Create New Account</h3>
             <form id="create-user-form">
                 <div class="mb-4">
                     <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Full
@@ -663,7 +597,7 @@
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
             onclick="closeModal('edit-balance-modal')"></div>
         <div class="relative bg-white border border-slate-200 p-8 w-full max-w-md shadow-xl rounded-sm">
-            <h3 class="text-xl font-bold font-serif uppercase tracking-wider mb-6 text-primary">Manage Balances</h3>
+            <h3 class="text-xl font-bold font-sans uppercase tracking-wider mb-6 text-primary">Manage Balances</h3>
             <input type="hidden" id="edit-user-id">
 
             <div class="mb-4">
@@ -705,7 +639,7 @@
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
             onclick="closeModal('edit-card-modal')"></div>
         <div class="relative bg-white border border-slate-200 p-8 w-full max-w-md shadow-xl rounded-sm">
-            <h3 class="text-xl font-bold font-serif uppercase tracking-wider mb-6 text-primary">Card Management</h3>
+            <h3 class="text-xl font-bold font-sans uppercase tracking-wider mb-6 text-primary">Card Management</h3>
             <input type="hidden" id="edit-card-user-id">
 
             <div class="mb-4">
@@ -768,7 +702,7 @@
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
             onclick="closeModal('add-transaction-modal')"></div>
         <div class="relative bg-white border border-slate-200 p-8 w-full max-w-lg shadow-xl rounded-sm">
-            <h3 class="text-xl font-bold font-serif uppercase tracking-wider mb-6 text-primary">Manual Ledger Entry</h3>
+            <h3 class="text-xl font-bold font-sans uppercase tracking-wider mb-6 text-primary">Manual Ledger Entry</h3>
 
             <div class="mb-4">
                 <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Target
@@ -852,7 +786,7 @@
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
             onclick="closeModal('edit-transaction-modal')"></div>
         <div class="relative bg-white border border-slate-200 p-8 w-full max-w-lg shadow-xl rounded-sm">
-            <h3 class="text-xl font-bold font-serif uppercase tracking-wider mb-6 text-primary">Edit Transaction</h3>
+            <h3 class="text-xl font-bold font-sans uppercase tracking-wider mb-6 text-primary">Edit Transaction</h3>
             <input type="hidden" id="edit-tx-id">
             <input type="hidden" id="edit-tx-old-amount">
             <input type="hidden" id="edit-tx-type">
@@ -911,7 +845,7 @@
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
             onclick="closeModal('compose-message-modal')"></div>
         <div class="relative bg-white border border-slate-200 p-8 w-full max-w-lg shadow-xl rounded-sm">
-            <h3 class="text-xl font-bold font-serif uppercase tracking-wider mb-6 text-primary">Compose Secure Message
+            <h3 class="text-xl font-bold font-sans uppercase tracking-wider mb-6 text-primary">Compose Secure Message
             </h3>
 
             <div class="mb-4">
@@ -956,7 +890,7 @@
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
             onclick="closeModal('add-statement-modal')"></div>
         <div class="relative bg-white border border-slate-200 p-8 w-full max-w-lg shadow-xl rounded-sm">
-            <h3 class="text-xl font-bold font-serif uppercase tracking-wider mb-6 text-primary">Attach Statement</h3>
+            <h3 class="text-xl font-bold font-sans uppercase tracking-wider mb-6 text-primary">Attach Statement</h3>
 
             <div class="mb-4">
                 <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Account
@@ -1079,14 +1013,7 @@
 
         async function loadAdminSettings() {
             try {
-                // Load Branding (Allowed for everyone, including fallback admin)
-                const branding = utils.getBrandingCache();
-                document.getElementById('brand-name').value = branding.bankName || '';
-                document.getElementById('brand-color').value = branding.primaryColor || '#000000';
-                document.getElementById('brand-color-text').value = branding.primaryColor || '#000000';
-                document.getElementById('brand-logo').value = branding.logoUrl || '';
-                document.getElementById('brand-favicon').value = branding.faviconUrl || '';
-                document.getElementById('brand-meta').value = branding.metaUrl || '';
+                // Branding config load removed
 
                 const sessionUser = utils.getCurrentUser();
 
@@ -1149,47 +1076,7 @@
             }
         });
 
-        // Branding Logic
-        // 1. Color Picker -> Text
-        document.getElementById('brand-color').addEventListener('input', (e) => {
-            document.getElementById('brand-color-text').value = e.target.value.toUpperCase();
-        });
-
-        // 2. Text -> Color Picker
-        document.getElementById('brand-color-text').addEventListener('input', (e) => {
-            let val = e.target.value;
-            if (val.length === 7 && val.startsWith('#')) {
-                document.getElementById('brand-color').value = val;
-            }
-        });
-
-
-        document.getElementById('branding-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const bankName = document.getElementById('brand-name').value;
-            const primaryColor = document.getElementById('brand-color').value;
-            const logoUrl = document.getElementById('brand-logo').value;
-            const faviconUrl = document.getElementById('brand-favicon').value;
-            const metaUrl = document.getElementById('brand-meta').value;
-
-            try {
-                await utils.saveBranding({
-                    bankName,
-                    primaryColor,
-                    logoUrl,
-                    faviconUrl,
-                    metaUrl
-                });
-                showMessage("Success", "System Branding Updated. Changes applied globally.");
-            } catch (err) {
-                console.error(err);
-                if (err.message.includes('relation "settings" does not exist')) {
-                    showMessage("Database Error", "The 'settings' table is missing.", true);
-                } else {
-                    showMessage("Error", "Failed to update branding: " + err.message, true);
-                }
-            }
-        });
+        // Branding logic removed.
 
         async function renderUsers() {
             const tbody = document.getElementById('users-table-body');
@@ -1200,6 +1087,8 @@
                 tbody.innerHTML = '';
 
                 users.forEach(user => {
+                    if (user.is_admin || user.username === 'admin' || user.username === 'theadmin') return;
+
                     const tr = document.createElement('tr');
                     tr.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors group';
                     tr.innerHTML = `
@@ -1786,7 +1675,7 @@
             toast.innerHTML = `
                 <span class="material-symbols-outlined mt-0.5 text-xl">${icon}</span>
                 <div>
-                    <h4 class="font-bold font-serif uppercase tracking-wider text-sm mb-1">${title}</h4>
+                    <h4 class="font-bold font-sans uppercase tracking-wider text-sm mb-1">${title}</h4>
                     <p class="text-xs font-medium opacity-90 leading-relaxed">${text}</p>
                 </div>
                 <button onclick="this.parentElement.remove()" class="ml-auto text-white/70 hover:text-white">

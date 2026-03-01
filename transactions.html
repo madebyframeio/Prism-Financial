@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Ledger | Prism Financials Online</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#008450",
+                        secondary: "#004B8D",
+                        accent: "#FCCC44",
+                        bankGray: "#F4F4F4",
+                        bankText: "#333333",
+                        borderGray: "#D1D1D1"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        @layer base {
+            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+        }
+        @layer components {
+            .account-row { @apply flex items-center justify-between p-5 border-b border-borderGray hover:bg-white transition-colors cursor-pointer bg-white/50; }
+            .btn-action-wf { @apply bg-white border border-gray-300 px-5 py-2.5 rounded-sm text-sm font-semibold hover:border-gray-400 text-secondary shadow-sm transition-all active:translate-y-px; }
+            .sidebar-card { @apply bg-white shadow-sm border border-borderGray rounded-sm p-6; }
+        }
+    </style>
+    <link rel="icon" type="image/png" href="logo.png">
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <!-- Corporate Header -->
+    <header class="bg-primary text-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-6">
+                <a href="index.html" class="bg-white p-1 rounded-sm shadow-inner group">
+                    <img src="logo.png" alt="Prism Financials" class="h-8 transition-transform group-hover:scale-105">
+                </a>
+                <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
+                    <span class="text-xs opacity-70 uppercase tracking-widest font-black">Welcome back</span>
+                    <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
+                <a href="messages.html" class="hover:underline" id="messages-link">Messages</a>
+                <a href="security.html" class="hover:underline">Security</a>
+                <button onclick="utils.logout()"
+                    class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
+                    Sign Out <span class="material-symbols-outlined text-sm">logout</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation Tabs -->
+    <nav class="bg-white border-b border-borderGray shadow-sm sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 flex gap-8 items-end overflow-x-auto whitespace-nowrap scrollbar-hide">
+            <a href="dashboard.html"
+                class="border-b-4 border-primary py-4 text-sm font-black text-bankText">Accounts</a>
+            <a href="cards.html"
+                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Cards</a>
+            <a href="wire.html"
+                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer &
+                Pay</a>
+            <a href="faq.html"
+                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan &
+                Learn</a>
+            <a href="support.html"
+                class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Support</a>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="max-w-6xl mx-auto w-full px-4 py-10 flex-1">
+        <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden mb-8">
+            <div class="bg-bankGray p-5 border-b border-borderGray flex justify-between items-center">
+                <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Complete Transaction Ledger</h2>
+                <span class="text-secondary text-xs font-black uppercase tracking-widest cursor-pointer hover:underline"
+                    onclick="window.location.href='dashboard.html'">Back to Dashboard</span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse min-w-[800px] whitespace-nowrap">
+                    <thead>
+                        <tr class="bg-white">
+                            <th
+                                class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
+                                Date</th>
+                            <th
+                                class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
+                                Description</th>
+                            <th
+                                class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
+                                Status</th>
+                            <th
+                                class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray text-right">
+                                Amount</th>
+                            <th
+                                class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray text-center w-32">
+                                Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transaction-history">
+                        <!-- JS Populated -->
+                        <tr>
+                            <td colspan="5" class="p-10 text-center text-gray-400 italic text-xs">Loading ledger...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Receipt Modal -->
+    <div id="receipt-modal"
+        class="fixed inset-0 bg-bankText/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+        <div class="bg-white max-w-md w-full rounded shadow-2xl overflow-hidden relative" id="printable-receipt">
+            <!-- Modal Header -->
+            <div class="bg-primary px-6 py-4 flex justify-between items-center print:hidden">
+                <h3 class="text-white font-black text-xs uppercase tracking-widest">Transaction Receipt</h3>
+                <button onclick="closeReceiptModal()"
+                    class="text-white/80 hover:text-white transition-colors cursor-pointer">
+                    <span class="material-symbols-outlined text-lg">close</span>
+                </button>
+            </div>
+
+            <!-- Receipt Body (Printable Area) -->
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-10 pb-6 border-b border-borderGray border-dashed">
+                    <div>
+                        <img src="logo.png" alt="Prism Financials"
+                            class="h-6 mb-3 grayscale print:grayscale-0 opacity-80">
+                        <div class="text-[10px] font-black uppercase tracking-widest text-gray-400">Official Record
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Receipt ID
+                        </div>
+                        <div class="font-mono text-xs font-bold text-secondary" id="rcpt-id">#000000</div>
+                    </div>
+                </div>
+
+                <div class="mb-8 text-center">
+                    <div class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">Total Amount</div>
+                    <div class="text-3xl font-black text-bankText tracking-tighter" id="rcpt-amount">$0.00</div>
+                </div>
+
+                <div class="bg-gray-50 rounded p-6 shadow-inner space-y-4">
+                    <div class="flex justify-between items-center border-b border-borderGray/50 pb-3">
+                        <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Date & Time</span>
+                        <span class="text-xs font-bold text-bankText" id="rcpt-date">--</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-borderGray/50 pb-3">
+                        <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Description</span>
+                        <span class="text-xs font-bold text-bankText max-w-[150px] truncate" id="rcpt-desc">--</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-borderGray/50 pb-3">
+                        <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Type</span>
+                        <span class="text-xs font-bold text-bankText capitalize" id="rcpt-type">--</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-borderGray/50 pb-3">
+                        <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Method</span>
+                        <span class="text-xs font-bold text-bankText" id="rcpt-method">Electronic Transfer</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Status</span>
+                        <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-sm" id="rcpt-status">--</span>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center print:mt-16">
+                    <p class="text-[9px] text-gray-400 leading-relaxed max-w-xs mx-auto">This receipt is a computerized
+                        record and does not require a physical signature. Contact Prism Support for inquiries regarding
+                        this transaction.</p>
+                </div>
+            </div>
+
+            <!-- Footer Actions -->
+            <div class="px-6 py-4 bg-gray-50 flex gap-4 print:hidden border-t border-borderGray">
+                <button onclick="window.print()"
+                    class="flex-1 flex justify-center items-center gap-2 bg-secondary text-white py-3 rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-blue-800 transition-colors shadow shadow-secondary/20">
+                    <span class="material-symbols-outlined text-sm">print</span> Print Record
+                </button>
+                <button onclick="closeReceiptModal()"
+                    class="flex-1 flex justify-center items-center gap-2 bg-white text-gray-600 border border-borderGray py-3 rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-gray-100 transition-colors">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simple Footer -->
+    <footer class="bg-white border-t border-borderGray py-10 mt-12">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex gap-8 text-[11px] text-secondary font-black uppercase tracking-widest">
+                <a href="support.html" class="hover:underline">Contact</a>
+                <a href="faq.html" class="hover:underline">Legal</a>
+                <a href="faq.html" class="hover:underline">Privacy Help</a>
+                <a href="support.html" class="hover:underline">Security Support</a>
+            </div>
+            <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Prism Financials. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            utils.init();
+            const user = utils.getCurrentUser();
+            if (!user) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Sync Header Name
+            const userDisplayEl = document.getElementById('user-display-name');
+            if (userDisplayEl) userDisplayEl.textContent = user.name;
+
+            // Data Loading Function
+            async function loadDashboardData() {
+                try {
+                    // Load Transactions
+                    const txs = await utils.getTransactions(user.id);
+                    const historyEl = document.getElementById('transaction-history');
+                    if (txs && txs.length > 0) {
+                        historyEl.innerHTML = '';
+                        // Do not slice, show all transactions
+                        window.cachedTxs = txs; // Cache for modal
+                        txs.forEach((tx, idx) => {
+                            const tr = document.createElement('tr');
+                            tr.className = "border-b border-borderGray group hover:bg-slate-50 transition-colors cursor-default";
+
+                            const isCredit = tx.type === 'credit' || tx.type === 'investment_deposit';
+                            const colorClass = isCredit ? 'text-emerald-600' : 'text-bankText';
+                            const prefix = isCredit ? '+' : '-';
+
+                            const statusColor = tx.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
+                                tx.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700';
+
+                            tr.innerHTML = `
+                                <td class="p-5 text-xs font-bold text-gray-500">${new Date(tx.created_at).toLocaleDateString()}</td>
+                                <td class="p-5 text-sm font-black text-secondary tracking-tight uppercase">${tx.description || tx.type}</td>
+                                <td class="p-5 text-[10px] font-black uppercase">
+                                    <span class="px-2 py-0.5 rounded-sm ${statusColor}">${tx.status}</span>
+                                </td>
+                                <td class="p-5 text-sm font-bold text-right ${colorClass}">${prefix}${utils.formatCurrency(tx.amount)}</td>
+                                <td class="p-5 text-center">
+                                    <button onclick="openReceiptModal(${idx})" class="mx-auto flex items-center gap-1 bg-white border border-gray-200 text-gray-600 hover:text-primary hover:border-primary text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-sm transition-colors shadow-sm active:translate-y-px">
+                                        <span class="material-symbols-outlined text-[12px]">receipt_long</span> Receipt
+                                    </button>
+                                </td>
+                            `;
+                            historyEl.appendChild(tr);
+                        });
+                    } else {
+                        historyEl.innerHTML = `<tr><td colspan="5" class="p-10 text-center text-gray-400 italic text-xs">No transactions found</td></tr>`;
+                    }
+
+                    // Check Unread Messages
+                    const unreadCount = await utils.getUnreadMessageCount(user.id);
+                    if (unreadCount > 0) {
+                        const msgLink = document.getElementById('messages-link');
+                        if (msgLink) {
+                            msgLink.innerHTML = `Messages <span class="bg-accent text-primary px-1.5 py-0.5 rounded-full text-[8px] ml-1 animate-pulse">${unreadCount}</span>`;
+                            msgLink.href = 'messages.html';
+                        }
+                    }
+                } catch (err) {
+                    console.error("Dashboard Load Error:", err);
+                }
+            }
+
+            // Initial Data Load
+            await loadDashboardData();
+
+            // Auto-refresh interval (30 seconds)
+            setInterval(loadDashboardData, 30000);
+        });
+
+        // Receipt Modal Handlers
+        window.openReceiptModal = function (idx) {
+            const tx = window.cachedTxs[idx];
+            if (!tx) return;
+
+            document.getElementById('rcpt-id').textContent = '#' + tx.id.substring(0, 8).toUpperCase();
+
+            const isCredit = tx.type === 'credit' || tx.type === 'investment_deposit';
+            document.getElementById('rcpt-amount').textContent = (isCredit ? '+' : '-') + utils.formatCurrency(tx.amount);
+            document.getElementById('rcpt-amount').className = `text-3xl font-black tracking-tighter ${isCredit ? 'text-emerald-700' : 'text-bankText'}`;
+
+            document.getElementById('rcpt-date').textContent = new Date(tx.created_at).toLocaleString();
+            document.getElementById('rcpt-desc').textContent = tx.description || tx.type;
+            document.getElementById('rcpt-type').textContent = tx.type.replace('_', ' ');
+
+            const statusColor = tx.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
+                tx.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700';
+
+            document.getElementById('rcpt-status').className = `text-[10px] font-black uppercase px-2 py-0.5 rounded-sm ${statusColor}`;
+            document.getElementById('rcpt-status').textContent = tx.status;
+
+            const modal = document.getElementById('receipt-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        };
+
+        window.closeReceiptModal = function () {
+            const modal = document.getElementById('receipt-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+    </script>
+</body>
+
+</html>

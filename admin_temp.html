@@ -9,10 +9,10 @@
     <meta name="robots" content="noindex, nofollow">
     <meta property="og:title" content="Admin Terminal | Prism">
     <meta property="og:image" content="meta.png">
-    <link rel="icon" type="image/png" href="favicon.png">
+    
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
         rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
@@ -21,15 +21,15 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { "primary": "#002855" },
-                    fontFamily: { "sans": ["'Urbanist'", "sans-serif"] },
+                    colors: { "primary": "#008450" },
+                    fontFamily: { "sans": ["'Inter'", "sans-serif"] },
                 },
             },
         }
     </script>
     <style>
         body {
-            font-family: 'Urbanist', sans-serif;
+            font-family: 'Inter', sans-serif;
             background: #f8fafc;
             color: #0f172a;
         }
@@ -70,6 +70,7 @@
             border-color: #0f172a;
         }
     </style>
+    <link rel="icon" type="image/png" href="logo.png">
 </head>
 
 <body class="min-h-screen flex flex-col">
@@ -348,78 +349,7 @@
                     </div>
                 </div>
 
-                <!-- Branding Config -->
-                <div class="max-w-2xl mx-auto mt-12 mb-12">
-                    <div class="bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)]">
-                        <div class="flex items-center gap-4 mb-8 border-b-2 border-slate-100 pb-6">
-                            <div class="w-16 h-16 bg-primary text-white flex items-center justify-center rounded-full">
-                                <span class="material-symbols-outlined text-3xl">palette</span>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold uppercase tracking-widest text-slate-900">System Branding
-                                </h3>
-                                <p class="text-xs font-bold uppercase tracking-widest text-slate-400">Global Appearance
-                                    Settings</p>
-                            </div>
-                        </div>
-
-                        <form id="branding-form">
-                            <div class="mb-6">
-                                <label
-                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Bank
-                                    Name</label>
-                                <input type="text" id="brand-name" required
-                                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
-                            </div>
-                            <div class="mb-6">
-                                <label
-                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Primary
-                                    Color</label>
-                                <div class="flex gap-4">
-                                    <input type="color" id="brand-color" required
-                                        class="h-12 w-24 border-2 border-slate-200 p-1 cursor-pointer">
-                                    <input type="text" id="brand-color-text"
-                                        class="flex-1 bg-slate-50 border-2 border-slate-200 p-3 font-mono font-bold text-slate-900 uppercase"
-                                        placeholder="#000000" pattern="^#[0-9A-Fa-f]{6}$">
-                                </div>
-                            </div>
-
-                            <div class="mb-6">
-                                <label
-                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Logo
-                                    URL (Optional)</label>
-                                <input type="text" id="brand-logo" placeholder="https://..."
-                                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-mono text-sm text-slate-900 focus:border-primary focus:ring-0">
-                                <p class="text-[9px] text-slate-400 mt-1">Replaces the Bank Icon. Transparent PNG
-                                    recommended.</p>
-                            </div>
-
-                            <div class="mb-6">
-                                <label
-                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Favicon
-                                    URL (Optional)</label>
-                                <input type="text" id="brand-favicon" placeholder="https://..."
-                                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-mono text-sm text-slate-900 focus:border-primary focus:ring-0">
-                            </div>
-
-                            <div class="mb-6">
-                                <label
-                                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Meta
-                                    Image URL (Optional)</label>
-                                <input type="text" id="brand-meta" placeholder="https://..."
-                                    class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-mono text-sm text-slate-900 focus:border-primary focus:ring-0">
-                                <p class="text-[9px] text-slate-400 mt-1">Shown when sharing links on social media.</p>
-                            </div>
-
-                            <div class="flex justify-end gap-4 pt-4 border-t-2 border-slate-100">
-                                <button type="submit"
-                                    class="px-8 py-3 bg-slate-900 text-white font-bold uppercase tracking-widest text-xs hover:bg-primary transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,0.2)]">
-                                    Update System
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <!-- Branding Config Removed -->
             </div>
 
         </div>
@@ -735,14 +665,7 @@
                         document.getElementById('admin-password').value = adminData.password;
                     }
 
-                    // Load Branding
-                    const branding = utils.getBrandingCache();
-                    document.getElementById('brand-name').value = branding.bankName || '';
-                    document.getElementById('brand-color').value = branding.primaryColor || '#000000';
-                    document.getElementById('brand-color-text').value = branding.primaryColor || '#000000';
-                    document.getElementById('brand-logo').value = branding.logoUrl || '';
-                    document.getElementById('brand-favicon').value = branding.faviconUrl || '';
-                    document.getElementById('brand-meta').value = branding.metaUrl || '';
+                    // Branding config load removed.
 
                 } catch (e) {
                     console.error("Failed to load admin settings", e);
@@ -772,47 +695,7 @@
                 }
             });
 
-            // Branding Logic
-            // 1. Color Picker -> Text
-            document.getElementById('brand-color').addEventListener('input', (e) => {
-                document.getElementById('brand-color-text').value = e.target.value.toUpperCase();
-            });
-
-            // 2. Text -> Color Picker
-            document.getElementById('brand-color-text').addEventListener('input', (e) => {
-                let val = e.target.value;
-                if (val.length === 7 && val.startsWith('#')) {
-                    document.getElementById('brand-color').value = val;
-                }
-            });
-
-
-            document.getElementById('branding-form').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const bankName = document.getElementById('brand-name').value;
-                const primaryColor = document.getElementById('brand-color').value;
-                const logoUrl = document.getElementById('brand-logo').value;
-                const faviconUrl = document.getElementById('brand-favicon').value;
-                const metaUrl = document.getElementById('brand-meta').value;
-
-                try {
-                    await utils.saveBranding({
-                        bankName,
-                        primaryColor,
-                        logoUrl,
-                        faviconUrl,
-                        metaUrl
-                    });
-                    showMessage("Success", "System Branding Updated. Changes applied globally.");
-                } catch (err) {
-                    console.error(err);
-                    if (err.message.includes('relation "settings" does not exist')) {
-                        showMessage("Database Error", "The 'settings' table is missing.", true);
-                    } else {
-                        showMessage("Error", "Failed to update branding: " + err.message, true);
-                    }
-                }
-            });
+            // Branding logic removed.
 
             async function renderUsers() {
                 const tbody = document.getElementById('users-table-body');

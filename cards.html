@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cards & Spend | Prisim Finance Online</title>
+    <title>Cards & Spend | Prism Financials Online</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
         tailwind.config = {
@@ -38,6 +38,7 @@
             .spend-row { @apply flex items-center justify-between p-4 border-b border-borderGray hover:bg-white transition-colors cursor-pointer bg-white/30; }
         }
     </style>
+    <link rel="icon" type="image/png" href="logo.png">
 </head>
 
 <body class="min-h-screen flex flex-col">
@@ -46,7 +47,7 @@
         <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-6">
                 <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-inner group">
-                    <img src="logo.png" alt="Prisim Finance" class="h-8 transition-transform group-hover:scale-105">
+                    <img src="logo.png" alt="Prism Financials" class="h-8 transition-transform group-hover:scale-105">
                 </a>
                 <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
                     <span class="text-xs opacity-70 uppercase tracking-widest font-black">Cards & Spend</span>
@@ -153,13 +154,23 @@
             </div>
 
             <!-- Recent Transactions -->
-            <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
+            <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden"
+                id="card-activity-container">
                 <div class="bg-bankGray p-5 border-b border-borderGray flex justify-between items-center">
                     <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Card Activity</h2>
                 </div>
-                <div class="p-12 text-center text-gray-400">
-                    <span class="material-symbols-outlined text-4xl mb-3 opacity-20">history</span>
-                    <p class="text-[10px] font-black uppercase tracking-widest">No recent transactions found</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse min-w-[600px] whitespace-nowrap">
+                        <tbody id="card-transaction-history">
+                            <tr>
+                                <td colspan="4" class="p-12 text-center text-gray-400">
+                                    <span class="material-symbols-outlined text-4xl mb-3 opacity-20">history</span>
+                                    <p class="text-[10px] font-black uppercase tracking-widest">Loading card activity...
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -239,7 +250,7 @@
                 <a href="faq.html" class="hover:underline">Privacy Help</a>
                 <a href="support.html" class="hover:underline">Security Support</a>
             </div>
-            <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Prisim Finance. All rights reserved.</p>
+            <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Prism Financials. All rights reserved.</p>
         </div>
     </footer>
 
@@ -274,6 +285,51 @@
                         if (msgLink) {
                             msgLink.innerHTML = `Messages <span class="bg-accent text-primary px-1.5 py-0.5 rounded-full text-[8px] ml-1 animate-pulse">${unreadCount}</span>`;
                         }
+                    }
+
+                    // Load Card Transactions
+                    const txs = await utils.getTransactions(user.id);
+                    // Filter for credit card type or description tag
+                    const cardTxs = (txs || []).filter(tx =>
+                        tx.category === 'credit_card' ||
+                        tx.type === 'credit_card_payment' ||
+                        tx.type === 'card_transaction' ||
+                        (tx.description && tx.description.toUpperCase().includes('[CREDIT_CARD]'))
+                    );
+                    const historyEl = document.getElementById('card-transaction-history');
+
+                    if (cardTxs && cardTxs.length > 0) {
+                        historyEl.innerHTML = '';
+                        cardTxs.slice(0, 10).forEach(tx => {
+                            const tr = document.createElement('tr');
+                            tr.className = "border-b border-borderGray group hover:bg-slate-50 transition-colors cursor-default";
+
+                            const isCredit = tx.type === 'credit' || tx.type === 'investment_deposit';
+                            const colorClass = isCredit ? 'text-emerald-600' : 'text-bankText';
+                            const prefix = isCredit ? '+' : '-';
+
+                            const statusColor = tx.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
+                                tx.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700';
+
+                            tr.innerHTML = `
+                                <td class="p-5 text-xs font-bold text-gray-500">${new Date(tx.created_at).toLocaleDateString()}</td>
+                                <td class="p-5 text-sm font-black text-secondary tracking-tight uppercase max-w-[150px] truncate">${tx.description || tx.type}</td>
+                                <td class="p-5 text-[10px] font-black uppercase">
+                                    <span class="px-2 py-0.5 rounded-sm ${statusColor}">${tx.status}</span>
+                                </td>
+                                <td class="p-5 text-sm font-bold text-right ${colorClass}">${prefix}${utils.formatCurrency(tx.amount)}</td>
+                            `;
+                            historyEl.appendChild(tr);
+                        });
+                    } else {
+                        historyEl.innerHTML = `
+                            <tr>
+                                <td colspan="4" class="p-12 text-center text-gray-400">
+                                    <span class="material-symbols-outlined text-4xl mb-3 opacity-20">history</span>
+                                    <p class="text-[10px] font-black uppercase tracking-widest">No recent card transactions found</p>
+                                </td>
+                            </tr>
+                        `;
                     }
                 }
             } catch (err) {
