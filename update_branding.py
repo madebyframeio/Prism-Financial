@@ -8,8 +8,8 @@ for file in html_files:
         content = f.read()
     
     # 1. Replace Bank Name
-    content = content.replace('Prisim Finance', 'Prism Financials')
-    content = content.replace('Prisim', 'Prism')
+    content = content.replace('Prisim Finance', 'Chase Financials')
+    content = content.replace('Prisim', 'Chase')
     
     # 2. Replace Primary Color configuration
     content = content.replace('colors: { "primary": "#002855" }', 'colors: { "primary": "#008450" }')

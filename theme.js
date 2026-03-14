@@ -1,5 +1,5 @@
-// Centralized Theme Configuration for Prism Financial
-// Establishes an ultra-premium "Prism Black" luxury aesthetic.
+// Centralized Theme Configuration for Chase Financial
+// Establishes an ultra-premium "Chase Black" luxury aesthetic.
 
 const financeTheme = {
     colors: {

@@ -6,16 +6,16 @@ def add_social_meta():
     
     meta_tag_str = """
     <!-- Social Meta Tags -->
-    <meta property="og:title" content="Prism Financials Online">
-    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta property="og:image" content="https://prism-financial.netlify.app/logo.png">
-    <meta property="og:url" content="https://prism-financial.netlify.app/">
+    <meta property="og:title" content="Chase Financials Online">
+    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
+    <meta property="og:image" content="https://chase-financials.netlify.app/logo.png">
+    <meta property="og:url" content="https://chase-financials.netlify.app/">
     <meta property="og:type" content="website">
     
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Prism Financials Online">
-    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Prism Financials.">
-    <meta name="twitter:image" content="https://prism-financial.netlify.app/logo.png">
+    <meta name="twitter:title" content="Chase Financials Online">
+    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
+    <meta name="twitter:image" content="https://chase-financials.netlify.app/logo.png">
 """
 
     for file_path in html_files:

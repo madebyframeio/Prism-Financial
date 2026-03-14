@@ -1,9 +1,10 @@
 // --- Supabase Config ---
+// 1. UPDATE THESE TO YOUR NEW SUPABASE PROJECT URL AND KEY
 const SUPABASE_URL = 'https://fmhjbyxljorruczvpajx.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtaGpieXhsam9ycnVjenZwYWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1OTY2ODgsImV4cCI6MjA4NjE3MjY4OH0.Ktc6plrX4dlcEX4ndPD9KImhNWgco1AHAN4AS1E2MGU'; // User provided key
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtaGpieXhsam9ycnVjenZwYWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1OTY2ODgsImV4cCI6MjA4NjE3MjY4OH0.Ktc6plrX4dlcEX4ndPD9KImhNWgco1AHAN4AS1E2MGU';
 
-// Initialize Client (Relies on CDN script being loaded in HTML)
-let supabaseClient = null;
+// 2. Ensure you have run the 'complete_schema.sql' in your SQL editor
+// 3. Make sure to enable the uuid-ossp extension in your dashboard.
 
 const utils = {
     init: () => {
