@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #056dae;
+  --color-secondary: #004B8D;
+  --color-accent: #FCCC44;
+  --color-bank-gray: #F4F4F4;
+  --color-bank-text: #333333;
+  --color-border-gray: #D1D1D1;
+  --font-sans: "Inter", "sans-serif";
+  --animate-bounce-slow: bounce 3s infinite;
+}
+
+@layer base {
+  body { 
+    @apply bg-[#f0f0f0] text-[#333333] font-sans antialiased; 
+  }
+}
+
+@layer components {
+  /* Common UI Elements */
+  .input-field { 
+    @apply w-full bg-white border border-gray-300 p-3 rounded-sm focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all placeholder:text-gray-400 text-sm; 
+  }
+  
+  /* Buttons */
+  .btn-wf-signin, .btn-wf-primary { 
+    @apply w-full py-3 bg-primary text-white font-black text-sm uppercase tracking-widest hover:bg-blue-900 transition-all rounded-sm shadow-md active:translate-y-px; 
+  }
+  
+  .btn-action-wf { 
+    @apply bg-white border border-gray-300 px-5 py-2.5 rounded-sm text-sm font-semibold hover:border-gray-400 text-secondary transition-all active:translate-y-px; 
+  }
+
+  /* Dashboard Cards & Layouts */
+  .account-row { 
+    @apply flex items-center justify-between p-4 sm:p-5 border-b border-border-gray hover:bg-white transition-colors cursor-pointer bg-white/50; 
+  }
+  
+  .sidebar-card { 
+    @apply bg-white border border-border-gray rounded-sm p-6; 
+  }
+
+  /* Admin/Utility Classes */
+  .admin-table thead th {
+    @apply uppercase tracking-widest text-[0.7rem] font-bold text-gray-500 p-4 border-b-2 border-slate-200 bg-white;
+  }
+  
+  .admin-table tbody td {
+    @apply p-4 border-b border-slate-200 text-[0.9rem] bg-white;
+  }
+}
+
+/* Custom Overrides & Utility Helpers */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

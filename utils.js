@@ -6,7 +6,12 @@ const SUPABASE_KEY = 'sb_publishable_75ADZ3UaNBRzrBtwrQM5nw_CcIqPaEI';
 let supabaseClient = null;
 
 const utils = {
+    _initialized: false,
+    version: "2027-02-27-v4",
     init: () => {
+        if (utils._initialized) return;
+        utils._initialized = true;
+
         if (window.supabase) {
             const { createClient } = window.supabase;
             // Initialize local and attach to object for global access
