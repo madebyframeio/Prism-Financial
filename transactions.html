@@ -4,14 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transaction Ledger | Chase Financials Online</title>
+  <title>Transaction Ledger | Citi Financials Online</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: "#008450",
+            primary: "#056dae",
             secondary: "#004B8D",
             accent: "#FCCC44",
             bankGray: "#F4F4F4",
@@ -45,16 +45,20 @@
   <meta name="googlebot" content="noindex, nofollow">
 
   <!-- Social Meta Tags -->
-  <meta property="og:title" content="Chase Financials Online">
-  <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
-  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/meta.png">
-  <meta property="og:url" content="https://chase-financials.netlify.app/">
+  <meta property="og:title" content="Citi Financials Online">
+  <meta property="og:description"
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+  <meta property="og:image"
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
+  <meta property="og:url" content="https://citi-financials.netlify.app/">
   <meta property="og:type" content="website">
-  
+
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Chase Financials Online">
-  <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/meta.png">
+  <meta name="twitter:title" content="Citi Financials Online">
+  <meta name="twitter:description"
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+  <meta name="twitter:image"
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
 </head>
 
 <body class=" min-h-screen flex flex-col overflow-x-hidden">
@@ -63,7 +67,7 @@
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3 sm:gap-6">
         <a href="index.html" class="bg-white p-1 rounded-sm shadow-inner group">
-          <img src="logo.png" alt="Chase Financials" class="h-8 transition-transform group-hover:scale-105">
+          <img src="logo.png" alt="Citi Financials" class="h-8 transition-transform group-hover:scale-105">
         </a>
         <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
           <span class="text-xs opacity-70 uppercase tracking-widest font-black">Welcome back</span>
@@ -84,15 +88,13 @@
   <!-- Main Navigation Tabs -->
   <nav class="bg-white border-b border-borderGray shadow-sm sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 flex gap-4 sm:gap-8 items-end overflow-x-auto whitespace-nowrap scrollbar-hide">
-      <a href="dashboard.html"
-        class="border-b-4 border-primary py-4 text-sm font-black text-bankText">Accounts</a>
+      <a href="dashboard.html" class="border-b-4 border-primary py-4 text-sm font-black text-bankText">Accounts</a>
       <a href="cards.html"
         class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Cards</a>
-      <a href="wire.html"
-        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer &
+      <a href="wire.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer
+        &
         Pay</a>
-      <a href="faq.html"
-        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan &
+      <a href="faq.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan &
         Learn</a>
       <a href="support.html"
         class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Support</a>
@@ -112,14 +114,11 @@
         <table class="w-full text-left border-collapse min-w-[800px] whitespace-nowrap">
           <thead>
             <tr class="bg-white">
-              <th
-                class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
+              <th class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
                 Date</th>
-              <th
-                class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
+              <th class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
                 Description</th>
-              <th
-                class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
+              <th class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
                 Status</th>
               <th
                 class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray text-right">
@@ -147,8 +146,7 @@
       <!-- Modal Header -->
       <div class="bg-primary px-6 py-4 flex justify-between items-center print:hidden">
         <h3 class="text-white font-black text-xs uppercase tracking-widest">Transaction Receipt</h3>
-        <button onclick="closeReceiptModal()"
-          class="text-white/80 hover:text-white transition-colors cursor-pointer">
+        <button onclick="closeReceiptModal()" class="text-white/80 hover:text-white transition-colors cursor-pointer">
           <span class="material-symbols-outlined text-lg">close</span>
         </button>
       </div>
@@ -157,8 +155,7 @@
       <div class="p-8">
         <div class="flex justify-between items-start mb-10 pb-6 border-b border-borderGray border-dashed">
           <div>
-            <img src="logo.png" alt="Chase Financials"
-              class="h-6 mb-3 grayscale print:grayscale-0 opacity-80">
+            <img src="logo.png" alt="Citi Financials" class="h-6 mb-3 grayscale print:grayscale-0 opacity-80">
             <div class="text-[10px] font-black uppercase tracking-widest text-gray-400">Official Record
             </div>
           </div>
@@ -199,7 +196,7 @@
 
         <div class="mt-8 text-center print:mt-16">
           <p class="text-[9px] text-gray-400 leading-relaxed max-w-xs mx-auto">This receipt is a computerized
-            record and does not require a physical signature. Contact Chase Support for inquiries regarding
+            record and does not require a physical signature. Contact Citi Financials Support for inquiries regarding
             this transaction.</p>
         </div>
       </div>
@@ -227,7 +224,7 @@
         <a href="faq.html" class="hover:underline">Privacy Help</a>
         <a href="support.html" class="hover:underline">Security Support</a>
       </div>
-      <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Chase Financials. All rights reserved.</p>
+      <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Citi Financials. All rights reserved.</p>
     </div>
   </footer>
 

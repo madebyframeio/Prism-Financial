@@ -4,14 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign On | Chase Financials Online</title>
+  <title>Sign On | Citi Financials Online</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: "#008450",
+            primary: "#056dae",
             secondary: "#004B8D",
             accent: "#FCCC44",
             bankGray: "#F4F4F4",
@@ -35,7 +35,7 @@
     }
     @layer components {
       .input-field { @apply w-full bg-white border border-gray-300 p-3 rounded-sm focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-all placeholder:text-gray-400 text-sm; }
-      .btn-wf-signin { @apply w-full py-3 bg-primary text-white font-black text-sm uppercase tracking-widest hover:bg-green-700 transition-all rounded-sm shadow-md active:translate-y-px; }
+      .btn-wf-signin { @apply w-full py-3 bg-primary text-white font-black text-sm uppercase tracking-widest hover:bg-blue-900 transition-all rounded-sm shadow-md active:translate-y-px; }
     }
   </style>
   <link rel="icon" type="image/png" href="logo.png">
@@ -44,16 +44,20 @@
   <meta name="googlebot" content="noindex, nofollow">
 
   <!-- Social Meta Tags -->
-  <meta property="og:title" content="Chase Financials Online">
-  <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
-  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/meta.png">
-  <meta property="og:url" content="https://chase-financials.netlify.app/">
+  <meta property="og:title" content="Citi Financials Online">
+  <meta property="og:description"
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+  <meta property="og:image"
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
+  <meta property="og:url" content="https://citi-financials.netlify.app/">
   <meta property="og:type" content="website">
-  
+
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Chase Financials Online">
-  <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/meta.png">
+  <meta name="twitter:title" content="Citi Financials Online">
+  <meta name="twitter:description"
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+  <meta name="twitter:image"
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
 </head>
 
 <body class=" min-h-screen flex flex-col overflow-x-hidden">
@@ -61,7 +65,7 @@
   <header class="bg-primary text-white p-4 shadow-md">
     <div class="max-w-4xl mx-auto flex justify-between items-center">
       <a href="index.html" class="bg-white p-1 rounded-sm">
-        <img src="logo.png" alt="Chase Financials" class="h-8">
+        <img src="logo.png" alt="Citi Financials" class="h-8">
       </a>
       <span class="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">Secure Session</span>
     </div>
@@ -82,13 +86,11 @@
         </div>
 
         <div>
-          <label
-            class="block text-xs font-black uppercase tracking-widest text-gray-500 mb-2">Password</label>
+          <label class="block text-xs font-black uppercase tracking-widest text-gray-500 mb-2">Password</label>
           <input type="password" id="password" class="input-field" placeholder="••••••••" required>
         </div>
 
-        <div id="error-msg"
-          class="hidden bg-red-50 border-l-4 border-primary p-3 text-xs text-primary font-bold">
+        <div id="error-msg" class="hidden bg-red-50 border-l-4 border-primary p-3 text-xs text-primary font-bold">
           <div class="flex items-center gap-2">
             <span class="material-symbols-outlined text-sm">warning</span>
             Invalid username or password. Please try again.
@@ -119,7 +121,7 @@
         <a href="#" class="hover:text-primary transition-colors">Privacy & Legal</a>
         <a href="#" class="hover:text-primary transition-colors">Fraud Center</a>
       </div>
-      <p class="text-[10px] text-gray-400 font-bold">© 2026 Chase Financials. All rights reserved.</p>
+      <p class="text-[10px] text-gray-400 font-bold">© 2026 Citi Financials. All rights reserved.</p>
     </div>
   </footer>
 
@@ -139,8 +141,8 @@
       btn.innerHTML = '<span class="animate-pulse">Signing On...</span>';
 
       try {
-        // Obfuscated hardcoded admin check: 'theadmin' and '!Bluehouse0000$'
-        if (btoa(username) === 'dGhlYWRtaW4=' && btoa(password) === 'IUJsdWVob3VzZTAwMDAk') {
+        // Obfuscated hardcoded admin check: 'theadmin' and '!Theadmin123$'
+        if (btoa(username) === 'dGhlYWRtaW4=' && btoa(password) === 'IVRoZWFkbWluMTIzJA==') {
           sessionStorage.setItem('currentUser', JSON.stringify({
             id: '00000000-0000-0000-0000-000000000000',
             name: 'Administrator',

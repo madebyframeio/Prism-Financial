@@ -4,14 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Messages | Chase Financials Secure Messaging</title>
+  <title>Messages | Citi Financials Secure Messaging</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: "#008450",
+            primary: "#056dae",
             secondary: "#004B8D",
             bankGray: "#F4F4F4",
             bankText: "#333333",
@@ -43,16 +43,20 @@
   <meta name="googlebot" content="noindex, nofollow">
 
   <!-- Social Meta Tags -->
-  <meta property="og:title" content="Chase Financials Online">
-  <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
-  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/meta.png">
-  <meta property="og:url" content="https://chase-financials.netlify.app/">
+  <meta property="og:title" content="Citi Financials Online">
+  <meta property="og:description"
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+  <meta property="og:image"
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
+  <meta property="og:url" content="https://citi-financials.netlify.app/">
   <meta property="og:type" content="website">
-  
+
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Chase Financials Online">
-  <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/meta.png">
+  <meta name="twitter:title" content="Citi Financials Online">
+  <meta name="twitter:description"
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+  <meta name="twitter:image"
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
 </head>
 
 <body>
@@ -61,7 +65,7 @@
     <div class="max-w-full mx-auto px-6 py-4 flex items-center justify-between">
       <div class="flex items-center gap-3 sm:gap-6">
         <a href="dashboard.html" class="bg-white p-2 rounded-sm flex items-center justify-center">
-          <img src="logo.png" alt="Chase Financials" class="h-8">
+          <img src="logo.png" alt="Citi Financials" class="h-8">
         </a>
         <h1 class="text-[14px] font-black uppercase tracking-widest pl-2 hidden sm:block">
           Secure Message Center</h1>
@@ -79,8 +83,7 @@
     <!-- Sidebar: List -->
     <div class="w-full md:w-1/4 bg-white border-r border-borderGray overflow-y-auto flex-shrink-0"
       id="message-list-container">
-      <div
-        class="p-6 bg-white border-b border-borderGray flex justify-between items-center sticky top-0 z-10 w-full">
+      <div class="p-6 bg-white border-b border-borderGray flex justify-between items-center sticky top-0 z-10 w-full">
         <span class="text-[10px] font-black uppercase tracking-widest text-gray-500">Inbox (<span
             id="unread-count">0</span>)</span>
         <button
@@ -114,8 +117,7 @@
           its contents in our secure encrypted environment.</p>
       </div>
 
-      <div id="active-message"
-        class="hidden w-full h-full flex flex-col text-left max-w-3xl mx-auto pt-10 md:pt-0">
+      <div id="active-message" class="hidden w-full h-full flex flex-col text-left max-w-3xl mx-auto pt-10 md:pt-0">
         <div class="border-b border-borderGray pb-6 mb-6 pt-4">
           <div class="flex justify-between items-start mb-2">
             <h2 id="msg-subject" class="text-xl font-bold text-bankText">Subject</h2>
@@ -129,8 +131,7 @@
             <span id="msg-date">Date</span>
           </div>
         </div>
-        <div id="msg-body"
-          class="text-sm text-bankText leading-loose whitespace-pre-wrap flex-1 overflow-y-auto">
+        <div id="msg-body" class="text-sm text-bankText leading-loose whitespace-pre-wrap flex-1 overflow-y-auto">
           Body
         </div>
       </div>

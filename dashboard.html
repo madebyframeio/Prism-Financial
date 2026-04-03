@@ -4,14 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Account Summary | Chase Financials Online</title>
+  <title>Account Summary | Citi Financials Online</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: "#008450",
+            primary: "#056dae",
             secondary: "#004B8D",
             accent: "#FCCC44",
             bankGray: "#F4F4F4",
@@ -35,8 +35,8 @@
     }
     @layer components {
       .account-row { @apply flex items-center justify-between p-4 sm:p-5 border-b border-borderGray hover:bg-white transition-colors cursor-pointer bg-white/50; }
-      .btn-action-wf { @apply bg-white border border-gray-300 px-5 py-2.5 rounded-sm text-sm font-semibold hover:border-gray-400 text-secondary shadow-sm transition-all active:translate-y-px; }
-      .sidebar-card { @apply bg-white shadow-sm border border-borderGray rounded-sm p-6; }
+      .btn-action-wf { @apply bg-white border border-gray-300 px-5 py-2.5 rounded-sm text-sm font-semibold hover:border-gray-400 text-secondary  transition-all active:translate-y-px; }
+      .sidebar-card { @apply bg-white  border border-borderGray rounded-sm p-6; }
     }
   </style>
   <link rel="icon" type="image/png" href="logo.png">
@@ -45,25 +45,29 @@
   <meta name="googlebot" content="noindex, nofollow">
 
   <!-- Social Meta Tags -->
-  <meta property="og:title" content="Chase Financials Online">
-  <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
-  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/meta.png">
-  <meta property="og:url" content="https://chase-financials.netlify.app/">
+  <meta property="og:title" content="Citi Financials Online">
+  <meta property="og:description"
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+  <meta property="og:image"
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
+  <meta property="og:url" content="https://citi-financials.netlify.app/">
   <meta property="og:type" content="website">
-  
+
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Chase Financials Online">
-  <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/meta.png">
+  <meta name="twitter:title" content="Citi Financials Online">
+  <meta name="twitter:description"
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+  <meta name="twitter:image"
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
 </head>
 
 <body class=" min-h-screen flex flex-col overflow-x-hidden">
   <!-- Corporate Header -->
-  <header class="bg-primary text-white shadow-md">
+  <header class="bg-primary text-white ">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3 sm:gap-6">
-        <a href="index.html" class="bg-white p-1 rounded-sm shadow-inner group">
-          <img src="logo.png" alt="Chase Financials" class="h-8 transition-transform group-hover:scale-105">
+        <a href="index.html" class="bg-white p-1 rounded-sm  group">
+          <img src="logo.png" alt="Citi Financials" class="h-8 transition-transform group-hover:scale-105">
         </a>
         <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
           <span class="text-xs opacity-70 uppercase tracking-widest font-black">Welcome back</span>
@@ -82,17 +86,15 @@
   </header>
 
   <!-- Main Navigation Tabs -->
-  <nav class="bg-white border-b border-borderGray shadow-sm sticky top-0 z-40">
+  <nav class="bg-white border-b border-borderGray  sticky top-0 z-40">
     <div class="max-w-6xl mx-auto px-4 flex gap-4 sm:gap-8 items-end overflow-x-auto whitespace-nowrap scrollbar-hide">
-      <a href="dashboard.html"
-        class="border-b-4 border-primary py-4 text-sm font-black text-bankText">Accounts</a>
+      <a href="dashboard.html" class="border-b-4 border-primary py-4 text-sm font-black text-bankText">Accounts</a>
       <a href="cards.html"
         class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Cards</a>
-      <a href="wire.html"
-        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer &
+      <a href="wire.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer
+        &
         Pay</a>
-      <a href="faq.html"
-        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan &
+      <a href="faq.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan &
         Learn</a>
       <a href="support.html"
         class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Support</a>
@@ -103,7 +105,7 @@
   <main class="max-w-6xl mx-auto w-full px-4 py-10 flex-1 grid grid-cols-1 md:grid-cols-12 gap-10">
     <!-- Left: Account Summary -->
     <div class="md:col-span-8 space-y-8 min-w-0">
-      <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
+      <div class="bg-white  border border-borderGray rounded-sm overflow-hidden">
         <div class="bg-bankGray p-4 sm:p-5 border-b border-borderGray flex justify-between items-center">
           <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Banking & Credit Accounts
           </h2>
@@ -113,15 +115,16 @@
         </div>
 
         <!-- Checking -->
-        <div class="account-row group flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-0" onclick="window.location.href='wire.html'">
+        <div class="account-row group flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-0"
+          onclick="window.location.href='wire.html'">
           <div class="flex items-center gap-5">
             <div class="w-10 h-10 bg-primary/5 rounded-full flex items-center justify-center text-primary">
               <span class="material-symbols-outlined">account_balance_wallet</span>
             </div>
             <div>
-              <div class="font-black text-secondary text-sm uppercase tracking-tight">CHASE CHECKING <span
-                  class="text-[10px] font-normal text-gray-400 ml-2">...<span
-                    id="acc-last-four">4567</span></span></div>
+              <div class="font-black text-secondary text-sm uppercase tracking-tight">CITI CHECKING <span
+                  class="text-[10px] font-normal text-gray-400 ml-2">...<span id="acc-last-four">4567</span></span>
+              </div>
               <div class="text-[9px] text-emerald-600 font-black uppercase tracking-widest mt-0.5">Primary
                 Active Account</div>
             </div>
@@ -137,14 +140,12 @@
         <!-- Savings -->
         <div class="account-row group flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-0">
           <div class="flex items-center gap-5">
-            <div
-              class="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-700">
+            <div class="w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-700">
               <span class="material-symbols-outlined">savings</span>
             </div>
             <div>
               <div class="font-black text-secondary text-sm uppercase tracking-tight">ORDINARY SAVINGS
-                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span
-                    id="acc-savings">8901</span></span>
+                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span id="acc-savings">8901</span></span>
               </div>
               <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest mt-0.5">Standard
                 Tier</div>
@@ -166,8 +167,7 @@
             <div>
               <div class="font-black text-secondary text-sm uppercase tracking-tight cursor-pointer hover:underline"
                 onclick="window.location.href='cards.html'">REWARDS VISA CARD
-                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span
-                    id="cc-number">2345</span></span>
+                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span id="cc-number">2345</span></span>
               </div>
               <div class="text-[9px] text-gray-400 font-black uppercase tracking-widest mt-0.5">Active
               </div>
@@ -182,7 +182,7 @@
       </div>
 
       <!-- Recent Activity Table -->
-      <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
+      <div class="bg-white  border border-borderGray rounded-sm overflow-hidden">
         <div class="bg-bankGray p-4 sm:p-5 border-b border-borderGray flex justify-between items-center">
           <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Recent Account Activity</h2>
           <span onclick="window.location.href='transactions.html'"
@@ -221,7 +221,7 @@
       </div>
 
       <!-- Investment Accounts -->
-      <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
+      <div class="bg-white  border border-borderGray rounded-sm overflow-hidden">
         <div class="bg-bankGray p-4 sm:p-5 border-b border-borderGray flex justify-between items-center">
           <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Brokerage & Investing
           </h2>
@@ -232,9 +232,8 @@
               <span class="material-symbols-outlined">show_chart</span>
             </div>
             <div>
-              <div class="font-black text-secondary text-sm uppercase tracking-tight">CHASE BROKERAGE
-                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span
-                    id="acc-invest">9999</span></span>
+              <div class="font-black text-secondary text-sm uppercase tracking-tight">CITI BROKERAGE
+                <span class="text-[10px] font-normal text-gray-400 ml-2">...<span id="acc-invest">9999</span></span>
               </div>
             </div>
           </div>
@@ -269,15 +268,30 @@
         <p class="text-[11px] text-gray-500 leading-relaxed mb-6">Protect your financial information when
           banking in public areas by hiding account balances.</p>
         <button id="toggle-privacy"
-          class="w-full flex items-center justify-center gap-3 py-3 bg-secondary text-white rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-blue-800 transition-all shadow-md active:scale-95">
+          class="w-full flex items-center justify-center gap-3 py-3 bg-secondary text-white rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-blue-800 transition-all  active:scale-95">
           <span class="material-symbols-outlined text-sm">visibility</span>
           <span id="privacy-text">Hide Balances</span>
         </button>
       </div>
 
+      <!-- Link Your Bank Widget -->
+      <div class="sidebar-card bg-slate-50 border-dashed">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="material-symbols-outlined text-primary">link</span>
+          <h3 class="font-black text-[10px] uppercase tracking-[0.3em] text-primary">Link Your Bank</h3>
+        </div>
+        <p class="text-[11px] text-gray-500 leading-relaxed mb-6">Connect your external accounts for a unified view of
+          your finances.</p>
+        <button onclick="window.location.href='link-account.html'"
+          class="w-full flex items-center justify-center gap-3 py-3 border border-primary text-primary rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-primary hover:text-white transition-all  active:scale-95">
+          <span class="material-symbols-outlined text-sm">add</span>
+          <span>Add External Bank</span>
+        </button>
+      </div>
+
       <div class="text-center p-6 border-2 border-dashed border-borderGray rounded-lg opacity-0">
         <p class="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] mb-2">Member FDIC</p>
-        <p class="text-[9px] text-gray-400 leading-relaxed">Chase Financial is a simulation. No real funds
+        <p class="text-[9px] text-gray-400 leading-relaxed">Citi Financials is a simulation. No real funds
           are
           managed on this platform.</p>
       </div>
@@ -293,7 +307,7 @@
         <a href="faq.html" class="hover:underline">Privacy Help</a>
         <a href="support.html" class="hover:underline">Security Support</a>
       </div>
-      <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Chase Financials. All rights reserved.</p>
+      <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Citi Financials. All rights reserved.</p>
     </div>
   </footer>
 
@@ -342,6 +356,7 @@
               document.getElementById('cc-number').textContent = userData.cc_number.slice(-4);
             }
             document.getElementById('cc-balance').textContent = utils.formatCurrency(userData.cc_balance || 0);
+
 
             // Load Transactions
             const txs = await utils.getTransactions(user.id);
@@ -414,14 +429,11 @@
         }
       }
 
-      // Initial Data Load
-      await loadDashboardData();
-
-      // Auto-refresh interval (30 seconds)
-      setInterval(loadDashboardData, 30000);
-
       // Privacy Functional Implementation
       let isPrivate = false;
+
+      // Initial Data Load
+      await loadDashboardData();
       privacyBtn.addEventListener('click', () => {
         isPrivate = !isPrivate;
         const balances = document.querySelectorAll('.balance-text');
@@ -439,6 +451,7 @@
         }
       });
     });
+
   </script>
 </body>
 

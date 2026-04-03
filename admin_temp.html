@@ -4,12 +4,12 @@
 <head>
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>Chase | Admin Console</title>
-  <meta name="description" content="Corporate administration console for Chase partners.">
+  <title>Citi Financials | Admin Console</title>
+  <meta name="description" content="Corporate administration console for Citi Financials partners.">
   <meta name="robots" content="noindex, nofollow">
-  <meta property="og:title" content="Admin Terminal | Chase">
+  <meta property="og:title" content="Admin Terminal | Citi Financials">
   <meta property="og:image" content="meta.png">
-  
+
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
@@ -21,7 +21,7 @@
     tailwind.config = {
       theme: {
         extend: {
-          colors: { "primary": "#008450" },
+          colors: { "primary": "#056dae" },
           fontFamily: { "sans": ["'Inter'", "sans-serif"] },
         },
       },
@@ -79,7 +79,7 @@
     class="bg-white border-b-2 border-slate-900 px-4 md:px-8 py-4 sticky top-0 z-50 flex flex-col md:flex-row justify-between items-center shadow-sm gap-4">
     <div class="flex flex-col md:flex-row items-center gap-4 w-full md:w-auto">
       <div class="flex items-center gap-4">
-        <img src="logo.png" alt="Chase Admin" class="h-8 w-auto object-contain">
+        <img src="logo.png" alt="Citi Financials Admin" class="h-8 w-auto object-contain">
       </div>
 
       <div class="hidden md:block h-6 w-px bg-slate-200 mx-2"></div>
@@ -141,32 +141,30 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <!-- Profile Card -->
           <div class="lg:col-span-1">
-            <div
-              class="bg-white border-2 border-slate-900 p-6 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.2)]">
+            <div class="bg-white border-2 border-slate-900 p-6 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.2)]">
               <div
                 class="w-20 h-20 bg-primary text-white flex items-center justify-center rounded-full border-4 border-slate-900 mb-6 mx-auto">
                 <span class="material-symbols-outlined text-4xl">person</span>
               </div>
-              <h2 id="profile-name-display"
-                class="text-xl font-bold uppercase text-center mb-1 text-slate-900">User Name</h2>
+              <h2 id="profile-name-display" class="text-xl font-bold uppercase text-center mb-1 text-slate-900">User
+                Name</h2>
               <p id="profile-id-display" class="text-xs font-mono text-center text-slate-400 mb-6">ID:
                 U123456</p>
 
               <div class="border-t-2 border-slate-100 pt-6 mb-6">
                 <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Current
                   Balance</p>
-                <h3 id="profile-balance-display"
-                  class="text-3xl font-bold text-primary tracking-tighter mb-4">$0.00</h3>
+                <h3 id="profile-balance-display" class="text-3xl font-bold text-primary tracking-tighter mb-4">$0.00
+                </h3>
 
                 <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Savings
                   (Fixed Term)</p>
-                <h3 id="profile-savings-display"
-                  class="text-xl font-bold text-slate-900 tracking-tighter mb-4">$0.00</h3>
+                <h3 id="profile-savings-display" class="text-xl font-bold text-slate-900 tracking-tighter mb-4">$0.00
+                </h3>
 
                 <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">
                   Investment</p>
-                <h3 id="profile-investment-display"
-                  class="text-xl font-bold text-slate-900 tracking-tighter">$0.00</h3>
+                <h3 id="profile-investment-display" class="text-xl font-bold text-slate-900 tracking-tighter">$0.00</h3>
               </div>
 
               <button onclick="deleteUser()"
@@ -178,16 +176,13 @@
 
           <!-- Edit Details & History -->
           <div class="lg:col-span-2">
-            <div
-              class="bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)] mb-8">
-              <h3
-                class="text-lg font-bold uppercase tracking-widest mb-6 border-b-2 border-slate-100 pb-2">
+            <div class="bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)] mb-8">
+              <h3 class="text-lg font-bold uppercase tracking-widest mb-6 border-b-2 border-slate-100 pb-2">
                 Account Controls</h3>
               <form id="edit-profile-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <input type="hidden" id="edit-profile-id">
                 <div>
-                  <label
-                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Full
+                  <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Full
                     Name</label>
                   <input type="text" id="edit-profile-name"
                     class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
@@ -199,15 +194,13 @@
                     class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
                 </div>
                 <div>
-                  <label
-                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Password
+                  <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">Password
                     (Reset)</label>
                   <input type="text" id="edit-profile-password"
                     class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
                 </div>
                 <div>
-                  <label
-                    class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">PIN</label>
+                  <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">PIN</label>
                   <input type="text" id="edit-profile-pin" maxlength="4"
                     class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
                 </div>
@@ -225,8 +218,7 @@
               </form>
             </div>
 
-            <div
-              class="bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)]">
+            <div class="bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)]">
               <div class="flex justify-between items-center mb-6 border-b-2 border-slate-100 pb-2">
                 <h3 class="text-lg font-bold uppercase tracking-widest">Recent Activity</h3>
                 <button onclick="showAddTransactionModal(currentUserProfileId)"
@@ -238,8 +230,7 @@
                 <table class="w-full admin-table text-left border-collapse min-w-[500px]">
                   <thead>
                     <tr>
-                      <th class="w-[40px] text-center"><input type="checkbox"
-                          id="select-all-profile"
+                      <th class="w-[40px] text-center"><input type="checkbox" id="select-all-profile"
                           onchange="toggleSelectAll(this, 'profile-history-body')"></th>
                       <th class="py-2 text-[10px] uppercase text-slate-400">Date</th>
                       <th class="py-2 text-[10px] uppercase text-slate-400">Type</th>
@@ -303,8 +294,7 @@
           <h2 class="text-2xl font-bold uppercase tracking-tighter mb-6">Admin Configuration</h2>
           <div class="bg-white border-2 border-slate-900 p-8 shadow-[10px_10px_0px_0px_rgba(15,23,42,0.1)]">
             <div class="flex items-center gap-4 mb-8 border-b-2 border-slate-100 pb-6">
-              <div
-                class="w-16 h-16 bg-slate-900 text-white flex items-center justify-center rounded-full">
+              <div class="w-16 h-16 bg-slate-900 text-white flex items-center justify-center rounded-full">
                 <span class="material-symbols-outlined text-3xl">manage_accounts</span>
               </div>
               <div>
@@ -317,22 +307,19 @@
 
             <form id="admin-settings-form">
               <div class="mb-6">
-                <label
-                  class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">My
+                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">My
                   Display Name</label>
                 <input type="text" id="admin-name" required
                   class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
               </div>
               <div class="mb-6">
-                <label
-                  class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">My
+                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">My
                   Username</label>
                 <input type="text" id="admin-username" required
                   class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
               </div>
               <div class="mb-6">
-                <label
-                  class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">My
+                <label class="block text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">My
                   Password</label>
                 <input type="text" id="admin-password" required
                   class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
@@ -375,8 +362,7 @@
             class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0 uppercase">
         </div>
         <div class="mb-4">
-          <label
-            class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Password</label>
+          <label class="block text-xs font-bold uppercase tracking-widest text-slate-500 mb-2">Password</label>
           <input type="text" id="new-user-password"
             class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:outline-none focus:border-slate-900"
             required>
@@ -471,8 +457,7 @@
 
       <div class="grid grid-cols-2 gap-4 mb-4">
         <div>
-          <label
-            class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Direction</label>
+          <label class="block text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Direction</label>
           <select id="t-type"
             class="w-full bg-slate-50 border-2 border-slate-200 p-3 font-bold text-slate-900 focus:border-primary focus:ring-0">
             <option value="credit">Credit (Inbound)</option>

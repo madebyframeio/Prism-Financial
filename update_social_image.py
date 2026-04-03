@@ -11,14 +11,14 @@ def update_social_image_to_meta_png():
             
             # Replace logo.png with meta.png in the raw.githubusercontent URLs
             modified_content = content.replace(
-                'https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/logo.png', 
-                'https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/meta.png'
+                'https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/logo.png', 
+                'https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png'
             )
             
             # Also handle any leftover netlify root URLs just in case
             modified_content = modified_content.replace(
-                'https://chase-financials.netlify.app/logo.png', 
-                'https://raw.githubusercontent.com/madebyframeio/Chase Financials/main/meta.png'
+                'https://citi-financials.netlify.app/logo.png', 
+                'https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png'
             )
 
             if content != modified_content:

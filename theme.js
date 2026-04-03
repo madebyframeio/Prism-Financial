@@ -1,22 +1,22 @@
-// Centralized Theme Configuration for Chase Financial
-// Establishes an ultra-premium "Chase Black" luxury aesthetic.
+// Centralized Theme Configuration for Citi Financials
+// Establishes an ultra-premium "Citi Financials Black" luxury aesthetic.
 
 const financeTheme = {
     colors: {
-        primary: "#008450",       // Prisim Finance Green
+        primary: "#056dae",       // Citi Financials Dark Blue
         secondary: "#004B8D",     // Corporate blue for links
-        accent: "#FCCC44",        // Prisim Finance Yellow
+        accent: "#FCCC44",        // Citi Financials Yellow
         "accent-dark": "#D5A106",
         surface: "#F4F4F4",       // Light gray surface
         "surface-highlight": "#FFFFFF",
-        success: "#008450",       // Trustworthy green
-        warning: "#008450",
-        danger: "#008450",
-        header: "#008450",
+        success: "#056dae",       // Keep success as green
+        warning: "#EAB308",       // Standard amber
+        danger: "#EF4444",        // Standard red
+        header: "#056dae",
         text: {
             DEFAULT: "#333333",   // Near black for readability
             dim: "#666666",
-            gold: "#008450"        // Use green for highlight
+            gold: "#056dae"        // Use primary for highlight
         }
     },
     fontFamily: {
