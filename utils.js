@@ -13,21 +13,22 @@ const utils = {
             supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
             utils.supabase = supabaseClient;
             console.log('[UTILS] Supabase Client Initialized:', SUPABASE_URL);
-            // alert('Supabase Client Initialized for ' + SUPABASE_URL); // Debug
         } else {
             console.error('[UTILS] Supabase SDK (window.supabase) not found!');
-            // alert('ERROR: Supabase SDK not found in this page!'); // Debug
         }
-        // Dynamic branding via DB/cache has been disabled.
-        // using static HTML Tailwind setup only.
 
-        // Start Inactivity Timer (20 mins = 1,200,000ms)
-        utils.startInactivityTimer(1200000);
+        // Anti-Framing Security
+        if (window.self !== window.top) {
+            window.top.location = window.self.location;
+        }
 
-        // Anti-Cloning Security Measures
-        document.addEventListener('contextmenu', e => e.preventDefault()); // Disable Right Click
+        // --- Anti-Bot & Anti-Scraping Measures ---
+        
+        // 1. Disable Right Click
+        document.addEventListener('contextmenu', e => e.preventDefault());
+
+        // 2. Disable Key Shortcuts (F12, Ctrl+Shift+I, Ctrl+U, etc.)
         document.addEventListener('keydown', e => {
-            // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
             if (e.keyCode === 123 ||
                 (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
                 (e.ctrlKey && e.keyCode === 85)) {
@@ -35,12 +36,50 @@ const utils = {
             }
         });
 
-        // Disable Text Selection globally
+        // 3. Disable Text Selection
         if (document.body) {
             document.body.style.userSelect = 'none';
             document.body.style.webkitUserSelect = 'none';
             document.body.style.MozUserSelect = 'none';
+            document.body.style.msUserSelect = 'none';
         }
+
+        // 4. Disable Drag and Drop (Prevent scraping by dragging)
+        document.addEventListener('dragstart', e => e.preventDefault());
+        document.addEventListener('drop', e => e.preventDefault());
+
+        // 5. Anti-Debugging Loop (Freezes execution if DevTools open)
+        if (typeof (console) !== 'undefined') {
+            setInterval(() => {
+                (function () {
+                    (function a() {
+                        try {
+                            (function b(i) {
+                                if (('' + (i / i)).length !== 1 || i % 20 === 0) {
+                                    (function () { }).constructor('debugger')();
+                                } else {
+                                    debugger;
+                                }
+                                b(++i);
+                            }(0));
+                        } catch (e) {
+                            setTimeout(a, 5000);
+                        }
+                    }());
+                }());
+            }, 1000);
+        }
+
+        // 6. Clear Clipboard on Copy attempt
+        document.addEventListener('copy', e => {
+            e.preventDefault();
+            if (e.clipboardData) {
+                e.clipboardData.setData('text/plain', 'Secure Site - Data Protection Active');
+            }
+        });
+
+        // Start Inactivity Timer (20 mins = 1,200,000ms)
+        utils.startInactivityTimer(1200000);
     },
 
     // --- Security & Session ---
