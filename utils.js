@@ -6,7 +6,7 @@ const SUPABASE_KEY = 'sb_publishable_75ADZ3UaNBRzrBtwrQM5nw_CcIqPaEI';
 let supabaseClient = null;
 
 const utils = {
-    init: () => {
+    init: async () => {
         if (window.supabase) {
             const { createClient } = window.supabase;
             // Initialize local and attach to object for global access
@@ -15,6 +15,45 @@ const utils = {
         } else {
             console.error('[UTILS] Initialization failure');
         }
+
+        // Global System Reset / Cache Purge Check
+        try {
+            if (utils.supabase) {
+                const { data: verData } = await utils.supabase
+                    .from('settings')
+                    .select('value')
+                    .eq('key', 'system_cache_version')
+                    .single();
+
+                if (verData && verData.value) {
+                    const localVer = localStorage.getItem('local_system_version');
+                    if (localVer !== verData.value) {
+                        console.warn('[SYSTEM] Global Reset Triggered. Purging cache...');
+                        
+                        // Clear Caches
+                        if (window.caches) {
+                            const cacheNames = await caches.keys();
+                            for (const name of cacheNames) {
+                                await caches.delete(name);
+                            }
+                        }
+                        
+                        // Clear Storage (Capture local system version first to avoid loop)
+                        const newVer = verData.value;
+                        localStorage.clear();
+                        sessionStorage.clear();
+                        localStorage.setItem('local_system_version', newVer);
+                        
+                        // Force Reload
+                        window.location.reload(true);
+                        return; // Stop execution
+                    }
+                }
+            }
+        } catch (e) {
+            console.error('[SYSTEM] Reset check failed:', e);
+        }
+
         // Dynamic branding via DB/cache has been disabled.
         // using static HTML Tailwind setup only.
 
@@ -44,15 +83,21 @@ const utils = {
             }
         }, 3000);
 
-        // Simple anti-debug trap
-        const checkDebugger = () => {
-          const start = Date.now();
-          debugger;
-          if (Date.now() - start > 100) {
-            // console.warn("Developer tools detected.");
-          }
+        // Strict Anti-Debug Trap
+        const trap = function() {
+            try {
+                const check = function() {
+                    const start = Date.now();
+                    debugger;
+                    const end = Date.now();
+                    if (end - start > 100) {
+                        // Deterrent logic if needed
+                    }
+                };
+                setInterval(check, 500);
+            } catch (e) {}
         };
-        // setInterval(checkDebugger, 2000);
+        trap();
 
         // Disable Text Selection globally
         if (document.body) {

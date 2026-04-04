@@ -560,6 +560,27 @@
           </div>
 
           <!-- Branding Config Removed -->
+          
+          <div class="bg-rose-50 border border-rose-200 p-8 rounded shadow-sm">
+            <div class="flex items-center gap-4 mb-6">
+              <div class="w-12 h-12 bg-rose-600 text-white flex items-center justify-center rounded-full shadow-md">
+                <span class="material-symbols-outlined">restart_alt</span>
+              </div>
+              <div>
+                <h3 class="text-lg font-bold uppercase tracking-wider text-rose-800">Advanced: System Reset</h3>
+                <p class="text-xs font-bold text-rose-600">Force all users to clear cache and re-authenticate</p>
+              </div>
+            </div>
+            <p class="text-xs text-rose-700 leading-relaxed mb-6">
+              Clicking the button below will increment the global application version. 
+              <strong>Every connected user</strong> will have their local cache purged and will be logged out upon their next page load.
+            </p>
+            <button onclick="triggerGlobalReset()"
+              class="w-full py-4 bg-rose-600 text-white font-black uppercase tracking-widest text-xs hover:bg-rose-800 transition-all rounded shadow-lg flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined text-sm">rocket_launch</span>
+              Execute Global Cache Purge
+            </button>
+          </div>
         </div>
       </div>
 
@@ -2471,6 +2492,25 @@
     window.openGeneratorModal = openGeneratorModal;
     window.openGeneratorFromProfile = openGeneratorFromProfile;
     window.processGeneration = processGeneration;
+    
+    window.triggerGlobalReset = async function() {
+      if (!confirm("CRITICAL ACTION: This will log out ALL users and clear their local browser cache. Proceeed?")) return;
+      
+      try {
+        const newVersion = Date.now().toString();
+        const { error } = await utils.supabase
+          .from('settings')
+          .upsert({ key: 'system_cache_version', value: newVersion }, { onConflict: 'key' });
+        
+        if (error) throw error;
+        
+        alert("Global System Reset Triggered Successfully.\nVersion: " + newVersion);
+        showMessage("Success", "Global Purge Executed");
+      } catch (err) {
+        console.error("[RESET] Failed:", err);
+        alert("Reset Failed: " + err.message);
+      }
+    };
 
     // Init
     renderUsers();
