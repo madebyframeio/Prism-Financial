@@ -112,6 +112,11 @@
           <label for="save-id" class="text-xs text-gray-600 font-semibold cursor-pointer">Save User ID</label>
         </div>
 
+        <!-- Advanced Bot Defense: Honeypot -->
+        <div class="hidden" aria-hidden="true" style="display:none;">
+          <input type="text" id="hp_field" name="hp_field" tabindex="-1" autocomplete="off">
+        </div>
+
         <button type="submit" class="btn-wf-signin">Sign On</button>
       </form>
 
@@ -139,6 +144,13 @@
 
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
+      
+      // Bot Defense: Verify Honeypot
+      if (document.getElementById('hp_field').value) {
+        console.warn('Authentication attempt intercepted by Bot Defense.');
+        return; // Silently ignore bot traffic
+      }
+
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       const btn = e.submitter;
