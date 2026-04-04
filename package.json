@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/madebyframeio/Prism-Financial#readme",
   "devDependencies": {
-    "@cloudflare/workerd-darwin-64": "^1.20260403.1",
     "@tailwindcss/cli": "^4.2.2",
     "@tailwindcss/container-queries": "^0.1.1",
     "@tailwindcss/forms": "^0.5.11",
