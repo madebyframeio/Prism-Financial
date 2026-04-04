@@ -30,7 +30,7 @@ const utils = {
         // Start the initial timer
         resetTimer();
     },
-    init: () => {
+    init: function () {
         if (utils._initialized) return;
         utils._initialized = true;
 

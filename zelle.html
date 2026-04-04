@@ -2,59 +2,67 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" href="input.css">
-  <link rel="stylesheet" href="style.css">
-  <script src="gatekeeper.js"></script>
-  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, noodp">
-  <meta name="googlebot" content="noindex, nofollow">
-  <meta name="google" content="notranslate">
-  <meta name="referrer" content="same-origin">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zelle&reg; Transfers | WithCitii</title>
-  
-  
+  <title>Zelle&reg; Transfers | Citi Financials Online</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#056dae",
+            secondary: "#004B8D",
+            zelle: "#6d1ed1",
+            bankGray: "#F4F4F4",
+            bankText: "#333333",
+            borderGray: "#D1D1D1"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          }
+        }
+      }
+    };
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
     rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
-  
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+    }
+  </style>
   <link rel="icon" type="image/png" href="logo.png">
 
-  
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
   <meta name="googlebot" content="noindex, nofollow">
 
   <!-- Social Meta Tags -->
-  <meta property="og:title" content="WithCitii">
+  <meta property="og:title" content="Citi Financials Online">
   <meta property="og:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
   <meta property="og:image"
-    content="https://raw.githubusercontent.com/madebyframeio/withcitti-Project/main/meta.png">
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
   <meta property="og:url" content="https://citi-financials.netlify.app/">
   <meta property="og:type" content="website">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="WithCitii">
+  <meta name="twitter:title" content="Citi Financials Online">
   <meta name="twitter:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
   <meta name="twitter:image"
-    content="https://raw.githubusercontent.com/madebyframeio/withcitti-Project/main/meta.png">
-
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#056dae">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="#056dae">
-  <meta name="apple-mobile-web-app-title" content="WithCitii">
-
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
 </head>
 
-<body class="">
+<body class=" min-h-screen flex flex-col overflow-x-hidden">
   <!-- Header -->
   <header class="bg-primary text-white shadow-md">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3 sm:gap-6">
         <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-inner group">
-          <img src="logo.png" alt="WithCitii" class="h-8 transition-transform group-hover:scale-105">
+          <img src="logo.png" alt="Citi Financials" class="h-8 transition-transform group-hover:scale-105">
         </a>
         <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
           <span class="text-xs opacity-70 uppercase tracking-widest font-black">Zelle&reg;</span>
@@ -118,7 +126,7 @@
   <footer class="bg-white border-t border-borderGray py-10">
     <div
       class="max-w-xl mx-auto px-4 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
-      <p>© 2026 WithCitii</p>
+      <p>© 2026 Citi Financials</p>
       <div class="flex gap-6">
         <a href="faq.html" class="hover:underline">Learn More</a>
         <a href="support.html" class="hover:underline">Contact Support</a>

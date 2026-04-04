@@ -2,59 +2,71 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" href="input.css">
-  <link rel="stylesheet" href="style.css">
-  <script src="gatekeeper.js"></script>
-  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, noodp">
-  <meta name="googlebot" content="noindex, nofollow">
-  <meta name="google" content="notranslate">
-  <meta name="referrer" content="same-origin">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Support | WithCitii Assistant</title>
-  
-  
+  <title>Support | Citi Financials Assistant</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#056dae",
+            secondary: "#004B8D",
+            bankGray: "#F4F4F4",
+            bankText: "#333333",
+            borderGray: "#D1D1D1"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          }
+        }
+      }
+    };
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
     rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
-  
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-[#f8fbff] text-bankText font-sans antialiased overflow-hidden; }
+    }
+    @layer components {
+      .chat-bubble-bot { @apply bg-white border border-borderGray p-4 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] text-sm font-semibold; }
+      .chat-bubble-user { @apply bg-primary text-white p-4 rounded-2xl rounded-tr-none shadow-md max-w-[85%] text-sm font-semibold ml-auto; }
+      .suggested-pill { @apply px-4 py-2 bg-white border border-borderGray rounded-full text-[10px] font-black uppercase tracking-widest text-secondary hover:border-primary hover:text-primary transition-all cursor-pointer whitespace-nowrap; }
+    }
+  </style>
   <link rel="icon" type="image/png" href="logo.png">
 
-  
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
   <meta name="googlebot" content="noindex, nofollow">
 
   <!-- Social Meta Tags -->
-  <meta property="og:title" content="WithCitii">
+  <meta property="og:title" content="Citi Financials Online">
   <meta property="og:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
   <meta property="og:image"
-    content="https://raw.githubusercontent.com/madebyframeio/withcitti-Project/main/meta.png">
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
   <meta property="og:url" content="https://citi-financials.netlify.app/">
   <meta property="og:type" content="website">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="WithCitii">
+  <meta name="twitter:title" content="Citi Financials Online">
   <meta name="twitter:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
   <meta name="twitter:image"
-    content="https://raw.githubusercontent.com/madebyframeio/withcitti-Project/main/meta.png">
-
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#056dae">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="#056dae">
-  <meta name="apple-mobile-web-app-title" content="WithCitii">
-
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
 </head>
 
-<body class=" h-screen flex flex-col">
+<body class=" h-screen flex flex-col overflow-x-hidden">
   <!-- Corporate Header -->
   <header class="bg-primary text-white shadow-md p-4 relative z-50">
     <div class="max-w-4xl mx-auto flex items-center justify-between">
       <div class="flex items-center gap-4">
         <a href="dashboard.html" class="bg-white p-1 rounded-sm">
-          <img src="logo.png" alt="WithCitii" class="h-8">
+          <img src="logo.png" alt="Citi Financials" class="h-8">
         </a>
         <div class="flex flex-col border-l border-white/20 pl-4">
           <span class="text-xs font-black uppercase tracking-widest leading-none">AI Banking Assistant</span>
@@ -75,7 +87,7 @@
         <span class="material-symbols-outlined text-xl">smart_toy</span>
       </div>
       <div class="chat-bubble-bot">
-        Hello! I'm your WithCitii Assistant. I can help you with account balances, transfer status, or
+        Hello! I'm your Citi Financials Assistant. I can help you with account balances, transfer status, or
         connecting you with a specialist. How can I assist you today?
       </div>
     </div>

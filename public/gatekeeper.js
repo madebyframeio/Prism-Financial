@@ -24,10 +24,10 @@ const Gatekeeper = {
                 }
 
                 // Only show verification splash if not already authorized in session
-                const isVerified = sessionStorage.getItem('gk_auth') === 'true';
-                if (!isVerified) {
-                    this.handleHuman();
-                }
+                // const isVerified = sessionStorage.getItem('gk_auth') === 'true';
+                // if (!isVerified) {
+                //     this.handleHuman();
+                // }
 
                 this.initializePWA();
                 this.injectMobileUI();
@@ -79,9 +79,9 @@ const Gatekeeper = {
         // Only inject for mobile widths
         if (window.innerWidth >= 768) return;
 
-        // SKIP injection for Landing (index) and Login pages
-        const path = window.location.pathname;
-        if (path.includes('index.html') || path.includes('login.html') || path === '/' || path === '') {
+        // SKIP injection for Public pages (Element-based detection)
+        if (document.querySelector('form#login-form') || document.querySelector('.landing-hero')) {
+            console.log("[GK] Public page detected: Skipping nav injection.");
             return;
         }
 

