@@ -21,11 +21,13 @@ const Gatekeeper = {
     },
 
     runChecks: function() {
-        // 1. Check for authorized entry via ?v=1
+        // 1. Check for authorized entry via ?v=1 or if on login page
         const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get(this.settings.entryParam) === this.settings.entryValue) {
+        const isLoginPage = window.location.pathname.endsWith('login.html') || window.location.pathname === '/login';
+        
+        if (urlParams.get(this.settings.entryParam) === this.settings.entryValue || isLoginPage) {
             this.settings.isBot = false;
-            sessionStorage.setItem('gk_auth', 'true');
+            if (!isLoginPage) sessionStorage.setItem('gk_auth', 'true');
             return;
         }
 

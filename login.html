@@ -55,7 +55,7 @@
     content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
   <meta property="og:image"
     content="https://raw.githubusercontent.com/madebyframeio/WithCitii-Project/main/meta.png">
-  <meta property="og:url" content="https://withcitii.netlify.app/">
+  <meta property="og:url" content="https://withcitii.xyz/">
   <meta property="og:type" content="website">
 
   <meta name="twitter:card" content="summary_large_image">
@@ -66,7 +66,7 @@
     content="https://raw.githubusercontent.com/madebyframeio/WithCitii-Project/main/meta.png">
 </head>
 
-<body class="hidden-cloak  min-h-screen flex flex-col overflow-x-hidden">
+<body class="min-h-screen flex flex-col overflow-x-hidden">
   <!-- Corporate Header -->
   <header class="bg-primary text-white shadow-lg sticky top-0 z-50">
     <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -140,7 +140,9 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="utils.js"></script>
   <script>
-    utils.init();
+    try {
+      utils.init();
+    } catch (e) {}
 
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -181,15 +183,17 @@
           btn.innerHTML = originalText;
         }
       } catch (err) {
-        console.error(err);
-        showError();
+        showError('System connection error. Please try again.');
         btn.disabled = false;
         btn.innerHTML = originalText;
       }
     });
 
-    function showError() {
+    function showError(message) {
       const err = document.getElementById('error-msg');
+      if (message) {
+        err.innerHTML = `<div class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">warning</span>${message}</div>`;
+      }
       err.classList.remove('hidden');
       setTimeout(() => err.classList.add('hidden'), 5000);
     }

@@ -12,11 +12,8 @@ const utils = {
             // Initialize local and attach to object for global access
             supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
             utils.supabase = supabaseClient;
-            console.log('[UTILS] Supabase Client Initialized:', SUPABASE_URL);
-            // alert('Supabase Client Initialized for ' + SUPABASE_URL); // Debug
         } else {
-            console.error('[UTILS] Supabase SDK (window.supabase) not found!');
-            // alert('ERROR: Supabase SDK not found in this page!'); // Debug
+            console.error('[UTILS] Initialization failure');
         }
         // Dynamic branding via DB/cache has been disabled.
         // using static HTML Tailwind setup only.
@@ -24,21 +21,44 @@ const utils = {
         // Start Inactivity Timer (30 mins = 1,800,000ms)
         utils.startInactivityTimer(1800000);
 
-        // Anti-Cloning Security Measures
+        // Anti-Debugging & Security Measures
         document.addEventListener('contextmenu', e => e.preventDefault()); // Disable Right Click
+        document.addEventListener('copy', e => e.preventDefault()); // Disable Copy
+        document.addEventListener('cut', e => e.preventDefault()); // Disable Cut
+        document.addEventListener('paste', e => e.preventDefault()); // Disable Paste
+
         document.addEventListener('keydown', e => {
-            // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
-            if (e.keyCode === 123 ||
-                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
-                (e.ctrlKey && e.keyCode === 85)) {
-                e.preventDefault();
+            // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U, Ctrl+S
+            const forbiddenKeys = [123, 73, 74, 67, 85, 83];
+            if (forbiddenKeys.includes(e.keyCode) || (e.ctrlKey && e.shiftKey && forbiddenKeys.includes(e.keyCode)) || (e.metaKey && e.altKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) {
+                if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey) || e.metaKey || (e.ctrlKey && e.keyCode === 85)) {
+                    e.preventDefault();
+                }
             }
         });
+
+        // DevTools Deterrent: Clear console periodically
+        setInterval(() => {
+            if (window.console && window.console.clear) {
+                // console.clear();
+            }
+        }, 3000);
+
+        // Simple anti-debug trap
+        const checkDebugger = () => {
+          const start = Date.now();
+          debugger;
+          if (Date.now() - start > 100) {
+            // console.warn("Developer tools detected.");
+          }
+        };
+        // setInterval(checkDebugger, 2000);
 
         // Disable Text Selection globally
         if (document.body) {
             document.body.style.userSelect = 'none';
             document.body.style.webkitUserSelect = 'none';
+            document.body.style.msUserSelect = 'none';
             document.body.style.MozUserSelect = 'none';
         }
     },

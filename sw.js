@@ -1,4 +1,4 @@
-const CACHE_NAME = 'withcitii-cache-v12';
+const CACHE_NAME = 'withcitii-cache-v14';
 const ASSETS_TO_CACHE = [
   '/',
   'index.html',
@@ -7,7 +7,7 @@ const ASSETS_TO_CACHE = [
   'style.css',
   'logo.png',
   'manifest.json',
-  'gatekeeper.js',
+  'app-v1.js',
   'utils.js'
 ];
 
