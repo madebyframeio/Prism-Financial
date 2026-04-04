@@ -1,7 +1,7 @@
 {
   "name": "WithCitii",
   "short_name": "WithCitii",
-  "start_url": "./index.html",
+  "start_url": "./login.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",

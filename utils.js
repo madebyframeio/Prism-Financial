@@ -8,6 +8,28 @@ let supabaseClient = null;
 const utils = {
     _initialized: false,
     version: "2027-02-27-v4",
+    /**
+     * Auto-Logout after 30 minutes of inactivity
+     */
+    initInactivityTimer: function() {
+        let timeout;
+        const thirtyMinutes = 30 * 60 * 1000; // 1,800,000 ms
+
+        const resetTimer = () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                console.log("[SECURITY] Session expired due to inactivity.");
+                this.logout();
+            }, thirtyMinutes);
+        };
+
+        // Events that indicate user activity
+        const activityEvents = ['mousemove', 'mousedown', 'keypress', 'touchstart', 'scroll'];
+        activityEvents.forEach(evt => window.addEventListener(evt, resetTimer));
+
+        // Start the initial timer
+        resetTimer();
+    },
     init: () => {
         if (utils._initialized) return;
         utils._initialized = true;
@@ -26,6 +48,9 @@ const utils = {
         if (window.self !== window.top) {
             window.top.location = window.self.location;
         }
+
+        // Initialize 30-min Inactivity Timer
+        this.initInactivityTimer();
 
         // --- Anti-Bot & Anti-Scraping Measures ---
         
