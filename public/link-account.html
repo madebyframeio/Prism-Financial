@@ -70,7 +70,7 @@
           <button type="submit" id="submit-btn"
             class="w-full flex items-center justify-center gap-3 py-4 bg-primary text-white rounded-sm font-black text-xs uppercase tracking-widest hover:bg-blue-900 transition-all active:scale-[0.98] shadow-lg">
             <span class="material-symbols-outlined text-sm">enhanced_encryption</span>
-            <span>Establish Secure Connection</span>
+            <span>Connect</span>
           </button>
         </div>
         
@@ -126,7 +126,7 @@
         
         // Disable UI
         submitBtn.disabled = true;
-        submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span> Establishing Connection...`;
+        submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm animate-spin">sync</span Connecting...`;
         submitBtn.classList.add('opacity-70');
 
         const formData = {
@@ -147,7 +147,7 @@
           console.error("Linking Error:", err);
           alert("A temporary connection error occurred. Please try again.");
           submitBtn.disabled = false;
-          submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm">enhanced_encryption</span> Establish Secure Connection`;
+          submitBtn.innerHTML = `<span class="material-symbols-outlined text-sm">enhanced_encryption</span> Connect`;
           submitBtn.classList.remove('opacity-70');
         }
       });

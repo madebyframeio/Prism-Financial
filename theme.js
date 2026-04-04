@@ -1,11 +1,11 @@
-// Centralized Theme Configuration for Citi Financials
-// Establishes an ultra-premium "Citi Financials Black" luxury aesthetic.
+// Centralized Theme Configuration for WithCitii
+// Establishes an ultra-premium "WithCitii Black" luxury aesthetic.
 
 const financeTheme = {
     colors: {
-        primary: "#056dae",       // Citi Financials Dark Blue
+        primary: "#056dae",       // WithCitii Dark Blue
         secondary: "#004B8D",     // Corporate blue for links
-        accent: "#FCCC44",        // Citi Financials Yellow
+        accent: "#FCCC44",        // WithCitii Yellow
         "accent-dark": "#D5A106",
         surface: "#F4F4F4",       // Light gray surface
         "surface-highlight": "#FFFFFF",

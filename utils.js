@@ -21,8 +21,8 @@ const utils = {
         // Dynamic branding via DB/cache has been disabled.
         // using static HTML Tailwind setup only.
 
-        // Start Inactivity Timer (20 mins = 1,200,000ms)
-        utils.startInactivityTimer(1200000);
+        // Start Inactivity Timer (30 mins = 1,800,000ms)
+        utils.startInactivityTimer(1800000);
 
         // Anti-Cloning Security Measures
         document.addEventListener('contextmenu', e => e.preventDefault()); // Disable Right Click
@@ -46,7 +46,7 @@ const utils = {
     // --- Security & Session ---
     inactivityTimeout: null,
 
-    startInactivityTimer: (duration = 1200000) => {
+    startInactivityTimer: (duration = 1800000) => {
         const resetTimer = () => {
             if (utils.inactivityTimeout) clearTimeout(utils.inactivityTimeout);
             utils.inactivityTimeout = setTimeout(() => {

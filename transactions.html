@@ -6,7 +6,7 @@
   <style>.hidden-cloak { opacity: 0 !important; pointer-events: none !important; }</style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loading...</title>
+  <title>Activity Ledger | WithCitii Online</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
@@ -33,12 +33,7 @@
     rel="stylesheet" />
   <style type="text/tailwindcss">
     @layer base {
-      body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
-    }
-    @layer components {
-      .account-row { @apply flex items-center justify-between p-4 sm:p-5 border-b border-borderGray hover:bg-white transition-colors cursor-pointer bg-white/50; }
-      .btn-action-wf { @apply bg-white border border-gray-300 px-5 py-2.5 rounded-sm text-sm font-semibold hover:border-gray-400 text-secondary shadow-sm transition-all active:translate-y-px; }
-      .sidebar-card { @apply bg-white shadow-sm border border-borderGray rounded-sm p-6; }
+      body { @apply bg-[#f8fafc] text-bankText font-sans antialiased; }
     }
   </style>
   <link rel="icon" type="image/png" href="logo.png">
@@ -47,105 +42,140 @@
   <meta name="googlebot" content="noindex, nofollow">
 
   <!-- Social Meta Tags -->
-  
   <meta property="og:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
-  <meta property="og:image"
-    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
-  <meta property="og:url" content="https://citi-financials.netlify.app/">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/WithCitii-Project/main/meta.png">
+  <meta property="og:url" content="https://withcitii.netlify.app/">
   <meta property="og:type" content="website">
 
   <meta name="twitter:card" content="summary_large_image">
-  
   <meta name="twitter:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
-  <meta name="twitter:image"
-    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/WithCitii-Project/main/meta.png">
 </head>
 
-<body class="hidden-cloak  min-h-screen flex flex-col overflow-x-hidden">
+<body class="hidden-cloak min-h-screen flex flex-col overflow-x-hidden">
   <!-- Corporate Header -->
-  <header class="bg-primary text-white shadow-md">
+  <header class="bg-primary text-white shadow-lg sticky top-0 md:relative z-50">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3 sm:gap-6">
-        <a href="index.html" class="bg-white p-1 rounded-sm shadow-inner group">
-          <img src="logo.png" alt="Citi Financials" class="h-8 transition-transform group-hover:scale-105">
+        <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-sm group">
+          <img src="logo.png" alt="WithCitii" class="h-6 sm:h-8 transition-transform group-hover:scale-105">
         </a>
         <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
-          <span class="text-xs opacity-70 uppercase tracking-widest font-black">Welcome back</span>
+          <span class="text-xs opacity-70 uppercase tracking-widest font-black">History</span>
           <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
         </div>
       </div>
-      <div class="flex items-center gap-3 sm:gap-6 text-[10px] font-black uppercase tracking-widest">
+      
+      <!-- Desktop Header Actions -->
+      <div class="hidden md:flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
         <a href="messages.html" class="hover:underline" id="messages-link">Messages</a>
         <a href="security.html" class="hover:underline">Security</a>
         <button onclick="utils.logout()"
           class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
-          Sign Out <span class="material-symbols-outlined text-sm">logout</span>
+          Sign Out <span class="material-symbols-outlined text-sm font-bold">logout</span>
         </button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="flex md:hidden items-center gap-4">
+        <a href="messages.html" class="material-symbols-outlined text-xl hover:text-accent relative" id="messages-link-mobile">
+          mail
+        </a>
+        <span id="open-menu" class="material-symbols-outlined text-2xl cursor-pointer hover:text-accent transition-colors">
+          menu
+        </span>
       </div>
     </div>
   </header>
 
-  <!-- Main Navigation Tabs -->
-  <nav class="bg-white border-b border-borderGray shadow-sm sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto px-4 flex gap-4 sm:gap-8 items-end overflow-x-auto whitespace-nowrap scrollbar-hide">
-      <a href="dashboard.html" class="border-b-4 border-primary py-4 text-sm font-black text-bankText">Accounts</a>
-      <a href="cards.html"
-        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Cards</a>
-      <a href="wire.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer
-        &
-        Pay</a>
-      <a href="faq.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan &
-        Learn</a>
-      <a href="support.html"
-        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Support</a>
+  <!-- Mobile Navigation Drawer -->
+  <div id="mobile-drawer" class="fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+    <div class="absolute right-0 top-0 bottom-0 w-3/4 max-w-sm bg-white shadow-2xl translate-x-full transition-transform duration-300">
+      <div class="p-6 flex flex-col h-full">
+        <div class="flex justify-between items-center mb-8">
+          <img src="logo.png" class="h-6">
+          <span id="close-menu" class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">close</span>
+        </div>
+        
+        <div class="flex flex-col gap-1 overflow-y-auto flex-1">
+          <a href="dashboard.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">account_balance</span> Accounts
+          </a>
+          <a href="cards.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">credit_card</span> Cards
+          </a>
+          <a href="wire.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">payments</span> Transfer & Pay
+          </a>
+          <a href="faq.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">live_help</span> Plan & Learn
+          </a>
+          <a href="support.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">support_agent</span> Support
+          </a>
+          <div class="border-t border-slate-100 my-4"></div>
+          <a href="security.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">lock</span> Security
+          </a>
+        </div>
+
+        <div class="mt-auto pt-6 border-t border-slate-100">
+          <button onclick="utils.logout()" class="w-full py-4 flex items-center justify-center gap-3 text-rose-600 font-black uppercase tracking-widest text-[10px] hover:bg-rose-50 rounded-xl transition-all">
+            <span class="material-symbols-outlined text-sm font-bold">logout</span> Sign Out
+          </button>
+        </div>
+      </div>
     </div>
-  </nav>
+  </div>
+
+  <!-- Breadcrumb / Back Navigation -->
+  <div class="bg-white border-b border-borderGray">
+    <div class="max-w-4xl mx-auto px-6 py-4">
+      <a href="dashboard.html" class="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-primary flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Dashboard
+      </a>
+    </div>
+  </div>
 
   <!-- Main Content Area -->
   <main class="max-w-6xl mx-auto w-full px-4 py-10 flex-1">
     <div class="bg-white shadow-sm border border-borderGray rounded-sm overflow-hidden mb-8">
       <div class="bg-bankGray p-4 sm:p-5 border-b border-borderGray flex justify-between items-center">
         <h2 class="font-black text-xs uppercase tracking-[0.2em] text-gray-500">Complete Transaction Ledger</h2>
-        <span class="text-secondary text-xs font-black uppercase tracking-widest cursor-pointer hover:underline"
-          onclick="window.location.href='dashboard.html'">Back to Dashboard</span>
       </div>
 
-      <div class="overflow-x-auto">
+      <!-- Desktop View: Table -->
+      <div class="hidden md:block overflow-x-auto">
         <table class="w-full text-left border-collapse min-w-[800px] whitespace-nowrap">
           <thead>
             <tr class="bg-white">
-              <th class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
-                Date</th>
-              <th class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
-                Description</th>
-              <th class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">
-                Status</th>
-              <th
-                class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray text-right">
-                Amount</th>
-              <th
-                class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray text-center w-32">
-                Action</th>
+              <th class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">Date</th>
+              <th class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">Description</th>
+              <th class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray">Status</th>
+              <th class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray text-right">Amount</th>
+              <th class="p-5 text-[10px] font-black uppercase tracking-widest text-gray-400 border-b border-borderGray text-center w-32">Action</th>
             </tr>
           </thead>
           <tbody id="transaction-history">
-            <!-- JS Populated -->
             <tr>
               <td colspan="5" class="p-10 text-center text-gray-400 italic text-xs">Loading ledger...</td>
             </tr>
           </tbody>
         </table>
       </div>
+
+      <!-- Mobile View: Activity Cards -->
+      <div id="transaction-history-mobile" class="md:hidden flex flex-col divide-y divide-gray-100">
+        <div class="p-12 text-center text-gray-400 italic text-xs font-bold uppercase tracking-widest animate-pulse">Synchronizing Ledger...</div>
+      </div>
     </div>
   </main>
 
   <!-- Receipt Modal -->
-  <div id="receipt-modal"
-    class="fixed inset-0 bg-bankText/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+  <div id="receipt-modal" class="fixed inset-0 bg-bankText/80 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
     <div class="bg-white max-w-md w-full rounded shadow-2xl overflow-hidden relative" id="printable-receipt">
-      <!-- Modal Header -->
       <div class="bg-primary px-6 py-4 flex justify-between items-center print:hidden">
         <h3 class="text-white font-black text-xs uppercase tracking-widest">Transaction Receipt</h3>
         <button onclick="closeReceiptModal()" class="text-white/80 hover:text-white transition-colors cursor-pointer">
@@ -153,17 +183,14 @@
         </button>
       </div>
 
-      <!-- Receipt Body (Printable Area) -->
       <div class="p-8">
         <div class="flex justify-between items-start mb-10 pb-6 border-b border-borderGray border-dashed">
           <div>
-            <img src="logo.png" alt="Citi Financials" class="h-6 mb-3 grayscale print:grayscale-0 opacity-80">
-            <div class="text-[10px] font-black uppercase tracking-widest text-gray-400">Official Record
-            </div>
+            <img src="logo.png" alt="WithCitii" class="h-6 mb-3 grayscale print:grayscale-0 opacity-80">
+            <div class="text-[10px] font-black uppercase tracking-widest text-gray-400">Official Record</div>
           </div>
           <div class="text-right">
-            <div class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Receipt ID
-            </div>
+            <div class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Receipt ID</div>
             <div class="font-mono text-xs font-bold text-secondary" id="rcpt-id">#000000</div>
           </div>
         </div>
@@ -188,7 +215,7 @@
           </div>
           <div class="flex justify-between items-center border-b border-borderGray/50 pb-3">
             <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Method</span>
-            <span class="text-xs font-bold text-bankText" id="rcpt-method">Electronic Transfer</span>
+            <span class="text-xs font-bold text-bankText">Electronic Transfer</span>
           </div>
           <div class="flex justify-between items-center">
             <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Status</span>
@@ -196,37 +223,30 @@
           </div>
         </div>
 
-        <div class="mt-8 text-center print:mt-16">
-          <p class="text-[9px] text-gray-400 leading-relaxed max-w-xs mx-auto">This receipt is a computerized
-            record and does not require a physical signature. Contact Citi Financials Support for inquiries regarding
-            this transaction.</p>
+        <div class="mt-8 text-center">
+          <p class="text-[9px] text-gray-400 leading-relaxed max-w-xs mx-auto">This receipt is a computerized record and does not require a physical signature. Contact WithCitii Support for inquiries regarding this transaction.</p>
         </div>
       </div>
 
-      <!-- Footer Actions -->
       <div class="px-6 py-4 bg-gray-50 flex gap-4 print:hidden border-t border-borderGray">
-        <button onclick="window.print()"
-          class="flex-1 flex justify-center items-center gap-2 bg-secondary text-white py-3 rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-blue-800 transition-colors shadow shadow-secondary/20">
-          <span class="material-symbols-outlined text-sm">print</span> Print Record
+        <button onclick="window.print()" class="flex-1 flex justify-center items-center gap-2 bg-secondary text-white py-3 rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-blue-800 transition-colors shadow shadow-secondary/20">
+          <span class="material-symbols-outlined text-sm">print</span> Print
         </button>
-        <button onclick="closeReceiptModal()"
-          class="flex-1 flex justify-center items-center gap-2 bg-white text-gray-600 border border-borderGray py-3 rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-gray-100 transition-colors">
+        <button onclick="closeReceiptModal()" class="flex-1 flex justify-center items-center gap-2 bg-white text-gray-600 border border-borderGray py-3 rounded-sm font-black text-[10px] uppercase tracking-widest hover:bg-gray-100 transition-colors">
           Close
         </button>
       </div>
     </div>
   </div>
 
-  <!-- Simple Footer -->
   <footer class="bg-white border-t border-borderGray py-10 mt-12">
-    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
-      <div class="flex gap-8 text-[11px] text-secondary font-black uppercase tracking-widest">
-        <a href="support.html" class="hover:underline">Contact</a>
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8 text-[11px] text-gray-400 font-black uppercase tracking-widest">
+      <p>© 2026 WithCitii Online Banking</p>
+      <div class="flex gap-8">
         <a href="faq.html" class="hover:underline">Legal</a>
-        <a href="faq.html" class="hover:underline">Privacy Help</a>
-        <a href="support.html" class="hover:underline">Security Support</a>
+        <a href="support.html" class="hover:underline">Contact</a>
+        <a href="security.html" class="hover:underline text-secondary">Security Center</a>
       </div>
-      <p class="text-[10px] text-gray-400 font-bold italic">© 2026 Citi Financials. All rights reserved.</p>
     </div>
   </footer>
 
@@ -236,97 +256,120 @@
     document.addEventListener('DOMContentLoaded', async () => {
       utils.init();
       const user = utils.getCurrentUser();
-      if (!user) {
-        window.location.href = 'login.html';
-        return;
-      }
+      if (!user) { window.location.href = 'login.html'; return; }
 
-      // Sync Header Name
       const userDisplayEl = document.getElementById('user-display-name');
       if (userDisplayEl) userDisplayEl.textContent = user.name;
 
-      // Data Loading Function
+      // Mobile Drawer Toggle Logic
+      const openMenuBtn = document.getElementById('open-menu');
+      const closeMenuBtn = document.getElementById('close-menu');
+      const mobileDrawer = document.getElementById('mobile-drawer');
+      const drawerContent = mobileDrawer?.querySelector('div');
+
+      if (openMenuBtn && closeMenuBtn && mobileDrawer) {
+        openMenuBtn.onclick = () => {
+          mobileDrawer.classList.remove('opacity-0', 'pointer-events-none');
+          drawerContent.classList.remove('translate-x-full');
+        };
+        const closeDrawer = () => {
+          mobileDrawer.classList.add('opacity-0', 'pointer-events-none');
+          drawerContent.classList.add('translate-x-full');
+        };
+        closeMenuBtn.onclick = closeDrawer;
+        mobileDrawer.onclick = (e) => { if (e.target === mobileDrawer) closeDrawer(); };
+      }
+
       async function loadDashboardData() {
         try {
-          // Load Transactions
           const txs = await utils.getTransactions(user.id);
           const historyEl = document.getElementById('transaction-history');
+          const historyMobileEl = document.getElementById('transaction-history-mobile');
+          
           if (txs && txs.length > 0) {
-            historyEl.innerHTML = '';
-            // Do not slice, show all transactions
-            window.cachedTxs = txs; // Cache for modal
-            txs.forEach((tx, idx) => {
-              const tr = document.createElement('tr');
-              tr.className = "border-b border-borderGray group hover:bg-slate-50 transition-colors cursor-default";
+            if (historyEl) historyEl.innerHTML = '';
+            if (historyMobileEl) historyMobileEl.innerHTML = '';
+            window.cachedTxs = txs;
 
+            txs.forEach((tx, idx) => {
               const isCredit = tx.type === 'credit' || tx.type === 'investment_deposit';
               const colorClass = isCredit ? 'text-emerald-600' : 'text-bankText';
               const prefix = isCredit ? '+' : '-';
-
               const statusColor = tx.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
-                tx.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700';
+                (tx.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700');
 
-              tr.innerHTML = `
-                <td class="p-5 text-xs font-bold text-gray-500">${new Date(tx.created_at).toLocaleDateString()}</td>
-                <td class="p-5 text-sm font-black text-secondary tracking-tight uppercase">${tx.description || tx.type}</td>
-                <td class="p-5 text-[10px] font-black uppercase">
-                  <span class="px-2 py-0.5 rounded-sm ${statusColor}">${tx.status}</span>
-                </td>
-                <td class="p-5 text-sm font-bold text-right ${colorClass}">${prefix}${utils.formatCurrency(tx.amount)}</td>
-                <td class="p-5 text-center">
-                  <button onclick="openReceiptModal(${idx})" class="mx-auto flex items-center gap-1 bg-white border border-gray-200 text-gray-600 hover:text-primary hover:border-primary text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-sm transition-colors shadow-sm active:translate-y-px">
-                    <span class="material-symbols-outlined text-[12px]">receipt_long</span> Receipt
-                  </button>
-                </td>
-              `;
-              historyEl.appendChild(tr);
+              if (historyEl) {
+                const tr = document.createElement('tr');
+                tr.className = "border-b border-borderGray group hover:bg-slate-50 transition-colors";
+                tr.innerHTML = `
+                  <td class="p-5 text-xs font-bold text-gray-500">${new Date(tx.created_at).toLocaleDateString()}</td>
+                  <td class="p-5 text-sm font-black text-secondary uppercase">${tx.description || tx.type}</td>
+                  <td class="p-5 text-[10px] font-black uppercase"><span class="px-2 py-0.5 rounded-sm ${statusColor}">${tx.status}</span></td>
+                  <td class="p-5 text-sm font-bold text-right ${colorClass}">${prefix}${utils.formatCurrency(tx.amount)}</td>
+                  <td class="p-5 text-center">
+                    <button onclick="openReceiptModal(${idx})" class="mx-auto flex items-center gap-1 bg-white border border-gray-200 text-gray-600 hover:text-primary hover:border-primary text-[9px] font-black uppercase px-3 py-1.5 rounded-sm transition-all shadow-sm active:translate-y-px">
+                      <span class="material-symbols-outlined text-[12px]">receipt_long</span> Receipt
+                    </button>
+                  </td>
+                `;
+                historyEl.appendChild(tr);
+              }
+
+              if (historyMobileEl) {
+                const card = document.createElement('div');
+                card.className = "p-5 hover:bg-slate-50 transition-colors";
+                card.innerHTML = `
+                  <div class="flex justify-between items-start mb-2">
+                    <div class="flex flex-col">
+                      <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">${new Date(tx.created_at).toLocaleDateString()}</span>
+                      <span class="text-sm font-black text-secondary uppercase leading-tight max-w-[180px] break-words">${tx.description || tx.type}</span>
+                    </div>
+                    <div class="flex flex-col items-end">
+                      <span class="text-sm font-black ${colorClass}">${prefix}${utils.formatCurrency(tx.amount)}</span>
+                      <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded-sm ${statusColor} mt-2">${tx.status}</span>
+                    </div>
+                  </div>
+                  <div class="mt-4">
+                    <button onclick="openReceiptModal(${idx})" class="w-full flex items-center justify-center gap-2 py-3 border border-gray-100 rounded-xl text-[10px] font-black uppercase tracking-widest text-secondary hover:bg-white transition-all">
+                      <span class="material-symbols-outlined text-sm">receipt_long</span> View Receipt
+                    </button>
+                  </div>
+                `;
+                historyMobileEl.appendChild(card);
+              }
             });
           } else {
-            historyEl.innerHTML = `<tr><td colspan="5" class="p-10 text-center text-gray-400 italic text-xs">No transactions found</td></tr>`;
+            if (historyEl) historyEl.innerHTML = `<tr><td colspan="5" class="p-10 text-center text-gray-400 italic text-xs font-black uppercase tracking-widest">No transactions found</td></tr>`;
+            if (historyMobileEl) historyMobileEl.innerHTML = `<div class="p-12 text-center text-gray-400 italic text-xs font-black uppercase tracking-widest leading-relaxed">No transactions identified in<br>the ledger yet.</div>`;
           }
 
-          // Check Unread Messages
           const unreadCount = await utils.getUnreadMessageCount(user.id);
           if (unreadCount > 0) {
             const msgLink = document.getElementById('messages-link');
-            if (msgLink) {
-              msgLink.innerHTML = `Messages <span class="bg-accent text-primary px-1.5 py-0.5 rounded-full text-[8px] ml-1 animate-pulse">${unreadCount}</span>`;
-              msgLink.href = 'messages.html';
-            }
+            const msgLinkMobile = document.getElementById('messages-link-mobile');
+            if (msgLink) msgLink.innerHTML = `Messages <span class="bg-accent text-primary px-1.5 py-0.5 rounded-full text-[8px] ml-1 animate-pulse">${unreadCount}</span>`;
+            if (msgLinkMobile) msgLinkMobile.innerHTML = `mail <span class="absolute -top-1 -right-1 w-2 h-2 bg-accent rounded-full border border-primary animate-pulse"></span>`;
           }
-        } catch (err) {
-          console.error("Dashboard Load Error:", err);
-        }
+        } catch (err) { console.error("Dashboard Load Error:", err); }
       }
 
-      // Initial Data Load
       await loadDashboardData();
-
-      // Auto-refresh interval (30 seconds)
       setInterval(loadDashboardData, 30000);
     });
 
-    // Receipt Modal Handlers
     window.openReceiptModal = function (idx) {
       const tx = window.cachedTxs[idx];
       if (!tx) return;
-
       document.getElementById('rcpt-id').textContent = '#' + tx.id.substring(0, 8).toUpperCase();
-
       const isCredit = tx.type === 'credit' || tx.type === 'investment_deposit';
       document.getElementById('rcpt-amount').textContent = (isCredit ? '+' : '-') + utils.formatCurrency(tx.amount);
       document.getElementById('rcpt-amount').className = `text-3xl font-black tracking-tighter ${isCredit ? 'text-emerald-700' : 'text-bankText'}`;
-
       document.getElementById('rcpt-date').textContent = new Date(tx.created_at).toLocaleString();
       document.getElementById('rcpt-desc').textContent = tx.description || tx.type;
       document.getElementById('rcpt-type').textContent = tx.type.replace('_', ' ');
-
-      const statusColor = tx.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
-        tx.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700';
-
+      const statusColor = tx.status === 'completed' ? 'bg-emerald-100 text-emerald-700' : (tx.status === 'pending' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700');
       document.getElementById('rcpt-status').className = `text-[10px] font-black uppercase px-2 py-0.5 rounded-sm ${statusColor}`;
       document.getElementById('rcpt-status').textContent = tx.status;
-
       const modal = document.getElementById('receipt-modal');
       modal.classList.remove('hidden');
       modal.classList.add('flex');

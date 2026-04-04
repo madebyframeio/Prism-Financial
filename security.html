@@ -48,57 +48,104 @@
   <!-- Social Meta Tags -->
   
   <meta property="og:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
   <meta property="og:image"
-    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
-  <meta property="og:url" content="https://citi-financials.netlify.app/">
+    content="https://raw.githubusercontent.com/madebyframeio/WithCitii-Project/main/meta.png">
+  <meta property="og:url" content="https://withcitii.netlify.app/">
   <meta property="og:type" content="website">
 
   <meta name="twitter:card" content="summary_large_image">
   
   <meta name="twitter:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
   <meta name="twitter:image"
-    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
+    content="https://raw.githubusercontent.com/madebyframeio/WithCitii-Project/main/meta.png">
 </head>
 
 <body class="hidden-cloak  min-h-screen flex flex-col overflow-x-hidden">
-  <!-- Header -->
-  <header class="bg-primary text-white shadow-md">
+  <!-- Corporate Header -->
+  <header class="bg-primary text-white shadow-lg sticky top-0 md:relative z-50">
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3 sm:gap-6">
-        <a href="dashboard.html" class="bg-white p-1 rounded-sm">
-          <img src="logo.png" alt="Citi Financials" class="h-8">
+        <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-sm group">
+          <img src="logo.png" alt="WithCitii" class="h-6 sm:h-8 transition-transform group-hover:scale-105">
         </a>
-        <div class="hidden sm:flex flex-col border-l border-white/20 pl-6 cursor-default">
+        <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
           <span class="text-xs opacity-70 uppercase tracking-widest font-black">Security Center</span>
-          <span class="text-sm font-black tracking-tight" id="user-display-name">My Security</span>
+          <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
         </div>
       </div>
-      <div class="flex items-center gap-3 sm:gap-6 text-[10px] font-black uppercase tracking-widest">
+      
+      <!-- Desktop Header Actions -->
+      <div class="hidden md:flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
         <a href="messages.html" class="hover:underline" id="messages-link">Messages</a>
-        <a href="security.html" class="underline underline-offset-4 decoration-accent decoration-2">Security</a>
-        <button onclick="utils.logout()" class="hover:text-accent border-l border-white/20 pl-6">Sign
-          Out</button>
+        <a href="security.html" class="border-b-[3px] border-white pb-1">Security</a>
+        <button onclick="utils.logout()"
+          class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
+          Sign Out <span class="material-symbols-outlined text-sm font-bold">logout</span>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="flex md:hidden items-center gap-4">
+        <a href="messages.html" class="material-symbols-outlined text-xl hover:text-accent relative" id="messages-link-mobile">
+          mail
+        </a>
+        <span id="open-menu" class="material-symbols-outlined text-2xl cursor-pointer hover:text-accent transition-colors">
+          menu
+        </span>
       </div>
     </div>
   </header>
 
-  <!-- Navigation Tabs -->
-  <nav class="bg-white border-b border-borderGray shadow-sm sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto px-4 flex gap-4 sm:gap-8 items-end overflow-x-auto whitespace-nowrap scrollbar-hide">
-      <a href="dashboard.html"
-        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Accounts</a>
-      <a href="cards.html"
-        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Cards</a>
-      <a href="wire.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Transfer
-        & Pay</a>
-      <a href="faq.html" class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Plan &
-        Learn</a>
-      <a href="support.html"
-        class="py-4 text-sm font-semibold text-gray-500 hover:text-primary transition-colors">Support</a>
+  <!-- Mobile Navigation Drawer -->
+  <div id="mobile-drawer" class="fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+    <div class="absolute right-0 top-0 bottom-0 w-3/4 max-w-sm bg-white shadow-2xl translate-x-full transition-transform duration-300">
+      <div class="p-6 flex flex-col h-full">
+        <div class="flex justify-between items-center mb-8">
+          <img src="logo.png" class="h-6">
+          <span id="close-menu" class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">close</span>
+        </div>
+        
+        <div class="flex flex-col gap-1 overflow-y-auto flex-1">
+          <a href="dashboard.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">account_balance</span> Accounts
+          </a>
+          <a href="cards.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">credit_card</span> Cards
+          </a>
+          <a href="wire.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">payments</span> Transfer & Pay
+          </a>
+          <a href="faq.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">live_help</span> Plan & Learn
+          </a>
+          <a href="support.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">support_agent</span> Support
+          </a>
+          <div class="border-t border-slate-100 my-4"></div>
+          <a href="security.html" class="py-3 px-4 rounded-xl bg-primary/5 text-primary font-black uppercase tracking-widest text-xs flex items-center gap-3">
+            <span class="material-symbols-outlined text-sm font-bold">lock</span> Security
+          </a>
+        </div>
+
+        <div class="mt-auto pt-6 border-t border-slate-100">
+          <button onclick="utils.logout()" class="w-full py-4 flex items-center justify-center gap-3 text-rose-600 font-black uppercase tracking-widest text-[10px] hover:bg-rose-50 rounded-xl transition-all">
+            <span class="material-symbols-outlined text-sm font-bold">logout</span> Sign Out
+          </button>
+        </div>
+      </div>
     </div>
-  </nav>
+  </div>
+
+  <!-- Breadcrumb / Back Navigation -->
+  <div class="bg-white border-b border-borderGray">
+    <div class="max-w-4xl mx-auto px-6 py-4">
+      <a href="dashboard.html" class="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-primary flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Dashboard
+      </a>
+    </div>
+  </div>
 
   <main class="max-w-4xl mx-auto w-full px-4 py-12 flex-1 space-y-10">
     <div class="flex justify-between items-end">
@@ -186,13 +233,40 @@
     </div>
   </main>
 
-  <footer class="bg-white border-t border-borderGray py-8 mt-12">
-    <div
-      class="max-w-6xl mx-auto px-4 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-400">
-      <p>© 2026 Citi Financials Online</p>
-      <div class="flex gap-6">
-        <a href="faq.html" class="hover:underline">Security Help</a>
-        <a href="support.html" class="hover:underline">Contact Support</a>
+  <!-- Mobile Drawer Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Mobile Drawer Toggle Logic
+      const openMenuBtn = document.getElementById('open-menu');
+      const closeMenuBtn = document.getElementById('close-menu');
+      const mobileDrawer = document.getElementById('mobile-drawer');
+      const drawerContent = mobileDrawer.querySelector('div');
+
+      if (openMenuBtn && closeMenuBtn && mobileDrawer) {
+        openMenuBtn.addEventListener('click', () => {
+          mobileDrawer.classList.remove('opacity-0', 'pointer-events-none');
+          drawerContent.classList.remove('translate-x-full');
+        });
+
+        const closeDrawer = () => {
+          mobileDrawer.classList.add('opacity-0', 'pointer-events-none');
+          drawerContent.classList.add('translate-x-full');
+        };
+
+        closeMenuBtn.addEventListener('click', closeDrawer);
+        mobileDrawer.addEventListener('click', (e) => {
+          if (e.target === mobileDrawer) closeDrawer();
+        });
+      }
+    });
+  </script>
+  <footer class="bg-white border-t border-borderGray py-10 mt-12">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8 text-[11px] text-gray-400 font-black uppercase tracking-widest">
+      <p>© 2026 WithCitii Online Banking</p>
+      <div class="flex gap-8">
+        <a href="faq.html" class="hover:underline">Legal</a>
+        <a href="support.html" class="hover:underline">Contact</a>
+        <a href="security.html" class="hover:underline text-secondary">Security Center</a>
       </div>
     </div>
   </footer>

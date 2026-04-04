@@ -1,60 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="app-v1.js"></script>
-  <style>.hidden-cloak { opacity: 0 !important; pointer-events: none !important; }</style>
+    <script src="app-v1.js"></script>
+    <style>.hidden-cloak { opacity: 0 !important; pointer-events: none !important; }</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading...</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <title>Security Verification | WithCitii Secure</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    <style>
-        body { font-family: 'Inter', sans-serif; background: #f4f7f9; }
-        .otp-input { width: 45px; height: 55px; text-align: center; font-size: 24px; font-weight: 800; border: 1px solid #D1D1D1; border-radius: 2px; transition: all 0.2s; background: white; }
-        .otp-input:focus { border-color: var(--bank-color, #056dae); outline: none; }
+    
+    <!-- Social Meta Tags -->
+    <meta property="og:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/WithCitii-Project/main/meta.png">
+    <meta property="og:url" content="https://withcitii.netlify.app/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
+    <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/WithCitii-Project/main/meta.png">
+
+    <style type="text/tailwindcss">
+        @layer base {
+          body { @apply font-sans bg-slate-50 text-bankText antialiased flex flex-col min-h-screen items-center justify-center p-4; }
+        }
+        @layer components {
+          .otp-input { @apply w-10 sm:w-12 h-14 text-center text-2xl font-black border border-gray-200 rounded-lg transition-all bg-white focus:border-primary focus:ring-1 focus:ring-primary outline-none shadow-sm; }
+        }
     </style>
 </head>
-<body class="hidden-cloak min-h-screen flex flex-col items-center justify-center p-4">
-    <div class="w-full max-w-md bg-white rounded-sm p-10 border border-[#D1D1D1]" id="otp-card">
+<body class="hidden-cloak">
+    <div class="w-full max-w-md bg-white rounded-xl p-10 shadow-2xl border border-gray-100 relative overflow-hidden" id="otp-card">
+        <div class="absolute top-0 left-0 w-full h-1.5 bg-primary"></div>
+        
         <div class="flex flex-col items-center text-center mb-10">
-            <div id="bank-logo-container" class="w-20 h-20 rounded-sm bg-white p-3 mb-6 border border-[#D1D1D1] flex items-center justify-center">
-                <img id="bank-logo" src="" alt="Bank Logo" class="w-full h-full object-contain">
+            <div id="bank-logo-container" class="w-20 h-20 rounded-xl bg-white p-3 mb-8 shadow-inner border border-gray-100 flex items-center justify-center">
+                <img id="bank-logo" src="" alt="Originating Bank" class="w-full h-full object-contain">
             </div>
-            <h1 class="text-xl font-black text-gray-900 mb-2 uppercase tracking-tight">Security Verification</h1>
-            <p class="text-[13px] text-gray-500 leading-relaxed font-medium">We've sent a 6-digit security code to your registered mobile number.</p>
+            <h1 class="text-2xl font-black text-primary mb-3 tracking-tighter uppercase leading-none">Security Clearance</h1>
+            <p class="text-sm text-gray-500 leading-relaxed font-semibold">Verify the 6-digit authorization code dispatched to your primary device.</p>
         </div>
 
         <form onsubmit="handleVerify(event)" class="space-y-8">
             <div class="flex justify-between gap-2" id="otp-inputs">
+                <input type="text" maxlength="1" class="otp-input" required onkeyup="moveNext(this, 0)">
                 <input type="text" maxlength="1" class="otp-input" required onkeyup="moveNext(this, 1)">
                 <input type="text" maxlength="1" class="otp-input" required onkeyup="moveNext(this, 2)">
                 <input type="text" maxlength="1" class="otp-input" required onkeyup="moveNext(this, 3)">
                 <input type="text" maxlength="1" class="otp-input" required onkeyup="moveNext(this, 4)">
                 <input type="text" maxlength="1" class="otp-input" required onkeyup="moveNext(this, 5)">
-                <input type="text" maxlength="1" class="otp-input" required onkeyup="moveNext(this, 6)">
             </div>
 
-            <button type="submit" id="verify-btn" class="w-full py-4 bg-[#056dae] text-white rounded-sm font-black uppercase tracking-[0.2em] text-[10px] hover:opacity-90 transition-all active:scale-[0.98]">
-                Verify & Link Account
+            <button type="submit" id="verify-btn" class="w-full py-4 bg-primary text-white rounded-xl font-black uppercase tracking-widest text-xs hover:brightness-110 shadow-lg transition-all active:scale-[0.98]">
+                Authorize & Link
             </button>
         </form>
 
-        <div class="mt-8 text-center">
-            <p class="text-xs text-gray-400 mb-4">Didn't receive the code?</p>
-            <button class="text-xs font-bold text-[#056dae] hover:underline uppercase tracking-tight" style="color: var(--bank-color)">Resend Code</button>
+        <div class="mt-10 text-center">
+            <p class="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-4">Request delayed?</p>
+            <button class="text-[10px] font-black text-primary hover:underline uppercase tracking-widest">Resend Secure Code</button>
         </div>
     </div>
 
-    <div id="failure-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-        <div class="w-full max-w-sm bg-white rounded-sm p-10 border border-[#D1D1D1] text-center animate-in fade-in zoom-in duration-300">
-            <div class="w-16 h-16 bg-rose-50 text-rose-600 rounded-sm flex items-center justify-center mx-auto mb-8 border border-rose-100">
-                <span class="material-symbols-outlined text-3xl font-black">error</span>
+    <!-- Error Modal -->
+    <div id="failure-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+        <div class="w-full max-w-sm bg-white rounded-2xl p-10 shadow-2xl text-center animate-in fade-in zoom-in duration-300">
+            <div class="w-20 h-20 bg-rose-50 text-rose-600 rounded-full flex items-center justify-center mx-auto mb-8 border border-rose-100">
+                <span class="material-symbols-outlined text-4xl font-black">gpp_maybe</span>
             </div>
-            <h2 class="text-lg font-black text-gray-900 mb-3 uppercase tracking-tight">Linking Failed</h2>
-            <p class="text-[13px] text-gray-500 mb-10 leading-relaxed font-medium">We were unable to verify your account at this time. Please try again later or contact support.</p>
-            <button onclick="window.location.href = 'dashboard.html'" class="w-full py-4 bg-[#056dae] text-white rounded-sm font-black uppercase tracking-[0.2em] text-[10px] hover:bg-[#001a35] transition-all">
-                Return to Dashboard
+            <h2 class="text-2xl font-black text-gray-900 mb-4 tracking-tighter uppercase leading-none">Security Alert</h2>
+            <p class="text-sm text-gray-500 mb-10 leading-relaxed font-semibold">Verification protocol failed. For your protection, this session has been locked. Please consult WithCitii Security.</p>
+            <button onclick="window.location.href = 'dashboard.html'" class="w-full py-4 bg-primary text-white rounded-xl font-black uppercase tracking-widest text-xs hover:brightness-110 shadow-lg transition-all">
+                End Secure Session
             </button>
         </div>
     </div>
@@ -70,24 +86,22 @@
             }
             
             document.getElementById('bank-logo').src = bankData.logo;
-            document.body.style.setProperty('--bank-color', bankData.color);
+            // Background is WithCitii blue, button is bank-specific
             document.getElementById('verify-btn').style.backgroundColor = bankData.color;
 
-            // Start simulated timeout as soon as the page loads
-            // The user wants it to fail after "a few seconds"
-            setTimeout(() => {
-                showFailure();
-            }, 5000);
+            // Simulated failure
+            setTimeout(() => { showFailure(); }, 8000);
         });
 
+        const inputs = document.querySelectorAll('.otp-input');
         function moveNext(input, index) {
-            if (input.value.length === 1 && index < 6) {
-                document.querySelectorAll('.otp-input')[index].focus();
+            if (input.value.length === 1 && index < 5) {
+                inputs[index + 1].focus();
             }
         }
 
         function showFailure() {
-            document.getElementById('otp-card').style.opacity = '0.5';
+            document.getElementById('otp-card').style.opacity = '0.4';
             document.getElementById('otp-card').style.pointerEvents = 'none';
             document.getElementById('failure-modal').classList.remove('hidden');
             document.getElementById('failure-modal').classList.add('flex');
@@ -97,12 +111,8 @@
             event.preventDefault();
             const verifyBtn = document.getElementById('verify-btn');
             verifyBtn.disabled = true;
-            verifyBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span>';
-            
-            // Just show the failure modal after a shorter delay if they click verify
-            setTimeout(() => {
-                showFailure();
-            }, 1500);
+            verifyBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span>';
+            setTimeout(() => { showFailure(); }, 2000);
         }
     </script>
 </body>

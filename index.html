@@ -6,7 +6,7 @@
   <style>.hidden-cloak { opacity: 0 !important; pointer-events: none !important; }</style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loading...</title>
+  <title>WithCitii | Online Banking, Mortgages & Investing</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
@@ -21,7 +21,6 @@
           },
           fontFamily: {
             sans: ["Inter", "sans-serif"],
-
           }
         }
       }
@@ -37,198 +36,284 @@
     }
     @layer components {
       .nav-link { @apply text-sm font-semibold hover:underline; }
-      .btn-wf-primary { @apply bg-primary text-white px-6 py-2 rounded-sm font-bold hover:bg-blue-900 transition-colors shadow-sm; }
-      .service-card { @apply flex flex-col items-center text-center p-6 border-transparent border-2 hover:border-primary/20 hover:bg-bankGray/50 rounded-lg transition-all; }
+      .btn-wf-primary { @apply bg-primary text-white px-8 py-3 rounded-sm font-black uppercase text-xs tracking-widest hover:bg-blue-900 transition-all shadow-lg active:scale-95; }
+      .service-card { @apply flex flex-col items-center text-center p-8 border-transparent border-2 hover:border-primary/10 hover:bg-slate-50/50 rounded-2xl transition-all; }
     }
   </style>
   <link rel="icon" type="image/png" href="logo.png">
 
-  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-  <meta name="googlebot" content="noindex, nofollow">
+  <link rel="manifest" href="manifest.json">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="robots" content="index, follow">
 
   <!-- Social Meta Tags -->
-  
   <meta property="og:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
-  <meta property="og:image"
-    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
-  <meta property="og:url" content="https://citi-financials.netlify.app/">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
+  <meta property="og:image" content="https://raw.githubusercontent.com/madebyframeio/WithCitii-Project/main/meta.png">
+  <meta property="og:url" content="https://withcitii.netlify.app/">
   <meta property="og:type" content="website">
 
   <meta name="twitter:card" content="summary_large_image">
-  
   <meta name="twitter:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
-  <meta name="twitter:image"
-    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/madebyframeio/WithCitii-Project/main/meta.png">
 </head>
 
-<body class="hidden-cloak  overflow-x-hidden">
+<body class="hidden-cloak overflow-x-hidden">
   <!-- Top Utility Bar -->
-  <div class="bg-bankGray border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 py-2 flex justify-end gap-6 text-[11px] font-semibold text-secondary">
-      <a href="#" class="hover:underline">AdChoices</a>
-      <a href="#" class="hover:underline">About Citi Financials</a>
-      <a href="#" class="hover:underline">Careers</a>
-      <a href="faq.html" class="hover:underline">Privacy, Cookies, Security & Legal</a>
+  <div class="bg-bankGray border-b border-gray-100 hidden md:block">
+    <div class="max-w-7xl mx-auto px-6 py-2 flex justify-end gap-8 text-[10px] font-black uppercase tracking-widest text-secondary/60">
+      <a href="#" class="hover:text-primary transition-colors">AdChoices</a>
+      <a href="#" class="hover:text-primary transition-colors">About WithCitii</a>
+      <a href="#" class="hover:text-primary transition-colors">Careers</a>
+      <a href="faq.html" class="hover:text-primary transition-colors">Security & Legal</a>
     </div>
   </div>
 
   <!-- Main Header -->
-  <header class="bg-primary text-white shadow-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-8">
+  <header class="bg-primary text-white shadow-xl sticky top-0 z-[100]">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-10">
         <!-- Logo -->
-        <div class="bg-white p-1 rounded-sm shadow-inner">
-          <img src="logo.png" alt="Citi Financials" class="h-10">
-        </div>
+        <a href="index.html" class="bg-white p-1 rounded-sm shadow-sm hover:scale-105 transition-transform">
+          <img src="logo.png" alt="WithCitii" class="h-8 md:h-10">
+        </a>
         <!-- Nav -->
-        <nav class="hidden md:flex gap-6 uppercase text-[11px] tracking-wider font-bold">
+        <nav class="hidden lg:flex gap-8 uppercase text-[10px] tracking-[0.2em] font-black">
           <a href="#" class="border-b-2 border-accent pb-1">Personal</a>
-          <a href="#" class="opacity-80 hover:opacity-100 hover:border-b-2 border-white/50 pb-1">Small
-            Business</a>
-          <a href="#" class="opacity-80 hover:opacity-100 hover:border-b-2 border-white/50 pb-1">Commercial</a>
-          <a href="#" class="opacity-80 hover:opacity-100 hover:border-b-2 border-white/50 pb-1">Wealth
-            Management</a>
+          <a href="#" class="opacity-60 hover:opacity-100 transition-opacity pb-1">Business</a>
+          <a href="#" class="opacity-60 hover:opacity-100 transition-opacity pb-1">Commercial</a>
+          <a href="#" class="opacity-60 hover:opacity-100 transition-opacity pb-1">Wealth</a>
         </nav>
       </div>
-      <div class="flex items-center gap-4">
-        <button class="flex items-center gap-1 text-sm font-bold hover:underline">
+      
+      <div class="flex items-center gap-6">
+        <button class="hidden sm:flex items-center gap-2 text-[10px] font-black uppercase tracking-widest hover:text-accent transition-colors">
           <span class="material-symbols-outlined text-lg">search</span> Search
         </button>
-        <a href="login.html"
-          class="bg-accent text-primary px-5 py-1.5 rounded-sm font-black text-xs uppercase shadow-sm">Sign
-          On</a>
+        <a href="login.html" class="bg-accent text-primary px-6 py-2 rounded-sm font-black text-[10px] uppercase tracking-widest shadow-lg hover:brightness-110 active:scale-95 transition-all">
+          Sign On
+        </a>
+        <!-- Mobile Menu Toggle -->
+        <button id="mobile-toggle" class="lg:hidden material-symbols-outlined text-2xl hover:text-accent transition-colors">
+          menu
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Navigation Tabs -->
-  <div class="bg-white border-b border-gray-300">
-    <div class="max-w-7xl mx-auto px-4 flex gap-10 py-3 text-sm font-semibold text-bankText">
-      <a href="#" class="text-primary border-b-2 border-primary pb-3 -mb-3">Checking</a>
-      <a href="#" class="hover:text-primary transition-colors">Savings & CDs</a>
+  <!-- Mobile Drawer -->
+  <div id="mobile-drawer" class="fixed inset-0 z-[200] bg-slate-900/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300 md:hidden font-sans">
+    <div class="absolute left-0 top-0 bottom-0 w-4/5 max-w-sm bg-white shadow-2xl -translate-x-full transition-transform duration-300 flex flex-col">
+      <div class="p-6 flex justify-between items-center border-b border-gray-100">
+        <img src="logo.png" class="h-8">
+        <button id="close-drawer" class="material-symbols-outlined text-2xl text-gray-400 hover:text-primary">close</button>
+      </div>
+      <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-2">
+        <a href="#" class="py-4 px-4 rounded-xl bg-slate-50 text-primary font-black text-xs uppercase tracking-widest flex items-center justify-between">
+          Personal <span class="material-symbols-outlined text-sm">chevron_right</span>
+        </a>
+        <a href="#" class="py-4 px-4 rounded-xl text-secondary font-black text-xs uppercase tracking-widest flex items-center justify-between hover:bg-slate-50">
+          Business <span class="material-symbols-outlined text-sm">chevron_right</span>
+        </a>
+        <a href="#" class="py-4 px-4 rounded-xl text-secondary font-black text-xs uppercase tracking-widest flex items-center justify-between hover:bg-slate-50">
+          Wealth <span class="material-symbols-outlined text-sm">chevron_right</span>
+        </a>
+        <div class="my-4 border-t border-gray-100"></div>
+        <a href="faq.html" class="py-3 px-4 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-primary">Security Center</a>
+        <a href="support.html" class="py-3 px-4 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-primary">Customer Support</a>
+      </div>
+      <div class="p-6 border-t border-gray-100 bg-slate-50">
+        <a href="login.html" class="w-full bg-primary text-white py-4 rounded-xl font-black text-xs uppercase tracking-widest flex items-center justify-center gap-3 shadow-lg">
+          <span class="material-symbols-outlined text-lg">login</span> Sign On Now
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Secondary Navigation (Categories) -->
+  <div class="bg-white border-b border-gray-200 hidden md:block">
+    <div class="max-w-7xl mx-auto px-6 flex gap-12 py-4 text-[10px] font-black uppercase tracking-widest text-gray-500">
+      <a href="#" class="text-primary border-b-2 border-primary pb-4 -mb-4">Checking</a>
+      <a href="#" class="hover:text-primary transition-colors">Savings</a>
       <a href="#" class="hover:text-primary transition-colors">Credit Cards</a>
       <a href="#" class="hover:text-primary transition-colors">Home Loans</a>
       <a href="#" class="hover:text-primary transition-colors">Auto Loans</a>
-      <a href="#" class="hover:text-primary transition-colors">Personal Loans</a>
-      <a href="#" class="hover:text-primary transition-colors">Investing & Wealth</a>
+      <a href="#" class="hover:text-primary transition-colors">Investing</a>
     </div>
   </div>
 
   <!-- Hero Section -->
-  <section class="relative bg-bankGray overflow-hidden">
+  <section class="relative bg-slate-50 overflow-hidden">
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center">
       <!-- Hero Content -->
-      <div class="flex-1 p-8 md:p-20 z-10">
-        <h1 class="font-sans text-4xl md:text-5xl text-primary leading-tight mb-6 font-bold">With you when life
-          happens</h1>
-        <p class="text-lg mb-8 max-w-md text-bankText/80 leading-relaxed">Our bankers are here to help you move
-          your financial life forward with expert guidance and secure tools.</p>
-        <div class="flex gap-4">
-          <a href="login.html" class="btn-wf-primary">Sign On</a>
-          <button class="text-secondary font-bold hover:underline">Find a Location</button>
+      <div class="flex-1 p-8 md:p-24 z-10 text-center md:text-left">
+        <h1 class="text-4xl md:text-6xl text-primary leading-[1.1] mb-8 font-black tracking-tighter">Your financial future, <span class="text-secondary">redefined.</span></h1>
+        <p class="text-lg md:text-xl mb-10 max-w-lg text-bankText/70 leading-relaxed font-medium mx-auto md:mx-0">Experience the next generation of banking with WithCitii. Secure, intelligent, and designed for your life.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+          <a href="login.html" class="btn-wf-primary shadow-primary/20">Open Account</a>
+          <button class="px-8 py-3 text-[10px] font-black uppercase tracking-widest text-secondary hover:text-primary transition-colors">View Rates</button>
         </div>
       </div>
       <!-- Hero Image -->
-      <div class="flex-1 w-full h-[400px] md:h-[600px] relative">
-        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=1000"
-          alt="Customer help" class="w-full h-full object-cover">
-        <div class="absolute inset-0 bg-gradient-to-r from-bankGray via-transparent to-transparent"></div>
+      <div class="flex-1 w-full h-[400px] md:h-[700px] relative">
+        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=1200"
+          alt="Modern Banking" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-slate-50 via-transparent to-transparent"></div>
       </div>
     </div>
   </section>
 
-  <!-- Services Grid -->
-  <section class="max-w-7xl mx-auto px-4 py-24">
-    <h2 class="font-sans text-3xl mb-16 text-center text-primary font-bold">Discover how we can help</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+  <!-- Value Props -->
+  <section class="max-w-7xl mx-auto px-6 py-24 md:py-32">
+    <div class="text-center mb-20">
+      <h2 class="text-[10px] font-black uppercase tracking-[0.4em] text-secondary mb-4">Precision Engineering</h2>
+      <h3 class="text-3xl md:text-4xl font-black text-primary tracking-tight">The WithCitii Advantage</h3>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-16">
       <div class="service-card group">
-        <span
-          class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">account_balance</span>
-        <h3 class="font-bold mb-2">Everyday Banking</h3>
-        <p class="text-sm text-center text-bankText/70">Checking accounts that fit your lifestyle and help you
-          reach your goals.</p>
-        <a href="#" class="text-secondary mt-6 font-semibold hover:underline text-sm inline-flex items-center gap-1">
-          Explore Checking <span class="material-symbols-outlined text-xs">arrow_forward</span>
+        <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-all transform group-hover:rotate-6">
+          <span class="material-symbols-outlined text-3xl">account_balance</span>
+        </div>
+        <h3 class="font-black text-lg mb-4 text-primary">Priority Checking</h3>
+        <p class="text-sm text-bankText/60 leading-relaxed mb-8">Premium checking accounts with zero monthly fees and global ATM access.</p>
+        <a href="#" class="text-[10px] font-black uppercase tracking-widest text-secondary hover:text-primary flex items-center gap-2">
+          Discover More <span class="material-symbols-outlined text-sm">arrow_forward</span>
         </a>
       </div>
       <div class="service-card group">
-        <span
-          class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">credit_card</span>
-        <h3 class="font-bold mb-2">Credit Cards</h3>
-        <p class="text-sm text-center text-bankText/70">Find a card that rewards you for the things you do every
-          day.</p>
-        <a href="#" class="text-secondary mt-6 font-semibold hover:underline text-sm inline-flex items-center gap-1">
-          Compare Cards <span class="material-symbols-outlined text-xs">arrow_forward</span>
+        <div class="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-accent group-hover:text-primary transition-all transform group-hover:rotate-6">
+          <span class="material-symbols-outlined text-3xl">credit_card</span>
+        </div>
+        <h3 class="font-black text-lg mb-4 text-primary">Infinite Rewards</h3>
+        <p class="text-sm text-bankText/60 leading-relaxed mb-8">Elevated credit products that reward every aspect of your daily journey.</p>
+        <a href="#" class="text-[10px] font-black uppercase tracking-widest text-secondary hover:text-primary flex items-center gap-2">
+          Compare Cards <span class="material-symbols-outlined text-sm">arrow_forward</span>
         </a>
       </div>
       <div class="service-card group">
-        <span
-          class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">home</span>
-        <h3 class="font-bold mb-2">Home Loans</h3>
-        <p class="text-sm text-center text-bankText/70">Get a mortgage or refinance your current home with
-          expert support.</p>
-        <a href="#" class="text-secondary mt-6 font-semibold hover:underline text-sm inline-flex items-center gap-1">
-          View Rates <span class="material-symbols-outlined text-xs">arrow_forward</span>
+        <div class="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-secondary group-hover:text-white transition-all transform group-hover:rotate-6">
+          <span class="material-symbols-outlined text-3xl">home</span>
+        </div>
+        <h3 class="font-black text-lg mb-4 text-primary">Smart Mortgages</h3>
+        <p class="text-sm text-bankText/60 leading-relaxed mb-8">Digital-first home lending designed to get you into your dream home faster.</p>
+        <a href="#" class="text-[10px] font-black uppercase tracking-widest text-secondary hover:text-primary flex items-center gap-2">
+          View Solutions <span class="material-symbols-outlined text-sm">arrow_forward</span>
         </a>
       </div>
       <div class="service-card group">
-        <span
-          class="material-symbols-outlined text-4xl text-primary mb-4 group-hover:scale-110 transition-transform">trending_up</span>
-        <h3 class="font-bold mb-2">Investing</h3>
-        <p class="text-sm text-center text-bankText/70">Strategic insights and products to help your money grow
-          over time.</p>
-        <a href="#" class="text-secondary mt-6 font-semibold hover:underline text-sm inline-flex items-center gap-1">
-          Start Investing <span class="material-symbols-outlined text-xs">arrow_forward</span>
+        <div class="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-emerald-600 group-hover:text-white transition-all transform group-hover:rotate-6">
+          <span class="material-symbols-outlined text-3xl">trending_up</span>
+        </div>
+        <h3 class="font-black text-lg mb-4 text-primary">Wealth Forge</h3>
+        <p class="text-sm text-bankText/60 leading-relaxed mb-8">Next-gen investment tools and advisory to build your generational legacy.</p>
+        <a href="#" class="text-[10px] font-black uppercase tracking-widest text-secondary hover:text-primary flex items-center gap-2">
+          Start Investing <span class="material-symbols-outlined text-sm">arrow_forward</span>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="bg-bankGray py-16 border-t border-gray-300">
-    <div class="max-w-7xl mx-auto px-4">
-      <div
-        class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16 text-[11px] text-secondary font-bold uppercase tracking-wider">
-        <div class="flex flex-col gap-4">
-          <a href="#" class="hover:underline">About Citi Financials</a>
-          <a href="#" class="hover:underline">Careers</a>
-          <a href="#" class="hover:underline">Social Impact</a>
+  <!-- App Promotion -->
+  <section class="bg-primary py-24 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16 relative z-10 text-center md:text-left text-white">
+      <div class="flex-1">
+        <h2 class="text-3xl md:text-5xl font-black mb-8 leading-tight tracking-tighter">Your bank, <br class="hidden md:block">in the palm of your hand.</h2>
+        <p class="text-lg opacity-80 mb-12 max-w-md mx-auto md:mx-0">Manage accounts, transfer funds, and trade assets with our award-winning mobile application.</p>
+        <div class="flex justify-center md:justify-start gap-4">
+          <div class="w-40 h-12 bg-white/10 rounded-lg border border-white/20 flex items-center justify-center font-black text-[10px] uppercase tracking-widest hover:bg-white/20 transition-all cursor-pointer">App Store</div>
+          <div class="w-40 h-12 bg-white/10 rounded-lg border border-white/20 flex items-center justify-center font-black text-[10px] uppercase tracking-widest hover:bg-white/20 transition-all cursor-pointer">Play Store</div>
         </div>
-        <div class="flex flex-col gap-4">
-          <a href="faq.html" class="hover:underline">Privacy & Security Help</a>
-          <a href="faq.html" class="hover:underline">Plan & Learn</a>
-          <a href="support.html" class="hover:underline">Support Chat</a>
-          <a href="support.html" class="hover:underline">Report Fraud</a>
-        </div>
-        <div class="flex flex-col gap-4">
-          <a href="#" class="hover:underline">Sitemap</a>
-          <a href="#" class="hover:underline">Contact Us</a>
-          <a href="#" class="hover:underline">Accessibility</a>
-        </div>
-        <div class="flex flex-col gap-6 text-right">
-          <div class="flex justify-end gap-4 text-gray-400">
-            <span class="material-symbols-outlined">facebook</span>
-            <span class="material-symbols-outlined">alternate_email</span>
+      </div>
+      <div class="flex-1">
+        <div class="relative w-64 h-[500px] bg-slate-900 border-[8px] border-slate-800 rounded-[40px] shadow-2xl mx-auto overflow-hidden">
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-800 rounded-b-2xl"></div>
+          <div class="p-6 h-full flex flex-col pt-12">
+             <div class="w-full h-8 bg-white/5 rounded mt-4 mb-4"></div>
+             <div class="flex-1 space-y-4">
+               <div class="w-full h-32 bg-accent/20 rounded-2xl border border-white/10"></div>
+               <div class="w-full h-20 bg-white/5 rounded-2xl"></div>
+               <div class="w-full h-20 bg-white/5 rounded-2xl"></div>
+             </div>
           </div>
         </div>
       </div>
-      <div class="border-t border-gray-300 pt-10 text-[10px] text-gray-500 leading-relaxed max-w-4xl">
-        <p class="mb-4">1. Investment and Insurance Products are: NOT A DEPOSIT • NOT FDIC INSURED • NOT INSURED
-          BY ANY FEDERAL GOVERNMENT AGENCY • NOT GUARANTEED BY THE BANK • MAY LOOSE VALUE.</p>
-        <p class="mb-4">WithCitii Bank, N.A. Member FDIC.</p>
-        <p>&copy; <span id="current-year">2026</span> WithCitii. All rights reserved. NMLSR ID 399801</p>
+    </div>
+    <!-- Background Decor -->
+    <div class="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-blue-400/20 blur-[120px] rounded-full -translate-x-1/2"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-slate-50 py-24 border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-12 mb-20 text-[10px] font-black uppercase tracking-[0.2em] text-secondary/60">
+        <div class="flex flex-col gap-5">
+          <p class="text-primary mb-2 opacity-100">Company</p>
+          <a href="#" class="hover:text-primary transition-colors">About WithCitii</a>
+          <a href="#" class="hover:text-primary transition-colors">Careers</a>
+          <a href="#" class="hover:text-primary transition-colors">Global Presence</a>
+        </div>
+        <div class="flex flex-col gap-5">
+          <p class="text-primary mb-2 opacity-100">Resources</p>
+          <a href="faq.html" class="hover:text-primary transition-colors">Help Center</a>
+          <a href="faq.html" class="hover:text-primary transition-colors">Security Center</a>
+          <a href="support.html" class="hover:text-primary transition-colors">Report Fraud</a>
+        </div>
+        <div class="flex flex-col gap-5">
+          <p class="text-primary mb-2 opacity-100">Legal</p>
+          <a href="faq.html" class="hover:text-primary transition-colors">Privacy Policy</a>
+          <a href="faq.html" class="hover:text-primary transition-colors">Member FDIC</a>
+          <a href="faq.html" class="hover:text-primary transition-colors">Terms of Use</a>
+        </div>
+        <div class="flex flex-col gap-8 lg:text-right">
+          <div class="flex lg:justify-end gap-6 text-gray-400">
+            <span class="material-symbols-outlined hover:text-primary transition-colors cursor-pointer">hub</span>
+            <span class="material-symbols-outlined hover:text-primary transition-colors cursor-pointer">alternate_email</span>
+          </div>
+          <p class="text-[9px] font-bold text-gray-400 normal-case leading-relaxed">Member FDIC. Equal Housing Lender. Investment products NOT FDIC insured.</p>
+        </div>
+      </div>
+      <div class="border-t border-gray-200 pt-12 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black uppercase tracking-widest text-gray-400">
+        <div class="flex items-center gap-6">
+          <img src="logo.png" class="h-6 grayscale opacity-40">
+          <p>&copy; <span id="current-year">2026</span> WithCitii Bank, N.A. All rights reserved.</p>
+        </div>
+        <p>NMLSR ID 399801</p>
       </div>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="utils.js?v=1.2"></script>
+  <script src="utils.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       utils.init();
       document.getElementById('current-year').textContent = new Date().getFullYear();
+
+      // Mobile Drawer Toggle
+      const mobileToggle = document.getElementById('mobile-toggle');
+      const closeDrawer = document.getElementById('close-drawer');
+      const drawer = document.getElementById('mobile-drawer');
+      const drawerContent = drawer.querySelector('div');
+
+      if (mobileToggle && closeDrawer && drawer) {
+        mobileToggle.addEventListener('click', () => {
+          drawer.classList.remove('opacity-0', 'pointer-events-none');
+          drawerContent.classList.remove('-translate-x-full');
+        });
+
+        const hideDrawer = () => {
+          drawer.classList.add('opacity-0', 'pointer-events-none');
+          drawerContent.classList.add('-translate-x-full');
+        };
+
+        closeDrawer.addEventListener('click', hideDrawer);
+        drawer.addEventListener('click', (e) => {
+          if (e.target === drawer) hideDrawer();
+        });
+      }
     });
   </script>
 </body>

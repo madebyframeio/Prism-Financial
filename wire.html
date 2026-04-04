@@ -6,7 +6,7 @@
   <style>.hidden-cloak { opacity: 0 !important; pointer-events: none !important; }</style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loading...</title>
+  <title>Wire Transfer | WithCitii Secure</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
     tailwind.config = {
@@ -49,33 +49,104 @@
   <!-- Social Meta Tags -->
   
   <meta property="og:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
   <meta property="og:image"
-    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
-  <meta property="og:url" content="https://citi-financials.netlify.app/">
+    content="https://raw.githubusercontent.com/madebyframeio/WithCitii-Project/main/meta.png">
+  <meta property="og:url" content="https://withcitii.netlify.app/">
   <meta property="og:type" content="website">
 
   <meta name="twitter:card" content="summary_large_image">
   
   <meta name="twitter:description"
-    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with Citi Financials.">
+    content="Secure, simplified, and powerful online banking. Access your dashboard, track your transactions, and manage your assets with WithCitii.">
   <meta name="twitter:image"
-    content="https://raw.githubusercontent.com/madebyframeio/Citi Financials-Project/main/meta.png">
+    content="https://raw.githubusercontent.com/madebyframeio/WithCitii-Project/main/meta.png">
 </head>
 
 <body class="hidden-cloak  min-h-screen flex flex-col overflow-x-hidden">
   <!-- Corporate Header -->
-  <header class="bg-primary text-white p-4 shadow-md">
-    <div class="max-w-4xl mx-auto flex justify-between items-center">
-      <a href="dashboard.html" class="bg-white p-1 rounded-sm">
-        <img src="logo.png" alt="Citi Financials" class="h-8">
-      </a>
-      <a href="dashboard.html"
-        class="text-[10px] font-black uppercase tracking-widest hover:underline flex items-center gap-2">
-        <span class="material-symbols-outlined text-sm">arrow_back</span> Cancel & Return
-      </a>
+  <header class="bg-primary text-white shadow-lg sticky top-0 md:relative z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3 sm:gap-6">
+        <a href="dashboard.html" class="bg-white p-1 rounded-sm shadow-sm group">
+          <img src="logo.png" alt="WithCitii" class="h-6 sm:h-8 transition-transform group-hover:scale-105">
+        </a>
+        <div class="hidden sm:flex flex-col border-l border-white/20 pl-6">
+          <span class="text-xs opacity-70 uppercase tracking-widest font-black">Transfer & Pay</span>
+          <span class="text-sm font-black tracking-tight" id="user-display-name">Loading...</span>
+        </div>
+      </div>
+      
+      <!-- Desktop Header Actions -->
+      <div class="hidden md:flex items-center gap-6 text-[10px] font-black uppercase tracking-widest">
+        <a href="messages.html" class="hover:underline" id="messages-link">Messages</a>
+        <a href="security.html" class="hover:underline">Security</a>
+        <button onclick="utils.logout()"
+          class="hover:text-accent flex items-center gap-2 border-l border-white/20 pl-6">
+          Sign Out <span class="material-symbols-outlined text-sm font-bold">logout</span>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="flex md:hidden items-center gap-4">
+        <a href="messages.html" class="material-symbols-outlined text-xl hover:text-accent relative" id="messages-link-mobile">
+          mail
+        </a>
+        <span id="open-menu" class="material-symbols-outlined text-2xl cursor-pointer hover:text-accent transition-colors">
+          menu
+        </span>
+      </div>
     </div>
   </header>
+
+  <!-- Mobile Navigation Drawer -->
+  <div id="mobile-drawer" class="fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+    <div class="absolute right-0 top-0 bottom-0 w-3/4 max-w-sm bg-white shadow-2xl translate-x-full transition-transform duration-300">
+      <div class="p-6 flex flex-col h-full">
+        <div class="flex justify-between items-center mb-8">
+          <img src="logo.png" class="h-6">
+          <span id="close-menu" class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">close</span>
+        </div>
+        
+        <div class="flex flex-col gap-1 overflow-y-auto flex-1">
+          <a href="dashboard.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">account_balance</span> Accounts
+          </a>
+          <a href="cards.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">credit_card</span> Cards
+          </a>
+          <a href="wire.html" class="py-3 px-4 rounded-xl bg-primary/5 text-primary font-black uppercase tracking-widest text-xs flex items-center gap-3">
+            <span class="material-symbols-outlined text-sm font-bold">payments</span> Transfer & Pay
+          </a>
+          <a href="faq.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">live_help</span> Plan & Learn
+          </a>
+          <a href="support.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">support_agent</span> Support
+          </a>
+          <div class="border-t border-slate-100 my-4"></div>
+          <a href="security.html" class="py-3 px-4 rounded-xl text-secondary font-bold uppercase tracking-widest text-xs flex items-center gap-3 hover:bg-slate-50">
+            <span class="material-symbols-outlined text-sm font-bold">lock</span> Security
+          </a>
+        </div>
+
+        <div class="mt-auto pt-6 border-t border-slate-100">
+          <button onclick="utils.logout()" class="w-full py-4 flex items-center justify-center gap-3 text-rose-600 font-black uppercase tracking-widest text-[10px] hover:bg-rose-50 rounded-xl transition-all">
+            <span class="material-symbols-outlined text-sm font-bold">logout</span> Sign Out
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Breadcrumb / Back Navigation -->
+  <div class="bg-white border-b border-borderGray">
+    <div class="max-w-2xl mx-auto px-6 py-4">
+      <a href="dashboard.html" class="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-primary flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">arrow_back</span> Back to Dashboard
+      </a>
+    </div>
+  </div>
 
   <main class="flex-1 max-w-2xl w-full mx-auto py-12 px-6">
     <h1 class="text-2xl font-black text-primary mb-8 tracking-tighter">Initiate Wire Transfer</h1>
@@ -260,11 +331,48 @@
 
     pinInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') verifyPin(); });
   </script>
-  <footer class="bg-white border-t border-borderGray py-6 mt-12">
-    <div
-      class="max-w-4xl mx-auto px-4 flex justify-center gap-8 text-[11px] text-secondary font-black uppercase tracking-widest">
-      <a href="faq.html" class="hover:underline">Plan & Learn</a>
-      <a href="support.html" class="hover:underline">Support</a>
+  <!-- Mobile Drawer Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Mobile Drawer Toggle Logic
+      const openMenuBtn = document.getElementById('open-menu');
+      const closeMenuBtn = document.getElementById('close-menu');
+      const mobileDrawer = document.getElementById('mobile-drawer');
+      const drawerContent = mobileDrawer.querySelector('div');
+
+      if (openMenuBtn && closeMenuBtn && mobileDrawer) {
+        openMenuBtn.addEventListener('click', () => {
+          mobileDrawer.classList.remove('opacity-0', 'pointer-events-none');
+          drawerContent.classList.remove('translate-x-full');
+        });
+
+        const closeDrawer = () => {
+          mobileDrawer.classList.add('opacity-0', 'pointer-events-none');
+          drawerContent.classList.add('translate-x-full');
+        };
+
+        closeMenuBtn.addEventListener('click', closeDrawer);
+        mobileDrawer.addEventListener('click', (e) => {
+          if (e.target === mobileDrawer) closeDrawer();
+        });
+      }
+      
+      const user = utils.getCurrentUser();
+      if (user) {
+        const nameEl = document.getElementById('user-display-name');
+        if (nameEl) nameEl.textContent = user.name;
+      }
+    });
+  </script>
+  <footer class="bg-white border-t border-borderGray py-10 mt-12">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-8">
+      <div class="flex gap-8 text-[11px] text-secondary font-black uppercase tracking-widest">
+        <a href="support.html" class="hover:underline">Contact</a>
+        <a href="faq.html" class="hover:underline">Legal</a>
+        <a href="faq.html" class="hover:underline">Privacy Help</a>
+        <a href="support.html" class="hover:underline">Security Support</a>
+      </div>
+      <p class="text-[10px] text-gray-400 font-bold italic">© 2026 WithCitii. All rights reserved.</p>
     </div>
   </footer>
 </body>
