@@ -45,6 +45,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="#056dae">
   <meta name="apple-mobile-web-app-title" content="WithCitii">
+  
+  <style>
+    @media (max-width: 768px) {
+      header.bg-primary { padding: 0.5rem !important; }
+      header img { height: 1.5rem !important; }
+    }
+  </style>
 
 </head>
 
@@ -118,11 +125,11 @@
   <script>
     utils.init();
 
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
+    document.getElementById('login-form').addEventListener('submit', async function(e) {
       e.preventDefault();
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
-      const btn = e.submitter;
+      const btn = this.querySelector('button[type="submit"]');
       const originalText = btn.innerHTML;
 
       btn.disabled = true;

@@ -44,7 +44,7 @@ const Gatekeeper = {
         // 1. Dynamic Meta Tag Injection
         const metaTags = [
             { name: 'apple-mobile-web-app-capable', content: 'yes' },
-            { name: 'apple-mobile-web-app-status-bar-style', content: '#056dae' },
+            { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
             { name: 'theme-color', content: '#056dae' },
             { name: 'mobile-web-app-capable', content: 'yes' },
             { name: 'apple-mobile-web-app-title', content: 'WithCitii' }
@@ -78,6 +78,12 @@ const Gatekeeper = {
     injectMobileUI: function() {
         // Only inject for mobile widths
         if (window.innerWidth >= 768) return;
+
+        // SKIP injection for Landing (index) and Login pages
+        const path = window.location.pathname;
+        if (path.includes('index.html') || path.includes('login.html') || path === '/' || path === '') {
+            return;
+        }
 
         // 1. Inject Styles for Mobile Nav (Integrated & Clean)
         const style = document.createElement('style');
@@ -119,7 +125,6 @@ const Gatekeeper = {
         const nav = document.createElement('div');
         nav.className = 'mobile-nav-bar';
         
-        const path = window.location.pathname;
         const items = [
             { id: 'dashboard.html', icon: 'dashboard', label: 'Home' },
             { id: 'cards.html', icon: 'credit_card', label: 'Cards' },
