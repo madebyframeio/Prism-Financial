@@ -1,6 +1,6 @@
 /**
  * Advanced Gatekeeper v1.0
- * Handles cloaking removal and bot detection for WithCitii.
+ * Handles cloaking removal and bot detection for Use Click.
  */
 const Gatekeeper = {
     settings: {

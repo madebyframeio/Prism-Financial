@@ -1,6 +1,6 @@
 {
-  "name": "WithCitii",
-  "short_name": "WithCitii",
+  "name": "Use Click",
+  "short_name": "Use Click",
   "start_url": "./login.html",
   "scope": "./",
   "display": "standalone",

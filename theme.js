@@ -1,11 +1,11 @@
-// Centralized Theme Configuration for WithCitii
-// Establishes an ultra-premium "WithCitii Black" luxury aesthetic.
+// Centralized Theme Configuration for Use Click
+// Establishes an ultra-premium "Use Click Black" luxury aesthetic.
 
 const financeTheme = {
     colors: {
-        primary: "#056dae",       // WithCitii Dark Blue
+        primary: "#056dae",       // Use Click Dark Blue
         secondary: "#004B8D",     // Corporate blue for links
-        accent: "#FCCC44",        // WithCitii Yellow
+        accent: "#FCCC44",        // Use Click Yellow
         "accent-dark": "#D5A106",
         surface: "#F4F4F4",       // Light gray surface
         "surface-highlight": "#FFFFFF",

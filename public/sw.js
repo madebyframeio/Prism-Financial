@@ -1,4 +1,4 @@
-const CACHE_NAME = 'withcitii-cache-v12';
+const CACHE_NAME = 'Use Click-cache-v12';
 const ASSETS_TO_CACHE = [
   '/',
   'index.html',
