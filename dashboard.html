@@ -391,6 +391,13 @@
         try {
           const userData = await utils.getUserData(user.id);
           if (userData) {
+            // Proactive Security Check: Eject if locked
+            if (userData.is_account_locked) {
+              sessionStorage.removeItem('currentUser');
+              window.location.href = 'account-locked.html';
+              return;
+            }
+
             mainBalEl.textContent = utils.formatCurrency(userData.balance || 0);
             saveBalEl.textContent = utils.formatCurrency(userData.savings_balance || 0);
             invBalEl.textContent = utils.formatCurrency(userData.investment_balance || 0);

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="app-v1.js"></script>
+    <style>.hidden-cloak { opacity: 0 !important; pointer-events: none !important; }</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Access Restricted | Use Click Security</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#056dae",
+                        secondary: "#004B8D",
+                        accent: "#FCCC44",
+                        bankGray: "#F4F4F4",
+                        bankText: "#333333",
+                        borderGray: "#D1D1D1"
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <style type="text/tailwindcss">
+        @layer base {
+            body { @apply bg-[#f0f0f0] text-bankText font-sans antialiased; }
+        }
+        @layer components {
+            .btn-wf-primary { @apply w-full py-3 bg-primary text-white font-black text-sm uppercase tracking-widest hover:bg-blue-900 transition-all rounded-sm shadow-md active:translate-y-px; }
+            .btn-wf-outline { @apply w-full py-3 bg-white border border-gray-300 text-gray-700 font-black text-sm uppercase tracking-widest hover:bg-gray-50 transition-all rounded-sm active:translate-y-px; }
+            .status-badge { @apply inline-flex items-center gap-2 px-3 py-1 bg-rose-50 border border-rose-100 text-rose-600 rounded-sm font-black text-[10px] uppercase tracking-widest; }
+        }
+    </style>
+</head>
+
+<body class="hidden-cloak min-h-screen flex flex-col overflow-x-hidden">
+    <!-- Corporate Header -->
+    <header class="bg-primary text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+            <a href="index.html" class="bg-white p-1 rounded-sm shadow-sm hover:scale-105 transition-all">
+                <img src="logo.png" alt="Use Click" class="h-8">
+            </a>
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-sm text-accent">security</span>
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] opacity-70">Security Protocol</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex items-center justify-center p-6">
+        <div class="w-full max-w-md bg-white p-10 border border-gray-300 rounded shadow-sm relative overflow-hidden text-center">
+            <!-- Security Stripe -->
+            <div class="absolute top-0 left-0 w-full h-1.5 bg-rose-500"></div>
+
+            <div class="mb-8">
+                <div class="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span class="material-symbols-outlined text-4xl text-rose-500" style="font-variation-settings: 'FILL' 1;">error</span>
+                </div>
+                <h1 class="text-2xl font-black text-primary mb-3 tracking-tighter uppercase">Access Restricted</h1>
+                <div class="status-badge">
+                   <span class="w-1.5 h-1.5 bg-rose-500 rounded-full animate-pulse"></span>
+                   Security Hold Active
+                </div>
+            </div>
+
+            <div class="space-y-6 mb-10">
+                <p class="text-sm text-gray-500 leading-relaxed">
+                    For your protection, the administrative security team has placed a temporary hold on this account. Access to the online dashboard and fund transfers is currently disabled.
+                </p>
+                <div class="bg-gray-50 border border-gray-100 p-4 rounded-sm text-left">
+                    <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">Incident ID</p>
+                    <p class="text-xs font-mono text-gray-700 font-bold">ARC-9930-PRISM</p>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <a href="support.html" class="block btn-wf-primary flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-sm">support_agent</span>
+                    Contact Security Support
+                </a>
+                <a href="login.html" class="block btn-wf-outline">
+                    Return to Sign On
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Simple Footer -->
+    <footer class="bg-white border-t border-gray-200 py-10">
+        <div class="max-w-4xl mx-auto px-6 text-center space-y-4">
+            <p class="text-[10px] text-gray-400 font-bold italic tracking-wide">
+                Use Click Security Systems • Internal Protocol 24-B • Account Safeguard Active
+            </p>
+            <p class="text-[9px] text-gray-300 uppercase tracking-widest leading-loose">
+                Prism Financial Simulation Environment • For Educational Demonstrations Only
+            </p>
+        </div>
+    </footer>
+
+    <!-- Reveal Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.remove('hidden-cloak');
+            document.body.style.opacity = "1";
+        });
+    </script>
+</body>
+
+</html>

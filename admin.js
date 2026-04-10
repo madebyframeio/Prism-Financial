@@ -68,11 +68,12 @@ window.renderUsers = async function () {
         // Previous error: mapped username to Acc No column?
         // Let's ensure strict order.
         tr.innerHTML = `
-            <td class="font-bold text-slate-900 px-4 py-3">${user.name}</td>
+            <td class="font-bold text-slate-900 px-4 py-3">${user.name} ${user.is_account_locked ? '<span class="ml-2 px-1.5 py-0.5 text-[8px] bg-rose-100 text-rose-600 rounded uppercase tracking-tighter">Locked</span>' : ''}</td>
             <td class="font-mono text-xs text-slate-500 tracking-wider px-4 py-3">${user.account_number || '---'}</td>
             <td class="text-sm text-slate-600 px-4 py-3">${user.username}</td>
             <td class="font-bold text-slate-900 px-4 py-3">${utils.formatCurrency(user.balance)}</td>
             <td class="text-right px-4 py-3">
+                 <button onclick="toggleUserLock('${user.id}', ${user.is_account_locked})" class="text-xs font-bold uppercase tracking-widest ${user.is_account_locked ? 'text-emerald-500' : 'text-rose-500'} hover:underline mr-3">${user.is_account_locked ? 'Unlock' : 'Lock'}</button>
                  <button onclick="openProfile('${user.id}')" class="text-xs font-bold uppercase tracking-widest text-primary hover:underline mr-3">View</button>
                 <button onclick="openEditBalance('${user.id}')" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-slate-900">Adjust</button>
             </td>
@@ -117,8 +118,31 @@ window.saveBalance = async function () {
         await loadAdmin(); // Reloads all data and re-renders
         renderUsers();
     } catch (e) {
-        alert('Failed to update: ' + e.message);
     }
+}
+
+window.toggleUserLock = async function (userId, currentStatus) {
+    const newStatus = !currentStatus;
+    const action = newStatus ? 'LOCK' : 'UNLOCK';
+    if (!confirm(`Are you sure you want to ${action} this account?`)) return;
+
+    try {
+        await utils.updateUser(userId, { is_account_locked: newStatus });
+        allUsers = []; // Clear cache to force refresh
+        await loadAdmin();
+        renderUsers();
+    } catch (e) {
+        alert('Failed to update status: ' + e.message);
+    }
+}
+
+window.toggleUserLockFromProfile = async function () {
+    const user = allUsers.find(u => u.id === activeUserProfileId);
+    if (!user) return;
+    await toggleUserLock(user.id, user.is_account_locked);
+    // Refresh the profile view with the new data
+    const updatedUser = allUsers.find(u => u.id === activeUserProfileId);
+    if (updatedUser) openProfile(updatedUser.id);
 }
 
 // --- Profile View ---
@@ -147,6 +171,30 @@ window.openProfile = function (userId) {
     document.getElementById('edit-profile-id').value = user.id;
     document.getElementById('edit-profile-name').value = user.name;
     document.getElementById('edit-profile-username').value = user.username;
+
+    // Lock Status
+    const badge = document.getElementById('profile-lock-badge');
+    const lockBtn = document.getElementById('profile-lock-btn');
+    const lockIcon = document.getElementById('lock-icon');
+    const lockText = document.getElementById('lock-text');
+
+    if (user.is_account_locked) {
+        if (badge) badge.classList.remove('hidden');
+        if (lockBtn) {
+            lockBtn.classList.remove('text-rose-500', 'border-rose-100', 'hover:bg-rose-50');
+            lockBtn.classList.add('text-emerald-500', 'border-emerald-100', 'hover:bg-emerald-50');
+        }
+        if (lockIcon) lockIcon.textContent = 'lock_open';
+        if (lockText) lockText.textContent = 'Unlock Access';
+    } else {
+        if (badge) badge.classList.add('hidden');
+        if (lockBtn) {
+            lockBtn.classList.add('text-rose-500', 'border-rose-100', 'hover:bg-rose-50');
+            lockBtn.classList.remove('text-emerald-500', 'border-emerald-100', 'hover:bg-emerald-50');
+        }
+        if (lockIcon) lockIcon.textContent = 'block';
+        if (lockText) lockText.textContent = 'Restrict Account';
+    }
 
     // Render History for this user
     renderProfileHistory(user.id);

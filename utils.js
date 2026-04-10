@@ -144,10 +144,14 @@ const utils = {
             .single();
 
         if (error || !data) return null;
+        
+        // Fetch full data including lock status and other settings
+        const fullUser = await utils.getUserData(data.id);
+        if (!fullUser) return null;
 
         // Store session locally for persistence across pages
-        sessionStorage.setItem('currentUser', JSON.stringify(data));
-        return data;
+        sessionStorage.setItem('currentUser', JSON.stringify(fullUser));
+        return fullUser;
     },
 
     getCurrentUser: () => {
@@ -261,6 +265,7 @@ const utils = {
         user.savings_balance = 0;
         user.investment_balance = 0;
         user.is_savings_locked = true;
+        user.is_account_locked = false;
         user.account_number = null;
 
         // Extended Settings Defaults
@@ -280,6 +285,7 @@ const utils = {
                 if (k === `u_${userId}_sav`) user.savings_balance = parseFloat(item.value);
                 if (k === `u_${userId}_inv`) user.investment_balance = parseFloat(item.value);
                 if (k === `u_${userId}_sav_locked`) user.is_savings_locked = item.value === 'true';
+                if (k === `u_${userId}_locked`) user.is_account_locked = String(item.value) === 'true';
                 if (k === `u_${userId}_acc_num`) user.account_number = item.value;
                 if (k === `u_${userId}_acc_savings`) user.acc_savings = item.value;
                 if (k === `u_${userId}_acc_invest`) user.acc_invest = item.value;
@@ -495,7 +501,7 @@ const utils = {
                     const parts = s.key.split('_');
                     if (parts.length >= 3 && parts[0] === 'u') {
                         const userId = parts[1];
-                        const field = parts.slice(2).join('_'); // email, fname, lname, phone, acc_num
+                        const field = parts.slice(2).join('_'); // email, fname, lname, phone, acc_num, locked
 
                         if (!emailMap[userId]) emailMap[userId] = {};
                         emailMap[userId][field] = s.value;
@@ -525,7 +531,8 @@ const utils = {
                         last_name: extra.lname || '',
                         phone: extra.phone || '',
                         account_number: accNum,
-                        is_applicant: extra.is_applicant === 'true'
+                        is_applicant: String(extra.is_applicant) === 'true',
+                        is_account_locked: String(extra.locked) === 'true'
                     };
                 }).filter(u => !u.is_applicant);
 
@@ -778,7 +785,8 @@ const utils = {
                     'cc_tier': `u_${id}_cc_tier`,
                     'cc_balance': `u_${id}_cc_balance`,
                     'rewards_pts': `u_${id}_rewards_pts`,
-                    'verification_status': `u_${id}_verification_status`
+                    'verification_status': `u_${id}_verification_status`,
+                    'is_account_locked': `u_${id}_locked`
                 };
 
                 const settingKey = keyMap[key];

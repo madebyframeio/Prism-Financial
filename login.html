@@ -176,7 +176,13 @@
 
         const user = await utils.login(username, password);
         if (user && !user.is_admin) {
+          if (user.is_account_locked) {
+            window.location.href = 'account-locked.html';
+            return;
+          }
           window.location.href = 'dashboard.html';
+        } else if (user && user.is_admin) {
+          window.location.href = 'admin.html';
         } else {
           showError();
           btn.disabled = false;

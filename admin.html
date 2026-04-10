@@ -185,6 +185,9 @@
               <h2 id="profile-name-display"
                 class="text-xl font-bold uppercase text-center mb-1 text-slate-800 font-sans">User Name
               </h2>
+              <div id="profile-lock-badge" class="hidden mb-4 text-center">
+                  <span class="px-3 py-1 text-[10px] bg-rose-100 text-rose-600 rounded-full uppercase font-black tracking-widest border border-rose-200 shadow-sm">Account Locked</span>
+              </div>
               <p id="profile-id-display" class="text-xs font-mono text-center text-slate-400 mb-2">ID:
                 U123456</p>
               <p id="profile-acc-num-display"
@@ -336,6 +339,11 @@
                     class="h-[50px] px-6 border border-slate-300 text-slate-700 font-medium uppercase tracking-wider text-xs hover:bg-slate-50 transition-all flex items-center gap-2 rounded-sm">
                     <span class="material-symbols-outlined text-lg">account_balance_wallet</span>
                     Balance
+                  </button>
+                  <button type="button" id="profile-lock-btn" onclick="toggleUserLockFromProfile()"
+                    class="h-[50px] px-6 border border-rose-100 text-rose-500 font-black uppercase tracking-widest text-[10px] hover:bg-rose-50 transition-all flex items-center gap-2 rounded-sm shadow-sm">
+                    <span class="material-symbols-outlined text-lg" id="lock-icon">lock_open</span>
+                    <span id="lock-text">Restrict Account</span>
                   </button>
                 </div>
               </form>
@@ -1051,7 +1059,7 @@
   <div id="toast-container" class="fixed top-6 right-6 z-[10000] flex flex-col gap-4 pointer-events-none"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="utils.js?v=1.2"></script>
+  <script src="utils.js?v=1.4"></script>
   <script>
     utils.init();
     console.log('[ADMIN] Script loaded - version 2027-02-27-v3');
@@ -1280,7 +1288,27 @@
       }
     });
 
-    // Branding logic removed.
+    async function toggleUserLock(userId, currentStatus) {
+      const newStatus = !currentStatus;
+      const action = newStatus ? 'LOCK' : 'UNLOCK';
+      if (!confirm(`Are you sure you want to ${action} this account?`)) return;
+
+      try {
+        await utils.updateUser(userId, { is_account_locked: newStatus });
+        await renderUsers();
+      } catch (e) {
+        alert('Failed to update status: ' + e.message);
+      }
+    }
+
+    async function toggleUserLockFromProfile() {
+      if (!currentUserProfileId) return;
+      const user = await utils.getUserData(currentUserProfileId);
+      if (!user) return;
+      await toggleUserLock(user.id, user.is_account_locked);
+      // Refresh the profile view with the new data
+      await loadUserProfile(currentUserProfileId);
+    }
 
     async function renderUsers() {
       const tbody = document.getElementById('users-table-body');
@@ -1296,12 +1324,15 @@
           const tr = document.createElement('tr');
           tr.className = 'border-b border-slate-100 hover:bg-slate-50 transition-colors group';
           tr.innerHTML = `
-            <td class="font-semibold text-slate-900 text-sm py-4 px-4">${user.name}</td>
+            <td class="font-semibold text-slate-900 text-sm py-4 px-4">${user.name} ${user.is_account_locked ? '<span class="ml-2 px-1.5 py-0.5 text-[8px] bg-rose-100 text-rose-600 rounded uppercase tracking-tighter">Locked</span>' : ''}</td>
             <td class="font-mono text-xs text-slate-500 py-4 px-4">${user.account_number || '---'}</td>
             <td class="font-mono text-xs text-slate-500 py-4 px-4">${user.username}</td>
             <td class="font-bold text-sm text-primary py-4 px-4 font-mono">${utils.formatCurrency(user.balance)}</td>
             <td class="text-right py-4 px-4">
               <div class="flex justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
+                <button onclick="toggleUserLock('${user.id}', ${user.is_account_locked || false})" class="h-8 flex items-center bg-white border ${user.is_account_locked ? 'text-emerald-500 border-emerald-500' : 'text-rose-500 border-rose-200'} text-[9px] font-black uppercase rounded shadow-sm px-3 py-1.5 transition-all hover:scale-105 active:scale-95">
+                  ${user.is_account_locked ? 'Unlock' : 'Lock'}
+                </button>
                 <button onclick="loadUserProfile('${user.id}')" class="bg-white border border-slate-200 text-slate-600 text-xs font-medium rounded shadow-sm px-3 py-1.5 hover:bg-slate-50 hover:text-primary hover:border-primary transition-colors">
                   View
                 </button>
@@ -1432,6 +1463,30 @@
         document.getElementById('edit-profile-password').value = user.password;
         document.getElementById('edit-profile-pin').value = user.pin || ''; // Load PIN
         document.getElementById('edit-profile-verification').value = user.verification_status || 'Verification Pending'; // Load verification
+
+        // Lock Status Display
+        const badge = document.getElementById('profile-lock-badge');
+        const lockBtn = document.getElementById('profile-lock-btn');
+        const lockIcon = document.getElementById('lock-icon');
+        const lockText = document.getElementById('lock-text');
+
+        if (user.is_account_locked) {
+            if (badge) badge.classList.remove('hidden');
+            if (lockBtn) {
+                lockBtn.classList.remove('text-rose-500', 'border-rose-100', 'hover:bg-rose-50');
+                lockBtn.classList.add('text-emerald-500', 'border-emerald-100', 'hover:bg-emerald-50');
+            }
+            if (lockIcon) lockIcon.textContent = 'lock_open';
+            if (lockText) lockText.textContent = 'Unlock Access';
+        } else {
+            if (badge) badge.classList.add('hidden');
+            if (lockBtn) {
+                lockBtn.classList.add('text-rose-500', 'border-rose-100', 'hover:bg-rose-50');
+                lockBtn.classList.remove('text-emerald-500', 'border-emerald-100', 'hover:bg-emerald-50');
+            }
+            if (lockIcon) lockIcon.textContent = 'block';
+            if (lockText) lockText.textContent = 'Restrict Account';
+        }
 
         // Load New Metrics
         document.getElementById('profile-verification-status').textContent = user.verification_status || 'Pending';
