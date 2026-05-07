@@ -56,25 +56,26 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script src="../utils.js?v=v3" defer></script>
     <script>
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = e.target.querySelector('button[type="submit"]');
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
+        window.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('login-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = e.target.querySelector('button');
+                btn.disabled = true;
+                btn.textContent = 'Logging in...';
 
-            btn.disabled = true;
-            btn.innerHTML = '<i class="ph ph-circle-notch animate-spin"></i> Checking details...';
-
-            await utils.init();
-            const userData = await utils.login(user, pass);
-            
-            if (userData) {
-                window.location.href = 'dashboard.html';
-            } else {
-                alert('Invalid credentials. Please try again.');
-                btn.disabled = false;
-                btn.textContent = 'Log In';
-            }
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                
+                const { data: userData } = await utils.login(email, password);
+                
+                if (userData) {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert('Invalid credentials. Please try again.');
+                    btn.disabled = false;
+                    btn.textContent = 'Log In';
+                }
+            });
         });
     </script>
 </body>

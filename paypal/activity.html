@@ -291,7 +291,9 @@
             window.location.href = 'login.html';
         }
 
-        loadActivity();
+        window.addEventListener('DOMContentLoaded', () => {
+            loadActivity();
+        });
     </script>
 </body>
 </html>
