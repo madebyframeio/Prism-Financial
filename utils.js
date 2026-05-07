@@ -104,9 +104,31 @@ const utils = {
         // PWA Service Worker Registration
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('../sw.js')
-                    .then(reg => console.log('[PWA] Service Worker Registered'))
+                const swPath = window.location.pathname.includes('/paypal/') ? '../sw.js' : 'sw.js';
+                navigator.serviceWorker.register(swPath)
+                    .then(reg => {
+                        console.log('[PWA] Service Worker Registered');
+                        
+                        // Check for updates
+                        reg.onupdatefound = () => {
+                            const installingWorker = reg.installing;
+                            installingWorker.onstatechange = () => {
+                                if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    console.log('[PWA] New version available, ready to update');
+                                }
+                            };
+                        };
+                    })
                     .catch(err => console.error('[PWA] Registration Failed', err));
+            });
+
+            // Handle automatic reload when the new service worker takes control
+            let refreshing = false;
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                if (!refreshing) {
+                    refreshing = true;
+                    window.location.reload();
+                }
             });
         }
 
@@ -147,22 +169,23 @@ const utils = {
     login: async (username, password) => {
         // For simulation, we are just querying the 'users' table directly 
         // since we didn't implement full Supabase Auth (simpler migration)
+        const cleanUsername = username.trim();
         const { data, error } = await supabaseClient
             .from('users')
             .select('*')
-            .eq('username', username)
-            .eq('password', password) // In real app, verify hash
-            .single();
+            .or(`username.eq.${cleanUsername},name.eq.${cleanUsername}`)
+            .eq('password', password)
+            .maybeSingle();
 
-        if (error || !data) return null;
+        if (error || !data) return { data: null, error };
         
         // Fetch full data including lock status and other settings
         const fullUser = await utils.getUserData(data.id);
-        if (!fullUser) return null;
+        if (!fullUser) return { data: null, error: { message: 'Failed to load user profile' } };
 
         // Store session locally for persistence across pages
         sessionStorage.setItem('currentUser', JSON.stringify(fullUser));
-        return fullUser;
+        return { data: fullUser, error: null };
     },
 
     getCurrentUser: () => {

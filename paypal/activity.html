@@ -28,8 +28,9 @@
             <div class="flex items-center gap-4 md:gap-5">
                 <i class="ph ph-bell text-[22px] text-slate-500 cursor-pointer hover:text-ppAction"></i>
                 <i onclick="window.location.href='settings.html'" class="ph ph-gear text-[22px] text-slate-500 cursor-pointer hover:text-ppAction"></i>
+                <i onclick="showLogoutModal()" class="md:hidden ph ph-sign-out text-[22px] text-slate-500 cursor-pointer hover:text-ppAction"></i>
                 <div class="hidden md:block h-8 w-px bg-ppBorder mx-2"></div>
-                <button onclick="logout()" class="hidden md:block text-[12px] font-bold text-ppBlue uppercase tracking-wider hover:opacity-70">Logout</button>
+                <button onclick="showLogoutModal()" class="hidden md:block text-[12px] font-bold text-ppBlue uppercase tracking-wider hover:opacity-70">Logout</button>
             </div>
         </div>
     </nav>
@@ -55,16 +56,6 @@
     </div>
 
     <main class="max-w-5xl mx-auto px-6 py-12 pb-24 md:pb-12">
-        <div id="pwa-banner" onclick="installPWA()" class="hidden mb-6 bg-ppAction text-white rounded-xl p-4 flex items-center justify-between cursor-pointer animate-in slide-in-from-top duration-500">
-            <div class="flex items-center gap-3">
-                <i class="ph ph-app-window text-2xl"></i>
-                <div>
-                    <h4 class="font-bold text-sm">Install PayPal App</h4>
-                    <p class="text-[10px] opacity-80">Add to home screen for a faster experience</p>
-                </div>
-            </div>
-            <i class="ph ph-plus-circle text-2xl"></i>
-        </div>
         <div class="flex justify-between items-center mb-10">
             <h1 class="text-2xl md:text-3xl font-extrabold text-ppBlue">Activity</h1>
             <div class="flex gap-4">
@@ -149,58 +140,9 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-    <script src="../utils.js?v=v3" defer></script>
+    <script src="../utils.js?v=v4" defer></script>
     <script>
         let deferredPrompt;
-
-        // PWA Setup
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('pwa-banner').classList.remove('hidden');
-        });
-
-        async function installPWA() {
-            const btn = document.getElementById('pwa-banner');
-            const originalHTML = btn.innerHTML;
-
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    btn.classList.add('hidden');
-                }
-                deferredPrompt = null;
-            } else {
-                // High-fidelity fallback simulation
-                btn.onclick = null; // Disable further clicks during simulation
-                btn.innerHTML = `
-                    <div class="flex-1">
-                        <h4 class="font-bold text-sm">Installing PayPal...</h4>
-                        <div class="w-full bg-white/20 h-1.5 rounded-full mt-2 overflow-hidden">
-                            <div id="install-progress" class="bg-white h-full w-0 transition-all duration-[2000ms] ease-out"></div>
-                        </div>
-                    </div>
-                    <i class="ph ph-circle-notch animate-spin text-2xl opacity-50"></i>
-                `;
-
-                // Animate progress
-                setTimeout(() => {
-                    document.getElementById('install-progress').style.width = '100%';
-                }, 50);
-
-                setTimeout(() => {
-                    btn.innerHTML = `
-                        <div>
-                            <h4 class="font-bold text-sm">App Installed!</h4>
-                            <p class="text-[10px] text-white/70">Check your home screen or desktop.</p>
-                        </div>
-                        <i class="ph ph-check-circle text-2xl text-emerald-400"></i>
-                    `;
-                    utils.createNotification(utils.getCurrentUser().id, 'App Installed', 'The PayPal app has been successfully added to your device.', 'success');
-                }, 2200);
-            }
-        }
 
         async function downloadActivity() {
             const user = utils.getCurrentUser();

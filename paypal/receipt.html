@@ -10,50 +10,26 @@
     <link rel="stylesheet" href="dist/output.css?v=v4">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 </head>
-<body class="bg-ppSurface text-slate-900 min-h-screen">
+<body class="bg-ppSurface text-slate-900 min-h-screen flex flex-col">
 
     <div class="no-print bg-ppBg border-b border-ppBorder sticky top-0 z-50">
         <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-            <a href="dashboard.html" class="flex items-center gap-2 text-ppAction font-bold text-sm">
-                <i class="ph ph-arrow-left"></i> <span class="hidden md:inline">Back to Dashboard</span><span class="md:hidden">Back</span>
-            </a>
-            <button onclick="window.print()" class="text-ppBlue font-bold text-sm flex items-center gap-2">
-                <i class="ph ph-printer"></i> <span class="hidden md:inline">Print Receipt</span><span class="md:hidden">Print</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Mobile Bottom Navigation -->
-    <div class="md:hidden fixed bottom-0 left-0 w-full bg-ppBg border-t border-ppBorder flex items-center justify-around h-16 z-50 mobile-bottom-nav">
-        <a href="dashboard.html" class="flex flex-col items-center gap-1 text-slate-400">
-            <i class="ph ph-house text-[24px]"></i>
-            <span class="text-[10px] font-bold uppercase tracking-tighter">Home</span>
-        </a>
-        <a href="wallet.html" class="flex flex-col items-center gap-1 text-slate-400">
-            <i class="ph ph-wallet text-[24px]"></i>
-            <span class="text-[10px] font-bold uppercase tracking-tighter">Wallet</span>
-        </a>
-        <a href="send.html" class="flex flex-col items-center gap-1 text-slate-400">
-            <i class="ph ph-paper-plane-tilt text-[24px]"></i>
-            <span class="text-[10px] font-bold uppercase tracking-tighter">Pay</span>
-        </a>
-        <a href="activity.html" class="flex flex-col items-center gap-1 text-slate-400">
-            <i class="ph ph-clock-counter-clockwise text-[24px]"></i>
-            <span class="text-[10px] font-bold uppercase tracking-tighter">Activity</span>
-        </a>
-    </div>
-
-    <div class="receipt-container bg-ppBg border border-ppBorder rounded-2xl p-8 md:p-12 shadow-sm">
-        <div id="pwa-banner" onclick="installPWA()" class="hidden mb-6 bg-ppAction text-white rounded-xl p-4 flex items-center justify-between cursor-pointer animate-in slide-in-from-top duration-500">
-            <div class="flex items-center gap-3">
-                <i class="ph ph-app-window text-2xl"></i>
-                <div>
-                    <h4 class="font-bold text-sm">Install PayPal App</h4>
-                    <p class="text-[10px] opacity-80">Add to home screen for a faster experience</p>
-                </div>
+            <div class="flex items-center gap-4">
+                <a href="dashboard.html" class="flex items-center gap-2 text-ppAction font-bold text-sm">
+                    <i class="ph ph-arrow-left"></i> <span class="hidden md:inline">Back to Dashboard</span><span class="md:hidden">Back</span>
+                </a>
             </div>
-            <i class="ph ph-plus-circle text-2xl"></i>
+            <div class="flex items-center gap-6">
+                <button onclick="window.print()" class="text-ppBlue font-bold text-sm flex items-center gap-2">
+                    <i class="ph ph-printer text-lg"></i> <span class="hidden md:inline">Print Receipt</span><span class="md:hidden">Print</span>
+                </button>
+                <i onclick="showLogoutModal()" class="ph ph-sign-out text-[22px] text-slate-500 cursor-pointer hover:text-ppAction"></i>
+            </div>
         </div>
+    </div>
+
+    <main class="flex-1 flex flex-col items-center justify-center py-12 px-6 pb-32 md:pb-12">
+        <div class="receipt-container bg-ppBg border border-ppBorder rounded-2xl p-8 md:p-12 shadow-sm w-full">
         <div class="text-center mb-8">
             <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-mark-color.svg" class="h-10 mx-auto mb-6">
             <h1 class="text-2xl font-extrabold text-ppBlue mb-2">Transaction Receipt</h1>
@@ -93,34 +69,33 @@
             <p class="text-[11px] text-slate-400 leading-relaxed">
                 Thank you for using PayPal. This is a computer-generated receipt and does not require a signature.
             </p>
-        </div>
+        <button onclick="window.location.href='dashboard.html'" class="no-print mt-10 w-full py-4 bg-ppBlue text-white rounded-full font-bold text-sm shadow-lg active:scale-[0.98] transition-all">Done</button>
     </div>
 
+    <div id="logout-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 bg-ppBlue/40 backdrop-blur-sm no-print">
+        <div class="bg-white w-full max-w-xs rounded-2xl shadow-2xl overflow-hidden p-8 text-center animate-in fade-in zoom-in duration-300">
+            <div class="h-16 w-16 bg-ppSurface text-ppBlue rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="ph ph-sign-out text-3xl"></i>
+            </div>
+            <h4 class="font-extrabold text-ppBlue text-lg mb-2">Logout?</h4>
+            <p class="text-xs text-slate-500 mb-8">Are you sure you want to log out of your PayPal account?</p>
+            <div class="space-y-3">
+                <button onclick="executeLogout()" class="w-full py-3.5 bg-rose-500 text-white rounded-full font-bold text-sm shadow-lg hover:shadow-xl active:scale-[0.98] transition-all">Logout</button>
+                <button onclick="hideLogoutModal()" class="w-full py-3.5 bg-ppSurface text-ppBlue rounded-full font-bold text-sm">Stay Logged In</button>
+            </div>
+        </div>
+    </div>
+    </main>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-    <script src="../utils.js?v=v3" defer></script>
+    <script src="../utils.js?v=v4" defer></script>
     <script>
-        let deferredPrompt;
+        function showLogoutModal() { document.getElementById('logout-modal').classList.remove('hidden'); }
+        function hideLogoutModal() { document.getElementById('logout-modal').classList.add('hidden'); }
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('pwa-banner').classList.remove('hidden');
-        });
-
-        async function installPWA() {
-            const btn = document.getElementById('pwa-banner');
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') btn.classList.add('hidden');
-                deferredPrompt = null;
-            } else {
-                btn.onclick = null;
-                btn.innerHTML = `<div class="flex-1"><h4 class="font-bold text-sm">Installing...</h4></div><i class="ph ph-circle-notch animate-spin text-2xl"></i>`;
-                setTimeout(() => {
-                    btn.innerHTML = `<div><h4 class="font-bold text-sm">App Installed!</h4></div><i class="ph ph-check-circle text-2xl text-emerald-400"></i>`;
-                }, 2200);
-            }
+        async function executeLogout() {
+            await utils.logout();
+            window.location.href = 'login.html';
         }
 
         async function loadReceipt() {

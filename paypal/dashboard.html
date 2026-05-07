@@ -26,10 +26,27 @@
             </div>
             <div class="flex items-center gap-4 md:gap-5">
                 <div class="relative">
-                    <i onclick="toggleNotifications()" class="ph ph-bell text-[22px] text-slate-500 cursor-pointer hover:text-ppAction"></i>
-                    <div id="notif-badge" class="absolute -top-1 -right-1 h-2.5 w-2.5 bg-rose-500 rounded-full border-2 border-white"></div>
+                    <button onclick="toggleNotifications()" class="flex items-center justify-center h-10 w-10 hover:bg-ppSurface rounded-full transition-colors">
+                        <i class="ph ph-bell text-[22px] text-slate-500"></i>
+                        <div id="notif-badge" class="absolute top-2 right-2 h-2.5 w-2.5 bg-rose-500 rounded-full border-2 border-white hidden"></div>
+                    </button>
+                    
+                    <!-- Notification Tray -->
+                    <div id="notif-tray" class="hidden absolute right-0 mt-2 w-[320px] md:w-[420px] bg-white rounded-2xl shadow-2xl border border-ppBorder z-[60] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                        <div class="p-4 border-b border-ppBorder flex justify-between items-center bg-ppSurface/30">
+                            <h3 class="font-bold text-ppBlue text-sm">Notifications</h3>
+                            <button onclick="toggleNotifications()" class="text-slate-400 hover:text-ppBlue"><i class="ph ph-x"></i></button>
+                        </div>
+                        <div class="max-h-80 overflow-y-auto no-scrollbar">
+                            <!-- Notifs injected here -->
+                        </div>
+                        <div class="p-3 bg-ppSurface/30 border-t border-ppBorder text-center">
+                            <button class="text-[11px] font-bold text-ppAction hover:underline">View All</button>
+                        </div>
+                    </div>
                 </div>
                 <i onclick="window.location.href='settings.html'" class="ph ph-gear text-[22px] text-slate-500 cursor-pointer hover:text-ppAction"></i>
+                <i onclick="showLogoutModal()" class="md:hidden ph ph-sign-out text-[22px] text-slate-500 cursor-pointer hover:text-ppAction"></i>
                 <div class="hidden md:block h-8 w-px bg-ppBorder mx-2"></div>
                 <button onclick="showLogoutModal()" class="hidden md:block text-[12px] font-bold text-ppBlue uppercase tracking-wider hover:opacity-70">Logout</button>
             </div>
@@ -151,14 +168,6 @@
                     </div>
                 </div>
 
-                <!-- App Promo Banner -->
-                <div id="pwa-banner" class="hidden bg-ppBlue rounded-xl p-5 text-white flex items-center justify-between cursor-pointer hover:opacity-90 transition-all shadow-md mb-6" onclick="installPWA()">
-                    <div>
-                        <h4 class="font-bold text-sm">Download the PayPal app</h4>
-                        <p class="text-[10px] text-white/70">Manage your wallet on the go.</p>
-                    </div>
-                    <i class="ph ph-device-mobile text-2xl opacity-50"></i>
-                </div>
 
                 <!-- Recent Activity -->
                 <div class="bg-ppBg border border-ppBorder rounded-xl overflow-hidden">
@@ -190,7 +199,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-    <script src="../utils.js?v=v3" defer></script>
+    <script src="../utils.js?v=v4" defer></script>
     <script>
         let deferredPrompt;
 
@@ -202,40 +211,45 @@
         });
 
         async function installPWA() {
-            const btn = document.getElementById('pwa-banner');
+            const banners = document.querySelectorAll('#pwa-banner');
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 const { outcome } = await deferredPrompt.userChoice;
                 if (outcome === 'accepted') {
-                    btn.classList.add('hidden');
+                    banners.forEach(b => b.classList.add('hidden'));
                 }
                 deferredPrompt = null;
             } else {
                 // High-fidelity fallback simulation
-                btn.onclick = null; // Disable further clicks
-                btn.innerHTML = `
-                    <div class="flex-1">
-                        <h4 class="font-bold text-sm">Installing PayPal...</h4>
-                        <div class="w-full bg-white/20 h-1.5 rounded-full mt-2 overflow-hidden">
-                            <div id="install-progress" class="bg-white h-full w-0 transition-all duration-[2000ms] ease-out"></div>
+                banners.forEach(btn => {
+                    btn.onclick = null;
+                    btn.innerHTML = `
+                        <div class="flex-1">
+                            <h4 class="font-bold text-sm">Installing PayPal...</h4>
+                            <div class="w-full bg-white/20 h-1.5 rounded-full mt-2 overflow-hidden">
+                                <div id="install-progress" class="bg-white h-full w-0 transition-all duration-[2000ms] ease-out"></div>
+                            </div>
                         </div>
-                    </div>
-                    <i class="ph ph-circle-notch animate-spin text-2xl opacity-50"></i>
-                `;
+                        <i class="ph ph-circle-notch animate-spin text-2xl opacity-50"></i>
+                    `;
+                });
 
                 // Animate progress
                 setTimeout(() => {
-                    document.getElementById('install-progress').style.width = '100%';
+                    const progressBars = document.querySelectorAll('#install-progress');
+                    progressBars.forEach(p => p.style.width = '100%');
                 }, 50);
 
                 setTimeout(() => {
-                    btn.innerHTML = `
-                        <div>
-                            <h4 class="font-bold text-sm">App Installed!</h4>
-                            <p class="text-[10px] text-white/70">Check your home screen or desktop.</p>
-                        </div>
-                        <i class="ph ph-check-circle text-2xl text-emerald-400"></i>
-                    `;
+                    banners.forEach(btn => {
+                        btn.innerHTML = `
+                            <div>
+                                <h4 class="font-bold text-sm">App Installed!</h4>
+                                <p class="text-[10px] text-white/70">Check your home screen or desktop.</p>
+                            </div>
+                            <i class="ph ph-check-circle text-2xl text-emerald-400"></i>
+                        `;
+                    });
                     utils.createNotification(utils.getCurrentUser().id, 'App Installed', 'The PayPal app has been successfully added to your device.', 'success');
                 }, 2200);
             }
@@ -257,11 +271,26 @@
             document.getElementById('currency-symbol').textContent = fmt.symbol;
             document.getElementById('currency-code').textContent = fmt.code;
 
+            // Notification Badge logic
+            const notifs = await utils.getNotifications(user.id);
+            if (notifs.length > 0 && !sessionStorage.getItem('welcome_notif_sent')) {
+                document.getElementById('notif-badge').classList.remove('hidden');
+            }
+
             // Create a session welcome notification if it doesn't exist
             if (!sessionStorage.getItem('welcome_notif_sent')) {
                 utils.createNotification(user.id, 'Security Alert', 'A new login was detected for your account.', 'info');
                 sessionStorage.setItem('welcome_notif_sent', 'true');
                 document.getElementById('notif-badge').classList.remove('hidden');
+            }
+
+            // Show PWA banner after delay on mobile if not deferred
+            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+                setTimeout(() => {
+                    if (!deferredPrompt) {
+                        document.getElementById('pwa-banner').classList.remove('hidden');
+                    }
+                }, 3000);
             }
 
             const txs = await utils.getTransactions(user.id);

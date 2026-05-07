@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
@@ -12,14 +13,14 @@
   --color-pp-action-marketing: #0070ba;
   --color-pp-light: #f5f7fa;
   
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Outfit", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
     body {
         background-color: var(--color-ppSurface);
         color: #0f172a;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.01em;
         -webkit-tap-highlight-color: transparent;
         font-family: var(--font-sans);
     }
@@ -41,9 +42,17 @@
 }
 
 @utility flow-container {
-    max-width: 500px;
+    max-width: 540px;
     margin: 24px auto;
     @media (min-width: 768px) {
         margin: 40px auto;
+    }
+}
+
+@utility receipt-container {
+    max-width: 640px;
+    margin: 24px auto;
+    @media (min-width: 768px) {
+        margin: 60px auto;
     }
 }

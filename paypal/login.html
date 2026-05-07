@@ -19,7 +19,7 @@
 
         <form id="login-form" class="space-y-4">
             <div class="space-y-2">
-                <input type="text" id="username" placeholder="Email or mobile number" 
+                <input type="text" id="email" placeholder="Email or mobile number" 
                     class="w-full border border-slate-300 rounded-lg py-4 px-4 outline-none focus:border-ppAction transition-all text-sm">
             </div>
             <div class="space-y-2">
@@ -54,7 +54,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-    <script src="../utils.js?v=v3" defer></script>
+    <script src="../utils.js?v=v5" defer></script>
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             document.getElementById('login-form').addEventListener('submit', async (e) => {
@@ -63,15 +63,17 @@
                 btn.disabled = true;
                 btn.textContent = 'Logging in...';
 
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value.trim();
                 
-                const { data: userData } = await utils.login(email, password);
+                await utils.init();
+                const { data: userData, error } = await utils.login(email, password);
                 
                 if (userData) {
                     window.location.href = 'dashboard.html';
                 } else {
-                    alert('Invalid credentials. Please try again.');
+                    const msg = error ? `Error: ${error.message}` : 'Invalid credentials. Please try again.';
+                    alert(msg);
                     btn.disabled = false;
                     btn.textContent = 'Log In';
                 }

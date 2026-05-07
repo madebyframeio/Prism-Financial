@@ -26,6 +26,7 @@
             <div class="flex items-center gap-4">
                 <i class="ph ph-bell text-[20px] text-slate-500 cursor-pointer"></i>
                 <i class="ph ph-gear text-[20px] text-ppAction cursor-pointer"></i>
+                <i onclick="showLogoutModal()" class="md:hidden ph ph-sign-out text-[20px] text-slate-500 cursor-pointer hover:text-ppAction"></i>
                 <div class="hidden md:block h-6 w-px bg-ppBorder mx-1"></div>
                 <button onclick="showLogoutModal()" class="hidden md:block text-[11px] font-bold text-ppBlue uppercase tracking-wider">Logout</button>
             </div>
@@ -144,7 +145,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
-    <script src="../utils.js?v=v3" defer></script>
+    <script src="../utils.js?v=v4" defer></script>
     <script>
         async function initSettings() {
             await utils.init();
