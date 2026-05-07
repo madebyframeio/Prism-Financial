@@ -180,7 +180,12 @@
             window.location.href = 'account-locked.html';
             return;
           }
-          window.location.href = 'dashboard.html';
+          
+          if (user.user_type === 'paypal') {
+            window.location.href = 'paypal/dashboard.html';
+          } else {
+            window.location.href = 'dashboard.html';
+          }
         } else if (user && user.is_admin) {
           window.location.href = 'admin.html';
         } else {

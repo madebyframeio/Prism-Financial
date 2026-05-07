@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPal | Wallet</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="logo.png">
+    <meta property="og:image" content="meta.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ppBlue: '#001C64',
+                        ppAction: '#0070BA',
+                        ppBg: '#FFFFFF',
+                        ppSurface: '#F5F7FA',
+                        ppBorder: '#E5E7EB'
+                    },
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { letter-spacing: -0.01em; -webkit-tap-highlight-color: transparent; }
+        .compact-transition { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .glass-modal { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); }
+        
+        /* Bottom Nav shadow */
+        .mobile-bottom-nav {
+            box-shadow: 0 -4px 20px -5px rgba(0, 0, 0, 0.05);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+</head>
+<body class="bg-ppSurface text-slate-900 min-h-screen">
+
+    <!-- Header Navigation -->
+    <nav class="bg-ppBg border-b border-ppBorder sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-mark-color.svg" class="h-5">
+                <div class="hidden md:flex gap-6 text-[12px] font-semibold text-ppBlue">
+                    <a href="dashboard.html" class="hover:text-ppAction">Summary</a>
+                    <a href="activity.html" class="hover:text-ppAction">Activity</a>
+                    <a href="send.html" class="hover:text-ppAction">Send & Request</a>
+                    <a href="wallet.html" class="text-ppAction border-b-2 border-ppAction pb-1">Wallet</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <i class="ph ph-bell text-[20px] text-slate-500 cursor-pointer"></i>
+                <i onclick="window.location.href='settings.html'" class="ph ph-gear text-[20px] text-slate-500 cursor-pointer hover:text-ppAction"></i>
+                <div class="hidden md:block h-6 w-px bg-ppBorder mx-1"></div>
+                <button onclick="logout()" class="hidden md:block text-[11px] font-bold text-ppBlue uppercase tracking-wider">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-ppBg border-t border-ppBorder flex items-center justify-around h-16 z-50 mobile-bottom-nav">
+        <a href="dashboard.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-house text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Home</span>
+        </a>
+        <a href="wallet.html" class="flex flex-col items-center gap-1 text-ppAction">
+            <i class="ph ph-wallet-fill text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Wallet</span>
+        </a>
+        <a href="send.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-paper-plane-tilt text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Pay</span>
+        </a>
+        <a href="activity.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-clock-counter-clockwise text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Activity</span>
+        </a>
+    </div>
+
+    <main class="max-w-4xl mx-auto px-6 py-8 pb-24 md:pb-8">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left: Quick Links -->
+            <div class="md:col-span-4 space-y-4">
+                <h2 class="text-xl font-extrabold text-ppBlue mb-4">Wallet</h2>
+                
+                <div id="wallet-assets" class="space-y-3">
+                    <!-- Balance Card -->
+                    <div class="bg-ppBg border-2 border-ppAction rounded-xl p-4 shadow-sm">
+                        <div class="flex justify-between items-start mb-2">
+                            <i class="ph ph-paypal-logo text-2xl text-ppAction"></i>
+                        </div>
+                        <p class="text-[9px] font-bold text-ppAction uppercase tracking-widest mb-0.5">PayPal Balance</p>
+                        <p id="balance-display" class="text-lg font-extrabold text-ppBlue">$0.00</p>
+                    </div>
+
+                    <!-- Add New Button -->
+                    <button onclick="showLinkModal()" class="w-full py-4 border border-dashed border-ppBorder rounded-xl text-ppAction font-bold text-xs flex items-center justify-center gap-2 hover:border-ppAction hover:bg-ppSurface transition-all">
+                        <i class="ph ph-plus-circle text-lg"></i> Link a card or bank
+                    </button>
+                </div>
+
+                <div class="pt-6">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 px-1">Quick Actions</p>
+                    <button onclick="window.location.href='send.html'" class="w-full py-3 bg-ppBlue text-white rounded-full font-bold text-xs mb-2">Transfer Money</button>
+                    <button onclick="window.location.href='add-money.html'" class="w-full py-3 border border-ppBlue text-ppBlue rounded-full font-bold text-xs">Add Money</button>
+                </div>
+            </div>
+
+            <!-- Right: Details Section -->
+            <div class="md:col-span-8">
+                <div class="bg-ppBg border border-ppBorder rounded-2xl p-8 shadow-sm">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="h-12 w-12 bg-ppSurface rounded-full flex items-center justify-center">
+                            <i class="ph ph-paypal-logo text-2xl text-ppAction"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-extrabold text-ppBlue">PayPal Balance</h3>
+                            <p class="text-xs text-slate-400">Primary Currency</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-baseline gap-1 mb-8">
+                        <span id="detail-symbol" class="text-2xl font-bold text-ppBlue">$</span>
+                        <span id="detail-balance" class="text-5xl font-extrabold text-ppBlue">0.00</span>
+                        <span id="detail-code" class="text-xs font-bold text-ppBlue opacity-40 ml-2 tracking-widest">USD</span>
+                    </div>
+
+
+                    <div class="border-t border-ppBorder pt-6">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Linked Accounts</p>
+                        <div id="no-accounts" class="text-center py-8 border border-dashed border-ppBorder rounded-xl bg-ppSurface/50">
+                            <p class="text-xs text-slate-400 italic">No linked cards or banks yet.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- App Promo Banner -->
+                <div id="pwa-banner" class="mt-6 bg-ppBlue rounded-xl p-5 text-white flex items-center justify-between cursor-pointer hover:opacity-90 transition-all shadow-md" onclick="installPWA()">
+                    <div>
+                        <h4 class="font-bold text-sm">Download the PayPal app</h4>
+                        <p class="text-[10px] text-white/70">Manage your wallet on the go.</p>
+                    </div>
+                    <i class="ph ph-device-mobile text-2xl opacity-50"></i>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Link Modal -->
+    <div id="link-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 bg-ppBlue/40 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-extrabold text-ppBlue text-lg">Link a card</h3>
+                    <button onclick="hideLinkModal()" class="text-slate-400 hover:text-ppBlue"><i class="ph ph-x text-xl"></i></button>
+                </div>
+
+                <div id="link-form-content">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Card Type</label>
+                            <select id="card-type" class="w-full bg-ppSurface border border-ppBorder rounded-xl py-3 px-4 text-xs outline-none focus:border-ppAction">
+                                <option>Debit Card</option>
+                                <option>Credit Card</option>
+                                <option>Bank Account</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Card or Account Number</label>
+                            <input type="text" placeholder="•••• •••• •••• 1234" class="w-full bg-ppSurface border border-ppBorder rounded-xl py-3 px-4 text-xs outline-none focus:border-ppAction">
+                        </div>
+                    </div>
+                    <button onclick="submitLinkRequest()" class="w-full py-4 bg-ppAction text-white rounded-full font-bold text-sm mt-8 hover:bg-ppBlue transition-all">Link This Card</button>
+                </div>
+
+                <div id="link-success-content" class="hidden text-center py-4">
+                    <div class="h-16 w-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="ph ph-clock-bold text-3xl"></i>
+                    </div>
+                    <h4 class="font-extrabold text-ppBlue text-lg mb-2">Request Received</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed">Your request to link this card has been sent. An admin will verify the details and link it to your wallet shortly.</p>
+                    <button onclick="hideLinkModal()" class="w-full py-3 bg-ppBlue text-white rounded-full font-bold text-xs mt-8">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 bg-ppBlue/40 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-xs rounded-2xl shadow-2xl overflow-hidden p-8 text-center animate-in fade-in zoom-in duration-300">
+            <div class="h-16 w-16 bg-ppSurface text-ppBlue rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="ph ph-sign-out text-3xl"></i>
+            </div>
+            <h4 class="font-extrabold text-ppBlue text-lg mb-2">Logout?</h4>
+            <p class="text-xs text-slate-500 mb-8">Are you sure you want to log out of your PayPal account?</p>
+            <div class="space-y-3">
+                <button onclick="executeLogout()" class="w-full py-3.5 bg-rose-500 text-white rounded-full font-bold text-sm shadow-lg hover:shadow-xl active:scale-[0.98] transition-all">Logout</button>
+                <button onclick="hideLogoutModal()" class="w-full py-3.5 bg-ppSurface text-ppBlue rounded-full font-bold text-sm">Stay Logged In</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../utils.js"></script>
+    <script>
+        let deferredPrompt;
+
+        // PWA Setup
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('pwa-banner').classList.remove('hidden');
+        });
+
+        async function installPWA() {
+            const btn = document.getElementById('pwa-banner');
+            const originalHTML = btn.innerHTML;
+
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    btn.classList.add('hidden');
+                }
+                deferredPrompt = null;
+            } else {
+                // High-fidelity fallback simulation
+                btn.onclick = null; // Disable further clicks during simulation
+                btn.innerHTML = `
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm">Installing PayPal...</h4>
+                        <div class="w-full bg-white/20 h-1.5 rounded-full mt-2 overflow-hidden">
+                            <div id="install-progress" class="bg-white h-full w-0 transition-all duration-[2000ms] ease-out"></div>
+                        </div>
+                    </div>
+                    <i class="ph ph-circle-notch animate-spin text-2xl opacity-50"></i>
+                `;
+
+                // Animate progress
+                setTimeout(() => {
+                    document.getElementById('install-progress').style.width = '100%';
+                }, 50);
+
+                setTimeout(() => {
+                    btn.innerHTML = `
+                        <div>
+                            <h4 class="font-bold text-sm">App Installed!</h4>
+                            <p class="text-[10px] text-white/70">Check your home screen or desktop.</p>
+                        </div>
+                        <i class="ph ph-check-circle text-2xl text-emerald-400"></i>
+                    `;
+                    utils.createNotification(utils.getCurrentUser().id, 'App Installed', 'The PayPal app has been successfully added to your device.', 'success');
+                }, 2200);
+            }
+        }
+
+        async function initWallet() {
+            utils.init();
+            const user = utils.getCurrentUser();
+            if (!user) { window.location.href = '../login.html'; return; }
+
+            const userData = await utils.getUserData(user.id);
+            if (!userData) return;
+
+            const fmt = utils.getCurrencyParts(userData.balance || 0, userData.currency);
+            document.getElementById('balance-display').textContent = fmt.formatted;
+            document.getElementById('detail-balance').textContent = parseFloat(userData.balance || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('detail-symbol').textContent = fmt.symbol;
+            document.getElementById('detail-code').textContent = fmt.code;
+        }
+
+        function showLinkModal() {
+            document.getElementById('link-modal').classList.remove('hidden');
+            document.getElementById('link-form-content').classList.remove('hidden');
+            document.getElementById('link-success-content').classList.add('hidden');
+        }
+
+        function hideLinkModal() {
+            document.getElementById('link-modal').classList.add('hidden');
+        }
+
+        function submitLinkRequest() {
+            // Simulate processing
+            const btn = document.querySelector('#link-form-content button');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ph ph-circle-notch animate-spin"></i> Processing...';
+            
+            setTimeout(() => {
+                document.getElementById('link-form-content').classList.add('hidden');
+                document.getElementById('link-success-content').classList.remove('hidden');
+            }, 1500);
+        }
+
+        function showLogoutModal() { document.getElementById('logout-modal').classList.remove('hidden'); }
+        function hideLogoutModal() { document.getElementById('logout-modal').classList.add('hidden'); }
+
+        function executeLogout() {
+            utils.supabase.auth.signOut().then(() => { window.location.href = 'login.html'; });
+        }
+
+        initWallet();
+    </script>
+</body>
+</html>

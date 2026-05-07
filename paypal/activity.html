@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPal | Activity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ppBlue: '#001C64',
+                        ppAction: '#0070BA',
+                        ppBg: '#FFFFFF',
+                        ppSurface: '#F5F7FA',
+                        ppBorder: '#E5E7EB'
+                    },
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { letter-spacing: -0.02em; -webkit-tap-highlight-color: transparent; }
+        .compact-transition { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        /* Bottom Nav shadow */
+        .mobile-bottom-nav {
+            box-shadow: 0 -4px 20px -5px rgba(0, 0, 0, 0.05);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+</head>
+<body class="bg-ppSurface text-slate-900 min-h-screen">
+
+    <!-- Header Navigation -->
+    <nav class="bg-ppBg border-b border-ppBorder sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-10">
+                <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-mark-color.svg" class="h-6">
+                <div class="hidden md:flex gap-8 text-[13px] font-semibold text-ppBlue">
+                    <a href="dashboard.html" class="hover:text-ppAction">Summary</a>
+                    <a href="activity.html" class="text-ppAction border-b-2 border-ppAction pb-1">Activity</a>
+                    <a href="send.html" class="hover:text-ppAction">Send & Request</a>
+                    <a href="wallet.html" class="hover:text-ppAction">Wallet</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 md:gap-5">
+                <i class="ph ph-bell text-[22px] text-slate-500 cursor-pointer hover:text-ppAction"></i>
+                <i onclick="window.location.href='settings.html'" class="ph ph-gear text-[22px] text-slate-500 cursor-pointer hover:text-ppAction"></i>
+                <div class="hidden md:block h-8 w-px bg-ppBorder mx-2"></div>
+                <button onclick="logout()" class="hidden md:block text-[12px] font-bold text-ppBlue uppercase tracking-wider hover:opacity-70">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-ppBg border-t border-ppBorder flex items-center justify-around h-16 z-50 mobile-bottom-nav">
+        <a href="dashboard.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-house text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Home</span>
+        </a>
+        <a href="wallet.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-wallet text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Wallet</span>
+        </a>
+        <a href="send.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-paper-plane-tilt text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Pay</span>
+        </a>
+        <a href="activity.html" class="flex flex-col items-center gap-1 text-ppAction">
+            <i class="ph ph-clock-counter-clockwise-fill text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Activity</span>
+        </a>
+    </div>
+
+    <main class="max-w-5xl mx-auto px-6 py-12 pb-24 md:pb-12">
+        <div class="flex justify-between items-center mb-10">
+            <h1 class="text-3xl font-extrabold text-ppBlue">Activity</h1>
+            <div class="flex gap-4">
+                <button onclick="downloadActivity()" class="bg-ppBg border border-ppBorder rounded-full px-5 py-2 text-xs font-bold text-ppBlue flex items-center gap-2 hover:bg-ppSurface">
+                    <i class="ph ph-download-simple"></i> Download
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+            
+            <!-- Sidebar: Filters -->
+            <aside class="md:col-span-3 space-y-8">
+                <div>
+                    <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Search</h3>
+                    <div class="relative">
+                        <input type="text" id="activity-search" placeholder="Search by name" 
+                            class="w-full bg-ppBg border border-ppBorder rounded-xl py-3 px-4 pl-10 text-xs focus:border-ppAction outline-none transition-all">
+                        <i class="ph ph-magnifying-glass absolute left-3.5 top-3.5 text-slate-400"></i>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Date Range</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center gap-3 text-sm font-medium text-ppBlue cursor-pointer">
+                            <input type="radio" name="date" checked class="accent-ppAction"> Last 90 days
+                        </label>
+                        <label class="flex items-center gap-3 text-sm font-medium text-ppBlue cursor-pointer">
+                            <input type="radio" name="date" class="accent-ppAction"> 2024
+                        </label>
+                        <label class="flex items-center gap-3 text-sm font-medium text-ppBlue cursor-pointer">
+                            <input type="radio" name="date" class="accent-ppAction"> 2023
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Type</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center gap-3 text-sm font-medium text-ppBlue cursor-pointer">
+                            <input type="checkbox" checked class="accent-ppAction h-4 w-4 rounded"> Payments
+                        </label>
+                        <label class="flex items-center gap-3 text-sm font-medium text-ppBlue cursor-pointer">
+                            <input type="checkbox" checked class="accent-ppAction h-4 w-4 rounded"> Refunds
+                        </label>
+                        <label class="flex items-center gap-3 text-sm font-medium text-ppBlue cursor-pointer">
+                            <input type="checkbox" checked class="accent-ppAction h-4 w-4 rounded"> Transfers
+                        </label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Content: Transaction List -->
+            <div class="md:col-span-9">
+                <div class="bg-ppBg border border-ppBorder rounded-2xl overflow-hidden shadow-sm">
+                    <div id="activity-list" class="divide-y divide-ppBorder">
+                        <!-- Loading state -->
+                        <div class="p-12 text-center text-slate-400 animate-pulse italic">Loading your activity...</div>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                    <button class="text-ppAction font-bold text-sm hover:underline">Show more activity</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../utils.js"></script>
+    <script>
+        async function downloadActivity() {
+            const user = utils.getCurrentUser();
+            if (!user) return;
+            
+            const txs = await utils.getTransactions(user.id);
+            if (txs.length === 0) { alert('No activity to download.'); return; }
+
+            const userData = await utils.getUserData(user.id);
+            const currencyCode = userData?.currency || 'USD';
+
+            const data = txs.map(tx => ({
+                'Date': new Date(tx.created_at).toLocaleDateString(),
+                'Description': tx.description,
+                'Type': tx.type.charAt(0).toUpperCase() + tx.type.slice(1),
+                'Status': tx.status.charAt(0).toUpperCase() + tx.status.slice(1),
+                [`Amount (${currencyCode})`]: tx.amount.toFixed(2)
+            }));
+
+            const worksheet = XLSX.utils.json_to_sheet(data);
+            const workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Activity");
+            
+            // Set column widths
+            const wscols = [
+                {wch: 15}, {wch: 35}, {wch: 10}, {wch: 12}, {wch: 15}
+            ];
+            worksheet['!cols'] = wscols;
+
+            XLSX.writeFile(workbook, `PayPal_Activity_${new Date().toISOString().split('T')[0]}.xlsx`);
+        }
+
+        async function loadActivity() {
+            utils.init();
+            const user = utils.getCurrentUser();
+            if (!user) { window.location.href = '../login.html'; return; }
+
+            const userData = await utils.getUserData(user.id);
+            if (!userData) return;
+            const userCurrency = userData.currency || 'USD';
+
+            const txs = await utils.getTransactions(user.id);
+            const list = document.getElementById('activity-list');
+            list.innerHTML = '';
+
+            if (txs.length === 0) {
+                list.innerHTML = '<div class="p-16 text-center text-slate-400 text-sm italic">No transactions found for this period.</div>';
+            } else {
+                txs.forEach(tx => {
+                    const isCredit = tx.type === 'credit';
+                    const isPending = tx.status === 'pending';
+                    const date = new Date(tx.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                    
+                    let amountColor = isCredit ? 'text-emerald-600' : 'text-ppBlue';
+                    if (isPending) amountColor = 'text-amber-500';
+
+                    const item = document.createElement('div');
+                    item.className = 'px-8 py-6 flex justify-between items-center hover:bg-ppSurface cursor-pointer compact-transition';
+                    item.onclick = () => window.location.href = `receipt.html?txId=${tx.id}`;
+                    
+                    item.innerHTML = `
+                        <div class="flex items-center gap-6">
+                            <div class="h-12 w-12 rounded-full bg-ppSurface flex items-center justify-center">
+                                <i class="ph ${isCredit ? 'ph-plus' : 'ph-shopping-bag'} text-[22px] text-ppBlue ${isPending ? 'text-amber-500' : ''}"></i>
+                            </div>
+                            <div>
+                                <p class="text-[15px] font-bold text-ppBlue">${tx.description}</p>
+                                <p class="text-[12px] text-slate-400 font-medium">${date} • <span class="${isPending ? 'text-amber-600 font-bold' : ''}">${tx.status.charAt(0).toUpperCase() + tx.status.slice(1)}</span></p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-[15px] font-extrabold ${amountColor}">
+                                ${isCredit ? '+' : '-'}${utils.formatCurrency(tx.amount, userCurrency)}
+                            </p>
+                            <p class="text-[10px] text-slate-300 font-bold uppercase tracking-widest mt-1">${userCurrency}</p>
+                        </div>
+                    `;
+                    list.appendChild(item);
+                });
+            }
+        }
+
+        function logout() {
+            utils.supabase.auth.signOut().then(() => {
+                window.location.href = '../login.html';
+            });
+        }
+
+        loadActivity();
+    </script>
+</body>
+</html>

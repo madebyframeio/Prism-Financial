@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPal | Send Money</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <meta property="og:image" content="meta.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ppBlue: '#001C64',
+                        ppAction: '#0070BA',
+                        ppBg: '#FFFFFF',
+                        ppSurface: '#F5F7FA',
+                        ppBorder: '#E5E7EB'
+                    },
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { letter-spacing: -0.02em; -webkit-tap-highlight-color: transparent; }
+        .flow-container { max-width: 500px; margin: 40px auto; }
+        .step-transition { transition: all 0.3s ease; }
+        
+        /* Bottom Nav shadow */
+        .mobile-bottom-nav {
+            box-shadow: 0 -4px 20px -5px rgba(0, 0, 0, 0.05);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Hide number input spinners */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="bg-ppSurface text-slate-900 min-h-screen">
+
+    <!-- Header Navigation -->
+    <nav class="bg-ppBg border-b border-ppBorder sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-10">
+                <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-mark-color.svg" class="h-6">
+                <div class="hidden md:flex gap-8 text-[13px] font-semibold text-ppBlue">
+                    <a href="dashboard.html" class="hover:text-ppAction">Summary</a>
+                    <a href="activity.html" class="hover:text-ppAction">Activity</a>
+                    <a href="send.html" class="text-ppAction border-b-2 border-ppAction pb-1">Send & Request</a>
+                    <a href="wallet.html" class="hover:text-ppAction">Wallet</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-5">
+                <button onclick="window.location.href='dashboard.html'" class="text-[12px] font-bold text-ppBlue uppercase tracking-wider hover:opacity-70">Cancel</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-ppBg border-t border-ppBorder flex items-center justify-around h-16 z-50 mobile-bottom-nav">
+        <a href="dashboard.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-house text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Home</span>
+        </a>
+        <a href="wallet.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-wallet text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Wallet</span>
+        </a>
+        <a href="send.html" class="flex flex-col items-center gap-1 text-ppAction">
+            <i class="ph ph-paper-plane-tilt-fill text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Pay</span>
+        </a>
+        <a href="activity.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-clock-counter-clockwise text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Activity</span>
+        </a>
+    </div>
+
+    <main class="max-w-5xl mx-auto px-6 py-12 pb-24 md:pb-12">
+        <div class="flow-container">
+            
+            <!-- Back Button -->
+            <div class="mb-8">
+                <a href="dashboard.html" class="inline-flex items-center gap-2 text-ppAction font-bold text-sm hover:underline">
+                    <i class="ph ph-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+
+            <!-- Step 1: Recipient Selection -->
+            <div id="step-1" class="step-transition">
+                <h1 class="text-2xl font-extrabold text-ppBlue mb-8 text-center">Send Money</h1>
+                <div class="bg-ppBg border border-ppBorder rounded-2xl p-8 shadow-sm">
+                    <div class="relative mb-8">
+                        <input type="text" id="recipient-input" placeholder="Name, @username, or email" 
+                            class="w-full bg-ppSurface border-ppBorder border-2 rounded-xl py-4 px-6 text-sm focus:border-ppAction outline-none transition-all">
+                        <i class="ph ph-magnifying-glass absolute right-6 top-5 text-slate-400 text-xl"></i>
+                    </div>
+
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Suggested</p>
+                    <div class="space-y-4" id="suggestions">
+                        <div onclick="selectRecipient('Michael Chen', '@mchen_pay')" class="flex items-center gap-4 p-3 rounded-xl hover:bg-ppSurface cursor-pointer transition-colors">
+                            <div class="h-10 w-10 bg-ppBlue text-white rounded-full flex items-center justify-center font-bold text-xs">MC</div>
+                            <div>
+                                <p class="text-sm font-bold text-ppBlue">Michael Chen</p>
+                                <p class="text-[11px] text-slate-400">@mchen_pay</p>
+                            </div>
+                        </div>
+                        <div onclick="selectRecipient('Sarah Williams', '@sarahw_official')" class="flex items-center gap-4 p-3 rounded-xl hover:bg-ppSurface cursor-pointer transition-colors">
+                            <div class="h-10 w-10 bg-ppAction text-white rounded-full flex items-center justify-center font-bold text-xs">SW</div>
+                            <div>
+                                <p class="text-sm font-bold text-ppBlue">Sarah Williams</p>
+                                <p class="text-[11px] text-slate-400">@sarahw_official</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Amount Entry -->
+            <div id="step-2" class="step-transition hidden opacity-0 translate-y-4">
+                <button onclick="goToStep(1)" class="mb-6 flex items-center gap-2 text-ppAction font-bold text-sm">
+                    <i class="ph ph-arrow-left"></i> Change Recipient
+                </button>
+                
+                <div class="bg-ppBg border border-ppBorder rounded-2xl p-8 shadow-sm text-center">
+                    <div class="mb-8">
+                        <div id="selected-initials" class="h-16 w-16 bg-ppSurface text-ppBlue rounded-full flex items-center justify-center font-extrabold text-xl mx-auto mb-4">JD</div>
+                        <h2 id="selected-name" class="text-xl font-extrabold text-ppBlue">John Doe</h2>
+                        <p id="selected-handle" class="text-sm text-slate-400">@johndoe</p>
+                    </div>
+
+                    <div class="mb-10">
+                        <div class="flex items-center justify-center gap-1">
+                            <span id="send-currency-symbol" class="text-4xl font-extrabold text-ppBlue">$</span>
+                            <input type="number" id="send-amount" placeholder="0.00" step="0.01" 
+                                class="w-32 bg-transparent text-5xl font-extrabold text-ppBlue text-center outline-none border-b-2 border-transparent focus:border-ppAction pb-2">
+                        </div>
+                        <p class="text-xs text-ppBlue font-medium opacity-50 mt-4">Available: <span id="available-balance">$0.00</span></p>
+                    </div>
+
+                    <div class="mb-8">
+                        <textarea id="send-note" placeholder="What's this for?" 
+                            class="w-full bg-ppSurface border-none rounded-xl py-4 px-6 text-sm focus:ring-1 focus:ring-ppAction outline-none resize-none" rows="2"></textarea>
+                    </div>
+
+                    <button onclick="executeTransfer()" id="btn-send" class="w-full py-4 bg-ppAction text-white rounded-full font-extrabold text-lg hover:bg-ppBlue transition-all shadow-lg">Send Money</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Success -->
+            <div id="step-3" class="step-transition hidden opacity-0 text-center">
+                <div class="bg-ppBg border border-ppBorder rounded-2xl p-12 shadow-sm">
+                    <div class="h-20 w-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
+                        <i class="ph ph-check-bold text-4xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-ppBlue mb-4">Payment Sent!</h2>
+                    <p class="text-slate-500 mb-8">You've successfully sent <span id="final-amount" class="font-bold text-ppBlue">---</span> to <span id="final-recipient" class="font-bold text-ppBlue">---</span>.</p>
+                    
+                    <div class="space-y-4">
+                        <button onclick="window.location.href='dashboard.html'" class="w-full py-4 bg-ppBlue text-white rounded-full font-bold">Go to Dashboard</button>
+                        <button id="btn-view-receipt" class="w-full py-4 border border-ppBorder text-ppBlue rounded-full font-bold">View Receipt</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- PIN Authorization Modal -->
+    <div id="pin-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 bg-ppBlue/40 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-xs rounded-3xl shadow-2xl overflow-hidden p-8 text-center animate-in fade-in slide-in-from-bottom-8 duration-300">
+            <div class="mb-8">
+                <div class="h-14 w-14 bg-ppSurface text-ppBlue rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="ph ph-lock-key text-2xl"></i>
+                </div>
+                <h3 class="font-extrabold text-ppBlue text-lg">Enter PIN</h3>
+                <p class="text-[11px] text-slate-400 mt-1">Please enter your 4-digit security PIN to authorize this payment.</p>
+            </div>
+
+            <div class="flex justify-center gap-3 mb-8">
+                <div class="pin-dot w-3 h-3 rounded-full border-2 border-ppBorder transition-all"></div>
+                <div class="pin-dot w-3 h-3 rounded-full border-2 border-ppBorder transition-all"></div>
+                <div class="pin-dot w-3 h-3 rounded-full border-2 border-ppBorder transition-all"></div>
+                <div class="pin-dot w-3 h-3 rounded-full border-2 border-ppBorder transition-all"></div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4 max-w-[200px] mx-auto">
+                <button onclick="pressPin('1')" class="h-12 w-12 rounded-full hover:bg-ppSurface text-ppBlue font-bold text-lg">1</button>
+                <button onclick="pressPin('2')" class="h-12 w-12 rounded-full hover:bg-ppSurface text-ppBlue font-bold text-lg">2</button>
+                <button onclick="pressPin('3')" class="h-12 w-12 rounded-full hover:bg-ppSurface text-ppBlue font-bold text-lg">3</button>
+                <button onclick="pressPin('4')" class="h-12 w-12 rounded-full hover:bg-ppSurface text-ppBlue font-bold text-lg">4</button>
+                <button onclick="pressPin('5')" class="h-12 w-12 rounded-full hover:bg-ppSurface text-ppBlue font-bold text-lg">5</button>
+                <button onclick="pressPin('6')" class="h-12 w-12 rounded-full hover:bg-ppSurface text-ppBlue font-bold text-lg">6</button>
+                <button onclick="pressPin('7')" class="h-12 w-12 rounded-full hover:bg-ppSurface text-ppBlue font-bold text-lg">7</button>
+                <button onclick="pressPin('8')" class="h-12 w-12 rounded-full hover:bg-ppSurface text-ppBlue font-bold text-lg">8</button>
+                <button onclick="pressPin('9')" class="h-12 w-12 rounded-full hover:bg-ppSurface text-ppBlue font-bold text-lg">9</button>
+                <div class="h-12 w-12"></div>
+                <button onclick="pressPin('0')" class="h-12 w-12 rounded-full hover:bg-ppSurface text-ppBlue font-bold text-lg">0</button>
+                <button onclick="clearPin()" class="h-12 w-12 rounded-full hover:bg-ppSurface text-ppBlue font-bold flex items-center justify-center"><i class="ph ph-backspace"></i></button>
+            </div>
+
+            <button onclick="hidePinModal()" class="mt-8 text-slate-400 text-[10px] font-bold uppercase tracking-widest hover:text-ppBlue">Cancel</button>
+        </div>
+    </div>
+
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../utils.js"></script>
+    <script>
+        let currentUser = null;
+        let selectedRecipient = null;
+
+        async function init() {
+            utils.init();
+            currentUser = utils.getCurrentUser();
+            if (!currentUser) {
+                window.location.href = '../login.html';
+                return;
+            }
+
+            const data = await utils.getUserData(currentUser.id);
+            const fmt = utils.getCurrencyParts(data.balance, data.currency);
+            document.getElementById('available-balance').textContent = fmt.formatted;
+            document.getElementById('send-currency-symbol').textContent = fmt.symbol;
+            
+            // Store currency for later use
+            currentUser.currency = data.currency;
+
+            // Add Search Simulation
+            const input = document.getElementById('recipient-input');
+            const suggestions = document.getElementById('suggestions');
+            const originalContent = suggestions.innerHTML;
+
+            input.addEventListener('input', (e) => {
+                const val = e.target.value.trim();
+                if (val.length === 0) {
+                    suggestions.innerHTML = originalContent;
+                    return;
+                }
+
+                // Show Loading State
+                suggestions.innerHTML = `
+                    <div class="flex items-center gap-4 p-3 animate-pulse">
+                        <div class="h-10 w-10 bg-ppSurface rounded-full"></div>
+                        <div class="space-y-2 flex-1">
+                            <div class="h-3 bg-ppSurface rounded w-1/4"></div>
+                            <div class="h-2 bg-ppSurface rounded w-1/2"></div>
+                        </div>
+                    </div>
+                `;
+
+                // Simulate "Real Stuff" search result after short delay
+                setTimeout(() => {
+                    if (input.value.trim() !== val) return; // Ignore if input changed again
+
+                    let name = val;
+                    let handle = val.includes('@') ? val : `@${val.toLowerCase().replace(/\s/g, '')}`;
+                    
+                    // If it looks like an email, format nicely
+                    if (val.includes('@') && val.includes('.')) {
+                        name = val.split('@')[0];
+                        name = name.charAt(0).toUpperCase() + name.slice(1);
+                        handle = val;
+                    }
+
+                    suggestions.innerHTML = `
+                        <div onclick="selectRecipient('${name}', '${handle}')" class="flex items-center gap-4 p-3 rounded-xl bg-ppSurface border border-ppAction cursor-pointer transition-colors scale-[1.02]">
+                            <div class="h-10 w-10 bg-ppAction text-white rounded-full flex items-center justify-center font-bold text-xs">
+                                ${name.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                                <p class="text-sm font-bold text-ppBlue">${name}</p>
+                                <p class="text-[11px] text-ppAction font-bold">Found on PayPal</p>
+                            </div>
+                            <i class="ph ph-check-circle ml-auto text-ppAction"></i>
+                        </div>
+                        <p class="text-[10px] text-slate-400 mt-4 px-3 italic">Is this the person you're looking for? Check the details carefully.</p>
+                    `;
+                }, 600);
+            });
+        }
+
+        function selectRecipient(name, handle) {
+            selectedRecipient = { name, handle };
+            document.getElementById('selected-name').textContent = name;
+            document.getElementById('selected-handle').textContent = handle;
+            document.getElementById('selected-initials').textContent = name.split(' ').map(n => n[0]).join('').toUpperCase();
+            
+            goToStep(2);
+        }
+
+        function goToStep(step) {
+            const s1 = document.getElementById('step-1');
+            const s2 = document.getElementById('step-2');
+            const s3 = document.getElementById('step-3');
+
+            [s1, s2, s3].forEach(el => {
+                el.classList.add('hidden', 'opacity-0');
+            });
+
+            const current = document.getElementById(`step-${step}`);
+            current.classList.remove('hidden');
+            setTimeout(() => {
+                current.classList.remove('opacity-0');
+            }, 50);
+        }
+
+        let pin = '';
+
+        function pressPin(num) {
+            if (pin.length >= 4) return;
+            pin += num;
+            updatePinDots();
+            if (pin.length === 4) {
+                setTimeout(verifyPin, 300);
+            }
+        }
+
+        function clearPin() {
+            pin = pin.slice(0, -1);
+            updatePinDots();
+        }
+
+        function updatePinDots() {
+            const dots = document.querySelectorAll('.pin-dot');
+            dots.forEach((dot, i) => {
+                if (i < pin.length) {
+                    dot.classList.add('bg-ppBlue', 'border-ppBlue');
+                } else {
+                    dot.classList.remove('bg-ppBlue', 'border-ppBlue');
+                }
+            });
+        }
+
+        function showPinModal() {
+            document.getElementById('pin-modal').classList.remove('hidden');
+        }
+
+        function hidePinModal() {
+            document.getElementById('pin-modal').classList.add('hidden');
+            pin = '';
+            updatePinDots();
+        }
+
+        async function verifyPin() {
+            const isValid = await utils.verifyPin(currentUser.id, pin);
+            
+            if (isValid) {
+                hidePinModal();
+                executeTransfer(true); // Proceed with verified status
+            } else {
+                // Shake animation or error feedback
+                const dots = document.querySelectorAll('.pin-dot');
+                dots.forEach(dot => {
+                    dot.classList.add('border-rose-500', 'bg-rose-500');
+                    setTimeout(() => {
+                        dot.classList.remove('border-rose-500', 'bg-rose-500');
+                    }, 500);
+                });
+                pin = '';
+                updatePinDots();
+            }
+        }
+
+        async function executeTransfer(isVerified = false) {
+            const amount = parseFloat(document.getElementById('send-amount').value);
+            const note = document.getElementById('send-note').value || 'Payment';
+            const btn = document.getElementById('btn-send');
+
+            if (isNaN(amount) || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+
+            // Simple Balance Check
+            const data = await utils.getUserData(currentUser.id);
+            if (amount > data.balance) {
+                alert('Insufficient balance');
+                return;
+            }
+
+            // If PIN isn't entered yet, show PIN modal
+            if (!isVerified) {
+                showPinModal();
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="ph ph-circle-notch animate-spin"></i> Sending...';
+
+            try {
+                // Execute Transfer
+                const { data: tx, error } = await utils.supabase.from('transactions').insert([{
+                    user_id: currentUser.id,
+                    amount: amount,
+                    type: 'debit',
+                    description: `Sent to ${selectedRecipient.name}: ${note}`,
+                    status: 'completed'
+                }]).select('id').single();
+
+                if (error) throw error;
+
+                // Update Balance
+                const newBalance = data.balance - amount;
+                await utils.supabase.from('users').update({ balance: newBalance }).eq('id', currentUser.id);
+
+                // Success
+                document.getElementById('final-amount').textContent = utils.formatCurrency(amount, currentUser.currency);
+                document.getElementById('final-recipient').textContent = selectedRecipient.name;
+                document.getElementById('btn-view-receipt').onclick = () => {
+                    window.location.href = `receipt.html?txId=${tx.id}`;
+                };
+
+                goToStep(3);
+
+            } catch (err) {
+                console.error(err);
+                alert('Transfer failed: ' + err.message);
+                btn.disabled = false;
+                btn.textContent = 'Send Money';
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

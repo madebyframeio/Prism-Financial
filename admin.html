@@ -295,10 +295,23 @@
                     class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
                 </div>
                 <div>
-                  <label
-                    class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">PIN</label>
+                  <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">PIN</label>
                   <input type="text" id="edit-profile-pin" maxlength="4"
                     class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm">
+                </div>
+                <div>
+                  <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Account Type</label>
+                  <select id="edit-profile-type" class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm appearance-none">
+                    <option value="normal">Standard Bank</option>
+                    <option value="paypal">PayPal User</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-400 mb-2">Currency</label>
+                  <select id="edit-profile-currency" class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm appearance-none">
+                    <option value="USD">US Dollar ($)</option>
+                    <option value="GBP">British Pound (£)</option>
+                  </select>
                 </div>
                 <div class="md:col-span-2 mt-4 pt-4 border-t border-slate-100 grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -634,6 +647,20 @@
           <input type="number" id="new-user-balance"
             class="w-full bg-slate-50 border border-slate-200 p-3 font-mono font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm"
             value="0">
+        </div>
+        <div class="mb-4">
+          <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-2">Account Type</label>
+          <select id="new-user-type" class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm appearance-none">
+            <option value="normal">Standard Bank</option>
+            <option value="paypal">PayPal User</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label class="block text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-2">Account Currency</label>
+          <select id="new-user-currency" class="w-full bg-slate-50 border border-slate-200 p-3 font-medium text-slate-900 focus:border-primary focus:ring-1 focus:ring-primary outline-none rounded-sm appearance-none">
+            <option value="USD">US Dollar ($)</option>
+            <option value="GBP">British Pound (£)</option>
+          </select>
         </div>
         <div class="mb-6 flex items-center gap-2">
           <input type="checkbox" id="new-user-admin"
@@ -1327,7 +1354,7 @@
             <td class="font-semibold text-slate-900 text-sm py-4 px-4">${user.name} ${user.is_account_locked ? '<span class="ml-2 px-1.5 py-0.5 text-[8px] bg-rose-100 text-rose-600 rounded uppercase tracking-tighter">Locked</span>' : ''}</td>
             <td class="font-mono text-xs text-slate-500 py-4 px-4">${user.account_number || '---'}</td>
             <td class="font-mono text-xs text-slate-500 py-4 px-4">${user.username}</td>
-            <td class="font-bold text-sm text-primary py-4 px-4 font-mono">${utils.formatCurrency(user.balance)}</td>
+            <td class="font-bold text-sm text-primary py-4 px-4 font-mono">${utils.formatCurrency(user.balance, user.currency)}</td>
             <td class="text-right py-4 px-4">
               <div class="flex justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
                 <button onclick="toggleUserLock('${user.id}', ${user.is_account_locked || false})" class="h-8 flex items-center bg-white border ${user.is_account_locked ? 'text-emerald-500 border-emerald-500' : 'text-rose-500 border-rose-200'} text-[9px] font-black uppercase rounded shadow-sm px-3 py-1.5 transition-all hover:scale-105 active:scale-95">
@@ -1425,7 +1452,7 @@
             <td class="text-xs font-mono text-slate-500 whitespace-nowrap py-4 px-2">${new Date(t.created_at).toLocaleString()}</td>
             <td class="text-sm font-medium text-slate-700 py-4 px-2">${t.userName || 'Unknown'}</td>
             <td class="text-xs uppercase font-semibold tracking-wide py-4 px-2 ${isCredit ? 'text-emerald-700' : 'text-slate-600'}">${t.type}</td>
-            <td class="text-right font-mono font-medium text-sm py-4 px-2 ${isCredit ? 'text-emerald-700' : 'text-slate-900'}">${isCredit ? '+' : '-'}${utils.formatCurrency(t.amount)}</td>
+            <td class="text-right font-mono font-medium text-sm py-4 px-2 ${isCredit ? 'text-emerald-700' : 'text-slate-900'}">${isCredit ? '+' : '-'}${utils.formatCurrency(t.amount, t.userCurrency || 'USD')}</td>
             <td class="text-center py-4 px-2">${statusBadge}</td>
             <td class="text-center py-4 px-2">${actions}</td>
           `;
@@ -1444,18 +1471,18 @@
         const user = await utils.getUserData(uid);
         if (!user) return;
 
-        currentUserProfileId = uid;
-
-        // Header Data
+        currentUserProfileId = uid;        // Header Data
         document.getElementById('profile-name-display').textContent = user.name;
         document.getElementById('profile-id-display').textContent = `ID: ${user.username}`;
         if (document.getElementById('profile-acc-num-display')) {
           document.getElementById('profile-acc-num-display').textContent = user.account_number || '---';
         }
-        document.getElementById('profile-balance-display').textContent = utils.formatCurrency(user.balance || 0);
-        document.getElementById('profile-savings-display').textContent = utils.formatCurrency(user.savings_balance || 0);
-        document.getElementById('profile-investment-display').textContent = utils.formatCurrency(user.investment_balance || 0);
-
+        
+        // Currency-aware balance formatting
+        document.getElementById('profile-balance-display').textContent = utils.formatCurrency(user.balance || 0, user.currency);
+        document.getElementById('profile-savings-display').textContent = utils.formatCurrency(user.savings_balance || 0, user.currency);
+        document.getElementById('profile-investment-display').textContent = utils.formatCurrency(user.investment_balance || 0, user.currency);
+        
         // Form Data
         document.getElementById('edit-profile-id').value = user.id;
         document.getElementById('edit-profile-name').value = user.name;
@@ -1463,6 +1490,8 @@
         document.getElementById('edit-profile-password').value = user.password;
         document.getElementById('edit-profile-pin').value = user.pin || ''; // Load PIN
         document.getElementById('edit-profile-verification').value = user.verification_status || 'Verification Pending'; // Load verification
+        document.getElementById('edit-profile-type').value = user.user_type || 'normal'; // Load type
+        document.getElementById('edit-profile-currency').value = user.currency || 'USD'; // Load currency
 
         // Lock Status Display
         const badge = document.getElementById('profile-lock-badge');
@@ -1498,7 +1527,7 @@
 
         // Card details display
         document.getElementById('profile-cc-tier').textContent = user.cc_tier || 'Platinum';
-        document.getElementById('profile-cc-balance').textContent = utils.formatCurrency(user.cc_balance || 0);
+        document.getElementById('profile-cc-balance').textContent = utils.formatCurrency(user.cc_balance || 0, user.currency);
         document.getElementById('profile-rewards-pts').textContent = user.rewards_pts || '0';
 
         // Load history asynchronously
@@ -1530,7 +1559,7 @@
               <td class="text-center"><input type="checkbox" onchange="toggleSelectTx('${t.id}', '${uid}')" ${selectedTxIds.has(t.id) ? 'checked' : ''}></td>
               <td class="text-[10px] font-mono text-slate-400 py-4 px-2">${new Date(t.created_at).toLocaleDateString()}</td>
               <td class="text-xs font-bold uppercase py-4 px-2">${t.type}</td>
-              <td class="text-right text-xs font-bold py-4 px-2 ${isCredit ? 'text-emerald-600' : 'text-slate-900'}">${isCredit ? '+' : '-'}${utils.formatCurrency(t.amount)}</td>
+              <td class="text-right text-xs font-bold py-4 px-2 ${isCredit ? 'text-emerald-600' : 'text-slate-900'}">${isCredit ? '+' : '-'}${utils.formatCurrency(t.amount, user.currency)}</td>
               <td class="py-4 px-2 text-center">${actions}</td>
             `;
             tbody.appendChild(tr);
@@ -1554,12 +1583,17 @@
       const newVerification = document.getElementById('edit-profile-verification').value;
 
       try {
+        const newType = document.getElementById('edit-profile-type').value;
+        const newCurrency = document.getElementById('edit-profile-currency').value;
+
         await utils.updateUser(uid, {
           name: newName,
           username: newUsername,
           password: newPassword,
           pin: newPin,
-          verification_status: newVerification
+          verification_status: newVerification,
+          user_type: newType,
+          currency: newCurrency
         });
         showMessage('Success', 'Credentials & Profile Updated Successfully');
         loadUserProfile(uid);
@@ -1766,17 +1800,19 @@
       const pin = document.getElementById('new-user-pin').value || '1234';
       const balance = parseFloat(document.getElementById('new-user-balance').value);
       const isAdmin = document.getElementById('new-user-admin').checked;
+      const userType = document.getElementById('new-user-type').value;
+      const currency = document.getElementById('new-user-currency').value;
 
       try {
-        // Check if username exists (Supabase unique constraint will also catch this)
-
         await utils.createUser({
           name,
           username,
           password,
           pin,
           balance,
-          is_admin: isAdmin
+          is_admin: isAdmin,
+          user_type: userType,
+          currency: currency
         });
 
         closeModal('create-user-modal');

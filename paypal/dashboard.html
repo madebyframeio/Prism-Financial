@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPal | Dashboard</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="logo.png">
+    <meta property="og:image" content="meta.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ppBlue: '#001C64',
+                        ppAction: '#0070BA',
+                        ppBg: '#FFFFFF',
+                        ppSurface: '#F5F7FA',
+                        ppBorder: '#E5E7EB'
+                    },
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { letter-spacing: -0.02em; -webkit-tap-highlight-color: transparent; }
+        .compact-transition { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        /* Bottom Nav shadow */
+        .mobile-bottom-nav {
+            box-shadow: 0 -4px 20px -5px rgba(0, 0, 0, 0.05);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Hide scrollbars */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-ppSurface text-slate-900 min-h-screen">
+
+    <!-- Minimal Header -->
+    <nav class="bg-ppBg border-b border-ppBorder sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-10">
+                <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-mark-color.svg" class="h-6">
+                <div class="hidden md:flex gap-8 text-[13px] font-semibold text-ppBlue">
+                    <a href="dashboard.html" class="text-ppAction border-b-2 border-ppAction pb-1">Summary</a>
+                    <a href="activity.html" class="hover:text-ppAction">Activity</a>
+                    <a href="send.html" class="hover:text-ppAction">Send & Request</a>
+                    <a href="wallet.html" class="hover:text-ppAction">Wallet</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 md:gap-5">
+                <div class="relative">
+                    <i onclick="toggleNotifications()" class="ph ph-bell text-[22px] text-slate-500 cursor-pointer hover:text-ppAction"></i>
+                    <div id="notif-badge" class="absolute -top-1 -right-1 h-2.5 w-2.5 bg-rose-500 rounded-full border-2 border-white"></div>
+                </div>
+                <i onclick="window.location.href='settings.html'" class="ph ph-gear text-[22px] text-slate-500 cursor-pointer hover:text-ppAction"></i>
+                <div class="hidden md:block h-8 w-px bg-ppBorder mx-2"></div>
+                <button onclick="showLogoutModal()" class="hidden md:block text-[12px] font-bold text-ppBlue uppercase tracking-wider hover:opacity-70">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-ppBg border-t border-ppBorder flex items-center justify-around h-16 z-50 mobile-bottom-nav">
+        <a href="dashboard.html" class="flex flex-col items-center gap-1 text-ppAction">
+            <i class="ph ph-house-fill text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Home</span>
+        </a>
+        <a href="wallet.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-wallet text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Wallet</span>
+        </a>
+        <a href="send.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-paper-plane-tilt text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Pay</span>
+        </a>
+        <a href="activity.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-clock-counter-clockwise text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Activity</span>
+        </a>
+    </div>
+
+    <main class="max-w-5xl mx-auto px-6 py-8 pb-24 md:pb-8">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left: Financial Status -->
+            <div class="md:col-span-4 space-y-6">
+                <div class="bg-ppBg border border-ppBorder rounded-xl p-8">
+                    <div class="flex justify-between items-start mb-1">
+                        <h2 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Available Balance</h2>
+                        <i class="ph ph-info text-slate-300 text-[18px]"></i>
+                    </div>
+                    <div class="flex items-baseline gap-1 mb-6 pr-4">
+                        <span id="currency-symbol" class="text-2xl font-bold text-ppBlue">$</span>
+                        <span id="balance-display" class="text-4xl font-semibold text-ppBlue">0.00</span>
+                        <span id="currency-code" class="text-[10px] font-bold text-ppBlue ml-2 tracking-widest uppercase opacity-40">USD</span>
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="window.location.href='send.html'" class="flex-1 py-3 bg-ppBlue text-white rounded-full font-bold text-xs hover:bg-ppAction transition-all">Transfer</button>
+                        <button onclick="window.location.href='add-money.html'" class="flex-1 py-2.5 border border-ppAction text-ppAction rounded-full text-xs font-bold hover:bg-ppSurface compact-transition">Add Money</button>
+                    </div>
+                </div>
+
+                <!-- Small Profile Card -->
+                <div class="bg-ppBg border border-ppBorder rounded-xl p-4 flex items-center gap-3">
+                    <div class="h-10 w-10 bg-ppSurface rounded-full flex items-center justify-center text-ppBlue font-bold text-xs" id="user-initials">UN</div>
+                    <div class="min-w-0">
+                        <p class="text-sm font-semibold text-ppBlue truncate" id="user-name-display">User Name</p>
+                        <p class="text-[11px] text-slate-400 font-medium">Personal Account</p>
+                    </div>
+                    <i class="ph ph-caret-right ml-auto text-slate-300"></i>
+                </div>
+
+            </div>
+
+            <!-- Right: Actions & Activity -->
+            <div class="md:col-span-8 space-y-6">
+                
+                <!-- Quick Send Bar: Modern & Compact -->
+                <div class="bg-ppBg border border-ppBorder rounded-xl p-6">
+                    <h3 class="text-sm font-bold text-ppBlue mb-4">Send again or new</h3>
+                    <div class="flex gap-4 items-center">
+                        <div class="flex -space-x-2">
+                            <div class="h-10 w-10 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[10px] font-bold">JD</div>
+                            <div class="h-10 w-10 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[10px] font-bold">AS</div>
+                            <div class="h-10 w-10 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[10px] font-bold">MK</div>
+                        </div>
+                        <div class="flex-1 relative">
+                            <input type="text" placeholder="Name, @username, email" 
+                                class="w-full bg-ppSurface border-none rounded-full py-2.5 px-5 text-sm focus:ring-1 focus:ring-ppAction outline-none transition-all"
+                                onclick="window.location.href='send.html'">
+                            <i class="ph ph-magnifying-glass absolute right-4 top-3 text-ppAction text-[18px]"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Grid -->
+                <div class="grid grid-cols-3 gap-4">
+                    <div onclick="window.location.href='send.html'" class="bg-ppBg border border-ppBorder rounded-xl p-4 text-center cursor-pointer hover:border-ppAction compact-transition group">
+                        <i class="ph ph-paper-plane-tilt text-[24px] text-ppAction mb-2 block group-hover:scale-110 transition-transform"></i>
+                        <p class="text-[11px] font-bold text-ppBlue">Send</p>
+                    </div>
+                    <div onclick="window.location.href='send.html'" class="bg-ppBg border border-ppBorder rounded-xl p-4 text-center cursor-pointer hover:border-ppAction compact-transition group">
+                        <i class="ph ph-hand-coins text-[24px] text-ppAction mb-2 block group-hover:scale-110 transition-transform"></i>
+                        <p class="text-[11px] font-bold text-ppBlue">Request</p>
+                    </div>
+                    <div class="bg-ppBg border border-ppBorder rounded-xl p-4 text-center cursor-pointer hover:border-ppAction compact-transition group">
+                        <i class="ph ph-receipt text-[24px] text-ppAction mb-2 block group-hover:scale-110 transition-transform"></i>
+                        <p class="text-[11px] font-bold text-ppBlue">Bills</p>
+                    </div>
+                </div>
+
+                <!-- App Promo Banner -->
+                <div id="pwa-banner" class="hidden bg-ppBlue rounded-xl p-5 text-white flex items-center justify-between cursor-pointer hover:opacity-90 transition-all shadow-md mb-6" onclick="installPWA()">
+                    <div>
+                        <h4 class="font-bold text-sm">Download the PayPal app</h4>
+                        <p class="text-[10px] text-white/70">Manage your wallet on the go.</p>
+                    </div>
+                    <i class="ph ph-device-mobile text-2xl opacity-50"></i>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="bg-ppBg border border-ppBorder rounded-xl overflow-hidden">
+                    <div class="px-6 py-4 border-b border-ppBorder flex justify-between items-center">
+                        <h3 class="text-sm font-bold text-ppBlue">Recent Activity</h3>
+                        <button onclick="window.location.href='activity.html'" class="text-ppAction text-xs font-bold hover:underline">View All</button>
+                    </div>
+                    <div id="activity-list" class="divide-y divide-ppBorder">
+                        <!-- Items injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 bg-ppBlue/40 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-xs rounded-2xl shadow-2xl overflow-hidden p-8 text-center animate-in fade-in zoom-in duration-300">
+            <div class="h-16 w-16 bg-ppSurface text-ppBlue rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="ph ph-sign-out text-3xl"></i>
+            </div>
+            <h4 class="font-extrabold text-ppBlue text-lg mb-2">Logout?</h4>
+            <p class="text-xs text-slate-500 mb-8">Are you sure you want to log out of your PayPal account?</p>
+            <div class="space-y-3">
+                <button onclick="executeLogout()" class="w-full py-3.5 bg-rose-500 text-white rounded-full font-bold text-sm shadow-lg hover:shadow-xl active:scale-[0.98] transition-all">Logout</button>
+                <button onclick="hideLogoutModal()" class="w-full py-3.5 bg-ppSurface text-ppBlue rounded-full font-bold text-sm">Stay Logged In</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../utils.js"></script>
+    <script>
+        let deferredPrompt;
+
+        // PWA Setup
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('pwa-banner').classList.remove('hidden');
+        });
+
+        async function installPWA() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+                document.getElementById('pwa-banner').classList.add('hidden');
+            }
+            deferredPrompt = null;
+        }
+
+        async function initDashboard() {
+            utils.init();
+            const user = utils.getCurrentUser();
+            if (!user) { window.location.href = '../login.html'; return; }
+
+            const userData = await utils.getUserData(user.id);
+            if (!userData) return;
+
+            document.getElementById('user-name-display').textContent = userData.name;
+            document.getElementById('user-initials').textContent = userData.name.split(' ').map(n => n[0]).join('').toUpperCase();
+            
+            const fmt = utils.getCurrencyParts(userData.balance || 0, userData.currency);
+            document.getElementById('balance-display').textContent = parseFloat(userData.balance || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('currency-symbol').textContent = fmt.symbol;
+            document.getElementById('currency-code').textContent = fmt.code;
+
+            // Create a session welcome notification if it doesn't exist
+            if (!sessionStorage.getItem('welcome_notif_sent')) {
+                utils.createNotification(user.id, 'Security Alert', 'A new login was detected for your account.', 'info');
+                sessionStorage.setItem('welcome_notif_sent', 'true');
+                document.getElementById('notif-badge').classList.remove('hidden');
+            }
+
+            const txs = await utils.getTransactions(user.id);
+            const list = document.getElementById('activity-list');
+            list.innerHTML = '';
+
+            if (txs.length === 0) {
+                list.innerHTML = '<div class="p-12 text-center text-slate-400 text-xs italic">No transactions found</div>';
+            } else {
+                txs.slice(0, 4).forEach(tx => {
+                    const isCredit = tx.type === 'credit';
+                    const isPending = tx.status === 'pending';
+                    const date = new Date(tx.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    
+                    let amountColor = isCredit ? 'text-emerald-600' : 'text-ppBlue';
+                    if (isPending) amountColor = 'text-amber-500';
+
+                    const item = document.createElement('div');
+                    item.className = 'px-6 py-4 flex justify-between items-center hover:bg-ppSurface cursor-pointer compact-transition';
+                    item.onclick = () => window.location.href = `receipt.html?txId=${tx.id}`;
+                    
+                    item.innerHTML = `
+                        <div class="flex items-center gap-4">
+                            <div class="h-9 w-9 rounded-full bg-ppSurface flex items-center justify-center">
+                                <i class="ph ${isCredit ? 'ph-plus' : 'ph-shopping-bag'} text-[18px] text-ppBlue ${isPending ? 'text-amber-500' : ''}"></i>
+                            </div>
+                            <div>
+                                <p class="text-[13px] font-semibold text-ppBlue">${tx.description}</p>
+                                <p class="text-[11px] text-slate-400 font-medium">${date} • <span class="${isPending ? 'text-amber-600 font-bold' : ''}">${tx.status.charAt(0).toUpperCase() + tx.status.slice(1)}</span></p>
+                            </div>
+                        </div>
+                        <p class="text-[13px] font-bold ${amountColor}">
+                            ${isCredit ? '+' : '-'}${utils.formatCurrency(tx.amount, userData.currency)}
+                        </p>
+                    `;
+                    list.appendChild(item);
+                });
+            }
+        }
+
+        async function toggleNotifications() {
+            const tray = document.getElementById('notif-tray');
+            const user = utils.getCurrentUser();
+            
+            if (tray.classList.contains('hidden')) {
+                // Fetch and render
+                const notifs = await utils.getNotifications(user.id);
+                const container = tray.querySelector('.max-h-80');
+                container.innerHTML = '';
+
+                if (notifs.length === 0) {
+                    container.innerHTML = '<div class="p-8 text-center text-slate-400 text-[11px] italic">No new notifications</div>';
+                } else {
+                    notifs.forEach(n => {
+                        const timeAgo = formatTimeAgo(n.time);
+                        const item = document.createElement('div');
+                        item.className = 'p-4 border-b border-ppSurface hover:bg-ppSurface cursor-pointer transition-colors';
+                        item.innerHTML = `
+                            <p class="text-[11px] font-bold text-ppBlue">${n.title}</p>
+                            <p class="text-[10px] text-slate-400 mt-0.5">${n.message}</p>
+                            <p class="text-[9px] text-ppAction font-medium mt-2">${timeAgo}</p>
+                        `;
+                        container.appendChild(item);
+                    });
+                }
+                
+                tray.classList.remove('hidden');
+                document.getElementById('notif-badge').classList.add('hidden');
+            } else {
+                tray.classList.add('hidden');
+            }
+        }
+
+        function formatTimeAgo(timestamp) {
+            const diff = Date.now() - timestamp;
+            const mins = Math.floor(diff / 60000);
+            if (mins < 1) return 'Just now';
+            if (mins < 60) return `${mins}m ago`;
+            const hours = Math.floor(mins / 60);
+            if (hours < 24) return `${hours}h ago`;
+            return new Date(timestamp).toLocaleDateString();
+        }
+
+        function showLogoutModal() { document.getElementById('logout-modal').classList.remove('hidden'); }
+        function hideLogoutModal() { document.getElementById('logout-modal').classList.add('hidden'); }
+
+        function executeLogout() {
+            utils.supabase.auth.signOut().then(() => { window.location.href = 'login.html'; });
+        }
+
+        initDashboard();
+    </script>
+</body>
+</html>

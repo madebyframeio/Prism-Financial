@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PayPal | Settings</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <meta property="og:image" content="meta.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ppBlue: '#001C64',
+                        ppAction: '#0070BA',
+                        ppBg: '#FFFFFF',
+                        ppSurface: '#F5F7FA',
+                        ppBorder: '#E5E7EB'
+                    },
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { letter-spacing: -0.01em; -webkit-tap-highlight-color: transparent; }
+        .compact-transition { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        /* Bottom Nav shadow */
+        .mobile-bottom-nav {
+            box-shadow: 0 -4px 20px -5px rgba(0, 0, 0, 0.05);
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+</head>
+<body class="bg-ppSurface text-slate-900 min-h-screen">
+
+    <!-- Header Navigation -->
+    <nav class="bg-ppBg border-b border-ppBorder sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-mark-color.svg" class="h-5">
+                <div class="hidden md:flex gap-6 text-[12px] font-semibold text-ppBlue">
+                    <a href="dashboard.html" class="hover:text-ppAction">Summary</a>
+                    <a href="activity.html" class="hover:text-ppAction">Activity</a>
+                    <a href="send.html" class="hover:text-ppAction">Send & Request</a>
+                    <a href="wallet.html" class="hover:text-ppAction">Wallet</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <i class="ph ph-bell text-[20px] text-slate-500 cursor-pointer"></i>
+                <i class="ph ph-gear text-[20px] text-ppAction cursor-pointer"></i>
+                <div class="hidden md:block h-6 w-px bg-ppBorder mx-1"></div>
+                <button onclick="showLogoutModal()" class="hidden md:block text-[11px] font-bold text-ppBlue uppercase tracking-wider">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="md:hidden fixed bottom-0 left-0 w-full bg-ppBg border-t border-ppBorder flex items-center justify-around h-16 z-50 mobile-bottom-nav">
+        <a href="dashboard.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-house text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Home</span>
+        </a>
+        <a href="wallet.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-wallet text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Wallet</span>
+        </a>
+        <a href="send.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-paper-plane-tilt text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Pay</span>
+        </a>
+        <a href="activity.html" class="flex flex-col items-center gap-1 text-slate-400">
+            <i class="ph ph-clock-counter-clockwise text-[24px]"></i>
+            <span class="text-[10px] font-bold uppercase tracking-tighter">Activity</span>
+        </a>
+    </div>
+
+    <main class="max-w-3xl mx-auto px-6 py-10 pb-24 md:pb-10">
+        <h1 class="text-2xl font-extrabold text-ppBlue mb-8">Settings</h1>
+
+        <div class="space-y-6">
+            <!-- Profile Section -->
+            <section class="bg-ppBg border border-ppBorder rounded-2xl p-6 shadow-sm">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="font-extrabold text-ppBlue">Profile</h3>
+                    <button class="text-ppAction text-xs font-bold hover:underline">Edit</button>
+                </div>
+                <div class="flex items-center gap-5">
+                    <div class="h-16 w-16 bg-ppSurface rounded-full flex items-center justify-center text-ppBlue font-bold text-xl">JD</div>
+                    <div>
+                        <p id="profile-name" class="font-bold text-ppBlue text-lg">---</p>
+                        <p id="profile-email" class="text-xs text-slate-400">---</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security Section -->
+            <section class="bg-ppBg border border-ppBorder rounded-2xl p-6 shadow-sm">
+                <h3 class="font-extrabold text-ppBlue mb-6">Security</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between py-2">
+                        <div class="flex items-center gap-4">
+                            <i class="ph ph-lock-key text-xl text-slate-400"></i>
+                            <div>
+                                <p class="text-sm font-bold text-ppBlue">Security PIN</p>
+                                <p class="text-[11px] text-slate-400">Used to authorize transactions</p>
+                            </div>
+                        </div>
+                        <button class="px-4 py-2 bg-ppSurface text-ppBlue text-xs font-bold rounded-full hover:bg-ppBorder">Change PIN</button>
+                    </div>
+                    <div class="flex items-center justify-between py-2 border-t border-ppSurface pt-4">
+                        <div class="flex items-center gap-4">
+                            <i class="ph ph-fingerprint text-xl text-slate-400"></i>
+                            <div>
+                                <p class="text-sm font-bold text-ppBlue">Biometric Login</p>
+                                <p class="text-[11px] text-slate-400">Enable FaceID or TouchID</p>
+                            </div>
+                        </div>
+                        <div class="h-5 w-10 bg-ppAction rounded-full relative cursor-pointer">
+                            <div class="h-4 w-4 bg-white rounded-full absolute right-0.5 top-0.5 shadow-sm"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Account Section -->
+            <section class="bg-ppBg border border-ppBorder rounded-2xl p-6 shadow-sm">
+                <h3 class="font-extrabold text-ppBlue mb-6">Account Preferences</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between py-2">
+                        <p class="text-sm font-bold text-ppBlue">Language</p>
+                        <p class="text-xs text-slate-400 font-bold">English (US)</p>
+                    </div>
+                    <div class="flex items-center justify-between py-2 border-t border-ppSurface pt-4">
+                        <p class="text-sm font-bold text-ppBlue">Currency</p>
+                        <select id="currency-select" onchange="updateCurrency()" class="bg-ppSurface border-none text-xs font-bold text-ppAction outline-none rounded-lg px-2 py-1">
+                            <option value="USD">USD ($)</option>
+                            <option value="GBP">GBP (£)</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center justify-between py-2 border-t border-ppSurface pt-4">
+                        <p class="text-sm font-bold text-ppBlue">Timezone</p>
+                        <p class="text-xs text-slate-400 font-bold">Central Time (CT)</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="pt-10 text-center">
+                <button class="text-rose-500 font-bold text-xs hover:underline">Close your PayPal account</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 bg-ppBlue/40 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-xs rounded-2xl shadow-2xl overflow-hidden p-8 text-center animate-in fade-in zoom-in duration-300">
+            <div class="h-16 w-16 bg-ppSurface text-ppBlue rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="ph ph-sign-out text-3xl"></i>
+            </div>
+            <h4 class="font-extrabold text-ppBlue text-lg mb-2">Logout?</h4>
+            <p class="text-xs text-slate-500 mb-8">Are you sure you want to log out of your PayPal account?</p>
+            <div class="space-y-3">
+                <button onclick="logout()" class="w-full py-3.5 bg-rose-500 text-white rounded-full font-bold text-sm">Logout</button>
+                <button onclick="hideLogoutModal()" class="w-full py-3.5 bg-ppSurface text-ppBlue rounded-full font-bold text-sm">Stay Logged In</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../utils.js"></script>
+    <script>
+        async function initSettings() {
+            utils.init();
+            const user = utils.getCurrentUser();
+            if (!user) { window.location.href = '../login.html'; return; }
+
+            const userData = await utils.getUserData(user.id);
+            if (userData) {
+                document.getElementById('profile-name').textContent = userData.name || 'User';
+                document.getElementById('profile-email').textContent = userData.email;
+                const initials = (userData.name || 'U').split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+                document.querySelector('.h-16.w-16').textContent = initials;
+                
+                // Set currency select
+                document.getElementById('currency-select').value = userData.currency || 'USD';
+            }
+        }
+
+        async function updateCurrency() {
+            const user = utils.getCurrentUser();
+            const currency = document.getElementById('currency-select').value;
+            
+            try {
+                await utils.updateUser(user.id, { currency });
+                utils.createNotification(user.id, 'Settings Updated', `Your primary currency has been changed to ${currency}.`, 'success');
+            } catch (err) {
+                console.error(err);
+                alert('Failed to update currency');
+            }
+        }
+
+        function showLogoutModal() { document.getElementById('logout-modal').classList.remove('hidden'); }
+        function hideLogoutModal() { document.getElementById('logout-modal').classList.add('hidden'); }
+
+        function logout() {
+            utils.supabase.auth.signOut().then(() => { window.location.href = 'login.html'; });
+        }
+
+        initSettings();
+    </script>
+</body>
+</html>

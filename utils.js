@@ -99,6 +99,15 @@ const utils = {
         };
         trap();
 
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('../sw.js')
+                    .then(reg => console.log('[PWA] Service Worker Registered'))
+                    .catch(err => console.error('[PWA] Registration Failed', err));
+            });
+        }
+
         // Disable Text Selection globally
         if (document.body) {
             document.body.style.userSelect = 'none';
@@ -164,20 +173,13 @@ const utils = {
         window.location.href = 'login.html';
     },
 
-    // --- Data Formatting ---
-    formatCurrency: (amount) => {
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD'
-        }).format(amount);
-    },
 
-    formatCompactCurrency(amount) {
+    formatCompactCurrency(amount, currency = 'USD') {
         const formatter = new Intl.NumberFormat('en-US', {
             notation: 'compact',
             compactDisplay: 'short',
             style: 'currency',
-            currency: 'USD',
+            currency: currency,
             maximumFractionDigits: 1
         });
         return formatter.format(amount);
@@ -296,6 +298,7 @@ const utils = {
                 if (k === `u_${userId}_cc_balance`) user.cc_balance = parseFloat(item.value) || 0;
                 if (k === `u_${userId}_rewards_pts`) user.rewards_pts = parseInt(item.value) || 0;
                 if (k === `u_${userId}_verification_status`) user.verification_status = item.value;
+                if (k === `u_${userId}_type`) user.user_type = item.value;
             });
         }
 
@@ -325,6 +328,60 @@ const utils = {
         }
 
         return user;
+    },
+
+    // --- Notifications System ---
+    formatCurrency: (amount, currency = 'USD') => {
+        const symbols = { 'USD': '$', 'GBP': '£' };
+        const symbol = symbols[currency] || '$';
+        return `${symbol}${parseFloat(amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    },
+
+    getCurrencyParts: (amount, currency = 'USD') => {
+        const symbols = { 'USD': '$', 'GBP': '£' };
+        const symbol = symbols[currency] || '$';
+        return {
+            symbol: symbol,
+            code: currency || 'USD',
+            formatted: `${symbol}${parseFloat(amount || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+        };
+    },
+
+    getNotifications: async (userId) => {
+        // 1. Derive notifications from recent transactions
+        const txs = await utils.getTransactions(userId);
+        const transNotifs = txs.slice(0, 5).map(tx => {
+            const isCredit = tx.type === 'credit';
+            const isPending = tx.status === 'pending';
+            return {
+                id: `tx_${tx.id}`,
+                title: isCredit ? (isPending ? 'Incoming Deposit' : 'Money Received') : 'Payment Sent',
+                message: isCredit ? `Deposit of ${utils.formatCurrency(tx.amount)} is ${tx.status}.` : `You sent ${utils.formatCurrency(tx.amount)} to ${tx.description.split(': ')[0].replace('Sent to ', '')}.`,
+                time: new Date(tx.created_at).getTime(),
+                type: isCredit ? 'success' : 'info',
+                isPending: isPending
+            };
+        });
+
+        // 2. Fetch miscellaneous system notifications from local storage
+        const miscNotifs = JSON.parse(localStorage.getItem(`notifs_${userId}`) || '[]');
+        
+        // 3. Combine, sort by time, and return top 10
+        return [...transNotifs, ...miscNotifs]
+            .sort((a, b) => b.time - a.time)
+            .slice(0, 10);
+    },
+
+    createNotification: (userId, title, message, type = 'info') => {
+        const notifs = JSON.parse(localStorage.getItem(`notifs_${userId}`) || '[]');
+        notifs.unshift({
+            id: 'misc_' + Date.now(),
+            title,
+            message,
+            time: Date.now(),
+            type
+        });
+        localStorage.setItem(`notifs_${userId}`, JSON.stringify(notifs.slice(0, 10)));
     },
 
     verifyPin: async (userId, pin) => {
@@ -558,7 +615,7 @@ const utils = {
                 .from('transactions')
                 .select(`
                     *,
-                    users (name)
+                    users (name, currency)
                 `)
                 .order('created_at', { ascending: false });
             if (data) dbData = data;
@@ -567,7 +624,11 @@ const utils = {
         }
 
         // Flatten structure for easier UI consumption: t.users.name -> t.userName
-        const formattedDB = dbData.map(t => ({ ...t, userName: t.users?.name || 'Unknown' }));
+        const formattedDB = dbData.map(t => ({ 
+            ...t, 
+            userName: t.users?.name || 'Unknown',
+            userCurrency: t.users?.currency || 'USD'
+        }));
 
         // Merge Local (We need to look up names for local txs manually or just show ID/Unknown)
         const localTxs = JSON.parse(localStorage.getItem('local_transactions') || '[]');
@@ -688,7 +749,7 @@ const utils = {
 
     createUser: async (userData, isApplicant = false) => {
         // Extract Extra Fields to store in settings
-        const { email, first_name, last_name, phone, ...coreData } = userData;
+        const { email, first_name, last_name, phone, user_type, ...coreData } = userData;
 
         // Insert Core User
         const { data, error } = await supabaseClient.from('users').insert(coreData).select('id').single();
@@ -707,6 +768,8 @@ const utils = {
             // Generate and Save Account Number
             const accNum = utils.generateAccountNumber();
             settingsUpserts.push({ key: `u_${data.id}_acc_num`, value: accNum });
+            
+            if (user_type) settingsUpserts.push({ key: `u_${data.id}_type`, value: user_type });
 
             // If Applicant: Mark as applicant AND add to separate table
             if (isApplicant) {
@@ -763,7 +826,7 @@ const utils = {
 
     updateUser: async (id, updates) => {
         // Split updates into Core (DB) and Extra (Settings KV)
-        const coreFields = ['name', 'username', 'password', 'pin', 'balance', 'is_admin'];
+        const coreFields = ['name', 'username', 'password', 'pin', 'balance', 'is_admin', 'currency'];
         const coreUpdates = {};
         const settingsUpserts = [];
 
@@ -786,6 +849,7 @@ const utils = {
                     'cc_balance': `u_${id}_cc_balance`,
                     'rewards_pts': `u_${id}_rewards_pts`,
                     'verification_status': `u_${id}_verification_status`,
+                    'user_type': `u_${id}_type`,
                     'is_account_locked': `u_${id}_locked`
                 };
 
