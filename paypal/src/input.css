@@ -30,7 +30,8 @@
 @utility mobile-bottom-nav {
     box-shadow: 0 -8px 25px -5px rgba(0, 0, 0, 0.08);
     padding-bottom: env(safe-area-inset-bottom);
-    height: calc(68px + env(safe-area-inset-bottom));
+    padding-top: 8px;
+    height: calc(80px + env(safe-area-inset-bottom));
 }
 
 @utility compact-transition {
