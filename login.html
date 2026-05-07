@@ -174,7 +174,8 @@
           return;
         }
 
-        const user = await utils.login(username, password);
+        const { data: user, error } = await utils.login(username.trim(), password.trim());
+        
         if (user && !user.is_admin) {
           if (user.is_account_locked) {
             window.location.href = 'account-locked.html';
@@ -189,7 +190,8 @@
         } else if (user && user.is_admin) {
           window.location.href = 'admin.html';
         } else {
-          showError();
+          const errMsg = error ? (error.message || 'Invalid credentials') : 'Invalid username or password. Please try again.';
+          showError(errMsg);
           btn.disabled = false;
           btn.innerHTML = originalText;
         }

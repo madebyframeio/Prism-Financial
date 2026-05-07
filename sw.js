@@ -1,4 +1,4 @@
-const CACHE_NAME = 'paypal-v5'; // Incremented to match latest project version
+const CACHE_NAME = 'paypal-v6';
 const ASSETS = [
     '/paypal/dashboard.html',
     '/paypal/wallet.html',
@@ -33,13 +33,17 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
+    // Skip non-GET requests and Supabase API calls
+    if (e.request.method !== 'GET' || e.request.url.includes('supabase.co')) return;
+
     const url = new URL(e.request.url);
     
-    // For HTML files, use Network First strategy
+    // For HTML files (navigation), use Network First strategy
     if (e.request.mode === 'navigate' || url.pathname.endsWith('.html')) {
         e.respondWith(
             fetch(e.request)
                 .then((res) => {
+                    if (!res || res.status !== 200 || res.type !== 'basic') return res;
                     const clone = res.clone();
                     caches.open(CACHE_NAME).then((cache) => cache.put(e.request, clone));
                     return res;
@@ -47,14 +51,23 @@ self.addEventListener('fetch', (e) => {
                 .catch(() => caches.match(e.request))
         );
     } else {
-        // For other assets, use Cache First with revalidation
+        // For other assets, use Stale-While-Revalidate
         e.respondWith(
-            caches.match(e.request).then((res) => {
+            caches.match(e.request).then((cachedRes) => {
                 const fetchPromise = fetch(e.request).then((networkRes) => {
-                    caches.open(CACHE_NAME).then((cache) => cache.put(e.request, networkRes.clone()));
+                    if (!networkRes || networkRes.status !== 200 || networkRes.type !== 'basic') {
+                        return networkRes;
+                    }
+                    try {
+                        const networkClone = networkRes.clone();
+                        caches.open(CACHE_NAME).then((cache) => cache.put(e.request, networkClone));
+                    } catch (err) {
+                        console.warn('[SW] Clone failed', err);
+                    }
                     return networkRes;
-                });
-                return res || fetchPromise;
+                }).catch(() => null);
+
+                return cachedRes || fetchPromise;
             })
         );
     }

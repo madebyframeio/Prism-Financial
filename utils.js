@@ -44,7 +44,7 @@ const utils = {
                         
                         const newVer = verData.value;
                         localStorage.clear();
-                        sessionStorage.clear();
+                        // sessionStorage.clear(); // Preserving session during version update
                         localStorage.setItem('local_system_version', newVer);
                         
                         window.location.reload(true);
