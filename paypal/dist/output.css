@@ -645,10 +645,11 @@
     aspect-ratio: 1.58/1;
   }
   .mobile-bottom-nav {
-    box-shadow: 0 -10px 40px -10px rgba(0, 0, 0, 0.12);
-    padding-bottom: calc(env(safe-area-inset-bottom) + 24px);
+    box-shadow: 0 -12px 45px -12px rgba(0, 0, 0, 0.15);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 32px);
     padding-top: 14px;
     height: auto;
+    min-height: 90px;
   }
   .h-1 {
     height: calc(var(--spacing) * 1);
