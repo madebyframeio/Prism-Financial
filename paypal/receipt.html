@@ -119,7 +119,7 @@
     <script src="../utils.js"></script>
     <script>
         async function loadReceipt() {
-            utils.init();
+            await utils.init();
             const urlParams = new URLSearchParams(window.location.search);
             const txId = urlParams.get('txId');
 

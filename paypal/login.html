@@ -86,7 +86,7 @@
             btn.disabled = true;
             btn.innerHTML = '<i class="ph ph-circle-notch animate-spin"></i> Checking details...';
 
-            utils.init();
+            await utils.init();
             const userData = await utils.login(user, pass);
             
             if (userData) {

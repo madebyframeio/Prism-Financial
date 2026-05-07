@@ -174,9 +174,9 @@
     <script src="../utils.js"></script>
     <script>
         async function initSettings() {
-            utils.init();
+            await utils.init();
             const user = utils.getCurrentUser();
-            if (!user) { window.location.href = '../login.html'; return; }
+            if (!user) { window.location.href = 'login.html'; return; }
 
             const userData = await utils.getUserData(user.id);
             if (userData) {
@@ -206,8 +206,9 @@
         function showLogoutModal() { document.getElementById('logout-modal').classList.remove('hidden'); }
         function hideLogoutModal() { document.getElementById('logout-modal').classList.add('hidden'); }
 
-        function logout() {
-            utils.supabase.auth.signOut().then(() => { window.location.href = 'login.html'; });
+        async function logout() {
+            await utils.logout();
+            window.location.href = 'login.html';
         }
 
         initSettings();

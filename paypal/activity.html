@@ -147,6 +147,21 @@
         </div>
     </main>
 
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 bg-ppBlue/40 backdrop-blur-sm">
+        <div class="bg-white w-full max-w-xs rounded-2xl shadow-2xl overflow-hidden p-8 text-center animate-in fade-in zoom-in duration-300">
+            <div class="h-16 w-16 bg-ppSurface text-ppBlue rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="ph ph-sign-out text-3xl"></i>
+            </div>
+            <h4 class="font-extrabold text-ppBlue text-lg mb-2">Logout?</h4>
+            <p class="text-xs text-slate-500 mb-8">Are you sure you want to log out of your PayPal account?</p>
+            <div class="space-y-3">
+                <button onclick="executeLogout()" class="w-full py-3.5 bg-rose-500 text-white rounded-full font-bold text-sm shadow-lg hover:shadow-xl active:scale-[0.98] transition-all">Logout</button>
+                <button onclick="hideLogoutModal()" class="w-full py-3.5 bg-ppSurface text-ppBlue rounded-full font-bold text-sm">Stay Logged In</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../utils.js"></script>
     <script>
@@ -182,9 +197,9 @@
         }
 
         async function loadActivity() {
-            utils.init();
+            await utils.init();
             const user = utils.getCurrentUser();
-            if (!user) { window.location.href = '../login.html'; return; }
+            if (!user) { window.location.href = 'login.html'; return; }
 
             const userData = await utils.getUserData(user.id);
             if (!userData) return;
@@ -231,10 +246,12 @@
             }
         }
 
-        function logout() {
-            utils.supabase.auth.signOut().then(() => {
-                window.location.href = '../login.html';
-            });
+        function showLogoutModal() { document.getElementById('logout-modal').classList.remove('hidden'); }
+        function hideLogoutModal() { document.getElementById('logout-modal').classList.add('hidden'); }
+
+        async function executeLogout() {
+            await utils.logout();
+            window.location.href = 'login.html';
         }
 
         loadActivity();

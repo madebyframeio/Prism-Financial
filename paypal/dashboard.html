@@ -88,6 +88,31 @@
     </div>
 
     <main class="max-w-5xl mx-auto px-6 py-8 pb-24 md:pb-8">
+        <div id="pwa-banner" onclick="installPWA()" class="hidden mb-6 bg-ppAction text-white rounded-xl p-4 flex items-center justify-between cursor-pointer animate-in slide-in-from-top duration-500">
+            <div class="flex items-center gap-3">
+                <i class="ph ph-app-window text-2xl"></i>
+                <div>
+                    <h4 class="font-bold text-sm">Install PayPal App</h4>
+                    <p class="text-[10px] opacity-80">Add to home screen for a faster experience</p>
+                </div>
+            </div>
+            <i class="ph ph-plus-circle text-2xl"></i>
+        </div>
+
+        <!-- Logout Confirmation Modal -->
+        <div id="logout-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center p-6 bg-ppBlue/40 backdrop-blur-sm">
+            <div class="bg-white w-full max-w-xs rounded-2xl shadow-2xl overflow-hidden p-8 text-center animate-in fade-in zoom-in duration-300">
+                <div class="h-16 w-16 bg-ppSurface text-ppBlue rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="ph ph-sign-out text-3xl"></i>
+                </div>
+                <h4 class="font-extrabold text-ppBlue text-lg mb-2">Logout?</h4>
+                <p class="text-xs text-slate-500 mb-8">Are you sure you want to log out of your PayPal account?</p>
+                <div class="space-y-3">
+                    <button onclick="executeLogout()" class="w-full py-3.5 bg-rose-500 text-white rounded-full font-bold text-sm shadow-lg hover:shadow-xl active:scale-[0.98] transition-all">Logout</button>
+                    <button onclick="hideLogoutModal()" class="w-full py-3.5 bg-ppSurface text-ppBlue rounded-full font-bold text-sm">Stay Logged In</button>
+                </div>
+            </div>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
             
             <!-- Left: Financial Status -->
@@ -218,9 +243,9 @@
         }
 
         async function initDashboard() {
-            utils.init();
+            await utils.init();
             const user = utils.getCurrentUser();
-            if (!user) { window.location.href = '../login.html'; return; }
+            if (!user) { window.location.href = 'login.html'; return; }
 
             const userData = await utils.getUserData(user.id);
             if (!userData) return;
@@ -324,8 +349,9 @@
         function showLogoutModal() { document.getElementById('logout-modal').classList.remove('hidden'); }
         function hideLogoutModal() { document.getElementById('logout-modal').classList.add('hidden'); }
 
-        function executeLogout() {
-            utils.supabase.auth.signOut().then(() => { window.location.href = 'login.html'; });
+        async function executeLogout() {
+            await utils.logout();
+            window.location.href = 'login.html';
         }
 
         initDashboard();

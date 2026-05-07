@@ -136,10 +136,10 @@
         let currentUser = null;
 
         async function init() {
-            utils.init();
+            await utils.init();
             currentUser = utils.getCurrentUser();
             if (!currentUser) {
-                window.location.href = '../login.html';
+                window.location.href = 'login.html';
                 return;
             }
 

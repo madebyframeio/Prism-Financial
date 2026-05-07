@@ -45,8 +45,8 @@
                 </div>
             </div>
             <div class="flex gap-4">
-                <a href="../login.html" class="px-6 py-2 border-2 border-ppBlue text-ppBlue rounded-full text-sm font-bold hover:bg-ppLight transition-all">Log In</a>
-                <a href="../signup.html" class="px-6 py-2 bg-ppBlue text-white rounded-full text-sm font-bold hover:bg-ppAction transition-all">Sign Up</a>
+                <a href="login.html" class="px-6 py-2 border-2 border-ppBlue text-ppBlue rounded-full text-sm font-bold hover:bg-ppLight transition-all">Log In</a>
+                <a href="signup.html" class="px-6 py-2 bg-ppBlue text-white rounded-full text-sm font-bold hover:bg-ppAction transition-all">Sign Up</a>
             </div>
         </div>
     </nav>
@@ -125,11 +125,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../utils.js"></script>
     <script>
-        utils.init();
-        // Redirect if already logged in
-        const user = utils.getCurrentUser();
-        if (user) {
-            const btn = document.querySelector('a[href="../login.html"]');
+        (async () => {
+            await utils.init();
+            // Redirect if already logged in
+            const user = utils.getCurrentUser();
+            if (user) {
+                const btn = document.querySelector('a[href="login.html"]');
             if (btn) {
                 btn.textContent = 'Go to Dashboard';
                 btn.href = 'dashboard.html';
