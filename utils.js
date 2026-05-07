@@ -16,21 +16,25 @@ const utils = {
             console.error('[UTILS] Initialization failure');
         }
 
-        // Global System Reset / Cache Purge Check
+        // Global System Reset / Cache Purge Check (Throttled to once per minute)
         try {
-            if (utils.supabase) {
+            const now = Date.now();
+            const lastCheck = sessionStorage.getItem('last_version_check');
+            
+            if (utils.supabase && (!lastCheck || now - parseInt(lastCheck) > 60000)) {
                 const { data: verData } = await utils.supabase
                     .from('settings')
                     .select('value')
                     .eq('key', 'system_cache_version')
                     .single();
 
+                sessionStorage.setItem('last_version_check', now.toString());
+
                 if (verData && verData.value) {
                     const localVer = localStorage.getItem('local_system_version');
                     if (localVer !== verData.value) {
                         console.warn('[SYSTEM] Global Reset Triggered. Purging cache...');
                         
-                        // Clear Caches
                         if (window.caches) {
                             const cacheNames = await caches.keys();
                             for (const name of cacheNames) {
@@ -38,15 +42,13 @@ const utils = {
                             }
                         }
                         
-                        // Clear Storage (Capture local system version first to avoid loop)
                         const newVer = verData.value;
                         localStorage.clear();
                         sessionStorage.clear();
                         localStorage.setItem('local_system_version', newVer);
                         
-                        // Force Reload
                         window.location.reload(true);
-                        return; // Stop execution
+                        return;
                     }
                 }
             }

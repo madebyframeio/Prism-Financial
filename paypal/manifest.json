@@ -8,14 +8,16 @@
   "description": "Secure PayPal banking portal.",
   "icons": [
     {
-      "src": "https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-mark-color.svg",
+      "src": "logo.png",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-mark-color.svg",
+      "src": "logo.png",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

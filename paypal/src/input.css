@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ppBlue: #001C64;
+  --color-ppAction: #0070BA;
+  --color-ppBg: #FFFFFF;
+  --color-ppSurface: #F5F7FA;
+  --color-ppBorder: #E5E7EB;
+  
+  /* Marketing Page Colors */
+  --color-pp-blue-marketing: #003087;
+  --color-pp-action-marketing: #0070ba;
+  --color-pp-light: #f5f7fa;
+  
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+    body {
+        background-color: var(--color-ppSurface);
+        color: #0f172a;
+        letter-spacing: -0.02em;
+        -webkit-tap-highlight-color: transparent;
+        font-family: var(--font-sans);
+    }
+}
+
+@utility mobile-bottom-nav {
+    box-shadow: 0 -4px 20px -5px rgba(0, 0, 0, 0.05);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+@utility compact-transition {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@utility no-scrollbar {
+    &::-webkit-scrollbar { display: none; }
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+@utility flow-container {
+    max-width: 500px;
+    margin: 24px auto;
+    @media (min-width: 768px) {
+        margin: 40px auto;
+    }
+}

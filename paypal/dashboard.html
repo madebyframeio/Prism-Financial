@@ -5,41 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PayPal | Dashboard</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="logo.png">
-    <meta property="og:image" content="meta.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png?v=v4">
+    <meta property="og:image" content="meta.png?v=v4">
+    <link rel="stylesheet" href="dist/output.css?v=v4">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        ppBlue: '#001C64',
-                        ppAction: '#0070BA',
-                        ppBg: '#FFFFFF',
-                        ppSurface: '#F5F7FA',
-                        ppBorder: '#E5E7EB'
-                    },
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { letter-spacing: -0.02em; -webkit-tap-highlight-color: transparent; }
-        .compact-transition { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-        
-        /* Bottom Nav shadow */
-        .mobile-bottom-nav {
-            box-shadow: 0 -4px 20px -5px rgba(0, 0, 0, 0.05);
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-
-        /* Hide scrollbars */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
 </head>
 <body class="bg-ppSurface text-slate-900 min-h-screen">
 
@@ -70,7 +39,7 @@
     <!-- Mobile Bottom Navigation -->
     <div class="md:hidden fixed bottom-0 left-0 w-full bg-ppBg border-t border-ppBorder flex items-center justify-around h-16 z-50 mobile-bottom-nav">
         <a href="dashboard.html" class="flex flex-col items-center gap-1 text-ppAction">
-            <i class="ph ph-house-fill text-[24px]"></i>
+            <i class="ph ph-house text-[24px]"></i>
             <span class="text-[10px] font-bold uppercase tracking-tighter">Home</span>
         </a>
         <a href="wallet.html" class="flex flex-col items-center gap-1 text-slate-400">
@@ -117,14 +86,14 @@
             
             <!-- Left: Financial Status -->
             <div class="md:col-span-4 space-y-6">
-                <div class="bg-ppBg border border-ppBorder rounded-xl p-8">
+                <div class="bg-ppBg border border-ppBorder rounded-xl p-6 md:p-8">
                     <div class="flex justify-between items-start mb-1">
                         <h2 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Available Balance</h2>
                         <i class="ph ph-info text-slate-300 text-[18px]"></i>
                     </div>
                     <div class="flex items-baseline gap-1 mb-6 pr-4">
-                        <span id="currency-symbol" class="text-2xl font-bold text-ppBlue">$</span>
-                        <span id="balance-display" class="text-4xl font-semibold text-ppBlue">0.00</span>
+                        <span id="currency-symbol" class="text-xl md:text-2xl font-bold text-ppBlue">$</span>
+                        <span id="balance-display" class="text-3xl md:text-4xl font-semibold text-ppBlue">0.00</span>
                         <span id="currency-code" class="text-[10px] font-bold text-ppBlue ml-2 tracking-widest uppercase opacity-40">USD</span>
                     </div>
                     <div class="flex gap-3">
@@ -153,9 +122,9 @@
                     <h3 class="text-sm font-bold text-ppBlue mb-4">Send again or new</h3>
                     <div class="flex gap-4 items-center">
                         <div class="flex -space-x-2">
-                            <div class="h-10 w-10 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[10px] font-bold">JD</div>
-                            <div class="h-10 w-10 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[10px] font-bold">AS</div>
-                            <div class="h-10 w-10 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[10px] font-bold">MK</div>
+                            <div class="h-8 w-8 md:h-10 md:w-10 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[10px] font-bold">JD</div>
+                            <div class="h-8 w-8 md:h-10 md:w-10 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[10px] font-bold">AS</div>
+                            <div class="h-8 w-8 md:h-10 md:w-10 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[10px] font-bold">MK</div>
                         </div>
                         <div class="flex-1 relative">
                             <input type="text" placeholder="Name, @username, email" 
@@ -169,15 +138,15 @@
                 <!-- Service Grid -->
                 <div class="grid grid-cols-3 gap-4">
                     <div onclick="window.location.href='send.html'" class="bg-ppBg border border-ppBorder rounded-xl p-4 text-center cursor-pointer hover:border-ppAction compact-transition group">
-                        <i class="ph ph-paper-plane-tilt text-[24px] text-ppAction mb-2 block group-hover:scale-110 transition-transform"></i>
+                        <i class="ph ph-paper-plane-tilt text-[20px] md:text-[24px] text-ppAction mb-2 block group-hover:scale-110 transition-transform"></i>
                         <p class="text-[11px] font-bold text-ppBlue">Send</p>
                     </div>
                     <div onclick="window.location.href='send.html'" class="bg-ppBg border border-ppBorder rounded-xl p-4 text-center cursor-pointer hover:border-ppAction compact-transition group">
-                        <i class="ph ph-hand-coins text-[24px] text-ppAction mb-2 block group-hover:scale-110 transition-transform"></i>
+                        <i class="ph ph-hand-coins text-[20px] md:text-[24px] text-ppAction mb-2 block group-hover:scale-110 transition-transform"></i>
                         <p class="text-[11px] font-bold text-ppBlue">Request</p>
                     </div>
                     <div class="bg-ppBg border border-ppBorder rounded-xl p-4 text-center cursor-pointer hover:border-ppAction compact-transition group">
-                        <i class="ph ph-receipt text-[24px] text-ppAction mb-2 block group-hover:scale-110 transition-transform"></i>
+                        <i class="ph ph-receipt text-[20px] md:text-[24px] text-ppAction mb-2 block group-hover:scale-110 transition-transform"></i>
                         <p class="text-[11px] font-bold text-ppBlue">Bills</p>
                     </div>
                 </div>
@@ -220,8 +189,8 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../utils.js?v=v3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="../utils.js?v=v3" defer></script>
     <script>
         let deferredPrompt;
 
@@ -233,13 +202,43 @@
         });
 
         async function installPWA() {
-            if (!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-                document.getElementById('pwa-banner').classList.add('hidden');
+            const btn = document.getElementById('pwa-banner');
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    btn.classList.add('hidden');
+                }
+                deferredPrompt = null;
+            } else {
+                // High-fidelity fallback simulation
+                btn.onclick = null; // Disable further clicks
+                btn.innerHTML = `
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm">Installing PayPal...</h4>
+                        <div class="w-full bg-white/20 h-1.5 rounded-full mt-2 overflow-hidden">
+                            <div id="install-progress" class="bg-white h-full w-0 transition-all duration-[2000ms] ease-out"></div>
+                        </div>
+                    </div>
+                    <i class="ph ph-circle-notch animate-spin text-2xl opacity-50"></i>
+                `;
+
+                // Animate progress
+                setTimeout(() => {
+                    document.getElementById('install-progress').style.width = '100%';
+                }, 50);
+
+                setTimeout(() => {
+                    btn.innerHTML = `
+                        <div>
+                            <h4 class="font-bold text-sm">App Installed!</h4>
+                            <p class="text-[10px] text-white/70">Check your home screen or desktop.</p>
+                        </div>
+                        <i class="ph ph-check-circle text-2xl text-emerald-400"></i>
+                    `;
+                    utils.createNotification(utils.getCurrentUser().id, 'App Installed', 'The PayPal app has been successfully added to your device.', 'success');
+                }, 2200);
             }
-            deferredPrompt = null;
         }
 
         async function initDashboard() {
@@ -281,7 +280,7 @@
                     if (isPending) amountColor = 'text-amber-500';
 
                     const item = document.createElement('div');
-                    item.className = 'px-6 py-4 flex justify-between items-center hover:bg-ppSurface cursor-pointer compact-transition';
+                    item.className = 'px-5 md:px-6 py-3 md:py-4 flex justify-between items-center hover:bg-ppSurface cursor-pointer compact-transition';
                     item.onclick = () => window.location.href = `receipt.html?txId=${tx.id}`;
                     
                     item.innerHTML = `

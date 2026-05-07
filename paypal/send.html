@@ -4,48 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PayPal | Send Money</title>
-    <link rel="icon" type="image/png" href="logo.png">
-    <meta property="og:image" content="meta.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="logo.png?v=v4">
+    <meta property="og:image" content="meta.png?v=v4">
+    <link rel="stylesheet" href="dist/output.css?v=v4">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        ppBlue: '#001C64',
-                        ppAction: '#0070BA',
-                        ppBg: '#FFFFFF',
-                        ppSurface: '#F5F7FA',
-                        ppBorder: '#E5E7EB'
-                    },
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { letter-spacing: -0.02em; -webkit-tap-highlight-color: transparent; }
-        .flow-container { max-width: 500px; margin: 40px auto; }
-        .step-transition { transition: all 0.3s ease; }
-        
-        /* Bottom Nav shadow */
-        .mobile-bottom-nav {
-            box-shadow: 0 -4px 20px -5px rgba(0, 0, 0, 0.05);
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-
-        /* Hide number input spinners */
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
-    </style>
 </head>
 <body class="bg-ppSurface text-slate-900 min-h-screen">
 
@@ -78,7 +41,7 @@
             <span class="text-[10px] font-bold uppercase tracking-tighter">Wallet</span>
         </a>
         <a href="send.html" class="flex flex-col items-center gap-1 text-ppAction">
-            <i class="ph ph-paper-plane-tilt-fill text-[24px]"></i>
+            <i class="ph ph-paper-plane-tilt text-[24px]"></i>
             <span class="text-[10px] font-bold uppercase tracking-tighter">Pay</span>
         </a>
         <a href="activity.html" class="flex flex-col items-center gap-1 text-slate-400">
@@ -88,6 +51,16 @@
     </div>
 
     <main class="max-w-5xl mx-auto px-6 py-12 pb-24 md:pb-12">
+        <div id="pwa-banner" onclick="installPWA()" class="hidden mb-6 bg-ppAction text-white rounded-xl p-4 flex items-center justify-between cursor-pointer animate-in slide-in-from-top duration-500">
+            <div class="flex items-center gap-3">
+                <i class="ph ph-app-window text-2xl"></i>
+                <div>
+                    <h4 class="font-bold text-sm">Install PayPal App</h4>
+                    <p class="text-[10px] opacity-80">Add to home screen for a faster experience</p>
+                </div>
+            </div>
+            <i class="ph ph-plus-circle text-2xl"></i>
+        </div>
         <div class="flow-container">
             
             <!-- Back Button -->
@@ -141,10 +114,10 @@
                     </div>
 
                     <div class="mb-10">
-                        <div class="flex items-center justify-center gap-1">
-                            <span id="send-currency-symbol" class="text-4xl font-extrabold text-ppBlue">$</span>
-                            <input type="number" id="send-amount" placeholder="0.00" step="0.01" 
-                                class="w-32 bg-transparent text-5xl font-extrabold text-ppBlue text-center outline-none border-b-2 border-transparent focus:border-ppAction pb-2">
+                        <div class="flex items-center justify-center gap-2">
+                            <span id="send-currency-symbol" class="text-3xl md:text-4xl font-extrabold text-ppBlue opacity-40">$</span>
+                            <input type="number" id="send-amount" placeholder="0.00" 
+                                class="w-40 bg-transparent text-4xl md:text-5xl font-extrabold text-ppBlue text-center outline-none">
                         </div>
                         <p class="text-xs text-ppBlue font-medium opacity-50 mt-4">Available: <span id="available-balance">$0.00</span></p>
                     </div>
@@ -217,9 +190,60 @@
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../utils.js?v=v3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="../utils.js?v=v3" defer></script>
     <script>
+        let deferredPrompt;
+
+        // PWA Setup
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('pwa-banner').classList.remove('hidden');
+        });
+
+        async function installPWA() {
+            const btn = document.getElementById('pwa-banner');
+            const originalHTML = btn.innerHTML;
+
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    btn.classList.add('hidden');
+                }
+                deferredPrompt = null;
+            } else {
+                // High-fidelity fallback simulation
+                btn.onclick = null; // Disable further clicks during simulation
+                btn.innerHTML = `
+                    <div class="flex-1">
+                        <h4 class="font-bold text-sm">Installing PayPal...</h4>
+                        <div class="w-full bg-white/20 h-1.5 rounded-full mt-2 overflow-hidden">
+                            <div id="install-progress" class="bg-white h-full w-0 transition-all duration-[2000ms] ease-out"></div>
+                        </div>
+                    </div>
+                    <i class="ph ph-circle-notch animate-spin text-2xl opacity-50"></i>
+                `;
+
+                // Animate progress
+                setTimeout(() => {
+                    document.getElementById('install-progress').style.width = '100%';
+                }, 50);
+
+                setTimeout(() => {
+                    btn.innerHTML = `
+                        <div>
+                            <h4 class="font-bold text-sm">App Installed!</h4>
+                            <p class="text-[10px] text-white/70">Check your home screen or desktop.</p>
+                        </div>
+                        <i class="ph ph-check-circle text-2xl text-emerald-400"></i>
+                    `;
+                    utils.createNotification(utils.getCurrentUser().id, 'App Installed', 'The PayPal app has been successfully added to your device.', 'success');
+                }, 2200);
+            }
+        }
+
         let currentUser = null;
         let selectedRecipient = null;
 

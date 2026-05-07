@@ -4,24 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PayPal: The safer, easier way to pay online</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        ppBlue: '#003087',
-                        ppAction: '#0070ba',
-                        ppLight: '#f5f7fa'
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="logo.png?v=v4">
+    <link rel="stylesheet" href="dist/output.css?v=v4">
     <style>
         .hero-gradient {
             background: linear-gradient(135deg, #003087 0%, #0070ba 100%);
@@ -37,16 +22,16 @@
                 <a href="../index.html">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal" class="h-8">
                 </a>
-                <div class="hidden md:flex gap-8 text-sm font-bold text-ppBlue">
-                    <a href="#" class="hover:text-ppAction transition-colors">Personal</a>
-                    <a href="#" class="hover:text-ppAction transition-colors">Business</a>
-                    <a href="#" class="hover:text-ppAction transition-colors">Developer</a>
-                    <a href="#" class="hover:text-ppAction transition-colors">Help</a>
+                <div class="hidden md:flex gap-8 text-sm font-bold text-pp-blue-marketing">
+                    <a href="#" class="hover:text-pp-action-marketing transition-colors">Personal</a>
+                    <a href="#" class="hover:text-pp-action-marketing transition-colors">Business</a>
+                    <a href="#" class="hover:text-pp-action-marketing transition-colors">Developer</a>
+                    <a href="#" class="hover:text-pp-action-marketing transition-colors">Help</a>
                 </div>
             </div>
             <div class="flex gap-4">
-                <a href="login.html" class="px-6 py-2 border-2 border-ppBlue text-ppBlue rounded-full text-sm font-bold hover:bg-ppLight transition-all">Log In</a>
-                <a href="signup.html" class="px-6 py-2 bg-ppBlue text-white rounded-full text-sm font-bold hover:bg-ppAction transition-all">Sign Up</a>
+                <a href="login.html" class="px-6 py-2 border-2 border-pp-blue-marketing text-pp-blue-marketing rounded-full text-sm font-bold hover:bg-pp-light transition-all">Log In</a>
+                <a href="signup.html" class="px-6 py-2 bg-pp-blue-marketing text-white rounded-full text-sm font-bold hover:bg-pp-action-marketing transition-all">Sign Up</a>
             </div>
         </div>
     </nav>
@@ -62,7 +47,7 @@
                     Join millions of people who use PayPal to pay for everything, everywhere, every day.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="../signup.html" class="px-10 py-4 bg-ppAction text-white rounded-full font-bold text-lg hover:bg-white hover:text-ppAction transition-all text-center">Get Started</a>
+                    <a href="../signup.html" class="px-10 py-4 bg-pp-action-marketing text-white rounded-full font-bold text-lg hover:bg-white hover:text-pp-action-marketing transition-all text-center">Get Started</a>
                     <a href="#" class="px-10 py-4 border-2 border-white text-white rounded-full font-bold text-lg hover:bg-white/10 transition-all text-center">See How It Works</a>
                 </div>
             </div>
@@ -74,33 +59,33 @@
     </section>
 
     <!-- Trust Section -->
-    <section class="py-20 bg-ppLight">
+    <section class="py-20 bg-pp-light">
         <div class="max-w-6xl mx-auto px-6 text-center">
-            <h2 class="text-3xl font-medium text-ppBlue mb-16">PayPal is for everyone who pays or gets paid.</h2>
+            <h2 class="text-3xl font-medium text-pp-blue-marketing mb-16">PayPal is for everyone who pays or gets paid.</h2>
             <div class="grid md:grid-cols-3 gap-12">
                 <div class="bg-white p-10 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-ppAction mx-auto mb-6">
+                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-pp-action-marketing mx-auto mb-6">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
                     </div>
                     <h3 class="text-xl font-bold mb-4">Individuals</h3>
                     <p class="text-gray-600">Find out why we have more than 200M active accounts worldwide.</p>
-                    <a href="#" class="mt-6 inline-block text-ppAction font-bold hover:underline">Learn More</a>
+                    <a href="#" class="mt-6 inline-block text-pp-action-marketing font-bold hover:underline">Learn More</a>
                 </div>
                 <div class="bg-white p-10 rounded-2xl shadow-sm hover:shadow-md transition-shadow border-2 border-ppAction">
-                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-ppAction mx-auto mb-6">
+                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-pp-action-marketing mx-auto mb-6">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                     </div>
                     <h3 class="text-xl font-bold mb-4">Businesses</h3>
                     <p class="text-gray-600">Join more than 7 million businesses around the world offering PayPal.</p>
-                    <a href="#" class="mt-6 inline-block text-ppAction font-bold hover:underline">Learn More</a>
+                    <a href="#" class="mt-6 inline-block text-pp-action-marketing font-bold hover:underline">Learn More</a>
                 </div>
                 <div class="bg-white p-10 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
-                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-ppAction mx-auto mb-6">
+                    <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center text-pp-action-marketing mx-auto mb-6">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09a13.916 13.916 0 002.103-4.762M12 11c0-3.517 1.009-6.799 2.753-9.571m3.44 2.04l-.054.09a13.916 13.916 0 01-2.103 4.762M12 11a13.917 13.917 0 01-2.103 4.762m2.103-4.762a13.917 13.917 0 002.103 4.762m-2.103-4.762a13.918 13.918 0 00-3.44-2.041m3.44 2.041a13.918 13.918 0 013.44 2.041m-3.44-2.041v.001"></path></svg>
                     </div>
                     <h3 class="text-xl font-bold mb-4">Developers</h3>
                     <p class="text-gray-600">Build your business with our flexible, scalable payment platform.</p>
-                    <a href="#" class="mt-6 inline-block text-ppAction font-bold hover:underline">Learn More</a>
+                    <a href="#" class="mt-6 inline-block text-pp-action-marketing font-bold hover:underline">Learn More</a>
                 </div>
             </div>
         </div>
@@ -110,7 +95,7 @@
     <footer class="py-12 bg-white text-sm text-gray-500">
         <div class="max-w-6xl mx-auto px-6 border-t border-gray-100 pt-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="flex gap-6 font-bold text-ppBlue uppercase tracking-widest text-[10px]">
+                <div class="flex gap-6 font-bold text-pp-blue-marketing uppercase tracking-widest text-[10px]">
                     <a href="#" class="hover:underline">Help</a>
                     <a href="#" class="hover:underline">Contact</a>
                     <a href="#" class="hover:underline">Fees</a>

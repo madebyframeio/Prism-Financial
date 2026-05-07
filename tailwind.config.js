@@ -1,21 +1,21 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./*.html", "./*.js"],
+  content: [
+    "./paypal/**/*.html",
+    "./paypal/**/*.js",
+    "./*.js"
+  ],
   theme: {
     extend: {
       colors: {
-        primary: "#056dae",
-        secondary: "#004B8D",
-        accent: "#FCCC44",
-        bankGray: "#F4F4F4",
-        bankText: "#333333",
-        borderGray: "#D1D1D1"
+        ppBlue: '#001C64',
+        ppAction: '#0070BA',
+        ppBg: '#FFFFFF',
+        ppSurface: '#F5F7FA',
+        ppBorder: '#E5E7EB'
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
-      },
-      animation: {
-        'bounce-slow': 'bounce 3s infinite',
+        sans: ['Plus Jakarta Sans', 'sans-serif']
       }
     },
   },

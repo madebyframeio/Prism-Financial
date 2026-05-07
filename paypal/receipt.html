@@ -4,40 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PayPal | Receipt</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="logo.png?v=v4">
+    <meta property="og:image" content="meta.png?v=v4">
+    <link rel="stylesheet" href="dist/output.css?v=v4">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        ppBlue: '#001C64',
-                        ppAction: '#0070BA',
-                        ppBg: '#FFFFFF',
-                        ppSurface: '#F5F7FA',
-                        ppBorder: '#E5E7EB'
-                    },
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { letter-spacing: -0.02em; -webkit-tap-highlight-color: transparent; }
-        .receipt-container { max-width: 450px; margin: 40px auto; }
-        
-        /* Bottom Nav shadow */
-        .mobile-bottom-nav {
-            box-shadow: 0 -4px 20px -5px rgba(0, 0, 0, 0.05);
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-        @media print {
-            .no-print { display: none; }
-            body { background: white; }
-            .receipt-container { margin: 0; border: none; }
-        }
-    </style>
 </head>
 <body class="bg-ppSurface text-slate-900 min-h-screen">
 
@@ -73,6 +44,16 @@
     </div>
 
     <div class="receipt-container bg-ppBg border border-ppBorder rounded-2xl p-8 md:p-12 shadow-sm">
+        <div id="pwa-banner" onclick="installPWA()" class="hidden mb-6 bg-ppAction text-white rounded-xl p-4 flex items-center justify-between cursor-pointer animate-in slide-in-from-top duration-500">
+            <div class="flex items-center gap-3">
+                <i class="ph ph-app-window text-2xl"></i>
+                <div>
+                    <h4 class="font-bold text-sm">Install PayPal App</h4>
+                    <p class="text-[10px] opacity-80">Add to home screen for a faster experience</p>
+                </div>
+            </div>
+            <i class="ph ph-plus-circle text-2xl"></i>
+        </div>
         <div class="text-center mb-8">
             <img src="https://www.paypalobjects.com/paypal-ui/logos/svg/paypal-mark-color.svg" class="h-10 mx-auto mb-6">
             <h1 class="text-2xl font-extrabold text-ppBlue mb-2">Transaction Receipt</h1>
@@ -115,9 +96,33 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../utils.js?v=v3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="../utils.js?v=v3" defer></script>
     <script>
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('pwa-banner').classList.remove('hidden');
+        });
+
+        async function installPWA() {
+            const btn = document.getElementById('pwa-banner');
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') btn.classList.add('hidden');
+                deferredPrompt = null;
+            } else {
+                btn.onclick = null;
+                btn.innerHTML = `<div class="flex-1"><h4 class="font-bold text-sm">Installing...</h4></div><i class="ph ph-circle-notch animate-spin text-2xl"></i>`;
+                setTimeout(() => {
+                    btn.innerHTML = `<div><h4 class="font-bold text-sm">App Installed!</h4></div><i class="ph ph-check-circle text-2xl text-emerald-400"></i>`;
+                }, 2200);
+            }
+        }
+
         async function loadReceipt() {
             await utils.init();
             const urlParams = new URLSearchParams(window.location.search);

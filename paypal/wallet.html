@@ -5,38 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PayPal | Wallet</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="logo.png">
-    <meta property="og:image" content="meta.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="logo.png?v=v4">
+    <meta property="og:image" content="meta.png?v=v4">
+    <link rel="stylesheet" href="dist/output.css?v=v4">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        ppBlue: '#001C64',
-                        ppAction: '#0070BA',
-                        ppBg: '#FFFFFF',
-                        ppSurface: '#F5F7FA',
-                        ppBorder: '#E5E7EB'
-                    },
-                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { letter-spacing: -0.01em; -webkit-tap-highlight-color: transparent; }
-        .compact-transition { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-        .glass-modal { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); }
-        
-        /* Bottom Nav shadow */
-        .mobile-bottom-nav {
-            box-shadow: 0 -4px 20px -5px rgba(0, 0, 0, 0.05);
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-    </style>
 </head>
 <body class="bg-ppSurface text-slate-900 min-h-screen">
 
@@ -68,7 +40,7 @@
             <span class="text-[10px] font-bold uppercase tracking-tighter">Home</span>
         </a>
         <a href="wallet.html" class="flex flex-col items-center gap-1 text-ppAction">
-            <i class="ph ph-wallet-fill text-[24px]"></i>
+            <i class="ph ph-wallet text-[24px]"></i>
             <span class="text-[10px] font-bold uppercase tracking-tighter">Wallet</span>
         </a>
         <a href="send.html" class="flex flex-col items-center gap-1 text-slate-400">
@@ -82,6 +54,16 @@
     </div>
 
     <main class="max-w-4xl mx-auto px-6 py-8 pb-24 md:pb-8">
+        <div id="pwa-banner" onclick="installPWA()" class="hidden mb-6 bg-ppAction text-white rounded-xl p-4 flex items-center justify-between cursor-pointer animate-in slide-in-from-top duration-500">
+            <div class="flex items-center gap-3">
+                <i class="ph ph-app-window text-2xl"></i>
+                <div>
+                    <h4 class="font-bold text-sm">Install PayPal App</h4>
+                    <p class="text-[10px] opacity-80">Add to home screen for a faster experience</p>
+                </div>
+            </div>
+            <i class="ph ph-plus-circle text-2xl"></i>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
             
             <!-- Left: Quick Links -->
@@ -95,7 +77,7 @@
                             <i class="ph ph-paypal-logo text-2xl text-ppAction"></i>
                         </div>
                         <p class="text-[9px] font-bold text-ppAction uppercase tracking-widest mb-0.5">PayPal Balance</p>
-                        <p id="balance-display" class="text-lg font-extrabold text-ppBlue">$0.00</p>
+                        <p id="balance-display" class="text-base md:text-lg font-extrabold text-ppBlue">$0.00</p>
                     </div>
 
                     <!-- Add New Button -->
@@ -113,7 +95,7 @@
 
             <!-- Right: Details Section -->
             <div class="md:col-span-8">
-                <div class="bg-ppBg border border-ppBorder rounded-2xl p-8 shadow-sm">
+                <div class="bg-ppBg border border-ppBorder rounded-2xl p-6 md:p-8 shadow-sm">
                     <div class="flex items-center gap-4 mb-8">
                         <div class="h-12 w-12 bg-ppSurface rounded-full flex items-center justify-center">
                             <i class="ph ph-paypal-logo text-2xl text-ppAction"></i>
@@ -126,7 +108,7 @@
                     
                     <div class="flex items-baseline gap-1 mb-8">
                         <span id="detail-symbol" class="text-2xl font-bold text-ppBlue">$</span>
-                        <span id="detail-balance" class="text-5xl font-extrabold text-ppBlue">0.00</span>
+                        <span id="detail-balance" class="text-4xl md:text-5xl font-extrabold text-ppBlue">0.00</span>
                         <span id="detail-code" class="text-xs font-bold text-ppBlue opacity-40 ml-2 tracking-widest">USD</span>
                     </div>
 
@@ -205,8 +187,8 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../utils.js?v=v3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="../utils.js?v=v3" defer></script>
     <script>
         let deferredPrompt;
 
