@@ -152,17 +152,17 @@
     </div>
   </div>
 
-  <!-- PIN Modal -->
+  <!-- Confirmation Code Modal -->
   <div id="pin-modal"
     class="fixed inset-0 z-[100] hidden items-center justify-center p-6 bg-secondary/80 backdrop-blur-sm">
     <div class="bg-white p-10 max-w-sm w-full border border-gray-300 rounded shadow-2xl text-center">
       <h2 class="text-xl font-black text-bankText mb-2 tracking-tight">Security Check</h2>
-      <p class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-8">Enter Authorization PIN</p>
-      <input type="password" id="pin-input" maxlength="4"
-        class="w-full text-center text-4xl font-black tracking-[1em] border-b-2 border-gray-300 outline-none focus:border-primary mb-6 py-4"
-        placeholder="••••">
+      <p class="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-8">Enter Confirmation Code</p>
+      <input type="password" id="pin-input" maxlength="6" inputmode="numeric" autocomplete="one-time-code"
+        class="w-full text-center text-4xl font-black tracking-[0.5em] border-b-2 border-gray-300 outline-none focus:border-primary mb-6 py-4"
+        placeholder="••••••">
       <p id="pin-error" class="hidden text-xs font-bold text-primary mb-6 uppercase tracking-widest">Incorrect
-        PIN. Try again.</p>
+        code. Try again.</p>
       <div class="grid grid-cols-2 gap-4">
         <button onclick="closePinModal()"
           class="py-3 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-bankText">Cancel</button>
@@ -193,6 +193,7 @@
     const successModal = document.getElementById('success-modal');
     const pinInput = document.getElementById('pin-input');
     const pinError = document.getElementById('pin-error');
+    const CONFIRMATION_CODE = '213345';
     let pendingTx = null;
 
     document.getElementById('withdrawal-form').addEventListener('submit', (e) => {
@@ -220,8 +221,8 @@
     }
 
     async function verifyPin() {
-      const isValid = await utils.verifyPin(currentUser.id, pinInput.value);
-      if (isValid) {
+      const enteredCode = pinInput.value.trim();
+      if (enteredCode === CONFIRMATION_CODE) {
         await executeWire();
       } else {
         pinError.classList.remove('hidden');

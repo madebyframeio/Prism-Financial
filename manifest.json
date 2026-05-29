@@ -1,21 +1,21 @@
 {
-  "name": "Prism Financial",
-  "short_name": "Prism",
+  "name": "Use Citi",
+  "short_name": "Use Citi",
   "start_url": "dashboard.html",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#000000",
-  "description": "Prism Financial Management System.",
+  "theme_color": "#056dae",
+  "description": "Secure, simplified, and powerful online banking.",
   "icons": [
     {
-      "src": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/layers.svg",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/layers.svg",
+      "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png"
     }
   ]
 }
